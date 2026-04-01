@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -16,9 +17,13 @@ class UsersTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
+                // TextColumn::make('id')
+                //     ->label('ID')
+                //     ->searchable(),
+            ImageColumn::make('profile_picture')
+                ->circular() // Makes it look like an avatar
+                ->searchable() // Allows you to search the text value of the 'profile_picture' column
+                ->defaultImageUrl(url('/images/placeholder.png')), // Fallback image
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('lastname')
@@ -30,20 +35,23 @@ class UsersTable
                 TextColumn::make('role')
                     ->badge(),
                 TextColumn::make('gender')
-                    ->badge(),
+                    ->badge()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_of_birth')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ,
                 TextColumn::make('address')
-                    ->searchable(),
-                TextColumn::make('profile_picture')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('email')
                     ->label('Email address')
                     ->searchable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('deleted_at')

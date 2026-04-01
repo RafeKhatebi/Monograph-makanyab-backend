@@ -4,9 +4,10 @@ namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
@@ -31,11 +32,11 @@ class UserForm
                     ->required(),
                 Select::make('gender')
                     ->options([
-            'male' => 'Male',
-            'female' => 'Female',
-            'other' => 'Other',
-            'prefer_not_to_say' => 'Prefer not to say',
-        ])
+                        'male' => 'Male',
+                        'female' => 'Female',
+                        'other' => 'Other',
+                        'prefer_not_to_say' => 'Prefer not to say',
+                    ])
                     ->default(null),
                 DatePicker::make('date_of_birth'),
                 TextInput::make('address')
@@ -43,7 +44,10 @@ class UserForm
                 Textarea::make('bio')
                     ->default(null)
                     ->columnSpanFull(),
-                TextInput::make('profile_picture')
+                FileUpload::make('profile_picture')
+                    ->image() // Ensures only images can be uploaded
+                    ->avatar() // Circular preview, perfect for profile pictures
+                    ->directory('profile-photos') // Folder in storage/app/public
                     ->default(null),
                 TextInput::make('email')
                     ->label('Email address')
