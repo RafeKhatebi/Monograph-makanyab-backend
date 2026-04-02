@@ -23,11 +23,14 @@ class PlaceCategoriesTable
                 TextColumn::make('slug')
                     ->searchable(),
                 TextColumn::make('icon_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('color_code')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('has_menu')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 IconColumn::make('has_booking')
                     ->boolean(),
                 IconColumn::make('has_delivery')
@@ -35,9 +38,11 @@ class PlaceCategoriesTable
                 TextColumn::make('schema_type')
                     ->searchable(),
                 IconColumn::make('is_active')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('sort_order')
                     ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
