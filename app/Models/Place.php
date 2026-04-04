@@ -63,4 +63,9 @@ class Place extends Model
     {
         return $this->morphMany(Media::class, 'mediable')->where('is_cover', true);
     }
+
+    public function getAvgRatingAttribute()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }

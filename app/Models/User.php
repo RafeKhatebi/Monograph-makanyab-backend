@@ -50,6 +50,17 @@ class User extends Authenticatable implements FilamentUser
         return in_array($this->role, ['admin', 'owner']);
     }
 
+    // Define relationships
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Place::class, 'favorites');
+    }
+
     /**
      * Get the attributes that should be cast.
      *
