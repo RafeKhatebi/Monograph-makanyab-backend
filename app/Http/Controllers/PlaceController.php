@@ -2,65 +2,92 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Place;
 use App\Http\Requests\StorePlaceRequest;
 use App\Http\Requests\UpdatePlaceRequest;
+use App\Models\Place;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PlaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        //
+        $places = Place::query()
+            ->with(['category:id,name,slug', 'user:id,name'])
+            ->where('is_active', true)
+            ->when($request->city, fn ($q, $v) => $q->where('city', $v))
+            ->when($request->status, fn ($q, $v) => $q->where('status', $v))
+            ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
+            ->when($request->verified, fn ($q) => $q->where('is_verified', true))
+            ->when($request->category, fn ($q, $v) => $q->whereHas(
+                'category', fn ($q) => $q->where('slug', $v)
+            ))
+            ->when($request->search, fn ($q, $v) => $q->where(
+                fn ($q) => $q->where('name', 'like', "%{$v}%")
+                    ->orWhere('tagline', 'like', "%{$v}%")
+                    ->orWhere('city', 'like', "%{$v}%")
+            ))
+            ->orderByDesc('created_at')
+            ->paginate($request->integer('per_page', 15));
+
+        return response()->json($places);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StorePlaceRequest $request): JsonResponse
     {
-        //
+        /** @var User $user */
+        $user = $request->user();
+
+        $place = Place::create(array_merge(
+            $request->validated(),
+            [
+                'user_id' => $user->id,
+                'slug' => $request->validated('slug') ?? Str::slug($request->validated('name')),
+            ]
+        ));
+
+        $place->load(['category:id,name,slug', 'user:id,name']);
+
+        return response()->json($place, 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePlaceRequest $request)
+    public function show(Place $place): JsonResponse
     {
-        //
+        $place->load([
+            'category:id,name,slug',
+            'user:id,name',
+            'openingHours',
+            'media',
+            'reviews' => fn ($q) => $q->where('is_approved', true)
+                ->with('user:id,name')
+                ->latest()
+                ->limit(10),
+        ]);
+
+        return response()->json($place);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Place $place)
+    public function update(UpdatePlaceRequest $request, Place $place): JsonResponse
     {
-        //
+        $place->update($request->validated());
+        $place->load(['category:id,name,slug', 'user:id,name']);
+
+        return response()->json($place);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Place $place)
+    public function destroy(Request $request, Place $place): JsonResponse
     {
-        //
-    }
+        /** @var User $user */
+        $user = $request->user();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePlaceRequest $request, Place $place)
-    {
-        //
-    }
+        if ($user->id !== $place->user_id && $user->role !== 'admin') {
+            return response()->json(['message' => 'Forbidden.'], 403);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Place $place)
-    {
-        //
+        $place->delete();
+
+        return response()->json(null, 204);
     }
 }

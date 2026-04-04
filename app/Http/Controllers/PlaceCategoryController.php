@@ -2,65 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PlaceCategory;
 use App\Http\Requests\StorePlaceCategoryRequest;
 use App\Http\Requests\UpdatePlaceCategoryRequest;
+use App\Models\PlaceCategory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PlaceCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        //
+        $categories = PlaceCategory::query()
+            ->with('parent:id,name,slug')
+            ->when($request->boolean('active', true), fn ($q) => $q->where('is_active', true))
+            ->when($request->parent_id, fn ($q, $v) => $q->where('parent_id', $v))
+            ->when($request->has('root'), fn ($q) => $q->whereNull('parent_id'))
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json($categories);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StorePlaceCategoryRequest $request): JsonResponse
     {
-        //
+        $validated = $request->validated();
+        $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
+
+        $category = PlaceCategory::create($validated);
+
+        return response()->json($category, 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePlaceCategoryRequest $request)
+    public function show(PlaceCategory $placeCategory): JsonResponse
     {
-        //
+        $placeCategory->load('parent:id,name,slug');
+
+        return response()->json($placeCategory);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PlaceCategory $placeCategory)
+    public function update(UpdatePlaceCategoryRequest $request, PlaceCategory $placeCategory): JsonResponse
     {
-        //
+        $placeCategory->update($request->validated());
+
+        return response()->json($placeCategory);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PlaceCategory $placeCategory)
+    public function destroy(PlaceCategory $placeCategory): JsonResponse
     {
-        //
-    }
+        if ($placeCategory->places()->exists()) {
+            return response()->json([
+                'message' => 'Cannot delete a category that has places assigned to it.',
+            ], 409);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePlaceCategoryRequest $request, PlaceCategory $placeCategory)
-    {
-        //
-    }
+        $placeCategory->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PlaceCategory $placeCategory)
-    {
-        //
+        return response()->json(null, 204);
     }
 }
