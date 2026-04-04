@@ -15,7 +15,7 @@ class PlaceCategory extends Model
 
     public function places(): HasMany
     {
-        return $this->hasMany(Place::class, 'place_categories_id');
+        return $this->hasMany(Place::class, 'place_category_id');
     }
 
     public function parent(): BelongsTo

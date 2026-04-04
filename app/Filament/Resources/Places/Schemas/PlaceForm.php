@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Places\Schemas;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -73,11 +72,9 @@ class PlaceForm
                         Section::make('Gallery')
                             ->icon('heroicon-o-photo')
                             ->schema([
-                                FileUpload::make('cover_image')
-                                    ->image()
-                                    ->directory('place-covers')
-                                    ->default(null),
                                 Textarea::make('gallery')
+                                    ->helperText('Managed via the Media table.')
+                                    ->disabled()
                                     ->default(null)
                                     ->rows(3),
                             ]),
@@ -94,8 +91,8 @@ class PlaceForm
                                     ->searchable()
                                     ->native(false)
                                     ->required(),
-                                Select::make('place_categories_id')
-                                    ->relationship('placeCategory', 'name')
+                                Select::make('place_category_id')
+                                    ->relationship('category', 'name')
                                     ->searchable()
                                     ->native(false)
                                     ->required(),

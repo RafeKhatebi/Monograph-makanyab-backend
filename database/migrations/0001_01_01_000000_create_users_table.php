@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -16,8 +13,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('lastname')->nullable();
             $table->string('username')->unique();
-            $table->string('phone')->nullable();
-            $table->enum('role', ['admin', 'user', 'owner'])->default('user');
+            $table->string('phone')->nullable()->unique();
+            $table->string('role')->default('user');
             $table->enum('gender', ['male', 'female', 'other', 'prefer_not_to_say'])->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('address')->nullable();
@@ -26,13 +23,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_active')->default(true);    
+            $table->boolean('is_active')->default(true);
             $table->json('settings')->nullable();
             $table->index('is_active');
+            $table->index('role');
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
-
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -43,7 +40,7 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignUuid('user_id')->nullable()->index(); // fixed: was foreignId (bigint mismatch with UUID users.id)
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
@@ -51,13 +48,10 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('users');
     }
 };
