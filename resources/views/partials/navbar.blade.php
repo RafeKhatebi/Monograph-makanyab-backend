@@ -44,6 +44,14 @@
                     <a href="{{ route('categories.index') }}"
                         class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">Categories</a>
                 </li>
+                <li class="{{ request()->routeIs('about') ? 'active' : '' }}">
+                    <a href="{{ route('about') }}"
+                        class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
+                </li>
+                <li class="{{ request()->routeIs('contact') ? 'active' : '' }}">
+                    <a href="{{ route('contact') }}"
+                        class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
+                </li>
                 @auth
                     @if (auth()->user()->isAdmin())
                         <li class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">

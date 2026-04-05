@@ -4,7 +4,9 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\PlaceCategoryController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\FavoriteWebController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
@@ -15,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// About Us
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+// Contact Us
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Dashboard (redirect based on role)
 Route::middleware('auth')->get('/dashboard', function () {
