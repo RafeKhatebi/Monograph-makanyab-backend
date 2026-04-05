@@ -6,7 +6,8 @@
                     <div class="single-footer">
                         <h4>About Makanyab</h4>
                         <div class="footer-title-line"></div>
-                        <p>Discover the best places around you — restaurants, cafes, shops, and more. Your local guide to everything nearby.</p>
+                        <p>Discover the best places around you — restaurants, cafes, shops, and more. Your local guide
+                            to everything nearby.</p>
                         <ul class="footer-adress">
                             <li><i class="pe-7s-map-marker strong"></i> Your City, Country</li>
                             <li><i class="pe-7s-mail strong"></i> info@makanyab.com</li>
@@ -39,7 +40,8 @@
                         <h4>Popular Categories</h4>
                         <div class="footer-title-line"></div>
                         <ul class="footer-menu">
-                            <li><a href="{{ route('places.index', ['category' => 'restaurants']) }}">Restaurants</a></li>
+                            <li><a href="{{ route('places.index', ['category' => 'restaurants']) }}">Restaurants</a>
+                            </li>
                             <li><a href="{{ route('places.index', ['category' => 'cafes']) }}">Cafes</a></li>
                             <li><a href="{{ route('places.index', ['category' => 'shopping']) }}">Shopping</a></li>
                             <li><a href="{{ route('places.index', ['category' => 'hotels']) }}">Hotels</a></li>

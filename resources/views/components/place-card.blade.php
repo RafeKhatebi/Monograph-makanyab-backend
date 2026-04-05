@@ -2,13 +2,13 @@
     <div class="box-two proerty-item">
         <div class="item-thumb">
             <a href="{{ route('places.show', $place) }}">
-                @if($place->media->first())
+                @if ($place->media->first())
                     <img src="{{ asset('storage/' . $place->media->first()->file_path) }}" alt="{{ $place->name }}">
                 @else
                     <img src="{{ asset('assets/img/demo/property-1.jpg') }}" alt="{{ $place->name }}">
                 @endif
             </a>
-            @if($place->is_verified)
+            @if ($place->is_verified)
                 <span class="property-seeker">
                     <b class="b-1" title="Verified"><i class="fa fa-check"></i></b>
                 </span>
@@ -16,7 +16,7 @@
         </div>
         <div class="item-entry overflow">
             <h5><a href="{{ route('places.show', $place) }}">{{ $place->name }}</a></h5>
-            @if($place->category)
+            @if ($place->category)
                 <span class="label label-success">
                     {{ $place->category->name }}
                 </span>
@@ -34,10 +34,12 @@
                     {{ ucfirst(str_replace('_', ' ', $place->price_level)) }}
                 </span>
                 @auth
-                    <form method="POST" action="{{ route('favorites.toggle') }}" style="display:inline;" class="pull-right">
+                    <form method="POST" action="{{ route('favorites.toggle') }}" style="display:inline;"
+                        class="pull-right">
                         @csrf
                         <input type="hidden" name="place_id" value="{{ $place->id }}">
-                        <button type="submit" class="btn btn-link" style="padding:0; color:inherit;" title="Toggle favorite">
+                        <button type="submit" class="btn btn-link" style="padding:0; color:inherit;"
+                            title="Toggle favorite">
                             <i class="fa fa-heart-o"></i>
                         </button>
                     </form>
