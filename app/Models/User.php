@@ -52,6 +52,27 @@ class User extends Authenticatable
         return $this->belongsToMany(Place::class, 'favorites');
     }
 
+    public function places()
+    {
+        return $this->hasMany(Place::class);
+    }
+
+    // Role helper methods
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isOwner()
+    {
+        return $this->role === 'owner';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
+
     /**
      * Get the attributes that should be cast.
      *

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\FavoriteWebController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -10,10 +11,13 @@ use Illuminate\Support\Facades\Route;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Dashboard (redirect to home for authenticated users)
+// Dashboard (redirect based on role)
 Route::get('/dashboard', function () {
+    if (auth()->check() && auth()->user()->isAdmin()) {
+        return redirect()->route('admin.dashboard');
+    }
     return redirect()->route('home');
-})->middleware('auth')->name('dashboard');
+})->name('dashboard');
 
 // Places
 Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
@@ -36,6 +40,26 @@ Route::middleware('auth')->group(function () {
     // Favorites
     Route::get('/favorites', [FavoriteWebController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/toggle', [FavoriteWebController::class, 'toggle'])->name('favorites.toggle');
+});
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    
+    // Places Management
+    Route::resource('places', \App\Http\Controllers\Admin\PlaceController::class);
+    Route::post('places/{place}/toggle-verification', [\App\Http\Controllers\Admin\PlaceController::class, 'toggleVerification'])->name('places.toggle-verification');
+    Route::post('places/{place}/toggle-active', [\App\Http\Controllers\Admin\PlaceController::class, 'toggleActive'])->name('places.toggle-active');
+    
+    // Categories Management
+    Route::resource('categories', \App\Http\Controllers\Admin\PlaceCategoryController::class);
+    
+    // Users Management
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::post('users/{user}/toggle-active', [\App\Http\Controllers\Admin\UserController::class, 'toggleActive'])->name('users.toggle-active');
+    
+    // Reviews Management
+    Route::resource('reviews', \App\Http\Controllers\Admin\ReviewController::class)->only(['index', 'show', 'destroy']);
 });
 
 // Keep Breeze profile edit route for password/account management

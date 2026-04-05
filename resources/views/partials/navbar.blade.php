@@ -39,6 +39,13 @@
                     <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">Categories</a>
                 </li>
                 @auth
+                    @if(auth()->user()->isAdmin())
+                        <li class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                                <i class="fa fa-dashboard"></i> Admin
+                            </a>
+                        </li>
+                    @endif
                     <li class="{{ request()->routeIs('favorites.*') ? 'active' : '' }}">
                         <a href="{{ route('favorites.index') }}" class="{{ request()->routeIs('favorites.*') ? 'active' : '' }}">
                             <i class="fa fa-heart-o"></i> Favorites

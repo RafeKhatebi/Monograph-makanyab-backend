@@ -73,4 +73,14 @@ class Place extends Model
     {
         return $this->reviews()->avg('rating');
     }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews_avg_rating ?? $this->reviews()->avg('rating') ?? 0;
+    }
+
+    public function getImagesAttribute()
+    {
+        return $this->media()->where('type', 'image')->pluck('file_path')->toArray();
+    }
 }
