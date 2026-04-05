@@ -12,7 +12,15 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', 'Geist', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                primary: '#10B981',
+                'primary-dark': '#059669',
+                'primary-light': '#34D399',
+            },
+            letterSpacing: {
+                wide: '0.025em',
             },
         },
     },

@@ -1,0 +1,431 @@
+/* Makanyab Green Theme Override - Applied to Garo Estate Template */
+
+/* Color Palette Override */
+:root {
+    --primary-green: #10B981;
+    --primary-dark: #059669;
+    --primary-light: #34D399;
+    --white: #FFFFFF;
+    --gray-50: #F9FAFB;
+    --gray-200: #E5E7EB;
+    --gray-600: #6B7280;
+    --gray-900: #111827;
+}
+
+/* Typography - Inter Font */
+body {
+    font-family: 'Inter', 'Open Sans', sans-serif !important;
+    letter-spacing: 0.025em;
+    background: #FFFFFF;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Inter', 'Open Sans', sans-serif !important;
+    letter-spacing: 0.025em;
+}
+
+/* Primary Color Replacements */
+a {
+    color: #10B981;
+}
+
+a:hover {
+    color: #059669;
+}
+
+/* Buttons */
+.btn-primary,
+.search-btn,
+.largesearch-btn,
+.nav-button,
+.navbar-btn {
+    background-color: #10B981 !important;
+    border-color: #10B981 !important;
+    color: #FFFFFF !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.025em;
+    font-weight: 500;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.search-btn:hover,
+.largesearch-btn:hover,
+.nav-button:hover,
+.navbar-btn:hover {
+    background-color: #059669 !important;
+    border-color: #059669 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-default,
+.border-btn,
+.more-black {
+    background: transparent !important;
+    color: #10B981 !important;
+    border: 2px solid #10B981 !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.025em;
+}
+
+.btn-default:hover,
+.border-btn:hover,
+.more-black:hover {
+    background-color: #10B981 !important;
+    color: #FFFFFF !important;
+}
+
+/* Navigation */
+.navbar-default {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid #E5E7EB !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+}
+
+.navbar-brand {
+    color: #10B981 !important;
+    font-weight: 700 !important;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #374151 !important;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a.active {
+    color: #10B981 !important;
+}
+
+.navbar-default .navbar-nav > li > a::after,
+.navbar-default .navbar-nav > li > a.active:after {
+    background-color: #10B981 !important;
+}
+
+/* Cards */
+.box-two,
+.proerty-item,
+.box {
+    background: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+.box-two:hover,
+.proerty-item:hover {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
+    border-color: #10B981 !important;
+}
+
+/* Property Cards */
+.proerty-price,
+.property-price {
+    color: #10B981 !important;
+}
+
+.item-entry h5 a {
+    color: #111827 !important;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+}
+
+.item-entry h5 a:hover {
+    color: #10B981 !important;
+}
+
+/* Ratings & Stars */
+.fa-star {
+    color: #10B981 !important;
+}
+
+/* Status Badges */
+.label {
+    border-radius: 6px !important;
+    letter-spacing: 0.025em;
+    font-weight: 500;
+}
+
+.label-success,
+.property-seeker .b-1 {
+    background-color: #10B981 !important;
+    border-color: #10B981 !important;
+}
+
+.label-warning,
+.property-seeker .b-2 {
+    background-color: #F59E0B !important;
+    border-color: #F59E0B !important;
+}
+
+/* Forms */
+.form-control {
+    border: 1px solid #E5E7EB !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.025em;
+}
+
+.form-control:focus {
+    border-color: #10B981 !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+}
+
+.search-form {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px !important;
+}
+
+/* Panels & Sidebars */
+.panel {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px !important;
+}
+
+.panel-heading {
+    background: #F9FAFB !important;
+    border-bottom: 1px solid #E5E7EB !important;
+}
+
+.panel.sidebar-menu .panel-heading h1,
+.panel.sidebar-menu .panel-heading h2,
+.panel.sidebar-menu .panel-heading h3 {
+    border-bottom: 3px solid #10B981 !important;
+}
+
+/* Page Headers */
+.page-head {
+    background-color: #F9FAFB !important;
+    border-bottom: 1px solid #E5E7EB !important;
+}
+
+.page-title {
+    color: #111827 !important;
+    letter-spacing: 0.025em;
+}
+
+/* Welcome/Category Icons */
+.welcome-icon {
+    border-color: #10B981 !important;
+    color: #10B981 !important;
+}
+
+.welcome-estate:hover .welcome-icon {
+    background-color: #10B981 !important;
+    border-color: #10B981 !important;
+    color: #FFFFFF !important;
+}
+
+.welcome-estate {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px !important;
+}
+
+.welcome-estate:hover {
+    border-color: #10B981 !important;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
+}
+
+/* Count Area */
+.count-item-circle {
+    border-color: #10B981 !important;
+    background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+.count-item-circle span {
+    color: #10B981 !important;
+}
+
+.count-item h5 {
+    border-left-color: #10B981 !important;
+    border-right-color: #10B981 !important;
+}
+
+/* CTA Boxes */
+.asks-first {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px !important;
+}
+
+.asks-first:hover {
+    background-color: #F9FAFB !important;
+    border-color: #10B981 !important;
+}
+
+.asks-first-circle {
+    background-color: #10B981 !important;
+    border-color: #10B981 !important;
+    color: #FFFFFF !important;
+}
+
+.asks-first-info h2,
+.asks-first-info p {
+    color: #111827 !important;
+}
+
+.asks-first-arrow {
+    background: rgba(16, 185, 129, 0.1) !important;
+}
+
+.asks-first-arrow span {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #10B981 !important;
+}
+
+/* Borders & Dividers */
+.dot-hr {
+    border-color: #E5E7EB !important;
+}
+
+/* Slider Controls */
+.slider .owl-theme .owl-controls .owl-page span {
+    background: #10B981 !important;
+}
+
+.testimonial .owl-theme .owl-controls .owl-page span {
+    background: #10B981 !important;
+}
+
+/* Tabs */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    border-bottom-color: #10B981 !important;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+    background-color: #10B981 !important;
+}
+
+/* Footer */
+.footer h4 span {
+    border-bottom-color: #10B981 !important;
+}
+
+.footer-title-line {
+    background: #10B981 !important;
+}
+
+.footer ul li a:hover {
+    color: #10B981 !important;
+}
+
+.social ul li a:hover {
+    color: #10B981 !important;
+    border-color: #10B981 !important;
+}
+
+.social ul li a:hover i {
+    color: #10B981 !important;
+}
+
+.bottom-menu ul li a:hover {
+    color: #10B981 !important;
+}
+
+/* Property Features */
+.property-features ul li a::after {
+    color: #10B981 !important;
+}
+
+.property-features ul li a:hover {
+    color: #10B981 !important;
+}
+
+/* Single Property */
+.s-property-title {
+    color: #10B981 !important;
+}
+
+.single-property-header .property-price {
+    color: #10B981 !important;
+}
+
+/* Dealer Widget */
+.dealer-widget {
+    background-color: #10B981 !important;
+}
+
+/* Hover Effects */
+.item-thumb img {
+    transition: all 0.3s ease !important;
+}
+
+/* Background Areas */
+.content-area,
+.Welcome-area {
+    background-color: #FFFFFF !important;
+}
+
+/* Text Colors */
+.color {
+    color: #6B7280 !important;
+}
+
+.orange {
+    color: #10B981 !important;
+}
+
+/* Dropdown Menus */
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #10B981 !important;
+}
+
+/* Pagination */
+.pagination > li.active > a,
+.pagination > li.active > span {
+    background-color: #10B981 !important;
+    border-color: #10B981 !important;
+}
+
+/* Login/Register */
+.login-social:hover,
+.login-social:focus {
+    background-color: #10B981 !important;
+}
+
+/* Property Posting Tabs */
+.tab-content ul li a:hover .overlay {
+    background: linear-gradient(transparent 57%, rgba(16, 185, 129, 0.9) 100%) !important;
+}
+
+/* Error Page */
+.error-page .error-title {
+    color: #10B981 !important;
+}
+
+/* Slider Content */
+.slider-content h2 {
+    color: #10B981 !important;
+}
+
+/* Additional Spacing */
+.box-two,
+.proerty-item {
+    margin: 12px !important;
+}
+
+.item-entry {
+    padding: 20px !important;
+}
+
+/* Border Radius Consistency */
+input,
+button,
+.btn {
+    border-radius: 8px !important;
+}
+
+select.form-control,
+.bootstrap-select button.dropdown-toggle {
+    border-radius: 8px !important;
+}
