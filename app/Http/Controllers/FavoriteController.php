@@ -38,7 +38,7 @@ class FavoriteController extends Controller
         }
 
         $favorite = Favorite::create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'place_id' => $request->place_id,
         ]);
 

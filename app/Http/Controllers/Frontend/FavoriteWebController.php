@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Favorite;
 use App\Models\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class FavoriteWebController extends Controller
 {
     public function index()
     {
-        $favorites = auth()->user()->favorites()
+        $favorites = FacadesAuth::user()->favorites()
             ->with(['category:id,name,slug,color_code', 'media'])
             ->where('is_active', true)
             ->latest()
@@ -24,7 +25,7 @@ class FavoriteWebController extends Controller
     {
         $request->validate(['place_id' => 'required|exists:places,id']);
 
-        $existing = Favorite::where('user_id', auth()->id())
+        $existing = Favorite::where('user_id', FacadesAuth::id())
             ->where('place_id', $request->place_id)
             ->first();
 
@@ -32,7 +33,7 @@ class FavoriteWebController extends Controller
             $existing->delete();
             $isFavorited = false;
         } else {
-            Favorite::create(['user_id' => auth()->id(), 'place_id' => $request->place_id]);
+            Favorite::create(['user_id' => FacadesAuth::id(), 'place_id' => $request->place_id]);
             $isFavorited = true;
         }
 

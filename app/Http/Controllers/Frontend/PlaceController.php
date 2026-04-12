@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Place;
 use App\Models\PlaceCategory;
-use App\Models\Review;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class PlaceController extends Controller
 {
@@ -59,14 +60,14 @@ class PlaceController extends Controller
     public function storeReview(Request $request, Place $place)
     {
         $request->validate([
-            'rating'  => 'required|integer|min:1|max:5',
+            'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
         ]);
 
         $place->reviews()->create([
-            'user_id'     => auth()->id(),
-            'rating'      => $request->rating,
-            'comment'     => $request->comment,
+            'user_id' => FacadesAuth::id(),
+            'rating' => $request->rating,
+            'comment' => $request->comment,
             'is_approved' => false,
         ]);
 

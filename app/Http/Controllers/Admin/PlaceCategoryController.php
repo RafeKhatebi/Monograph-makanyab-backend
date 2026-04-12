@@ -73,8 +73,8 @@ class PlaceCategoryController extends Controller
     public function update(Request $request, PlaceCategory $category)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:place_categories,name,' . $category->id,
-            'slug' => 'nullable|string|max:255|unique:place_categories,slug,' . $category->id,
+            'name' => 'required|string|max:255|unique:place_categories,name,'.$category->id,
+            'slug' => 'nullable|string|max:255|unique:place_categories,slug,'.$category->id,
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:place_categories,id',
             'icon' => 'nullable|image|max:1024',

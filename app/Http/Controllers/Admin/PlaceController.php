@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Place;
 use App\Models\PlaceCategory;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -30,9 +30,9 @@ class PlaceController extends Controller
         }
 
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('address', 'like', '%' . $request->search . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('address', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -64,7 +64,7 @@ class PlaceController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::id();
         $validated['is_verified'] = $request->has('is_verified');
         $validated['is_active'] = $request->has('is_active');
         $validated['country'] = 'Afghanistan';
@@ -142,14 +142,14 @@ class PlaceController extends Controller
 
     public function toggleVerification(Place $place)
     {
-        $place->update(['is_verified' => !$place->is_verified]);
+        $place->update(['is_verified' => ! $place->is_verified]);
 
         return back()->with('success', 'Verification status updated.');
     }
 
     public function toggleActive(Place $place)
     {
-        $place->update(['is_active' => !$place->is_active]);
+        $place->update(['is_active' => ! $place->is_active]);
 
         return back()->with('success', 'Active status updated.');
     }
