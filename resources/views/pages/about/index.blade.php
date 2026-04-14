@@ -1,9 +1,6 @@
 @extends('layouts.app')
-
 @section('title', 'About Us')
-
 @section('content')
-
     <div class="page-head">
         <div class="container">
             <div class="row">
@@ -13,7 +10,6 @@
             </div>
         </div>
     </div>
-
     <div class="content-area" style="background-color: #FCFCFC; padding: 55px 0;">
         <div class="container">
 
@@ -100,34 +96,55 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Stats Section -->
-            <div class="row" style="margin-bottom: 50px;">
-                <div class="col-md-3 col-sm-6" style="margin-bottom: 20px;">
-                    <div class="box-two" style="text-align: center; padding: 30px 20px;">
-                        <h3 style="font-size: 42px; font-weight: 700; color: #10B981; margin-bottom: 10px;">1000+</h3>
-                        <p style="color: #6B7280; font-size: 16px; margin: 0;">Places Listed</p>
+            {{-- Stats --}}
+            <div class="count-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
+                            <h2>Trusted by Our Community</h2>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6" style="margin-bottom: 20px;">
-                    <div class="box-two" style="text-align: center; padding: 30px 20px;">
-                        <h3 style="font-size: 42px; font-weight: 700; color: #10B981; margin-bottom: 10px;">5000+</h3>
-                        <p style="color: #6B7280; font-size: 16px; margin: 0;">User Reviews</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6" style="margin-bottom: 20px;">
-                    <div class="box-two" style="text-align: center; padding: 30px 20px;">
-                        <h3 style="font-size: 42px; font-weight: 700; color: #10B981; margin-bottom: 10px;">10+</h3>
-                        <p style="color: #6B7280; font-size: 16px; margin: 0;">Cities Covered</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6" style="margin-bottom: 20px;">
-                    <div class="box-two" style="text-align: center; padding: 30px 20px;">
-                        <h3 style="font-size: 42px; font-weight: 700; color: #10B981; margin-bottom: 10px;">24/7</h3>
-                        <p style="color: #6B7280; font-size: 16px; margin: 0;">Available</p>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 percent-blocks m-main" data-waypoint-scroll="true">
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="count-item">
+                                        <div class="count-item-circle"><span class="pe-7s-users"></span></div>
+                                        <div class="chart" data-percent="5000">
+                                            <h2 class="percent" id="counter">0</h2>
+                                            <h5>Happy Users</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="count-item">
+                                        <div class="count-item-circle"><span class="pe-7s-map-marker"></span></div>
+                                        <div class="chart" data-percent="1200">
+                                            <h2 class="percent" id="counter1">0</h2>
+                                            <h5>Places Listed</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="count-item">
+                                        <div class="count-item-circle"><span class="pe-7s-flag"></span></div>
+                                        <div class="chart" data-percent="50">
+                                            <h2 class="percent" id="counter2">0</h2>
+                                            <h5>Cities</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="count-item">
+                                        <div class="count-item-circle"><span class="pe-7s-star"></span></div>
+                                        <div class="chart" data-percent="8000">
+                                            <h2 class="percent" id="counter3">0</h2>
+                                            <h5>Reviews</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

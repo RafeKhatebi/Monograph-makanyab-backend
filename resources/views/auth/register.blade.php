@@ -4,16 +4,6 @@
 
 @section('content')
 
-<div class="page-head">
-    <div class="container">
-        <div class="row">
-            <div class="page-head-content">
-                <h1 class="page-title">Create Your Account</h1>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="content-area" style="background-color: #FCFCFC; padding: 55px 0;">
     <div class="container">
         <div class="row">
