@@ -1,4 +1,4 @@
-<div class="col-sm-6 col-md-4 p0">
+<div class="col-sm-6 col-md-6 p0">
     <div class="box-two proerty-item">
         <div class="item-thumb">
             <a href="{{ route('places.show', $place) }}">
@@ -10,14 +10,14 @@
             </a>
             @if ($place->is_verified)
                 <span class="property-seeker">
-                    <b class="b-1" title="Verified"><i class="fa fa-check"></i></b>
+                    <b class="b-1 p-3" title="Verified"><i class="fa fa-check"></i></b>
                 </span>
             @endif
         </div>
         <div class="item-entry overflow">
             <h5><a href="{{ route('places.show', $place) }}">{{ $place->name }}</a></h5>
             @if ($place->category)
-                <span class="label label-success">
+                <span class="label label-success p-4" style="color:black; margin:3px">
                     {{ $place->category->name }}
                 </span>
             @endif
@@ -33,6 +33,8 @@
                 <span class="text-muted" style="margin-left:8px;">
                     {{ ucfirst(str_replace('_', ' ', $place->price_level)) }}
                 </span>
+                <button class="btn btn-sm btn-primary p-3"><a href="{{ route('places.show', $place) }}">View
+                        Details</a></button>
                 @auth
                     <form method="POST" action="{{ route('favorites.toggle') }}" style="display:inline;"
                         class="pull-right">

@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ route('home') }}">
-                <strong>Makanyab</strong>
+                <strong style="font-size:30px;">Makanyab</strong>
             </a>
         </div>
 
@@ -20,57 +20,66 @@
                     <a href="{{ route('register') }}" class="navbar-btn nav-button wow fadeInRight"
                         data-wow-delay="0.5s">Register</a>
                 @else
-                    <a href="{{ route('profile.index') }}" class="navbar-btn nav-button wow bounceInRight login"
-                        data-wow-delay="0.4s">
-                        {{ auth()->user()->name }}
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="navbar-btn nav-button wow fadeInRight"
-                            data-wow-delay="0.5s">Logout</button>
-                    </form>
+                    <div class="nav-auth">
+                        <a href="{{ route('profile.index') }}" class="navbar-btn nav-button wow bounceInRight login"
+                            data-wow-delay="0.4s">
+                            {{ auth()->user()->name }}
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-warning fadeInRight"
+                                data-wow-delay="0.5s">Logout</button>
+                        </form>
+                    </div>
                 @endguest
             </div>
-
             <ul class="main-nav nav navbar-nav navbar-right">
+                @auth
+                    @if (auth()->user()->isAdmin())
+                        <li class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.dashboard') }}"
+                                class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                                <i class="fa fa-dashboard"></i> Dashboard
+                            </a>
+                        </li>
+                    @endif
+                @endauth
                 <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-                </li>
-                <li class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
-                    <a href="{{ route('places.index') }}"
-                        class="{{ request()->routeIs('places.*') ? 'active' : '' }}">Places</a>
                 </li>
                 <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                     <a href="{{ route('categories.index') }}"
                         class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">Categories</a>
                 </li>
+                <li class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
+                    <a href="{{ route('places.index') }}"
+                        class="{{ request()->routeIs('places.*') ? 'active' : '' }}">Places</a>
+                </li>
+
                 <li class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                    <a href="{{ route('about') }}"
-                        class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
+                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
                 </li>
                 <li class="{{ request()->routeIs('contact') ? 'active' : '' }}">
                     <a href="{{ route('contact') }}"
                         class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
                 </li>
                 @auth
-                    @if (auth()->user()->isAdmin())
-                        <li class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">
-                                <i class="fa fa-dashboard"></i> Admin
-                            </a>
+                    @if (!auth()->user()->isAdmin() && auth()->user())
+                        <li class="{{ request()->routeIs('favorites.*') ? 'active' : '' }}">
+                            <a href="{{ route('favorites.index') }}"
+                                class="{{ request()->routeIs('favorites.*') ? 'active' : '' }}">
+                                <i class="fa fa-heart-o"></i> Favorites
+                            </a> 
+                        </li>
+                        {{-- New Places --}}
+                        <li>
+                            <a href="{{ route('admin.places.index') }}">+ New Place</a>
                         </li>
                     @endif
-                    <li class="{{ request()->routeIs('favorites.*') ? 'active' : '' }}">
-                        <a href="{{ route('favorites.index') }}"
-                            class="{{ request()->routeIs('favorites.*') ? 'active' : '' }}">
-                            <i class="fa fa-heart-o"></i> Favorites
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">
                         <a href="{{ route('profile.index') }}"
                             class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">Profile</a>
-                    </li>
+                    </li> --}}
                 @endauth
             </ul>
         </div>

@@ -4,7 +4,7 @@
             <div class="col-md-5 col-sm-8 col-xs-12">
                 <div class="header-half header-call">
                     <p>
-                        <span><i class="pe-7s-call"></i> +1 234 567 7890</span>
+                        <span><i class="pe-7s-call"></i> +93 728 958 111</span>
                         <span><i class="pe-7s-mail"></i> info@makanyab.com</span>
                     </p>
                 </div>

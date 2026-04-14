@@ -36,6 +36,7 @@
 
     <body>
 
+        @include('partials.topbar')
         @include('partials.navbar')
         <main>@yield('content')</main>
         @include('partials.footer')

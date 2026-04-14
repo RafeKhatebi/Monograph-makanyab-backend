@@ -80,7 +80,7 @@
                                 </span>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 p-b-15">
-                                <span class="property-info-icon"><i class="pe-7s-tag"
+                                <span class="property-info-icon"><i class="pe-7s-albums"
                                         style="font-size:30px; color:#FFA500;"></i></span>
                                 <span class="property-info-entry">
                                     <span class="property-info-label">Category</span>

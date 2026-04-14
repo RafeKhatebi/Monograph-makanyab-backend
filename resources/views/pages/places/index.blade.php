@@ -17,13 +17,12 @@
     <div class="properties-area recent-property" style="background-color: #FFF;">
         <div class="container">
             <div class="row">
-
                 {{-- Filter Sidebar --}}
-                <div class="col-md-3 p0 padding-top-40">
+                <div class="col-md-6 p0 padding-top-40">
                     <div class="blog-asside-right pr0">
                         <div class="panel panel-default sidebar-menu wow fadeInRight animated">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Filter Places</h3>
+                                <h3 class="panel-title m-3">Filter Places</h3>
                             </div>
                             <div class="panel-body search-widget">
                                 <form action="{{ route('places.index') }}" method="GET" class="form-inline">
@@ -85,21 +84,21 @@
                                     <fieldset class="padding-5">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <label>Price Level</label>
-                                                <select name="price_level" class="selectpicker show-tick form-control">
-                                                    <option value="">Any Price</option>
+                                                <label>Marekt Level</label>
+                                                <select name="market_level" class="selectpicker show-tick form-control">
+                                                    <option value="">Any Level</option>
                                                     <option value="low"
-                                                        {{ request('price_level') === 'low' ? 'selected' : '' }}>$ Low
+                                                        {{ request('market_level') === 'low' ? 'selected' : '' }}> Small
                                                     </option>
                                                     <option value="medium"
-                                                        {{ request('price_level') === 'medium' ? 'selected' : '' }}>$$
+                                                        {{ request('market_level') === 'medium' ? 'selected' : '' }}>
                                                         Medium</option>
                                                     <option value="high"
-                                                        {{ request('price_level') === 'high' ? 'selected' : '' }}>$$$ High
+                                                        {{ request('market_level') === 'high' ? 'selected' : '' }}>Large
                                                     </option>
                                                     <option value="luxury"
-                                                        {{ request('price_level') === 'luxury' ? 'selected' : '' }}>$$$$
-                                                        Luxury</option>
+                                                        {{ request('market_level') === 'luxury' ? 'selected' : '' }}>Mall
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -133,7 +132,7 @@
                 </div>
 
                 {{-- Places Grid --}}
-                <div class="col-md-9 pr0 padding-top-40 properties-page">
+                <div class="col-md-6 pr0 padding-top-40 properties-page">
                     <div class="col-md-12 clear">
                         <div class="col-xs-10 page-subheader sorting pl0">
                             <p class="text-muted">

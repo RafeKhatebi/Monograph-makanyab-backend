@@ -6,12 +6,12 @@
                     <div class="single-footer">
                         <h4>About Makanyab</h4>
                         <div class="footer-title-line"></div>
-                        <p>Discover the best places around you — restaurants, cafes, shops, and more. Your local guide
+                        <p>Discover the best places around you restaurants, cafes, shops, and more. Your local guide
                             to everything nearby.</p>
                         <ul class="footer-adress">
-                            <li><i class="pe-7s-map-marker strong"></i> Your City, Country</li>
+                            <li><i class="pe-7s-map-marker strong"></i> Herat , Afghanisatn</li>
                             <li><i class="pe-7s-mail strong"></i> info@makanyab.com</li>
-                            <li><i class="pe-7s-call strong"></i> +1 234 567 7890</li>
+                            <li><i class="pe-7s-call strong"></i> +93 728 958 111</li>
                         </ul>
                     </div>
                 </div>
@@ -24,12 +24,14 @@
                             <li><a href="{{ route('home') }}">Home</a></li>
                             <li><a href="{{ route('places.index') }}">Browse Places</a></li>
                             <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                            <li><a href="{{ route('home') }}">About Us</a></li>
+                            <li><a href="{{ route('home') }}">Contact Us</a></li>
                             @auth
                                 <li><a href="{{ route('favorites.index') }}">My Favorites</a></li>
                                 <li><a href="{{ route('profile.index') }}">My Profile</a></li>
                             @else
-                                <li><a href="{{ route('login') }}">Login</a></li>
-                                <li><a href="{{ route('register') }}">Register</a></li>
+                                {{-- <li><a href="{{ route('about.index') }}">About Us</a></li>
+                                <li><a href="{{ route('contact.index') }}">Contact Us</a></li> --}}
                             @endauth
                         </ul>
                     </div>
@@ -37,7 +39,7 @@
 
                 <div class="col-md-3 col-sm-6 wow fadeInRight animated">
                     <div class="single-footer">
-                        <h4>Popular Categories</h4>
+                        <h4>Top Categories</h4>
                         <div class="footer-title-line"></div>
                         <ul class="footer-menu">
                             <li><a href="{{ route('places.index', ['category' => 'restaurants']) }}">Restaurants</a>
