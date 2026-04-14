@@ -8,7 +8,24 @@
         <div class="container">
             <div class="row">
                 <div class="page-head-content">
-                    <h1 class="page-title">Browse Categories</h1>
+                    <h1 class="page-title" style="text-align: center;">Browse Categories</h1>
+                    <p class="text-muted" style="text-align: center;">Discover places by category and find your next favorite
+                        spot.</p>
+                </div>
+                <div class="search-box-container" style="max-width: 600px; margin:0px auto 50px;">
+                    <form action="{{ route('categories.index') }}" method="GET">
+                        <div class="input-group shadow-sm">
+                            <input type="text" name="search" class="form-control"
+                                placeholder="Search categories (e.g. Restaurants, Parks...)" value="{{ request('search') }}"
+                                style="height: 50px; border-radius: 25px 0 0 25px; border-right: none; padding-left: 25px;">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit"
+                                    style="height: 50px; border-radius: 0 25px 25px 0; padding: 0 30px;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
