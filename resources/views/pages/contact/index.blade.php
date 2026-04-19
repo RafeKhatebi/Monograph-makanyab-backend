@@ -63,8 +63,8 @@
                         </div>
 
                         <div class="form-group" style="margin-bottom: 20px;">
-                            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Subject *</label>
-                            <input type="text" name="subject" value="{{ old('subject') }}" required
+                            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Tel | Mobile (Phone)*</label>
+                            <input type="text" name="telephone" value="{{ old('telephone') }}" required
                                 class="form-control" style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
                             @error('subject')
                                 <span style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;">{{ $message }}</span>

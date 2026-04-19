@@ -79,21 +79,4 @@
             </div>
         </div>
     </div>
-
-    <div class="footer-copy text-center">
-        <div class="container">
-            <div class="row">
-                <div class="pull-left">
-                    <span>&copy; {{ date('Y') }} Makanyab. All rights reserved.</span>
-                </div>
-                <div class="bottom-menu pull-right">
-                    <ul>
-                        <li><a href="{{ route('home') }}">Home</a></li>
-                        <li><a href="{{ route('places.index') }}">Places</a></li>
-                        <li><a href="{{ route('categories.index') }}">Categories</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

@@ -21,7 +21,13 @@
                         href="{{ route('categories.index') }}">Categories</a></li>
                 <li class="{{ request()->routeIs('places.*') ? 'active' : '' }}"><a
                         href="{{ route('places.index') }}">Places</a></li>
+                      <li class=""><a
+                        href="">Search</a></li>  
+                        <li class=""><a
+                        href="">Posts</a></li>  
                 <li class="{{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}">About</a>
+                </li>
+                <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Contact</a>
                 </li>
                 @auth
                     @if (!auth()->user()->isAdmin())

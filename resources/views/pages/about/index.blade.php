@@ -96,59 +96,6 @@
                     </div>
                 </div>
             </div>
-            {{-- Stats --}}
-            <div class="count-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
-                            <h2>Trusted by Our Community</h2>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12 percent-blocks m-main" data-waypoint-scroll="true">
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="count-item">
-                                        <div class="count-item-circle"><span class="pe-7s-users"></span></div>
-                                        <div class="chart" data-percent="5000">
-                                            <h2 class="percent" id="counter">0</h2>
-                                            <h5>Happy Users</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="count-item">
-                                        <div class="count-item-circle"><span class="pe-7s-map-marker"></span></div>
-                                        <div class="chart" data-percent="1200">
-                                            <h2 class="percent" id="counter1">0</h2>
-                                            <h5>Places Listed</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="count-item">
-                                        <div class="count-item-circle"><span class="pe-7s-flag"></span></div>
-                                        <div class="chart" data-percent="50">
-                                            <h2 class="percent" id="counter2">0</h2>
-                                            <h5>Cities</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="count-item">
-                                        <div class="count-item-circle"><span class="pe-7s-star"></span></div>
-                                        <div class="chart" data-percent="8000">
-                                            <h2 class="percent" id="counter3">0</h2>
-                                            <h5>Reviews</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- CTA Section -->
             <div class="row">
                 <div class="col-md-12">

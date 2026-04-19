@@ -18,24 +18,6 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
                     <h2>Discover the Best Places Near You</h2>
                     <p>Find restaurants, cafes, shops, hotels and more — all in one place.</p>
-                    <div class="search-form wow pulse" data-wow-delay="0.8s">
-                        <form action="{{ route('places.index') }}" method="GET" class="form-inline">
-                            <div class="form-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search places...">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="city" class="form-control" placeholder="City">
-                            </div>
-                            <div class="form-group">
-                                <select name="status" class="selectpicker show-tick form-control">
-                                    <option value="">All Status</option>
-                                    <option value="open">Open Now</option>
-                                    <option value="closed">Closed</option>
-                                </select>
-                            </div>
-                            <button class="btn search-btn" type="submit"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -92,46 +74,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Popular Categories --}}
-    {{-- <div class="Welcome-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
-                    <h2>Browse by Category</h2>
-                    <p>Find exactly what you're looking for.</p>
-                </div>
-            </div>
-            <div class="row">
-                @forelse($categories ?? [] as $category)
-                    <div class="col-xs-6 col-sm-4 col-md-2 text-center" style="margin-bottom:20px;">
-                        <a href="{{ route('places.index', ['category' => $category->slug]) }}">
-                            <div class="welcome-estate">
-                                <div class="welcome-icon">
-                                    <i class="{{ $category->icon_name ?? 'pe-7s-map-marker' }} pe-4x"></i>
-                                </div>
-                                <h3>{{ $category->name }}</h3>
-                            </div>
-                        </a>
-                    </div>
-                @empty
-                    @foreach (['Restaurants', 'Cafes', 'Shopping', 'Hotels', 'Parks', 'Services'] as $cat)
-                        <div class="col-xs-6 col-sm-4 col-md-2 text-center" style="margin-bottom:20px;">
-                            <div class="welcome-estate">
-                                <div class="welcome-icon">
-                                    <i class="pe-7s-map-marker pe-4x"></i>
-                                </div>
-                                <h3>{{ $cat }}</h3>
-                            </div>
-                        </div>
-                    @endforeach
-                @endforelse
-            </div>
-        </div>
-    </div> --}}
-
-   
-
     {{-- CTA --}}
     <div class="boy-sale-area">
         <div class="container">
