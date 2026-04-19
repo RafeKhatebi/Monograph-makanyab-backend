@@ -4,205 +4,227 @@
 
 @section('content')
 
-<div class="page-head">
-    <div class="container">
-        <div class="row">
-            <div class="page-head-content">
-                <h1 class="page-title">Contact Us</h1>
+    <!-- Hero Section -->
+    <div class="page-head" style="background: linear-gradient(135deg,#10B981 0%,#059669 100%); padding: 70px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1 style="font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 15px;">
+                        Contact Us
+                    </h1>
+                    <p
+                        style="font-size: 18px; color: rgba(255,255,255,.9); max-width: 700px; margin: auto; line-height: 1.8;">
+                        We'd love to hear from you. Reach out for support, questions, partnerships, or feedback.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="content-area" style="background-color: #FCFCFC; padding: 55px 0;">
-    <div class="container">
-        
-        <!-- Intro Section -->
-        <div class="row" style="margin-bottom: 50px;">
-            <div class="col-md-12 text-center">
-                <h2 style="font-size: 36px; font-weight: 700; color: #111827; margin-bottom: 20px;">
-                    Get in Touch
-                </h2>
-                <p style="font-size: 18px; color: #6B7280; max-width: 700px; margin: 0 auto; line-height: 1.8;">
-                    Have a question or feedback? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-                </p>
-            </div>
-        </div>
+    <!-- Main Content -->
+    <div class="content-area" style="background:#F8FAFC; padding:70px 0;">
+        <div class="container">
 
-        <div class="row">
-            <!-- Contact Form -->
-            <div class="col-md-8" style="margin-bottom: 30px;">
-                <div class="box-two" style="padding: 40px;">
-                    <h3 style="font-size: 24px; font-weight: 600; color: #111827; margin-bottom: 25px;">Send us a Message</h3>
-                    
-                    @if(session('success'))
-                        <div style="padding: 15px; background: #ecfdf5; border: 1px solid #d1fae5; color: #065f46; border-radius: 8px; margin-bottom: 25px;">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+            <div class="row">
 
-                    <form action="{{ route('contact.store') }}" method="POST">
-                        @csrf
-                        
-                        <div class="form-group" style="margin-bottom: 20px;">
-                            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Name *</label>
-                            <input type="text" name="name" value="{{ old('name') }}" required
-                                class="form-control" style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
-                            @error('name')
-                                <span style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <!-- Contact Info -->
+                <div class="col-md-5" style="margin-bottom:30px;">
+                    <div class="box-two" style="padding:40px; border-radius:16px; height:100%;">
 
-                        <div class="form-group" style="margin-bottom: 20px;">
-                            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Email *</label>
-                            <input type="email" name="email" value="{{ old('email') }}" required
-                                class="form-control" style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
-                            @error('email')
-                                <span style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <h2 style="font-size:30px; font-weight:700; color:#111827; margin-bottom:25px;">
+                            Get in Touch
+                        </h2>
 
-                        <div class="form-group" style="margin-bottom: 20px;">
-                            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Tel | Mobile (Phone)*</label>
-                            <input type="text" name="telephone" value="{{ old('telephone') }}" required
-                                class="form-control" style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
-                            @error('subject')
-                                <span style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <p style="font-size:16px; color:#6B7280; line-height:1.8; margin-bottom:35px;">
+                            Need help with listings, business registration, technical issues, or general questions?
+                            Our support team is ready to assist you.
+                        </p>
 
-                        <div class="form-group" style="margin-bottom: 25px;">
-                            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Message *</label>
-                            <textarea name="message" rows="6" required
-                                class="form-control" style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; resize: vertical;">{{ old('message') }}</textarea>
-                            @error('message')
-                                <span style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="btn btn-lg" style="background: #10B981; color: #FFFFFF; padding: 14px 40px; font-weight: 600; border-radius: 8px; border: none; font-size: 16px;">
-                            Send Message
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Contact Information -->
-            <div class="col-md-4" style="margin-bottom: 30px;">
-                <div class="box-two" style="padding: 40px; height: 100%;">
-                    <h3 style="font-size: 24px; font-weight: 600; color: #111827; margin-bottom: 25px;">Contact Information</h3>
-                    
-                    <div style="margin-bottom: 30px;">
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
-                            <div style="font-size: 24px; margin-right: 15px; color: #10B981;">📍</div>
+                        <!-- Address -->
+                        <div style="display:flex; margin-bottom:28px;">
+                            <div
+                                style="width:50px; height:50px; background:#ECFDF5; color:#10B981; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-right:15px;">
+                                📍
+                            </div>
                             <div>
-                                <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 5px;">Address</h4>
-                                <p style="color: #6B7280; margin: 0; line-height: 1.6;">
+                                <h4 style="font-size:17px; font-weight:600; color:#111827; margin-bottom:5px;">Office
+                                    Address</h4>
+                                <p style="margin:0; color:#6B7280; line-height:1.7;">
                                     Herat, Afghanistan
                                 </p>
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
-                            <div style="font-size: 24px; margin-right: 15px; color: #10B981;">📧</div>
+                        <!-- Phone -->
+                        <div style="display:flex; margin-bottom:28px;">
+                            <div
+                                style="width:50px; height:50px; background:#ECFDF5; color:#10B981; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-right:15px;">
+                                📞
+                            </div>
                             <div>
-                                <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 5px;">Email</h4>
-                                <p style="color: #6B7280; margin: 0; line-height: 1.6;">
-                                    <a href="mailto:info@makanyab.com" style="color: #10B981; text-decoration: none;">info@makanyab.com</a>
+                                <h4 style="font-size:17px; font-weight:600; color:#111827; margin-bottom:5px;">Call Us</h4>
+                                <p style="margin:0;">
+                                    <a href="tel:+93728958411" style="color:#10B981; text-decoration:none;">
+                                        +93 728 958 411
+                                    </a>
                                 </p>
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
-                            <div style="font-size: 24px; margin-right: 15px; color: #10B981;">📱</div>
+                        <!-- Email -->
+                        <div style="display:flex; margin-bottom:28px;">
+                            <div
+                                style="width:50px; height:50px; background:#ECFDF5; color:#10B981; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-right:15px;">
+                                ✉️
+                            </div>
                             <div>
-                                <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 5px;">Phone</h4>
-                                <p style="color: #6B7280; margin: 0; line-height: 1.6;">
-                                    <a href="tel:+93728958411" style="color: #10B981; text-decoration: none;">+93 728 958 411</a>
+                                <h4 style="font-size:17px; font-weight:600; color:#111827; margin-bottom:5px;">Email Address
+                                </h4>
+                                <p style="margin:0;">
+                                    <a href="mailto:info@makanyab.com" style="color:#10B981; text-decoration:none;">
+                                        info@makanyab.com
+                                    </a>
                                 </p>
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: flex-start;">
-                            <div style="font-size: 24px; margin-right: 15px; color: #10B981;">🕐</div>
+                        <!-- Hours -->
+                        <div style="display:flex; margin-bottom:35px;">
+                            <div
+                                style="width:50px; height:50px; background:#ECFDF5; color:#10B981; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-right:15px;">
+                                🕒
+                            </div>
                             <div>
-                                <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 5px;">Working Hours</h4>
-                                <p style="color: #6B7280; margin: 0; line-height: 1.6;">
+                                <h4 style="font-size:17px; font-weight:600; color:#111827; margin-bottom:5px;">Working Hours
+                                </h4>
+                                <p style="margin:0; color:#6B7280; line-height:1.7;">
                                     Saturday - Thursday<br>
                                     9:00 AM - 6:00 PM
                                 </p>
                             </div>
                         </div>
-                    </div>
 
-                    <div style="padding-top: 25px; border-top: 1px solid #e5e7eb;">
-                        <h4 style="font-size: 16px; font-weight: 600; color: #111827; margin-bottom: 15px;">Follow Us</h4>
-                        <div style="display: flex; gap: 15px;">
-                            <a href="#" style="width: 40px; height: 40px; background: #10B981; color: #FFFFFF; display: flex; align-items: center; justify-content: center; border-radius: 50%; text-decoration: none; font-size: 18px;">
-                                f
-                            </a>
-                            <a href="#" style="width: 40px; height: 40px; background: #10B981; color: #FFFFFF; display: flex; align-items: center; justify-content: center; border-radius: 50%; text-decoration: none; font-size: 18px;">
-                                t
-                            </a>
-                            <a href="#" style="width: 40px; height: 40px; background: #10B981; color: #FFFFFF; display: flex; align-items: center; justify-content: center; border-radius: 50%; text-decoration: none; font-size: 18px;">
-                                in
-                            </a>
+                        <!-- Social -->
+                        <div style="border-top:1px solid #E5E7EB; padding-top:25px;">
+                            <h4 style="font-size:16px; font-weight:600; color:#111827; margin-bottom:15px;">Follow Us</h4>
+
+                            <div style="display:flex; gap:12px;">
+                                <a href="#"
+                                    style="width:42px; height:42px; background:#10B981; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none;">f</a>
+
+                                <a href="#"
+                                    style="width:42px; height:42px; background:#10B981; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none;">in</a>
+
+                                <a href="#"
+                                    style="width:42px; height:42px; background:#10B981; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none;">t</a>
+                            </div>
                         </div>
+
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="col-md-7">
+                    <div class="box-two" style="padding:40px; border-radius:16px;">
+
+                        <h2 style="font-size:30px; font-weight:700; color:#111827; margin-bottom:30px;">
+                            Send Message
+                        </h2>
+
+                        @if (session('success'))
+                            <div
+                                style="padding:15px 18px; background:#ECFDF5; border:1px solid #A7F3D0; color:#065F46; border-radius:10px; margin-bottom:25px;">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ route('contact.store') }}" method="POST">
+                            @csrf
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" style="margin-bottom:20px;">
+                                        <label style="font-weight:600; margin-bottom:8px; display:block;">Full Name
+                                            *</label>
+                                        <input type="text" name="name" value="{{ old('name') }}" required
+                                            class="form-control"
+                                            style="height:50px; border-radius:10px; border:1px solid #D1D5DB;">
+                                        @error('name')
+                                            <small style="color:#DC2626;">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group" style="margin-bottom:20px;">
+                                        <label style="font-weight:600; margin-bottom:8px; display:block;">Phone *</label>
+                                        <input type="text" name="telephone" value="{{ old('telephone') }}" required
+                                            class="form-control"
+                                            style="height:50px; border-radius:10px; border:1px solid #D1D5DB;">
+                                        @error('telephone')
+                                            <small style="color:#DC2626;">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="font-weight:600; margin-bottom:8px; display:block;">Email *</label>
+                                <input type="email" name="email" value="{{ old('email') }}" required
+                                    class="form-control" style="height:50px; border-radius:10px; border:1px solid #D1D5DB;">
+                                @error('email')
+                                    <small style="color:#DC2626;">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="font-weight:600; margin-bottom:8px; display:block;">Subject</label>
+                                <input type="text" name="subject" value="{{ old('subject') }}" class="form-control"
+                                    style="height:50px; border-radius:10px; border:1px solid #D1D5DB;">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:25px;">
+                                <label style="font-weight:600; margin-bottom:8px; display:block;">Message *</label>
+                                <textarea name="message" rows="6" required class="form-control"
+                                    style="border-radius:10px; border:1px solid #D1D5DB; resize:none;">{{ old('message') }}</textarea>
+                                @error('message')
+                                    <small style="color:#DC2626;">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <button type="submit"
+                                style="background:#10B981; color:#fff; border:none; padding:14px 35px; font-size:16px; font-weight:600; border-radius:10px;">
+                                Send Message
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Help Section -->
+            <div class="row" style="margin-top:60px;">
+                <div class="col-md-12">
+                    <div class="box-two text-center" style="padding:45px; border-radius:16px;">
+                        <h2 style="font-size:28px; font-weight:700; color:#111827; margin-bottom:15px;">
+                            Need Quick Support?
+                        </h2>
+
+                        <p style="font-size:16px; color:#6B7280; max-width:750px; margin:auto auto 25px; line-height:1.8;">
+                            For urgent matters, call us directly during working hours and our team will respond faster.
+                        </p>
+
+                        <a href="tel:+93728958411"
+                            style="display:inline-block; background:#10B981; color:#fff; text-decoration:none; padding:14px 30px; border-radius:10px; font-weight:600;">
+                            Call Now
+                        </a>
                     </div>
                 </div>
             </div>
+
         </div>
-
-        <!-- FAQ Section -->
-        <div class="row" style="margin-top: 50px;">
-            <div class="col-md-12">
-                <div class="box-two" style="padding: 40px;">
-                    <h3 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 30px; text-align: center;">
-                        Frequently Asked Questions
-                    </h3>
-                    
-                    <div class="row">
-                        <div class="col-md-6" style="margin-bottom: 25px;">
-                            <h4 style="font-size: 18px; font-weight: 600; color: #10B981; margin-bottom: 10px;">
-                                How do I add my business to Makanyab?
-                            </h4>
-                            <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                                You can register as a business owner and submit your place for review. Our team will verify and publish it within 24-48 hours.
-                            </p>
-                        </div>
-
-                        <div class="col-md-6" style="margin-bottom: 25px;">
-                            <h4 style="font-size: 18px; font-weight: 600; color: #10B981; margin-bottom: 10px;">
-                                Is Makanyab free to use?
-                            </h4>
-                            <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                                Yes! Makanyab is completely free for users to browse, review, and discover places. Business listings are also free.
-                            </p>
-                        </div>
-
-                        <div class="col-md-6" style="margin-bottom: 25px;">
-                            <h4 style="font-size: 18px; font-weight: 600; color: #10B981; margin-bottom: 10px;">
-                                How can I report incorrect information?
-                            </h4>
-                            <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                                You can use the contact form above or email us directly with the details of the incorrect information.
-                            </p>
-                        </div>
-
-                        <div class="col-md-6" style="margin-bottom: 25px;">
-                            <h4 style="font-size: 18px; font-weight: 600; color: #10B981; margin-bottom: 10px;">
-                                Can I edit my reviews?
-                            </h4>
-                            <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                                Currently, reviews cannot be edited after submission. Please contact us if you need to modify a review.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-</div>
 
 @endsection

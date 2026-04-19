@@ -1,128 +1,199 @@
 @extends('layouts.app')
+
 @section('title', 'About Us')
+
 @section('content')
-    <div class="page-head">
+
+    <!-- Hero Header -->
+    <div class="page-head" style="background: linear-gradient(135deg,#10B981 0%,#059669 100%); padding:70px 0;">
         <div class="container">
             <div class="row">
-                <div class="page-head-content">
-                    <h1 class="page-title">About Makanyab</h1>
+                <div class="col-md-12 text-center">
+                    <h1 style="font-size:42px; font-weight:700; color:#ffffff; margin-bottom:15px;">
+                        About Makanyab
+                    </h1>
+                    <p style="font-size:18px; color:rgba(255,255,255,.92); max-width:800px; margin:auto; line-height:1.8;">
+                        Helping people discover trusted places, local businesses, and memorable experiences across
+                        Afghanistan.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="content-area" style="background-color: #FCFCFC; padding: 55px 0;">
+
+    <!-- Main Content -->
+    <div class="content-area" style="background:#F8FAFC; padding:70px 0;">
         <div class="container">
-            <!-- Hero Section -->
-            <div class="row" style="margin-bottom: 50px;">
-                <div class="col-md-12 text-center">
-                    <h2 style="font-size: 36px; font-weight: 700; color: #111827; margin-bottom: 20px;">
-                        Discover the Best Places in Afghanistan
+
+            <!-- Intro -->
+            <div class="row" style="margin-bottom:60px;">
+                <div class="col-md-6" style="margin-bottom:30px;">
+                    <h2 style="font-size:36px; font-weight:700; color:#111827; margin-bottom:20px;">
+                        Discover the Best Places Near You
                     </h2>
-                    <p style="font-size: 18px; color: #6B7280; max-width: 800px; margin: 0 auto; line-height: 1.8;">
-                        Makanyab is your trusted guide to finding restaurants, cafes, hotels, and entertainment venues
-                        across Afghanistan.
-                        We help you discover amazing places and share your experiences with the community.
+
+                    <p style="font-size:17px; color:#6B7280; line-height:1.9; margin-bottom:20px;">
+                        Makanyab is a modern local discovery platform designed to help users find the best restaurants,
+                        cafes, hotels, shopping centers, entertainment spots, and services.
+                    </p>
+
+                    <p style="font-size:17px; color:#6B7280; line-height:1.9; margin:0;">
+                        Whether you are exploring your city or visiting somewhere new, Makanyab makes it easier
+                        to choose the right place with confidence.
                     </p>
                 </div>
-            </div>
 
-            <!-- Features Grid -->
-            <div class="row" style="margin-bottom: 50px;">
-                <div class="col-md-4" style="margin-bottom: 30px;">
-                    <div class="box-two" style="text-align: center; padding: 40px 30px; height: 100%;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">🔍</div>
-                        <h3 style="font-size: 22px; font-weight: 600; color: #111827; margin-bottom: 15px;">Easy Discovery
+                <div class="col-md-6">
+                    <div class="box-two" style="padding:45px; border-radius:16px; text-align:center;">
+                        <div style="font-size:70px; margin-bottom:20px;">📍</div>
+                        <h3 style="font-size:26px; font-weight:700; color:#111827; margin-bottom:15px;">
+                            Your Trusted Local Guide
                         </h3>
-                        <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                            Search and filter through thousands of places to find exactly what you're looking for in your
-                            city.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" style="margin-bottom: 30px;">
-                    <div class="box-two" style="text-align: center; padding: 40px 30px; height: 100%;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">⭐</div>
-                        <h3 style="font-size: 22px; font-weight: 600; color: #111827; margin-bottom: 15px;">Trusted Reviews
-                        </h3>
-                        <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                            Read authentic reviews from real customers and share your own experiences to help others.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-4" style="margin-bottom: 30px;">
-                    <div class="box-two" style="text-align: center; padding: 40px 30px; height: 100%;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">📍</div>
-                        <h3 style="font-size: 22px; font-weight: 600; color: #111827; margin-bottom: 15px;">Detailed
-                            Information</h3>
-                        <p style="color: #6B7280; line-height: 1.6; margin: 0;">
-                            Get complete details including location, contact info, opening hours, and photos for every
-                            place.
+                        <p style="color:#6B7280; line-height:1.8; margin:0;">
+                            Search smarter, discover faster, and experience better places with Makanyab.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Mission Section -->
-            <div class="row" style="margin-bottom: 50px;">
-                <div class="col-md-6" style="margin-bottom: 30px;">
-                    <div class="box-two" style="padding: 40px; height: 100%;">
-                        <h3 style="font-size: 28px; font-weight: 700; color: #10B981; margin-bottom: 20px;">Our Mission</h3>
-                        <p style="color: #374151; line-height: 1.8; font-size: 16px; margin-bottom: 15px;">
-                            At Makanyab, we believe that everyone deserves to discover great places and experiences.
-                            Our mission is to connect people with the best restaurants, cafes, hotels, and entertainment
-                            venues across Afghanistan.
-                        </p>
-                        <p style="color: #374151; line-height: 1.8; font-size: 16px; margin: 0;">
-                            We're building a community where locals and visitors can share their experiences,
-                            discover hidden gems, and make informed decisions about where to eat, stay, and explore.
+            <!-- Features -->
+            <div class="row" style="margin-bottom:60px;">
+
+                <div class="col-md-4" style="margin-bottom:30px;">
+                    <div class="box-two" style="padding:35px 30px; text-align:center; height:100%; border-radius:16px;">
+                        <div style="font-size:52px; margin-bottom:18px;">🔎</div>
+                        <h3 style="font-size:22px; font-weight:700; color:#111827; margin-bottom:15px;">
+                            Easy Search
+                        </h3>
+                        <p style="color:#6B7280; line-height:1.7; margin:0;">
+                            Quickly search by city, category, or business name to find exactly what you need.
                         </p>
                     </div>
                 </div>
 
-                <div class="col-md-6" style="margin-bottom: 30px;">
-                    <div class="box-two" style="padding: 40px; height: 100%;">
-                        <h3 style="font-size: 28px; font-weight: 700; color: #10B981; margin-bottom: 20px;">Why Choose Us
+                <div class="col-md-4" style="margin-bottom:30px;">
+                    <div class="box-two" style="padding:35px 30px; text-align:center; height:100%; border-radius:16px;">
+                        <div style="font-size:52px; margin-bottom:18px;">⭐</div>
+                        <h3 style="font-size:22px; font-weight:700; color:#111827; margin-bottom:15px;">
+                            Real Reviews
                         </h3>
-                        <ul style="color: #374151; line-height: 2; font-size: 16px; margin: 0; padding-left: 20px;">
-                            <li><strong>Local Expertise:</strong> We know Afghanistan and its cities inside out</li>
-                            <li><strong>Verified Places:</strong> All listings are verified for accuracy</li>
-                            <li><strong>Community Driven:</strong> Real reviews from real people</li>
-                            <li><strong>Always Updated:</strong> Fresh content and new places added regularly</li>
-                            <li><strong>Easy to Use:</strong> Simple, intuitive interface in your language</li>
-                        </ul>
+                        <p style="color:#6B7280; line-height:1.7; margin:0;">
+                            Read helpful reviews and ratings from real users before making decisions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4" style="margin-bottom:30px;">
+                    <div class="box-two" style="padding:35px 30px; text-align:center; height:100%; border-radius:16px;">
+                        <div style="font-size:52px; margin-bottom:18px;">🏢</div>
+                        <h3 style="font-size:22px; font-weight:700; color:#111827; margin-bottom:15px;">
+                            Verified Listings
+                        </h3>
+                        <p style="color:#6B7280; line-height:1.7; margin:0;">
+                            Businesses and places are reviewed to keep information accurate and useful.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Mission & Vision -->
+            <div class="row" style="margin-bottom:60px;">
+
+                <div class="col-md-6" style="margin-bottom:30px;">
+                    <div class="box-two" style="padding:40px; border-radius:16px; height:100%;">
+                        <h3 style="font-size:28px; font-weight:700; color:#10B981; margin-bottom:20px;">
+                            Our Mission
+                        </h3>
+
+                        <p style="color:#374151; line-height:1.9; font-size:16px; margin:0;">
+                            To connect people with the best local places and empower businesses with visibility,
+                            trust, and growth through technology.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6" style="margin-bottom:30px;">
+                    <div class="box-two" style="padding:40px; border-radius:16px; height:100%;">
+                        <h3 style="font-size:28px; font-weight:700; color:#10B981; margin-bottom:20px;">
+                            Our Vision
+                        </h3>
+
+                        <p style="color:#374151; line-height:1.9; font-size:16px; margin:0;">
+                            To become the most trusted discovery platform in Afghanistan where every great place
+                            can be found in seconds.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Why Choose Us -->
+            <div class="row" style="margin-bottom:60px;">
+                <div class="col-md-12">
+                    <div class="box-two" style="padding:45px; border-radius:16px;">
+                        <h3 style="font-size:30px; font-weight:700; color:#111827; text-align:center; margin-bottom:30px;">
+                            Why Choose Makanyab?
+                        </h3>
+
+                        <div class="row text-center">
+
+                            <div class="col-md-3" style="margin-bottom:25px;">
+                                <h4 style="font-size:20px; color:#10B981; font-weight:700;">Fast</h4>
+                                <p style="color:#6B7280; margin:0;">Simple and quick search experience.</p>
+                            </div>
+
+                            <div class="col-md-3" style="margin-bottom:25px;">
+                                <h4 style="font-size:20px; color:#10B981; font-weight:700;">Trusted</h4>
+                                <p style="color:#6B7280; margin:0;">Reliable listings and user feedback.</p>
+                            </div>
+
+                            <div class="col-md-3" style="margin-bottom:25px;">
+                                <h4 style="font-size:20px; color:#10B981; font-weight:700;">Local</h4>
+                                <p style="color:#6B7280; margin:0;">Focused on Afghan cities and communities.</p>
+                            </div>
+
+                            <div class="col-md-3" style="margin-bottom:25px;">
+                                <h4 style="font-size:20px; color:#10B981; font-weight:700;">Growing</h4>
+                                <p style="color:#6B7280; margin:0;">New places and updates added regularly.</p>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- CTA Section -->
+
+            <!-- CTA -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="box-two"
-                        style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
-                        <h3 style="font-size: 32px; font-weight: 700; color: #6B7280; margin-bottom: 20px;">
-                            Join Our Community Today
+                    <div class="box-two text-center"
+                        style="padding:60px 40px; border-radius:16px; background:linear-gradient(135deg,#10B981 0%,#059669 100%);">
+
+                        <h3 style="font-size:34px; font-weight:700; color:#ffffff; margin-bottom:18px;">
+                            Start Exploring Today
                         </h3>
-                        <p style="font-size: 18px; color: #6B7280; margin-bottom: 30px; opacity: 0.9;">
-                            Start discovering amazing places and sharing your experiences
+
+                        <p style="font-size:18px; color:rgba(255,255,255,.92); margin-bottom:30px;">
+                            Find amazing places, share reviews, and support local businesses.
                         </p>
-                        <div>
-                            @guest
-                                <a href="{{ route('register') }}" class="btn btn-lg"
-                                    style="background: #; color:#6B7280 #10B981; padding: 15px 40px; font-weight: 600; border-radius: 8px; margin-right: 15px;">
-                                    Sign Up Free
-                                </a>
-                                <a href="{{ route('places.index') }}" class="btn btn-lg"
-                                    style="background: transparent; color: #6B7280; border: 2px solid #ffffff; padding: 15px 40px; font-weight: 600; border-radius: 8px;">
-                                    Explore Places
-                                </a>
-                            @else
-                                <a href="{{ route('places.index') }}" class="btn btn-lg"
-                                    style="background: #6B7280; color: #10B981; padding: 15px 40px; font-weight: 600; border-radius: 8px;">
-                                    Explore Places
-                                </a>
-                            @endguest
-                        </div>
+
+                        @guest
+                            <a href="{{ route('register') }}" class="btn btn-lg"
+                                style="background:#ffffff; color:#10B981; padding:15px 38px; border-radius:10px; font-weight:700; margin-right:10px;">
+                                Sign Up Free
+                            </a>
+
+                            <a href="{{ route('places.index') }}" class="btn btn-lg"
+                                style="background:transparent; color:#ffffff; border:2px solid #ffffff; padding:15px 38px; border-radius:10px; font-weight:700;">
+                                Explore Places
+                            </a>
+                        @else
+                            <a href="{{ route('places.index') }}" class="btn btn-lg"
+                                style="background:#ffffff; color:#10B981; padding:15px 38px; border-radius:10px; font-weight:700;">
+                                Explore Places
+                            </a>
+                        @endguest
+
                     </div>
                 </div>
             </div>
