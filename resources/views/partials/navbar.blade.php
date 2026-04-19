@@ -12,7 +12,6 @@
                 <span class="brand-text">Makanyab</span>
             </a>
         </div>
-
         <div class="collapse navbar-collapse" id="navigation">
             <!-- MENU: Center -->
             <ul class="nav navbar-nav navbar-center">
@@ -36,7 +35,6 @@
                     @endif
                 @endauth
             </ul>
-
             <!-- AUTH: Right -->
             <ul class="nav navbar-nav navbar-right auth-section">
                 @guest

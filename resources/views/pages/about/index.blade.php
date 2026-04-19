@@ -12,7 +12,6 @@
     </div>
     <div class="content-area" style="background-color: #FCFCFC; padding: 55px 0;">
         <div class="container">
-
             <!-- Hero Section -->
             <div class="row" style="margin-bottom: 50px;">
                 <div class="col-md-12 text-center">
