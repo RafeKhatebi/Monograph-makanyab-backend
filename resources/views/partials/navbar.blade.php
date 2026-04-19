@@ -16,24 +16,26 @@
             <!-- MENU: Center -->
             <ul class="nav navbar-nav navbar-center">
                 <li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
-                <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}"><a
-                        href="{{ route('categories.index') }}">Categories</a></li>
-                <li class="{{ request()->routeIs('places.*') ? 'active' : '' }}"><a
-                        href="{{ route('places.index') }}">Places</a></li>
-                      <li class=""><a
-                        href="">Search</a></li>  
-                        <li class=""><a
-                        href="">Posts</a></li>  
+                <li class="{{ request()->routeIs('search.index') ? 'active' : '' }}"><a
+                        href="{{ route('search.index') }}">Search</a></li>
                 <li class="{{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}">About</a>
                 </li>
-                <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Contact</a>
+                {{-- <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}"><a
+                        href="{{ route('categories.index') }}">Categories</a></li>
+                <li class="{{ request()->routeIs('places.*') ? 'active' : '' }}"><a
+                        href="{{ route('places.index') }}">Places</a></li> --}}
+
+                <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a
+                        href="{{ route('contact') }}">Contact</a>
                 </li>
-                @auth
+                <li class="{{ request()->routeIs('posts.index') ? 'active' : '' }}"><a
+                        href="{{ route('posts.index') }}">Posts</a></li>
+                {{-- @auth
                     @if (!auth()->user()->isAdmin())
                         <li><a href="{{ route('favorites.index') }}" title="Favorites"><i class="fa fa-heart-o"></i></a>
                         </li>
                     @endif
-                @endauth
+                @endauth --}}
             </ul>
             <!-- AUTH: Right -->
             <ul class="nav navbar-nav navbar-right auth-section">

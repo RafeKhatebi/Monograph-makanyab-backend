@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasUuids,Notifiable,SoftDeletes;
@@ -39,7 +39,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
 
     // Define relationships
     public function reviews()
@@ -85,4 +84,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function posts()
+{
+    return $this->hasMany(Post::class, 'user_id', 'id');
+}
 }
