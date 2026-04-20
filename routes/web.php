@@ -15,6 +15,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,8 @@ Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.s
 */
 Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
 Route::get('/places/{place:slug}', [PlaceController::class, 'show'])->name('places.show');
+
+Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'])->name('services.show');
 
 // Reviews
 Route::post('/places/{place:slug}/reviews', [PlaceController::class, 'storeReview'])
