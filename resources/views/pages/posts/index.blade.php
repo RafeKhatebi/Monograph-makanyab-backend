@@ -3,23 +3,6 @@
 @section('title', 'Blog & Posts')
 
 @section('content')
-
-    <!-- Hero -->
-    <div class="page-head" style="background:linear-gradient(135deg,#10B981 0%,#059669 100%); padding:70px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h1 style="font-size:42px; font-weight:700; color:#ffffff; margin-bottom:15px;">
-                        Latest Posts
-                    </h1>
-
-                    <p style="font-size:18px; color:rgba(255,255,255,.92); max-width:760px; margin:auto; line-height:1.8;">
-                        Discover travel tips, food guides, local stories, and updates from Makanyab.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Content -->
     <div class="content-area" style="background:#F8FAFC; padding:70px 0;">
         <div class="container">

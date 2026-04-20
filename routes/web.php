@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\PlaceCategoryController;
+use App\Http\Controllers\Admin\ServiceCategoryController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
@@ -139,6 +141,14 @@ Route::middleware(['auth', 'admin'])
         |--------------------------------------------------------------
         */
         Route::resource('categories', PlaceCategoryController::class);
+        Route::resource('service-categories', ServiceCategoryController::class);
+
+        /*
+        |--------------------------------------------------------------
+        | Services Management
+        |--------------------------------------------------------------
+        */
+        Route::resource('services', ServiceController::class);
 
         /*
         |--------------------------------------------------------------

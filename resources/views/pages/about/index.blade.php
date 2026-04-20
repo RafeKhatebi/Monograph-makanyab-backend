@@ -4,23 +4,6 @@
 
 @section('content')
 
-    <!-- Hero Header -->
-    <div class="page-head" style="background: linear-gradient(135deg,#10B981 0%,#059669 100%); padding:70px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h1 style="font-size:42px; font-weight:700; color:#ffffff; margin-bottom:15px;">
-                        About Makanyab
-                    </h1>
-                    <p style="font-size:18px; color:rgba(255,255,255,.92); max-width:800px; margin:auto; line-height:1.8;">
-                        Helping people discover trusted places, local businesses, and memorable experiences across
-                        Afghanistan.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <div class="content-area" style="background:#F8FAFC; padding:70px 0;">
         <div class="container">
@@ -162,42 +145,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- CTA -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box-two text-center"
-                        style="padding:60px 40px; border-radius:16px; background:linear-gradient(135deg,#10B981 0%,#059669 100%);">
-
-                        <h3 style="font-size:34px; font-weight:700; color:#ffffff; margin-bottom:18px;">
-                            Start Exploring Today
-                        </h3>
-
-                        <p style="font-size:18px; color:rgba(255,255,255,.92); margin-bottom:30px;">
-                            Find amazing places, share reviews, and support local businesses.
-                        </p>
-
-                        @guest
-                            <a href="{{ route('register') }}" class="btn btn-lg"
-                                style="background:#ffffff; color:#10B981; padding:15px 38px; border-radius:10px; font-weight:700; margin-right:10px;">
-                                Sign Up Free
-                            </a>
-
-                            <a href="{{ route('places.index') }}" class="btn btn-lg"
-                                style="background:transparent; color:#ffffff; border:2px solid #ffffff; padding:15px 38px; border-radius:10px; font-weight:700;">
-                                Explore Places
-                            </a>
-                        @else
-                            <a href="{{ route('places.index') }}" class="btn btn-lg"
-                                style="background:#ffffff; color:#10B981; padding:15px 38px; border-radius:10px; font-weight:700;">
-                                Explore Places
-                            </a>
-                        @endguest
-
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 

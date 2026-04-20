@@ -3,24 +3,6 @@
 @section('title', 'Contact Us')
 
 @section('content')
-
-    <!-- Hero Section -->
-    <div class="page-head" style="background: linear-gradient(135deg,#10B981 0%,#059669 100%); padding: 70px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h1 style="font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 15px;">
-                        Contact Us
-                    </h1>
-                    <p
-                        style="font-size: 18px; color: rgba(255,255,255,.9); max-width: 700px; margin: auto; line-height: 1.8;">
-                        We'd love to hear from you. Reach out for support, questions, partnerships, or feedback.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <div class="content-area" style="background:#F8FAFC; padding:70px 0;">
         <div class="container">
@@ -203,27 +185,6 @@
                 </div>
 
             </div>
-
-            <!-- Bottom Help Section -->
-            <div class="row" style="margin-top:60px;">
-                <div class="col-md-12">
-                    <div class="box-two text-center" style="padding:45px; border-radius:16px;">
-                        <h2 style="font-size:28px; font-weight:700; color:#111827; margin-bottom:15px;">
-                            Need Quick Support?
-                        </h2>
-
-                        <p style="font-size:16px; color:#6B7280; max-width:750px; margin:auto auto 25px; line-height:1.8;">
-                            For urgent matters, call us directly during working hours and our team will respond faster.
-                        </p>
-
-                        <a href="tel:+93728958411"
-                            style="display:inline-block; background:#10B981; color:#fff; text-decoration:none; padding:14px 30px; border-radius:10px; font-weight:600;">
-                            Call Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 

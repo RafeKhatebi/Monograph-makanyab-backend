@@ -4,28 +4,9 @@
 
 @section('content')
 
-    <!-- Hero -->
-    <div class="page-head" style="background:linear-gradient(135deg,#10B981 0%,#059669 100%); padding:70px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-
-                    <h1 style="font-size:42px; font-weight:700; color:#fff; margin-bottom:15px;">
-                        Search Places & Categories
-                    </h1>
-
-                    <p style="font-size:18px; color:rgba(255,255,255,.92); max-width:760px; margin:auto; line-height:1.8;">
-                        Search businesses, restaurants, markets, hotels, and browse by categories with advanced filters.
-                    </p>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Content -->
     <div class="content-area recent-property" style="background:#F8FAFC; padding:70px 0;">
-        <div class="container">
+        <div>
 
             <div class="row">
 
@@ -129,30 +110,9 @@
                         </form>
 
                     </div>
-
-                    <!-- Categories Box -->
-                    <div class="box-two" style="padding:30px; border-radius:16px;">
-
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:20px;">
-                            Popular Categories
-                        </h3>
-
-                        @foreach ($categories->take(8) as $cat)
-                            <div style="padding:10px 0; border-bottom:1px solid #F3F4F6;">
-                                <a href="{{ route('search.index', ['category' => $cat->slug]) }}"
-                                    style="color:#111827; text-decoration:none;">
-                                    {{ $cat->name }}
-                                </a>
-                            </div>
-                        @endforeach
-
-                    </div>
-
                 </div>
-
                 <!-- Results -->
                 <div class="col-md-8">
-
                     <!-- Header -->
                     <div class="box-two" style="padding:25px 30px; border-radius:16px; margin-bottom:30px;">
                         <div class="row">
@@ -169,13 +129,10 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Places -->
                     @forelse($places as $place)
                         <div class="box-two" style="padding:0; border-radius:16px; overflow:hidden; margin-bottom:30px;">
-
                             <div class="row">
-
                                 <!-- Image -->
                                 <div class="col-md-4">
                                     <a href="{{ route('places.show', $place) }}">
@@ -188,60 +145,49 @@
                                         @endif
                                     </a>
                                 </div>
-
                                 <!-- Info -->
                                 <div class="col-md-8">
                                     <div style="padding:28px;">
-
                                         <div style="margin-bottom:10px;">
-
                                             @if ($place->category)
                                                 <span
                                                     style="background:#ECFDF5; color:#10B981; padding:6px 12px; border-radius:50px; font-size:13px; font-weight:600;">
                                                     {{ $place->category->name }}
                                                 </span>
                                             @endif
-
                                             @if ($place->is_verified)
                                                 <span
                                                     style="margin-left:8px; color:#10B981; font-size:13px; font-weight:700;">
                                                     ✓ Verified
                                                 </span>
                                             @endif
-
                                         </div>
-
                                         <h2 style="font-size:28px; font-weight:700; margin-bottom:12px;">
                                             <a href="{{ route('places.show', $place) }}"
                                                 style="color:#111827; text-decoration:none;">
                                                 {{ $place->name }}
                                             </a>
                                         </h2>
-
                                         <div style="font-size:15px; color:#6B7280; margin-bottom:10px;">
                                             📍 {{ $place->city }}
                                             @if ($place->district)
                                                 , {{ $place->district }}
                                             @endif
                                         </div>
-
                                         <div style="margin-bottom:15px;">
                                             @include('components.rating-stars', [
                                                 'rating' => $place->avg_rating ?? 0,
                                             ])
                                         </div>
-
                                         <p style="font-size:15px; color:#6B7280; line-height:1.8; margin-bottom:18px;">
                                             {{ Str::limit(strip_tags($place->description), 140) }}
                                         </p>
-
                                         <div class="row">
                                             <div class="col-md-6">
                                                 @include('components.status-badge', [
                                                     'status' => $place->status,
                                                 ])
                                             </div>
-
                                             <div class="col-md-6 text-right">
                                                 <a href="{{ route('places.show', $place) }}"
                                                     style="display:inline-block; background:#10B981; color:#fff; padding:10px 24px; border-radius:10px; text-decoration:none; font-weight:600;">
