@@ -74,6 +74,42 @@
             </div>
         </div>
     </div>
+
+    {{-- Categories --}}
+    <div class="content-area home-area-2 property-listing" style="background-color: #ffffff; padding: 55px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 col-sm-12 text-center page-title">
+                    <h2>Browse by Category</h2>
+                    <p>Explore popular categories and the number of active places in each.</p>
+                </div>
+            </div>
+            <div class="row">
+                @forelse($categories ?? [] as $category)
+                    <div class="col-sm-6 col-md-4">
+                        <div class="box-two category-item text-center p0">
+                            <div class="item-thumb">
+                                <div class="category-icon" style="font-size: 36px; margin: 20px 0; color: {{ $category->color_code ?? '#333' }};">
+                                    <i class="fa {{ $category->icon_name ?? 'fa-folder' }}"></i>
+                                </div>
+                            </div>
+                            <div class="item-entry overflow">
+                                <h5><a href="{{ route('categories.index') }}">{{ $category->name }}</a></h5>
+                                <div class="dot-hr"></div>
+                                <span class="pull-left"><i class="fa fa-building-o"></i> {{ $category->places_count }} places</span>
+                                <span class="pull-right"><a href="{{ route('categories.index') }}" class="btn border-btn more-black">View</a></span>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-sm-12 text-center">
+                        <p>No categories available yet. Please check back soon.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
     {{-- CTA --}}
     <div class="boy-sale-area">
         <div class="container">
