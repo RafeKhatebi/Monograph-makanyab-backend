@@ -20,13 +20,10 @@
             </div>
         </div>
     </div>
-
     <!-- Content -->
     <div class="content-area" style="background:#F8FAFC; padding:70px 0;">
         <div class="container">
-
             <div class="row">
-
                 <!-- Posts List -->
                 <div class="col-md-8">
 
@@ -96,73 +93,6 @@
                     @endif
 
                 </div>
-
-                <!-- Sidebar -->
-                <div class="col-md-4">
-
-                    <!-- Search -->
-                    <div class="box-two" style="padding:30px; border-radius:16px; margin-bottom:30px;">
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:20px;">
-                            Search
-                        </h3>
-
-                        <form action="{{ route('posts.index') }}" method="GET">
-                            <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="Search posts..." class="form-control"
-                                style="height:50px; border-radius:10px; margin-bottom:15px;">
-
-                            <button type="submit"
-                                style="width:100%; background:#10B981; color:#fff; border:none; height:48px; border-radius:10px; font-weight:600;">
-                                Search
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Recent Posts -->
-                    <div class="box-two" style="padding:30px; border-radius:16px; margin-bottom:30px;">
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:20px;">
-                            Recent Posts
-                        </h3>
-
-                        @if (isset($recentPosts))
-                            @foreach ($recentPosts as $recent)
-                                <div style="padding:14px 0; border-bottom:1px solid #F3F4F6;">
-
-                                    <a href="{{ route('posts.show', $recent->slug) }}"
-                                        style="font-size:16px; font-weight:600; color:#111827; text-decoration:none; line-height:1.6;">
-                                        {{ $recent->title }}
-                                    </a>
-
-                                    <div style="font-size:13px; color:#9CA3AF; margin-top:5px;">
-                                        {{ $recent->created_at->format('M d, Y') }}
-                                    </div>
-
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-
-                    <!-- CTA -->
-                    <div class="box-two text-center"
-                        style="padding:35px 25px; border-radius:16px; background:linear-gradient(135deg,#10B981 0%,#059669 100%);">
-
-                        <h3 style="font-size:26px; font-weight:700; color:#ffffff; margin-bottom:15px;">
-                            Explore Places
-                        </h3>
-
-                        <p style="font-size:15px; color:rgba(255,255,255,.92); line-height:1.8; margin-bottom:20px;">
-                            Find the best restaurants, cafes, and attractions near you.
-                        </p>
-
-                        <a href="{{ route('places.index') }}"
-                            style="display:inline-block; background:#ffffff; color:#10B981; text-decoration:none; padding:12px 26px; border-radius:10px; font-weight:700;">
-                            Browse Places
-                        </a>
-
-                    </div>
-
-                </div>
-
             </div>
 
         </div>
