@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('title', 'Register')
 
@@ -32,8 +32,8 @@
                                 class="form-control" style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
                         </div>
                         <div class="form-group" style="margin-bottom:20px;">
-                            <label style="font-weight:500; color #374151; margin-bottom:8px; display:block;">User Name </label>
-                            <input type="text" name="username" value="{{old('username')}}" required autofocus class="form-control" style="padding:12px 16px; border:1px solid #d1d5db; border-radious:8px; font-size:15px;">
+                            <label style="font-weight:500; color: #374151; margin-bottom:8px; display:block;">User Name</label>
+                            <input type="text" name="username" value="{{ old('username') }}" required autofocus class="form-control" style="padding:12px 16px; border:1px solid #d1d5db; border-radius:8px; font-size:15px;">
                         </div>
 
                         <div class="form-group" style="margin-bottom: 20px;">
