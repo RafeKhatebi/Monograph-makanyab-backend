@@ -30,6 +30,34 @@
                 </div>
             </div>
 
+            {{-- Live Stats --}}
+            <div class="row" style="margin-bottom:60px;">
+                <div class="col-md-3 col-sm-6" style="margin-bottom:24px;">
+                    <div class="box-two" style="padding:30px 20px; text-align:center; border-radius:16px;">
+                        <div style="font-size:40px; font-weight:800; color:#10B981; margin-bottom:8px;">{{ number_format($stats['places']) }}</div>
+                        <p style="color:#6B7280; margin:0; font-size:15px;">Active Places</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="margin-bottom:24px;">
+                    <div class="box-two" style="padding:30px 20px; text-align:center; border-radius:16px;">
+                        <div style="font-size:40px; font-weight:800; color:#10B981; margin-bottom:8px;">{{ number_format($stats['categories']) }}</div>
+                        <p style="color:#6B7280; margin:0; font-size:15px;">Categories</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="margin-bottom:24px;">
+                    <div class="box-two" style="padding:30px 20px; text-align:center; border-radius:16px;">
+                        <div style="font-size:40px; font-weight:800; color:#10B981; margin-bottom:8px;">{{ number_format($stats['reviews']) }}</div>
+                        <p style="color:#6B7280; margin:0; font-size:15px;">Reviews</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="margin-bottom:24px;">
+                    <div class="box-two" style="padding:30px 20px; text-align:center; border-radius:16px;">
+                        <div style="font-size:40px; font-weight:800; color:#10B981; margin-bottom:8px;">{{ number_format($stats['users']) }}</div>
+                        <p style="color:#6B7280; margin:0; font-size:15px;">Users</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="row" style="margin-bottom:60px;">
                 <div class="col-md-4" style="margin-bottom:30px;">
                     <div class="box-two" style="padding:35px 30px; text-align:center; height:100%; border-radius:16px;">

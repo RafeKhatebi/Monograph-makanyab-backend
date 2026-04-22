@@ -6,15 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest()->paginate(15);
+        $posts = Post::with('user')
+            ->when($request->search, fn ($q, $v) => $q->where('title', 'like', "%{$v}%"))
+            ->when($request->filled('is_published'), fn ($q) => $q->where('is_published', $request->is_published))
+            ->latest()
+            ->paginate(15);
 
         return view('admin.posts.index', compact('posts'));
     }

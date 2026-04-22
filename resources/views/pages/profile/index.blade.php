@@ -1,136 +1,136 @@
 @extends('layouts.app')
-
 @section('title', 'My Profile')
-
 @section('content')
 
-    <div class="page-head">
-        <div class="container">
-            <div class="row">
-                <div class="page-head-content">
-                    <h1 class="page-title">My Profile</h1>
-                </div>
+{{-- Header --}}
+<div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
+    <div class="container">
+        <div style="display:flex;align-items:center;gap:20px;">
+            <img src="{{ auth()->user()->profile_picture ? asset('storage/'.auth()->user()->profile_picture) : asset('assets/img/client-face1.png') }}"
+                style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.4);" alt="Profile">
+            <div>
+                <h1 style="font-size:24px;font-weight:800;color:#fff;margin:0 0 4px;">{{ auth()->user()->name }}</h1>
+                <p style="color:rgba(255,255,255,.8);margin:0;font-size:14px;">{{ ucfirst(auth()->user()->role) }} · {{ auth()->user()->email }}</p>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="properties-area recent-property" style="background-color: #FFF; padding-bottom: 55px;">
-        <div class="container">
-            <div class="row padding-top-40">
+<div style="background:#F8FAFC;padding:30px 0 70px;">
+    <div class="container">
+        <div class="row">
 
-                {{-- Profile Sidebar --}}
-                <div class="col-md-3">
-                    <div class="dealer-widget">
-                        <div class="dealer-content">
-                            <div class="inner-wrapper text-center">
-                                <img src="{{ auth()->user()->profile_picture
-                                    ? asset('storage/' . auth()->user()->profile_picture)
-                                    : asset('assets/img/client-face1.png') }}"
-                                    class="img-circle" style="width:100px; height:100px; object-fit:cover;" alt="Profile">
-                                <h3 style="margin-top:15px;">{{ auth()->user()->name }}</h3>
-                                <p class="text-muted">{{ ucfirst(auth()->user()->role) }}</p>
-                                <p class="text-muted"><i class="fa fa-envelope"></i> {{ auth()->user()->email }}</p>
-                                @if (auth()->user()->phone)
-                                    <p class="text-muted"><i class="fa fa-phone"></i> {{ auth()->user()->phone }}</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default sidebar-menu" style="margin-top:20px;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Navigation</h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="footer-menu">
-                                <li><a href="#tab-favorites" data-toggle="tab"><i class="fa fa-heart"></i> My Favorites</a>
-                                </li>
-                                <li><a href="#tab-reviews" data-toggle="tab"><i class="fa fa-star"></i> My Reviews</a></li>
-                                <li><a href="#tab-settings" data-toggle="tab"><i class="fa fa-cog"></i> Settings</a></li>
-                            </ul>
-                        </div>
+            {{-- Sidebar --}}
+            <div class="col-md-3" style="margin-bottom:24px;">
+                <div style="background:#fff;border-radius:14px;border:1px solid #E5E7EB;overflow:hidden;">
+                    <div id="profile-tabs" style="padding:8px;">
+                        <a href="#tab-favorites" data-toggle="tab"
+                            style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#374151;text-decoration:none;font-weight:600;font-size:14px;margin-bottom:4px;" class="profile-tab-link active-tab">
+                            <i class="fa fa-heart" style="color:#10B981;width:16px;"></i> My Favorites
+                        </a>
+                        <a href="#tab-reviews" data-toggle="tab"
+                            style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#374151;text-decoration:none;font-weight:600;font-size:14px;margin-bottom:4px;" class="profile-tab-link">
+                            <i class="fa fa-star" style="color:#10B981;width:16px;"></i> My Reviews
+                        </a>
+                        <a href="#tab-settings" data-toggle="tab"
+                            style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#374151;text-decoration:none;font-weight:600;font-size:14px;" class="profile-tab-link">
+                            <i class="fa fa-cog" style="color:#10B981;width:16px;"></i> Settings
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                {{-- Profile Content --}}
-                <div class="col-md-9">
-                    <div class="tab-content">
+            {{-- Content --}}
+            <div class="col-md-9">
+                <div class="tab-content">
 
-                        {{-- Favorites --}}
-                        <div id="tab-favorites" class="tab-pane fade in active">
-                            <h3>My Favorites</h3>
-                            <div class="proerty-th">
+                    {{-- Favorites --}}
+                    <div id="tab-favorites" class="tab-pane fade in active">
+                        <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;margin-bottom:20px;">
+                            <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 20px;">My Favorites</h3>
+                            <div class="row">
                                 @forelse($favorites ?? [] as $place)
                                     @include('components.place-card', ['place' => $place])
                                 @empty
-                                    <p class="text-muted">You haven't saved any places yet.</p>
+                                    <div class="col-md-12 text-center" style="padding:40px 0;">
+                                        <div style="font-size:48px;margin-bottom:12px;">❤️</div>
+                                        <p style="color:#6B7280;">You haven't saved any places yet.</p>
+                                        <a href="{{ route('places.index') }}" style="background:#10B981;color:#fff;padding:10px 24px;border-radius:10px;font-weight:600;text-decoration:none;font-size:14px;">Explore Places</a>
+                                    </div>
                                 @endforelse
                             </div>
                         </div>
+                    </div>
 
-                        {{-- Reviews --}}
-                        <div id="tab-reviews" class="tab-pane fade">
-                            <h3>My Reviews</h3>
+                    {{-- Reviews --}}
+                    <div id="tab-reviews" class="tab-pane fade">
+                        <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;margin-bottom:20px;">
+                            <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 20px;">My Reviews</h3>
                             @forelse($reviews ?? [] as $review)
-                                @include('components.review-card', [
-                                    'review' => $review,
-                                    'showPlace' => true,
-                                ])
+                                @include('components.review-card', ['review' => $review, 'showPlace' => true])
                             @empty
-                                <p class="text-muted">You haven't written any reviews yet.</p>
+                                <div class="text-center" style="padding:40px 0;">
+                                    <div style="font-size:48px;margin-bottom:12px;">⭐</div>
+                                    <p style="color:#6B7280;">You haven't written any reviews yet.</p>
+                                </div>
                             @endforelse
                         </div>
+                    </div>
 
-                        {{-- Settings --}}
-                        <div id="tab-settings" class="tab-pane fade">
-                            <h3>Account Settings</h3>
+                    {{-- Settings --}}
+                    <div id="tab-settings" class="tab-pane fade">
+                        <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;">
+                            <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 24px;">Account Settings</h3>
+                            @if(session('success'))
+                                <div style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;padding:14px 18px;border-radius:10px;margin-bottom:20px;">{{ session('success') }}</div>
+                            @endif
                             <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
-
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>First Name</label>
-                                            <input type="text" name="name" class="form-control"
-                                                value="{{ old('name', auth()->user()->name) }}">
+                                        <div style="margin-bottom:16px;">
+                                            <label style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">First Name</label>
+                                            <input type="text" name="name" value="{{ old('name', auth()->user()->name) }}" class="form-control" style="height:44px;border-radius:8px;">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input type="text" name="lastname" class="form-control"
-                                                value="{{ old('lastname', auth()->user()->lastname) }}">
+                                        <div style="margin-bottom:16px;">
+                                            <label style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Last Name</label>
+                                            <input type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}" class="form-control" style="height:44px;border-radius:8px;">
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" name="email" class="form-control"
-                                        value="{{ old('email', auth()->user()->email) }}">
+                                <div style="margin-bottom:16px;">
+                                    <label style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Email</label>
+                                    <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" class="form-control" style="height:44px;border-radius:8px;">
                                 </div>
-
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" name="phone" class="form-control"
-                                        value="{{ old('phone', auth()->user()->phone) }}">
+                                <div style="margin-bottom:16px;">
+                                    <label style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Phone</label>
+                                    <input type="text" name="phone" value="{{ old('phone', auth()->user()->phone) }}" class="form-control" style="height:44px;border-radius:8px;">
                                 </div>
-
-                                <div class="form-group">
-                                    <label>Bio</label>
-                                    <textarea name="bio" class="form-control" rows="3">{{ old('bio', auth()->user()->bio) }}</textarea>
+                                <div style="margin-bottom:20px;">
+                                    <label style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Bio</label>
+                                    <textarea name="bio" class="form-control" rows="3" style="border-radius:8px;">{{ old('bio', auth()->user()->bio) }}</textarea>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="submit" style="background:#10B981;color:#fff;border:none;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">
+                                    Save Changes
+                                </button>
                             </form>
                         </div>
-
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+@push('styles')
+<style>
+    .profile-tab-link:hover { background:#F0FDF4; color:#10B981 !important; }
+    .active-tab { background:#ECFDF5; color:#10B981 !important; }
+</style>
+@endpush
 
 @endsection
