@@ -8,17 +8,25 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Email</label>
-            <input type="email" name="email" value="{{ old('email') }}" required autofocus class="form-control"
-                style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
-        </div>
+        <x-form-field
+            label="Email"
+            for="email"
+            type="email"
+            name="email"
+            :value="old('email')"
+            autocomplete="username"
+            required
+            autofocus
+        />
 
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label style="font-weight: 500; color: #374151; margin-bottom: 8px; display: block;">Password</label>
-            <input type="password" name="password" required class="form-control"
-                style="padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px;">
-        </div>
+        <x-form-field
+            label="Password"
+            for="password"
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            required
+        />
 
         <div class="form-group" style="margin-bottom: 25px;">
             <label style="display: flex; align-items: center; cursor: pointer;">
@@ -27,10 +35,9 @@
             </label>
         </div>
 
-        <button type="submit" class="btn btn-block"
-            style="background: #10B981; color: #FFFFFF; padding: 14px; font-weight: 600; border-radius: 8px; border: none; font-size: 16px; margin-bottom: 20px;">
+        <x-primary-button class="w-full text-center mb-5">
             Login
-        </button>
+        </x-primary-button>
 
         <div style="text-align: center; margin-top: 20px;">
             @if (Route::has('password.request'))
