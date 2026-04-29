@@ -1,4 +1,3 @@
-
 <nav class="mk-nav">
     <div class="container">
         <div class="mk-inner">
@@ -32,8 +31,10 @@
                 </li>
 
                 {{-- Discover dropdown --}}
-                <li class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
-                    <a class="{{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}">
+                <li
+                    class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
+                    <a
+                        class="{{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}">
                         <i class="fa fa-compass"></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
                     </a>
                     <div class="mk-dd">
@@ -55,7 +56,8 @@
 
                 {{-- Company dropdown --}}
                 <li class="mk-dd-item">
-                    <a class="{{ request()->routeIs('posts.*') || request()->routeIs('about') || request()->routeIs('contact') ? 'active' : '' }}">
+                    <a
+                        class="{{ request()->routeIs('posts.*') || request()->routeIs('about') || request()->routeIs('contact') ? 'active' : '' }}">
                         <i class="fa fa-ellipsis-h"></i> More <i class="fa fa-chevron-down mk-caret"></i>
                     </a>
                     <div class="mk-dd">
@@ -80,7 +82,7 @@
                     <a href="{{ route('login') }}" class="mk-btn-login">Log In</a>
                     <a href="{{ route('register') }}" class="mk-btn-signup">Sign Up</a>
                 @else
-                    @if(!auth()->user()->isAdmin())
+                    @if (!auth()->user()->isAdmin())
                         <a href="{{ route('favorites.index') }}"
                             style="padding:8px 10px;border-radius:8px;color:#374151;text-decoration:none;font-size:18px;transition:color .2s;"
                             title="Favorites">
@@ -97,12 +99,12 @@
                             <a href="{{ route('profile.index') }}">
                                 <i class="fa fa-user"></i> My Profile
                             </a>
-                            @if(!auth()->user()->isAdmin())
+                            @if (!auth()->user()->isAdmin())
                                 <a href="{{ route('favorites.index') }}">
                                     <i class="fa fa-heart"></i> Favorites
                                 </a>
                             @endif
-                            @if(auth()->user()->isAdmin())
+                            @if (auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}">
                                     <i class="fa fa-dashboard"></i> Admin Panel
                                 </a>
@@ -136,7 +138,8 @@
                 <form action="{{ route('search.index') }}" method="GET" style="display:flex;gap:8px;">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
                         style="flex:1;height:42px;padding:0 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;">
-                    <button type="submit" style="height:42px;padding:0 16px;background:#10B981;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                    <button type="submit"
+                        style="height:42px;padding:0 16px;background:#10B981;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
@@ -158,13 +161,16 @@
                 <a href="{{ route('places.index') }}" class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
                     <i class="fa fa-map-marker"></i> Places
                 </a>
-                <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                <a href="{{ route('categories.index') }}"
+                    class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                     <i class="fa fa-th-large"></i> Place Categories
                 </a>
-                <a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}">
+                <a href="{{ route('services.index') }}"
+                    class="{{ request()->routeIs('services.*') ? 'active' : '' }}">
                     <i class="fa fa-briefcase"></i> Services
                 </a>
-                <a href="{{ route('service-categories.index') }}" class="{{ request()->routeIs('service-categories.*') ? 'active' : '' }}">
+                <a href="{{ route('service-categories.index') }}"
+                    class="{{ request()->routeIs('service-categories.*') ? 'active' : '' }}">
                     <i class="fa fa-list-alt"></i> Service Categories
                 </a>
             </div>
@@ -192,19 +198,23 @@
 
             @guest
                 <div class="mk-mobile-auth">
-                    <a href="{{ route('login') }}" style="flex:1;text-align:center;padding:10px;border:1.5px solid #D1D5DB;border-radius:8px;font-weight:600;color:#374151;text-decoration:none;">Log In</a>
-                    <a href="{{ route('register') }}" style="flex:1;text-align:center;padding:10px;background:#10B981;border-radius:8px;font-weight:700;color:#fff;text-decoration:none;">Sign Up</a>
+                    <a href="{{ route('login') }}"
+                        style="flex:1;text-align:center;padding:10px;border:1.5px solid #D1D5DB;border-radius:8px;font-weight:600;color:#374151;text-decoration:none;">Log
+                        In</a>
+                    <a href="{{ route('register') }}"
+                        style="flex:1;text-align:center;padding:10px;background:#10B981;border-radius:8px;font-weight:700;color:#fff;text-decoration:none;">Sign
+                        Up</a>
                 </div>
             @else
                 <a href="{{ route('profile.index') }}">
                     <i class="fa fa-user"></i> My Profile
                 </a>
-                @if(!auth()->user()->isAdmin())
+                @if (!auth()->user()->isAdmin())
                     <a href="{{ route('favorites.index') }}">
                         <i class="fa fa-heart"></i> Favorites
                     </a>
                 @endif
-                @if(auth()->user()->isAdmin())
+                @if (auth()->user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}">
                         <i class="fa fa-dashboard"></i> Admin Panel
                     </a>
@@ -220,54 +230,4 @@
         </div>
     </div>
 </nav>
-
-<script>
-(function () {
-    // ── Hamburger ──
-    document.getElementById('mk-hamburger').addEventListener('click', function () {
-        document.getElementById('mk-mobile').classList.toggle('open');
-    });
-
-    // ── Desktop dropdowns ──
-    document.querySelectorAll('.mk-dd-item').forEach(function (item) {
-        var trigger = item.querySelector('a');
-        trigger.addEventListener('click', function (e) {
-            e.preventDefault();
-            var isOpen = item.classList.contains('open');
-            // close all
-            document.querySelectorAll('.mk-dd-item').forEach(function (i) { i.classList.remove('open'); });
-            if (!isOpen) item.classList.add('open');
-        });
-    });
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('.mk-dd-item')) {
-            document.querySelectorAll('.mk-dd-item').forEach(function (i) { i.classList.remove('open'); });
-        }
-    });
-
-    // ── User menu ──
-    var userMenu = document.getElementById('mk-user-menu');
-    if (userMenu) {
-        document.getElementById('mk-user-trigger').addEventListener('click', function (e) {
-            e.stopPropagation();
-            userMenu.classList.toggle('open');
-        });
-        document.addEventListener('click', function (e) {
-            if (!userMenu.contains(e.target)) userMenu.classList.remove('open');
-        });
-    }
-
-    // ── Mobile accordions ──
-    [['mob-discover-btn', 'mob-discover'], ['mob-more-btn', 'mob-more']].forEach(function (pair) {
-        var btn = document.getElementById(pair[0]);
-        var sub = document.getElementById(pair[1]);
-        if (btn && sub) {
-            btn.addEventListener('click', function () {
-                var isOpen = sub.classList.contains('open');
-                sub.classList.toggle('open', !isOpen);
-                btn.classList.toggle('open', !isOpen);
-            });
-        }
-    });
-})();
-</script>
+<script src="./js/navbar.js"></script>

@@ -40,11 +40,14 @@
 
                         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:25px;">
                             <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>City:</strong> {{ $service->city }}</div>
+                                <strong>City:</strong> {{ $service->city }}
+                            </div>
                             <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>Status:</strong> {{ ucfirst($service->status) }}</div>
+                                <strong>Status:</strong> {{ ucfirst($service->status) }}
+                            </div>
                             <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>Price:</strong> {{ ucfirst($service->price_level) }}</div>
+                                <strong>Price:</strong> {{ ucfirst($service->price_level) }}
+                            </div>
                         </div>
 
                         <div style="margin-bottom:30px;">
@@ -68,7 +71,8 @@
                             @if ($service->website)
                                 <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
                                     <strong>Website:</strong>
-                                    <a href="{{ $service->website }}" target="_blank" style="color:#10B981; text-decoration:none;">
+                                    <a href="{{ $service->website }}" target="_blank"
+                                        style="color:#10B981; text-decoration:none;">
                                         {{ $service->website }}
                                     </a>
                                 </div>
@@ -81,13 +85,15 @@
                     <div class="box-two" style="padding:30px; border-radius:16px;">
                         <h3 style="font-size:24px; font-weight:700; margin-bottom:18px;">Location Details</h3>
                         <p style="color:#6B7280; margin-bottom:10px;">
-                            <strong>Address:</strong> {{ $service->address }}, {{ $service->city }}, {{ $service->district }}
+                            <strong>Address:</strong> {{ $service->address }}, {{ $service->city }},
+                            {{ $service->district }}
                         </p>
                         @if ($service->latitude && $service->longitude)
                             <p style="color:#6B7280; margin-bottom:10px;"><strong>Coordinates:</strong>
                                 {{ $service->latitude }}, {{ $service->longitude }}</p>
                         @endif
-                        <p style="color:#6B7280; margin-bottom:10px;"><strong>Province:</strong> {{ $service->province }}</p>
+                        <p style="color:#6B7280; margin-bottom:10px;"><strong>Province:</strong> {{ $service->province }}
+                        </p>
                         <p style="color:#6B7280; margin-bottom:0;"><strong>Country:</strong> {{ $service->country }}</p>
                     </div>
                 </div>

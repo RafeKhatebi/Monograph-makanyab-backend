@@ -30,6 +30,7 @@
 
         <!-- Makanyab Green Theme Override -->
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
         @stack('styles')
     </head>
