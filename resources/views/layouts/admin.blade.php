@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocalel()) }}">
+<html lang="en">
 
     <head>
         <meta charset="utf-8">
@@ -22,46 +22,46 @@
             <aside class="sidebar">
                 <div class="sidebar-header">
                     <h1>Makanyab</h1>
-                    <p>Admin Panel</p>
+                    <p style="padding:3px;">Admin Panel</p>
                 </div>
 
                 <nav class="sidebar-nav">
                     <a href="{{ route('admin.dashboard') }}"
                         class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <span>📊</span><span>Dashboard</span>
+                        <span class=""></span><span>Dashboard</span>
                     </a>
                     <a href="{{ route('admin.places.index') }}"
                         class="nav-item {{ request()->routeIs('admin.places.*') ? 'active' : '' }}">
-                        <span>📍</span><span>Places</span>
+                        <span></span><span>Places</span>
                     </a>
                     <a href="{{ route('admin.categories.index') }}"
                         class="nav-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                        <span>📂</span><span>Categories</span>
+                        <span></span><span>Categories</span>
                     </a>
                     <a href="{{ route('admin.users.index') }}"
                         class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                        <span>👥</span><span>Users</span>
+                        <span></span><span>Users</span>
                     </a>
                     <a href="{{ route('admin.reviews.index') }}"
                         class="nav-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
-                        <span>⭐</span><span>Reviews</span>
+                        <span></span><span>Reviews</span>
                     </a>
                     <a href="{{ route('admin.posts.index') }}"
                         class="nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
-                        <span>📫</span><span>Posts</span>
+                        <span></span><span>Posts</span>
                     </a>
 
                     <div class="nav-divider"></div>
 
                     <a href="{{ route('home') }}" class="nav-item">
-                        <span>🏠</span><span>Back to Site</span>
+                        <span></span><span>Back to Site</span>
                     </a>
 
                     <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                         @csrf
                         <button type="submit" class="nav-item"
                             style="width: 100%; border: none; background: none; cursor: pointer; text-align: left;">
-                            <span>🚪</span><span>Logout</span>
+                            <span></span><span>Logout</span>
                         </button>
                     </form>
                 </nav>
