@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\PlaceCategoryController;
-use App\Http\Controllers\Admin\ServiceCategoryController;
-use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\ServiceCategoryController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\CategoryController;
@@ -15,17 +15,14 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Public Routes
-|--------------------------------------------------------------------------
-*/
+//  Public Routes
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,48 +34,40 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-/*
-|--------------------------------------------------------------------------
-| Search Section
-|--------------------------------------------------------------------------
-*/
+// Search Section
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
-/*
-|--------------------------------------------------------------------------
-| Posts Section
-|--------------------------------------------------------------------------
-*/
+//  Posts Section
+
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.show');
 
-/*
-|--------------------------------------------------------------------------
-| Places
-|--------------------------------------------------------------------------
-*/
+// Places
 Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
 Route::get('/places/{place:slug}', [PlaceController::class, 'show'])->name('places.show');
 
 Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'])->name('services.show');
+
+// Services Index
+Route::get('/services', [FrontendServiceController::class, 'index'])->name('services.index');
+
+//  Service Categories
+
+Route::get('/service-categories', [FrontendServiceCategoryController::class, 'index'])->name('service-categories.index');
+Route::get('/service-categories/{slug}', [FrontendServiceCategoryController::class, 'show'])->name('service-categories.show');
 
 // Reviews
 Route::post('/places/{place:slug}/reviews', [PlaceController::class, 'storeReview'])
     ->middleware('auth')
     ->name('places.reviews.store');
 
-/*
-|--------------------------------------------------------------------------
-| Categories
-|--------------------------------------------------------------------------
-*/
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+//  Categories
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard Redirect
-|--------------------------------------------------------------------------
-*/
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('categories.show');
+
+//  Dashboard Redirect
+
 Route::middleware('auth')->get('/dashboard', function () {
 
     if (Auth::user()->role === 'admin') {
@@ -89,11 +78,8 @@ Route::middleware('auth')->get('/dashboard', function () {
 
 })->name('dashboard');
 
-/*
-|--------------------------------------------------------------------------
-| Auth Protected Routes
-|--------------------------------------------------------------------------
-*/
+//  Auth Protected Routes
+
 Route::middleware('auth')->group(function () {
 
     // Profile
@@ -109,23 +95,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/account', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
+// Admin Routes
+
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
-        /*
-        |--------------------------------------------------------------
-        | Places Management
-        |--------------------------------------------------------------
-        */
+        //  Places Management
         Route::resource('places', App\Http\Controllers\Admin\PlaceController::class);
 
         Route::post(
@@ -138,33 +116,20 @@ Route::middleware(['auth', 'admin'])
             [App\Http\Controllers\Admin\PlaceController::class, 'toggleActive']
         )->name('places.toggle-active');
 
-        /*
-        |--------------------------------------------------------------
-        | Categories Management
-        |--------------------------------------------------------------
-        */
+        //    Categories Management
+
         Route::resource('categories', PlaceCategoryController::class);
         Route::resource('service-categories', ServiceCategoryController::class);
+        //  Services Management
 
-        /*
-        |--------------------------------------------------------------
-        | Services Management
-        |--------------------------------------------------------------
-        */
         Route::resource('services', ServiceController::class);
 
-        /*
-        |--------------------------------------------------------------
-        | Search Management
-        |--------------------------------------------------------------
-        */
+        //    Search Management
+
         Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
-        /*
-        |--------------------------------------------------------------
-        | Users Management
-        |--------------------------------------------------------------
-        */
+        // Users Management
+
         Route::resource('users', UserController::class);
 
         Route::post(
@@ -172,25 +137,22 @@ Route::middleware(['auth', 'admin'])
             [UserController::class, 'toggleActive']
         )->name('users.toggle-active');
 
-        /*
-        |--------------------------------------------------------------
-        | Reviews Management
-        |--------------------------------------------------------------
-        */
+        //  Reviews Management
+
         Route::resource('reviews', ReviewController::class)
             ->only(['index', 'show', 'destroy']);
 
         /*
-        |--------------------------------------------------------------
-        | Posts Management
-        |--------------------------------------------------------------
+        Posts Management
         */
         Route::resource('posts', AdminPostController::class);
     });
 
-/*
-|--------------------------------------------------------------------------
-| Auth Routes
-|--------------------------------------------------------------------------
-*/
+// Fall back route for 404
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+})->name('fallback');
+
+//  Auth Routes
+
 require __DIR__.'/auth.php';

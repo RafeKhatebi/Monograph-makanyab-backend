@@ -25,6 +25,7 @@ class PlaceCategoryController extends Controller
             ->where('is_active', true)
             ->orderBy('name')
             ->get();
+        // will route to create a category in admin section
 
         return view('admin.categories.create', compact('categories'));
     }

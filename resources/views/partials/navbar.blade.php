@@ -1,73 +1,273 @@
-<nav class="navbar navbar-default makanyab-header">
-    <div class="container">
-        <!-- BRAND: Left -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <span class="brand-text">Makanyab</span>
-            </a>
-        </div>
-        <div class="collapse navbar-collapse" id="navigation">
-            <!-- MENU: Center -->
-            <ul class="nav navbar-nav navbar-center">
-                <li class="{{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
-                <li class="{{ request()->routeIs('search.index') ? 'active' : '' }}"><a
-                        href="{{ route('search.index') }}">Search</a></li>
-                <li class="{{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}">About</a>
-                </li>
-                {{-- <li class="{{ request()->routeIs('categories.*') ? 'active' : '' }}"><a
-                        href="{{ route('categories.index') }}">Categories</a></li>
-                <li class="{{ request()->routeIs('places.*') ? 'active' : '' }}"><a
-                        href="{{ route('places.index') }}">Places</a></li> --}}
 
-                <li class="{{ request()->routeIs('contact') ? 'active' : '' }}"><a
-                        href="{{ route('contact') }}">Contact</a>
+<nav class="mk-nav">
+    <div class="container">
+        <div class="mk-inner">
+
+            {{-- Logo --}}
+            <a href="{{ route('home') }}" class="mk-logo">
+                <div class="mk-logo-icon">M</div>
+                <span class="mk-logo-text">Makan<span>yab</span></span>
+            </a>
+
+            {{-- Search --}}
+            <div class="mk-search">
+                <form action="{{ route('search.index') }}" method="GET">
+                    <div class="mk-search-wrap">
+                        <i class="fa fa-search mk-search-icon"></i>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search places, restaurants, services...">
+                    </div>
+                    <button type="submit"><i class="fa fa-search"></i> Search</button>
+                </form>
+            </div>
+
+            {{-- Desktop Nav --}}
+            <ul class="mk-links">
+
+                {{-- Home --}}
+                <li>
+                    <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                        <i class="fa fa-home"></i> Home
+                    </a>
                 </li>
-                <li class="{{ request()->routeIs('posts.index') ? 'active' : '' }}"><a
-                        href="{{ route('posts.index') }}">Posts</a></li>
-                {{-- @auth
-                    @if (!auth()->user()->isAdmin())
-                        <li><a href="{{ route('favorites.index') }}" title="Favorites"><i class="fa fa-heart-o"></i></a>
-                        </li>
-                    @endif
-                @endauth --}}
-            </ul>
-            <!-- AUTH: Right -->
-            <ul class="nav navbar-nav navbar-right auth-section">
-                @guest
-                    <li><a href="{{ route('login') }}" class="login-link">Login</a></li>
-                    <li class="signup-btn-wrapper">
-                        <a href="{{ route('register') }}" class="btn btn-mizban-primary">Sign Up</a>
-                    </li>
-                @else
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle user-name" data-toggle="dropdown">
-                            {{ auth()->user()->name }} <b class="caret"></b>
+
+                {{-- Discover dropdown --}}
+                <li class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
+                    <a class="{{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}">
+                        <i class="fa fa-compass"></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
+                    </a>
+                    <div class="mk-dd">
+                        <a href="{{ route('places.index') }}">
+                            <i class="fa fa-map-marker"></i> Places
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ route('profile.index') }}"><i class="fa fa-user"></i> Profile</a></li>
-                            @if (auth()->user()->isAdmin())
-                                <li><a href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i> Dashboard</a>
-                                </li>
-                            @endif
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-sign-out"></i> Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">@csrf</form>
-                            </li>
-                        </ul>
-                    </li>
-                @endguest
+                        <a href="{{ route('categories.index') }}">
+                            <i class="fa fa-th-large"></i> Place Categories
+                        </a>
+                        <div class="mk-dd-divider"></div>
+                        <a href="{{ route('services.index') }}">
+                            <i class="fa fa-briefcase"></i> Services
+                        </a>
+                        <a href="{{ route('service-categories.index') }}">
+                            <i class="fa fa-list-alt"></i> Service Categories
+                        </a>
+                    </div>
+                </li>
+
+                {{-- Company dropdown --}}
+                <li class="mk-dd-item">
+                    <a class="{{ request()->routeIs('posts.*') || request()->routeIs('about') || request()->routeIs('contact') ? 'active' : '' }}">
+                        <i class="fa fa-ellipsis-h"></i> More <i class="fa fa-chevron-down mk-caret"></i>
+                    </a>
+                    <div class="mk-dd">
+                        <a href="{{ route('posts.index') }}">
+                            <i class="fa fa-newspaper-o"></i> Blog
+                        </a>
+                        <div class="mk-dd-divider"></div>
+                        <a href="{{ route('about') }}">
+                            <i class="fa fa-info-circle"></i> About Us
+                        </a>
+                        <a href="{{ route('contact') }}">
+                            <i class="fa fa-envelope"></i> Contact Us
+                        </a>
+                    </div>
+                </li>
+
             </ul>
+
+            {{-- Auth --}}
+            <div class="mk-auth">
+                @guest
+                    <a href="{{ route('login') }}" class="mk-btn-login">Log In</a>
+                    <a href="{{ route('register') }}" class="mk-btn-signup">Sign Up</a>
+                @else
+                    @if(!auth()->user()->isAdmin())
+                        <a href="{{ route('favorites.index') }}"
+                            style="padding:8px 10px;border-radius:8px;color:#374151;text-decoration:none;font-size:18px;transition:color .2s;"
+                            title="Favorites">
+                            <i class="fa fa-heart-o"></i>
+                        </a>
+                    @endif
+                    <div class="mk-user-menu" id="mk-user-menu">
+                        <div class="mk-user-trigger" id="mk-user-trigger">
+                            <div class="mk-user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                            <span>{{ explode(' ', auth()->user()->name)[0] }}</span>
+                            <i class="fa fa-chevron-down" style="font-size:11px;color:#9CA3AF;"></i>
+                        </div>
+                        <div class="mk-user-dd">
+                            <a href="{{ route('profile.index') }}">
+                                <i class="fa fa-user"></i> My Profile
+                            </a>
+                            @if(!auth()->user()->isAdmin())
+                                <a href="{{ route('favorites.index') }}">
+                                    <i class="fa fa-heart"></i> Favorites
+                                </a>
+                            @endif
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('admin.dashboard') }}">
+                                    <i class="fa fa-dashboard"></i> Admin Panel
+                                </a>
+                            @endif
+                            <div class="mk-divider"></div>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="mk-danger">
+                                    <i class="fa fa-sign-out"></i> Log Out
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endguest
+            </div>
+
+            {{-- Hamburger --}}
+            <button class="mk-hamburger" id="mk-hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+
+        </div>
+    </div>
+
+    {{-- Mobile Drawer --}}
+    <div class="mk-mobile" id="mk-mobile">
+        <div class="container">
+
+            {{-- Mobile Search --}}
+            <div style="padding:10px 20px 14px;">
+                <form action="{{ route('search.index') }}" method="GET" style="display:flex;gap:8px;">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
+                        style="flex:1;height:42px;padding:0 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;">
+                    <button type="submit" style="height:42px;padding:0 16px;background:#10B981;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="mk-mobile-divider"></div>
+
+            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                <i class="fa fa-home"></i> Home
+            </a>
+
+            {{-- Discover accordion --}}
+            <button class="mk-mobile-group-btn" id="mob-discover-btn">
+                <span style="display:flex;align-items:center;gap:10px;">
+                    <i class="fa fa-compass" style="width:18px;color:#10B981;"></i> Discover
+                </span>
+                <i class="fa fa-chevron-down mk-caret"></i>
+            </button>
+            <div class="mk-mobile-sub" id="mob-discover">
+                <a href="{{ route('places.index') }}" class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
+                    <i class="fa fa-map-marker"></i> Places
+                </a>
+                <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                    <i class="fa fa-th-large"></i> Place Categories
+                </a>
+                <a href="{{ route('services.index') }}" class="{{ request()->routeIs('services.*') ? 'active' : '' }}">
+                    <i class="fa fa-briefcase"></i> Services
+                </a>
+                <a href="{{ route('service-categories.index') }}" class="{{ request()->routeIs('service-categories.*') ? 'active' : '' }}">
+                    <i class="fa fa-list-alt"></i> Service Categories
+                </a>
+            </div>
+
+            {{-- More accordion --}}
+            <button class="mk-mobile-group-btn" id="mob-more-btn">
+                <span style="display:flex;align-items:center;gap:10px;">
+                    <i class="fa fa-ellipsis-h" style="width:18px;color:#10B981;"></i> More
+                </span>
+                <i class="fa fa-chevron-down mk-caret"></i>
+            </button>
+            <div class="mk-mobile-sub" id="mob-more">
+                <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
+                    <i class="fa fa-newspaper-o"></i> Blog
+                </a>
+                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
+                    <i class="fa fa-info-circle"></i> About Us
+                </a>
+                <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
+                    <i class="fa fa-envelope"></i> Contact Us
+                </a>
+            </div>
+
+            <div class="mk-mobile-divider"></div>
+
+            @guest
+                <div class="mk-mobile-auth">
+                    <a href="{{ route('login') }}" style="flex:1;text-align:center;padding:10px;border:1.5px solid #D1D5DB;border-radius:8px;font-weight:600;color:#374151;text-decoration:none;">Log In</a>
+                    <a href="{{ route('register') }}" style="flex:1;text-align:center;padding:10px;background:#10B981;border-radius:8px;font-weight:700;color:#fff;text-decoration:none;">Sign Up</a>
+                </div>
+            @else
+                <a href="{{ route('profile.index') }}">
+                    <i class="fa fa-user"></i> My Profile
+                </a>
+                @if(!auth()->user()->isAdmin())
+                    <a href="{{ route('favorites.index') }}">
+                        <i class="fa fa-heart"></i> Favorites
+                    </a>
+                @endif
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}">
+                        <i class="fa fa-dashboard"></i> Admin Panel
+                    </a>
+                @endif
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" style="color:#DC2626;">
+                        <i class="fa fa-sign-out" style="color:#DC2626;"></i> Log Out
+                    </button>
+                </form>
+            @endguest
+
         </div>
     </div>
 </nav>
+
+<script>
+(function () {
+    // ── Hamburger ──
+    document.getElementById('mk-hamburger').addEventListener('click', function () {
+        document.getElementById('mk-mobile').classList.toggle('open');
+    });
+
+    // ── Desktop dropdowns ──
+    document.querySelectorAll('.mk-dd-item').forEach(function (item) {
+        var trigger = item.querySelector('a');
+        trigger.addEventListener('click', function (e) {
+            e.preventDefault();
+            var isOpen = item.classList.contains('open');
+            // close all
+            document.querySelectorAll('.mk-dd-item').forEach(function (i) { i.classList.remove('open'); });
+            if (!isOpen) item.classList.add('open');
+        });
+    });
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.mk-dd-item')) {
+            document.querySelectorAll('.mk-dd-item').forEach(function (i) { i.classList.remove('open'); });
+        }
+    });
+
+    // ── User menu ──
+    var userMenu = document.getElementById('mk-user-menu');
+    if (userMenu) {
+        document.getElementById('mk-user-trigger').addEventListener('click', function (e) {
+            e.stopPropagation();
+            userMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function (e) {
+            if (!userMenu.contains(e.target)) userMenu.classList.remove('open');
+        });
+    }
+
+    // ── Mobile accordions ──
+    [['mob-discover-btn', 'mob-discover'], ['mob-more-btn', 'mob-more']].forEach(function (pair) {
+        var btn = document.getElementById(pair[0]);
+        var sub = document.getElementById(pair[1]);
+        if (btn && sub) {
+            btn.addEventListener('click', function () {
+                var isOpen = sub.classList.contains('open');
+                sub.classList.toggle('open', !isOpen);
+                btn.classList.toggle('open', !isOpen);
+            });
+        }
+    });
+})();
+</script>

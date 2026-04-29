@@ -27,7 +27,6 @@
         <link rel="stylesheet" href="{{ asset('assets/css/lightslider.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}">
 
         <!-- Makanyab Green Theme Override -->
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
