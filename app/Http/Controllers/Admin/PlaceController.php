@@ -57,20 +57,23 @@ class PlaceController extends Controller
             'place_category_id' => 'required|exists:place_categories,id',
             'address' => 'required|string|max:500',
             'phone_1' => 'required|string|max:20',
+            'country' => ['required', 'string', 'max:100'],
+            'province' => ['required', 'string', 'max:100'],
+            'district' => ['required', 'string', 'max:100'],
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'website' => 'nullable|url|max:255',
             'images.*' => 'nullable|image|max:2048',
         ]);
 
-        $validated['slug'] = Str::slug($validated['name']);
+        $validated['slug'] = $this->createUniqueSlug($validated['name']);
         $validated['user_id'] = Auth::id();
         $validated['is_verified'] = $request->has('is_verified');
         $validated['is_active'] = $request->has('is_active');
-        $validated['country'] = 'Afghanistan';
-        $validated['province'] = 'Herat';
-        $validated['city'] = 'Herat';
-        $validated['district'] = 'Unknown';
+        $validated['country'] = $request->input('country', 'Afghanistan');
+        $validated['province'] = $request->input('province');
+        $validated['city'] = $request->input('province');
+        $validated['district'] = $request->input('district');
 
         $place = Place::create($validated);
 
@@ -109,15 +112,22 @@ class PlaceController extends Controller
             'place_category_id' => 'required|exists:place_categories,id',
             'address' => 'required|string|max:500',
             'phone_1' => 'required|string|max:20',
+            'country' => ['required', 'string', 'max:100'],
+            'province' => ['required', 'string', 'max:100'],
+            'district' => ['required', 'string', 'max:100'],
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'website' => 'nullable|url|max:255',
             'images.*' => 'nullable|image|max:2048',
         ]);
 
-        $validated['slug'] = Str::slug($validated['name']);
+        $validated['slug'] = $this->createUniqueSlug($validated['name'], $place->id);
         $validated['is_verified'] = $request->has('is_verified');
         $validated['is_active'] = $request->has('is_active');
+        $validated['country'] = $request->input('country', 'Afghanistan');
+        $validated['province'] = $request->input('province');
+        $validated['city'] = $request->input('province');
+        $validated['district'] = $request->input('district');
 
         $place->update($validated);
 
@@ -152,5 +162,20 @@ class PlaceController extends Controller
         $place->update(['is_active' => ! $place->is_active]);
 
         return back()->with('success', 'Active status updated.');
+    }
+
+    private function createUniqueSlug(string $title, ?string $ignoreId = null): string
+    {
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (Place::where('slug', $slug)
+            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+            ->exists()) {
+            $slug = $baseSlug.'-'.$counter++;
+        }
+
+        return $slug;
     }
 }
