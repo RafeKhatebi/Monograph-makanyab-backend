@@ -127,8 +127,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Latitude *</label>
-                                <input type="number" step="0.000001" min="-90" max="90" name="latitude" value="{{ old('latitude') }}" required
-                                    readonly
+                                <input type="number" step="0.000001" min="-90" max="90" name="latitude"
+                                    value="{{ old('latitude') }}" required readonly
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('latitude')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -137,8 +137,8 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Longitude *</label>
-                                <input type="number" step="0.000001" min="-180" max="180" name="longitude" value="{{ old('longitude') }}"
-                                    required readonly
+                                <input type="number" step="0.000001" min="-180" max="180" name="longitude"
+                                    value="{{ old('longitude') }}" required readonly
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('longitude')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
