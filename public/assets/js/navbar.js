@@ -1,55 +1,92 @@
 (function () {
-    // ── Hamburger ──
-    document.getElementById('mk-hamburger').addEventListener('click', function () {
-        document.getElementById('mk-mobile').classList.toggle('open');
-    });
+    var dom = {
+        hamburger: document.getElementById('mk-hamburger'),
+        mobilePanel: document.getElementById('mk-mobile'),
+        dropdownItems: document.querySelectorAll('.mk-dd-item'),
+        userMenu: document.getElementById('mk-user-menu'),
+        userTrigger: document.getElementById('mk-user-trigger'),
+        mobileGroups: [
+            { buttonId: 'mob-discover-btn', panelId: 'mob-discover' }
+        ]
+    };
 
-    // ── Desktop dropdowns ──
-    document.querySelectorAll('.mk-dd-item').forEach(function (item) {
-        var trigger = item.querySelector('a');
-        trigger.addEventListener('click', function (e) {
-            e.preventDefault();
-            var isOpen = item.classList.contains('open');
-            // close all
-            document.querySelectorAll('.mk-dd-item').forEach(function (i) {
-                i.classList.remove('open');
-            });
-            if (!isOpen) item.classList.add('open');
-        });
-    });
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('.mk-dd-item')) {
-            document.querySelectorAll('.mk-dd-item').forEach(function (i) {
-                i.classList.remove('open');
-            });
-        }
-    });
+    function toggleMobilePanel() {
+        if (!dom.mobilePanel) return;
+        dom.mobilePanel.classList.toggle('open');
+    }
 
-    // ── User menu ──
-    var userMenu = document.getElementById('mk-user-menu');
-    if (userMenu) {
-        document.getElementById('mk-user-trigger').addEventListener('click', function (e) {
-            e.stopPropagation();
-            userMenu.classList.toggle('open');
-        });
-        document.addEventListener('click', function (e) {
-            if (!userMenu.contains(e.target)) userMenu.classList.remove('open');
+    function closeAllDropdowns() {
+        dom.dropdownItems.forEach(function (item) {
+            item.classList.remove('open');
         });
     }
 
-    // ── Mobile accordions ──
-    [
-        ['mob-discover-btn', 'mob-discover'],
-        ['mob-more-btn', 'mob-more']
-    ].forEach(function (pair) {
-        var btn = document.getElementById(pair[0]);
-        var sub = document.getElementById(pair[1]);
-        if (btn && sub) {
-            btn.addEventListener('click', function () {
-                var isOpen = sub.classList.contains('open');
-                sub.classList.toggle('open', !isOpen);
-                btn.classList.toggle('open', !isOpen);
+    function setupHamburger() {
+        if (!dom.hamburger) return;
+        dom.hamburger.addEventListener('click', toggleMobilePanel);
+    }
+
+    function setupDesktopDropdowns() {
+        if (!dom.dropdownItems.length) return;
+
+        dom.dropdownItems.forEach(function (item) {
+            var trigger = item.querySelector('a');
+            if (!trigger) return;
+
+            trigger.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var isOpen = item.classList.contains('open');
+                closeAllDropdowns();
+
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
             });
-        }
-    });
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.mk-dd-item')) {
+                closeAllDropdowns();
+            }
+        });
+    }
+
+    function setupUserMenu() {
+        if (!dom.userMenu || !dom.userTrigger) return;
+
+        dom.userTrigger.addEventListener('click', function (event) {
+            event.stopPropagation();
+            dom.userMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!dom.userMenu.contains(event.target)) {
+                dom.userMenu.classList.remove('open');
+            }
+        });
+    }
+
+    function setupMobileAccordions() {
+        dom.mobileGroups.forEach(function (group) {
+            var button = document.getElementById(group.buttonId);
+            var panel = document.getElementById(group.panelId);
+            if (!button || !panel) return;
+
+            button.addEventListener('click', function () {
+                var shouldOpen = !panel.classList.contains('open');
+                panel.classList.toggle('open', shouldOpen);
+                button.classList.toggle('open', shouldOpen);
+            });
+        });
+    }
+
+    function init() {
+        setupHamburger();
+        setupDesktopDropdowns();
+        setupUserMenu();
+        setupMobileAccordions();
+    }
+
+    init();
 })();

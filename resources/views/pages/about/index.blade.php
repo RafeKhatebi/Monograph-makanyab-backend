@@ -50,7 +50,6 @@
                 <div class="col-md-6" style="margin-bottom:30px;">
                     <div
                         style="background:#fff;border-radius:16px;padding:40px;text-align:center;border:1px solid #E5E7EB;">
-                        <div style="font-size:64px;margin-bottom:16px;">📍</div>
                         <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">
                             Local discovery made easy
                         </h3>
@@ -66,7 +65,6 @@
                 <div class="col-md-4" style="margin-bottom:24px;">
                     <div
                         style="background:#fff;border-radius:14px;padding:32px;text-align:center;border:1px solid #E5E7EB;height:100%;">
-                        <div style="font-size:40px;margin-bottom:12px;">🔎</div>
                         <h3 style="font-size:18px;font-weight:700;color:#111827;margin-bottom:10px;">
                             Fast Search
                         </h3>
@@ -79,7 +77,7 @@
                 <div class="col-md-4" style="margin-bottom:24px;">
                     <div
                         style="background:#fff;border-radius:14px;padding:32px;text-align:center;border:1px solid #E5E7EB;height:100%;">
-                        <div style="font-size:40px;margin-bottom:12px;">💬</div>
+
                         <h3 style="font-size:18px;font-weight:700;color:#111827;margin-bottom:10px;">
                             Real Reviews
                         </h3>
@@ -92,7 +90,7 @@
                 <div class="col-md-4" style="margin-bottom:24px;">
                     <div
                         style="background:#fff;border-radius:14px;padding:32px;text-align:center;border:1px solid #E5E7EB;height:100%;">
-                        <div style="font-size:40px;margin-bottom:12px;">🏢</div>
+
                         <h3 style="font-size:18px;font-weight:700;color:#111827;margin-bottom:10px;">
                             Verified Listings
                         </h3>
@@ -138,19 +136,19 @@
 
                 <div class="row text-center">
                     <div class="col-md-4" style="margin-bottom:24px;">
-                        <div style="font-size:40px;font-weight:800;color:#10B981;margin-bottom:10px;">1</div>
+                        <div style="font-size:40px;font-weight:800;color:#10B981;margin-bottom:10px;">01</div>
                         <h4 style="font-size:18px;font-weight:700;margin-bottom:10px;">Search</h4>
                         <p style="color:#6B7280;margin:0;">Find services and businesses near you.</p>
                     </div>
 
                     <div class="col-md-4" style="margin-bottom:24px;">
-                        <div style="font-size:40px;font-weight:800;color:#10B981;margin-bottom:10px;">2</div>
+                        <div style="font-size:40px;font-weight:800;color:#10B981;margin-bottom:10px;">02</div>
                         <h4 style="font-size:18px;font-weight:700;margin-bottom:10px;">Compare</h4>
                         <p style="color:#6B7280;margin:0;">Read reviews and compare options easily.</p>
                     </div>
 
                     <div class="col-md-4" style="margin-bottom:24px;">
-                        <div style="font-size:40px;font-weight:800;color:#10B981;margin-bottom:10px;">3</div>
+                        <div style="font-size:40px;font-weight:800;color:#10B981;margin-bottom:10px;">03</div>
                         <h4 style="font-size:18px;font-weight:700;margin-bottom:10px;">Choose</h4>
                         <p style="color:#6B7280;margin:0;">Pick the best option and connect directly.</p>
                     </div>

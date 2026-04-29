@@ -8,34 +8,28 @@
                 <span class="mk-logo-text">Makan<span>yab</span></span>
             </a>
 
-            {{-- Search --}}
-            <div class="mk-search">
-                <form action="{{ route('search.index') }}" method="GET">
-                    <div class="mk-search-wrap">
-                        <i class="fa fa-search mk-search-icon"></i>
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Search places, restaurants, services...">
-                    </div>
-                    <button type="submit"><i class="fa fa-search"></i> Search</button>
-                </form>
-            </div>
-
             {{-- Desktop Nav --}}
             <ul class="mk-links">
 
                 {{-- Home --}}
                 <li>
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                        <i class="fa fa-home"></i> Home
+                        <i></i> Home
                     </a>
                 </li>
-
+                {{-- search --}}
+                <li>
+                    <a href="{{ route('search.index') }}"
+                        class="{{ request()->routeIs('search.index') ? 'active' : '' }}">
+                        <i></i> Search
+                    </a>
+                </li>
                 {{-- Discover dropdown --}}
                 <li
                     class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
                     <a
                         class="{{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}">
-                        <i class="fa fa-compass"></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
+                        <i></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
                     </a>
                     <div class="mk-dd">
                         <a href="{{ route('places.index') }}">
@@ -54,24 +48,23 @@
                     </div>
                 </li>
 
-                {{-- Company dropdown --}}
-                <li class="mk-dd-item">
-                    <a
-                        class="{{ request()->routeIs('posts.*') || request()->routeIs('about') || request()->routeIs('contact') ? 'active' : '' }}">
-                        <i class="fa fa-ellipsis-h"></i> More <i class="fa fa-chevron-down mk-caret"></i>
+
+                {{-- Company links --}}
+
+                <li>
+                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
+                        <i></i> About
                     </a>
-                    <div class="mk-dd">
-                        <a href="{{ route('posts.index') }}">
-                            <i class="fa fa-newspaper-o"></i> Blog
-                        </a>
-                        <div class="mk-dd-divider"></div>
-                        <a href="{{ route('about') }}">
-                            <i class="fa fa-info-circle"></i> About Us
-                        </a>
-                        <a href="{{ route('contact') }}">
-                            <i class="fa fa-envelope"></i> Contact Us
-                        </a>
-                    </div>
+                </li>
+                <li>
+                    <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
+                        <i></i> Contact
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
+                        <i></i> Blog
+                    </a>
                 </li>
 
             </ul>
@@ -175,24 +168,16 @@
                 </a>
             </div>
 
-            {{-- More accordion --}}
-            <button class="mk-mobile-group-btn" id="mob-more-btn">
-                <span style="display:flex;align-items:center;gap:10px;">
-                    <i class="fa fa-ellipsis-h" style="width:18px;color:#10B981;"></i> More
-                </span>
-                <i class="fa fa-chevron-down mk-caret"></i>
-            </button>
-            <div class="mk-mobile-sub" id="mob-more">
-                <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
-                    <i class="fa fa-newspaper-o"></i> Blog
-                </a>
-                <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                    <i class="fa fa-info-circle"></i> About Us
-                </a>
-                <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
-                    <i class="fa fa-envelope"></i> Contact Us
-                </a>
-            </div>
+
+            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
+                <i></i> About
+            </a>
+            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
+                <i class="fa fa-envelope"></i> Contact
+            </a>
+            <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
+                <i class="fa fa-newspaper-o"></i> Blog
+            </a>
 
             <div class="mk-mobile-divider"></div>
 
@@ -230,4 +215,4 @@
         </div>
     </div>
 </nav>
-<script src="./js/navbar.js"></script>
+<script src="./assets/js/navbar.js"></script>

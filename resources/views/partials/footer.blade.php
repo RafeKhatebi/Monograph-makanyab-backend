@@ -17,9 +17,9 @@
                     </li>
                     <li>
                         <i class="fa fa-phone"></i>
-                        <a href="tel:+93728958411" style="color:#9CA3AF;text-decoration:none;transition:color .2s;"
-                            onmouseover="this.style.color='#10B981'" onmouseout="this.style.color='#9CA3AF'">+93 728 958
-                            411</a>
+                        <a href="tel:+93712121211" style="color:#9CA3AF;text-decoration:none;transition:color .2s;"
+                            onmouseover="this.style.color='#10B981'" onmouseout="this.style.color='#9CA3AF'">+93 712 121
+                            211</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope"></i>
@@ -42,11 +42,11 @@
                 <h5>Explore</h5>
                 <ul class="mk-footer-links">
                     <li><a href="{{ route('home') }}"><i class="fa fa-angle-right"></i> Home</a></li>
-                    <li><a href="{{ route('places.index') }}"><i class="fa fa-angle-right"></i> Browse Places</a></li>
+                    <li><a href="{{ route('places.index') }}"><i class="fa fa-angle-right"></i>Places</a></li>
                     <li><a href="{{ route('categories.index') }}"><i class="fa fa-angle-right"></i> Categories</a></li>
                     <li><a href="{{ route('search.index') }}"><i class="fa fa-angle-right"></i> Search</a></li>
                     <li><a href="{{ route('posts.index') }}"><i class="fa fa-angle-right"></i> Blog</a></li>
-                    <li><a href="{{ route('about') }}"><i class="fa fa-angle-right"></i> About Us</a></li>
+                    <li><a href="{{ route('about') }}"><i class="fa fa-angle-right"></i> About</a></li>
                     <li><a href="{{ route('contact') }}"><i class="fa fa-angle-right"></i> Contact</a></li>
                 </ul>
             </div>
