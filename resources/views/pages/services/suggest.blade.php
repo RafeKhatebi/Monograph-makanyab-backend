@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Suggest a Place')
+@section('title', 'Suggest a Service')
 
 @section('content')
     <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:50px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
-                    <h1 style="font-size:36px;font-weight:800;color:#fff;margin-bottom:10px;">Suggest a Place</h1>
-                    <p style="color:rgba(255,255,255,.85);font-size:16px;">Know a place that should be on Makanyab? Submit it and our admin team will review it before it goes live.</p>
-                    <p style="color:rgba(255,255,255,.75);font-size:14px;">Want to suggest a service instead? <a href="{{ route('service-suggestions.create') }}" style="color:#D1FAE5;text-decoration:underline;">Submit a service suggestion</a>.</p>
+                    <h1 style="font-size:36px;font-weight:800;color:#fff;margin-bottom:10px;">Suggest a Service</h1>
+                    <p style="color:rgba(255,255,255,.85);font-size:16px;">Know a service that should be listed on Makanyab? Submit it and our admin team will review it before it goes live.</p>
+                    <p style="color:rgba(255,255,255,.75);font-size:14px;">If you meant to suggest a place instead, <a href="{{ route('place-suggestions.create') }}" style="color:#D1FAE5;text-decoration:underline;">click here</a>.</p>
                 </div>
             </div>
         </div>
@@ -26,27 +26,27 @@
                     @endif
 
                     <div style="background:#fff;border-radius:18px;padding:32px;border:1px solid #E5E7EB;">
-                        <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:18px;">Submit a new place</h3>
-                        <form action="{{ route('place-suggestions.store') }}" method="POST">
+                        <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:18px;">Submit a new service</h3>
+                        <form action="{{ route('service-suggestions.store') }}" method="POST">
                             @csrf
 
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                                 <div>
-                                    <label style="display:block;font-weight:600;color:#374151;margin-bottom:8px;">Place Name</label>
-                                    <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g. Green Garden Restaurant"
+                                    <label style="display:block;font-weight:600;color:#374151;margin-bottom:8px;">Service Name</label>
+                                    <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g. Herat Taxi Service"
                                         style="width:100%;padding:12px;border:1px solid #D1D5DB;border-radius:10px;outline:none;">
                                     @error('name') <p style="color:#dc2626;font-size:13px;margin-top:6px;">{{ $message }}</p> @enderror
                                 </div>
                                 <div>
                                     <label style="display:block;font-weight:600;color:#374151;margin-bottom:8px;">Category</label>
-                                    <select name="place_category_id"
+                                    <select name="service_category_id"
                                         style="width:100%;padding:12px;border:1px solid #D1D5DB;border-radius:10px;outline:none;">
                                         <option value="">Select category</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('place_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}" {{ old('service_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('place_category_id') <p style="color:#dc2626;font-size:13px;margin-top:6px;">{{ $message }}</p> @enderror
+                                    @error('service_category_id') <p style="color:#dc2626;font-size:13px;margin-top:6px;">{{ $message }}</p> @enderror
                                 </div>
                             </div>
 
@@ -128,7 +128,7 @@
                                 </div>
                                 <div>
                                     <label style="display:block;font-weight:600;color:#374151;margin-bottom:8px;">Tagline</label>
-                                    <input type="text" name="tagline" value="{{ old('tagline') }}" placeholder="A cozy spot for families"
+                                    <input type="text" name="tagline" value="{{ old('tagline') }}" placeholder="Reliable local service"
                                         style="width:100%;padding:12px;border:1px solid #D1D5DB;border-radius:10px;outline:none;">
                                     @error('tagline') <p style="color:#dc2626;font-size:13px;margin-top:6px;">{{ $message }}</p> @enderror
                                 </div>

@@ -75,6 +75,10 @@
                         style="display:inline-block;background:#fff;color:#10B981;padding:14px 36px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;border:2px solid #10B981;">
                         Suggest a Place
                     </a>
+                    <a href="{{ route('service-suggestions.create') }}"
+                        style="display:inline-block;background:#fff;color:#10B981;padding:14px 36px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;border:2px solid #10B981;">
+                        Suggest a Service
+                    </a>
                 </div>
             </div>
         </div>

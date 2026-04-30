@@ -46,6 +46,14 @@
                         class="nav-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
                         <span></span><span>Reviews</span>
                     </a>
+                    <a href="{{ route('admin.place-suggestions.index') }}"
+                        class="nav-item {{ request()->routeIs('admin.place-suggestions.*') ? 'active' : '' }}">
+                        <span></span><span>Place Suggestions</span>
+                    </a>
+                    <a href="{{ route('admin.service-suggestions.index') }}"
+                        class="nav-item {{ request()->routeIs('admin.service-suggestions.*') ? 'active' : '' }}">
+                        <span></span><span>Service Suggestions</span>
+                    </a>
                     <a href="{{ route('admin.posts.index') }}"
                         class="nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                         <span></span><span>Posts</span>

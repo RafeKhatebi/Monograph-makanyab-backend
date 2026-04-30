@@ -187,6 +187,9 @@
             <a href="{{ route('place-suggestions.create') }}" class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
                 <i class="fa fa-lightbulb-o"></i> Suggest a Place
             </a>
+            <a href="{{ route('service-suggestions.create') }}" class="{{ request()->routeIs('service-suggestions.*') ? 'active' : '' }}">
+                <i class="fa fa-concierge-bell"></i> Suggest a Service
+            </a>
 
             <div class="mk-mobile-divider"></div>
 

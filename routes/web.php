@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\PlaceController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\PlaceSuggestionController;
+use App\Http\Controllers\Frontend\ServiceSuggestionController;
 use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\UserProfileController;
@@ -39,6 +40,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/suggest-place', [PlaceSuggestionController::class, 'create'])->name('place-suggestions.create');
 Route::post('/suggest-place', [PlaceSuggestionController::class, 'store'])->name('place-suggestions.store');
+Route::get('/suggest-service', [ServiceSuggestionController::class, 'create'])->name('service-suggestions.create');
+Route::post('/suggest-service', [ServiceSuggestionController::class, 'store'])->name('service-suggestions.store');
 
 //  Posts Section
 
@@ -149,6 +152,16 @@ Route::middleware(['auth', 'admin'])
 
         Route::post('place-suggestions/{placeSuggestion}/reject', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'reject'])
             ->name('place-suggestions.reject');
+
+        //  Service Suggestions
+        Route::resource('service-suggestions', App\Http\Controllers\Admin\ServiceSuggestionController::class)
+            ->only(['index', 'show']);
+
+        Route::post('service-suggestions/{serviceSuggestion}/approve', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'approve'])
+            ->name('service-suggestions.approve');
+
+        Route::post('service-suggestions/{serviceSuggestion}/reject', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'reject'])
+            ->name('service-suggestions.reject');
 
         //  Reviews Management
 
