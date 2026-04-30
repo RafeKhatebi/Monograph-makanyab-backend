@@ -22,6 +22,8 @@ class PlaceController extends Controller
             ->when($request->city, fn ($q, $v) => $q->where('city', $v))
             ->when($request->status, fn ($q, $v) => $q->where('status', $v))
             ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
+            ->when($request->rating, fn ($q, $v) => $q->whereHas('reviews', fn ($q) => $q->where('is_approved', true)->where('rating', '>=', $v)))
+            ->when($request->open_now, fn ($q) => $q->where('status', 'open'))
             ->when($request->verified, fn ($q) => $q->where('is_verified', true))
             ->when($request->category, fn ($q, $v) => $q->whereHas(
                 'category', fn ($q) => $q->where('slug', $v)

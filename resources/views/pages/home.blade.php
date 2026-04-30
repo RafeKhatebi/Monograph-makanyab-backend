@@ -66,10 +66,14 @@
                 @endforelse
             </div>
             <div class="row" style="margin-top:30px;">
-                <div class="col-md-12 text-center">
+                <div class="col-md-12 text-center" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
                     <a href="{{ route('places.index') }}"
                         style="display:inline-block;background:#10B981;color:#fff;padding:14px 36px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">
                         Browse All Places
+                    </a>
+                    <a href="{{ route('place-suggestions.create') }}"
+                        style="display:inline-block;background:#fff;color:#10B981;padding:14px 36px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;border:2px solid #10B981;">
+                        Suggest a Place
                     </a>
                 </div>
             </div>

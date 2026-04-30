@@ -24,6 +24,12 @@
                         <i></i> Search
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('place-suggestions.create') }}"
+                        class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
+                        <i></i> Suggest
+                    </a>
+                </li>
                 {{-- Discover dropdown --}}
                 <li
                     class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
@@ -177,6 +183,9 @@
             </a>
             <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
                 <i class="fa fa-newspaper-o"></i> Blog
+            </a>
+            <a href="{{ route('place-suggestions.create') }}" class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
+                <i class="fa fa-lightbulb-o"></i> Suggest a Place
             </a>
 
             <div class="mk-mobile-divider"></div>

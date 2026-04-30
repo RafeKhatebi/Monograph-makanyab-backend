@@ -54,6 +54,17 @@ class SearchController extends Controller
                 $placeQuery->where('price_level', $request->price_level);
             }
 
+            if ($request->filled('rating')) {
+                $placeQuery->whereHas('reviews', function ($q) use ($request) {
+                    $q->where('is_approved', true)
+                        ->where('rating', '>=', $request->rating);
+                });
+            }
+
+            if ($request->filled('open_now')) {
+                $placeQuery->where('status', 'open');
+            }
+
             if ($request->filled('verified')) {
                 $placeQuery->where('is_verified', 1);
             }
@@ -95,6 +106,10 @@ class SearchController extends Controller
 
             if ($request->filled('price_level')) {
                 $serviceQuery->where('price_level', $request->price_level);
+            }
+
+            if ($request->filled('open_now')) {
+                $serviceQuery->where('status', 'open');
             }
 
             if ($request->filled('verified')) {

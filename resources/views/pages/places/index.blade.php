@@ -80,6 +80,26 @@
                                         Luxury</option>
                                 </select>
                             </div>
+                            <div style="margin-bottom:14px;">
+                                <label
+                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Rating</label>
+                                <select name="rating"
+                                    style="width:100%;height:42px;padding:0 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;background:#fff;outline:none;">
+                                    <option value="">Any Rating</option>
+                                    @for ($i = 5; $i >= 1; $i--)
+                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>{{ $i }} star{{ $i > 1 ? 's' : '' }}+</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div style="margin-bottom:14px;">
+                                <label
+                                    style="font-size:13px;font-weight:600;color:#374151;display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                    <input type="checkbox" name="open_now" value="1"
+                                        {{ request('open_now') ? 'checked' : '' }}
+                                        style="width:16px;height:16px;accent-color:#10B981;">
+                                    Open Now
+                                </label>
+                            </div>
                             <div style="margin-bottom:20px;">
                                 <label
                                     style="font-size:13px;font-weight:600;color:#374151;display:flex;align-items:center;gap:8px;cursor:pointer;">
@@ -93,7 +113,7 @@
                                 style="width:100%;height:44px;background:#10B981;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">
                                 Apply Filters
                             </button>
-                            @if (request()->anyFilled(['search', 'city', 'category', 'status', 'price_level', 'verified']))
+                            @if (request()->anyFilled(['search', 'city', 'category', 'status', 'price_level', 'rating', 'open_now', 'verified']))
                                 <a href="{{ route('places.index') }}"
                                     style="display:block;text-align:center;margin-top:10px;color:#6B7280;font-size:13px;text-decoration:none;">Reset
                                     All</a>

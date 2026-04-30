@@ -15,6 +15,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\PlaceSuggestionController;
 use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\UserProfileController;
@@ -36,6 +37,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 // Search Section
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/suggest-place', [PlaceSuggestionController::class, 'create'])->name('place-suggestions.create');
+Route::post('/suggest-place', [PlaceSuggestionController::class, 'store'])->name('place-suggestions.store');
 
 //  Posts Section
 
@@ -136,6 +139,16 @@ Route::middleware(['auth', 'admin'])
             'users/{user}/toggle-active',
             [UserController::class, 'toggleActive']
         )->name('users.toggle-active');
+
+        //  Place Suggestions
+        Route::resource('place-suggestions', App\Http\Controllers\Admin\PlaceSuggestionController::class)
+            ->only(['index', 'show']);
+
+        Route::post('place-suggestions/{placeSuggestion}/approve', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'approve'])
+            ->name('place-suggestions.approve');
+
+        Route::post('place-suggestions/{placeSuggestion}/reject', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'reject'])
+            ->name('place-suggestions.reject');
 
         //  Reviews Management
 
