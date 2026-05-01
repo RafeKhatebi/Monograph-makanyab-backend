@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePlaceCategoryRequest;
+use App\Http\Requests\UpdatePlaceCategoryRequest;
 use App\Models\PlaceCategory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PlaceCategoryController extends Controller
@@ -22,7 +23,7 @@ class PlaceCategoryController extends Controller
     public function create()
     {
         $categories = PlaceCategory::whereNull('parent_id')
-            ->where('is_active', true)
+            ->active()
             ->orderBy('name')
             ->get();
         // will route to create a category in admin section
@@ -30,22 +31,11 @@ class PlaceCategoryController extends Controller
         return view('admin.categories.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StorePlaceCategoryRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:place_categories,name',
-            'slug' => 'nullable|string|max:255|unique:place_categories,slug',
-            'description' => 'nullable|string',
-            'parent_id' => 'nullable|exists:place_categories,id',
-            'icon' => 'nullable|image|max:1024',
-        ]);
-
+        $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
-        $validated['is_active'] = $request->has('is_active');
-
-        if ($request->hasFile('icon')) {
-            $validated['icon'] = $request->file('icon')->store('categories', 'public');
-        }
+        $validated['is_active'] = $request->boolean('is_active');
 
         PlaceCategory::create($validated);
 
@@ -64,29 +54,18 @@ class PlaceCategoryController extends Controller
     {
         $categories = PlaceCategory::whereNull('parent_id')
             ->where('id', '!=', $category->id)
-            ->where('is_active', true)
+            ->active()
             ->orderBy('name')
             ->get();
 
         return view('admin.categories.edit', compact('category', 'categories'));
     }
 
-    public function update(Request $request, PlaceCategory $category)
+    public function update(UpdatePlaceCategoryRequest $request, PlaceCategory $category)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:place_categories,name,'.$category->id,
-            'slug' => 'nullable|string|max:255|unique:place_categories,slug,'.$category->id,
-            'description' => 'nullable|string',
-            'parent_id' => 'nullable|exists:place_categories,id',
-            'icon' => 'nullable|image|max:1024',
-        ]);
-
+        $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
-        $validated['is_active'] = $request->has('is_active');
-
-        if ($request->hasFile('icon')) {
-            $validated['icon'] = $request->file('icon')->store('categories', 'public');
-        }
+        $validated['is_active'] = $request->boolean('is_active');
 
         $category->update($validated);
 

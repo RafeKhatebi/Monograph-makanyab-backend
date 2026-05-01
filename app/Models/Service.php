@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PlaceStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -53,8 +55,65 @@ class Service extends Model
         return $this->morphMany(Media::class, 'mediable')->where('is_cover', true);
     }
 
-    public function getImagesAttribute()
+    public function scopeActive(Builder $query): Builder
     {
-        return $this->media()->where('type', 'image')->pluck('file_path')->toArray();
+        return $query->where('is_active', true);
+    }
+
+    public function scopeFilterSearch(Builder $query, ?string $search): Builder
+    {
+        if (! $search) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $query) use ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('tagline', 'like', "%{$search}%")
+                ->orWhere('city', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+        });
+    }
+
+    public function scopeFilterCategorySlug(Builder $query, ?string $slug): Builder
+    {
+        if (! $slug) {
+            return $query;
+        }
+
+        return $query->whereHas('category', fn (Builder $query) => $query->where('slug', $slug));
+    }
+
+    public function scopeFilterVerified(Builder $query, bool $verified = false): Builder
+    {
+        if (! $verified) {
+            return $query;
+        }
+
+        return $query->where('is_verified', true);
+    }
+
+    public function scopeFilterOpenNow(Builder $query, bool $openNow = false): Builder
+    {
+        if (! $openNow) {
+            return $query;
+        }
+
+        return $query->where('status', PlaceStatus::Open);
+    }
+
+    public function getImagesAttribute(): array
+    {
+        if ($this->relationLoaded('media')) {
+            return $this->media
+                ->where('type', 'image')
+                ->pluck('file_path')
+                ->values()
+                ->all();
+        }
+
+        return $this->media()
+            ->where('type', 'image')
+            ->pluck('file_path')
+            ->all();
     }
 }

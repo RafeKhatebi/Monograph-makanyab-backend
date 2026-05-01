@@ -13,12 +13,12 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\FavoriteWebController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
+use App\Http\Controllers\Frontend\PlaceSuggestionController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
-use App\Http\Controllers\Frontend\PlaceSuggestionController;
-use App\Http\Controllers\Frontend\ServiceSuggestionController;
 use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
+use App\Http\Controllers\Frontend\ServiceSuggestionController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -76,7 +76,7 @@ Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('cat
 
 Route::middleware('auth')->get('/dashboard', function () {
 
-    if (Auth::user()->role === 'admin') {
+    if (Auth::user()->isAdmin()) {
         return redirect()->route('admin.dashboard');
     }
 

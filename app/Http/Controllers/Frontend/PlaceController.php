@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreReviewRequest;
 use App\Models\Place;
 use App\Models\PlaceCategory;
 use Illuminate\Http\Request;
@@ -12,26 +13,22 @@ class PlaceController extends Controller
 {
     public function index(Request $request)
     {
-        $places = Place::with(['category:id,name,slug,color_code,icon_name', 'media'])
-            ->where('is_active', true)
-            ->when($request->search, fn ($q, $v) => $q->where(
-                fn ($q) => $q->where('name', 'like', "%{$v}%")
-                    ->orWhere('tagline', 'like', "%{$v}%")
-                    ->orWhere('city', 'like', "%{$v}%")
-            ))
+        $places = Place::query()
+            ->with(['category:id,name,slug,color_code,icon_name', 'media'])
+            ->active()
+            ->filterSearch($request->query('search'))
             ->when($request->city, fn ($q, $v) => $q->where('city', $v))
             ->when($request->status, fn ($q, $v) => $q->where('status', $v))
             ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
-            ->when($request->rating, fn ($q, $v) => $q->whereHas('reviews', fn ($q) => $q->where('is_approved', true)->where('rating', '>=', $v)))
-            ->when($request->open_now, fn ($q) => $q->where('status', 'open'))
-            ->when($request->verified, fn ($q) => $q->where('is_verified', true))
-            ->when($request->category, fn ($q, $v) => $q->whereHas(
-                'category', fn ($q) => $q->where('slug', $v)
-            ))
+            ->filterRatingAtLeast($request->integer('rating'))
+            ->filterOpenNow($request->boolean('open_now'))
+            ->filterVerified($request->boolean('verified'))
+            ->filterCategorySlug($request->query('category'))
             ->orderByDesc('created_at')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
-        $categories = PlaceCategory::where('is_active', true)->orderBy('name')->get();
+        $categories = PlaceCategory::active()->orderBy('name')->get();
 
         return view('pages.places.index', compact('places', 'categories'));
     }
@@ -51,24 +48,19 @@ class PlaceController extends Controller
         $similarPlaces = Place::with('media')
             ->where('place_category_id', $place->place_category_id)
             ->where('id', '!=', $place->id)
-            ->where('is_active', true)
+            ->active()
             ->limit(4)
             ->get();
 
         return view('pages.places.show', compact('place', 'similarPlaces'));
     }
 
-    public function storeReview(Request $request, Place $place)
+    public function storeReview(StoreReviewRequest $request, Place $place)
     {
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:1000',
-        ]);
-
         $place->reviews()->create([
             'user_id' => FacadesAuth::id(),
-            'rating' => $request->rating,
-            'comment' => $request->comment,
+            'rating' => $request->validated('rating'),
+            'comment' => $request->validated('comment'),
             'is_approved' => false,
         ]);
 

@@ -16,19 +16,13 @@ class PlaceController extends Controller
     {
         $places = Place::query()
             ->with(['category:id,name,slug', 'user:id,name'])
-            ->where('is_active', true)
+            ->active()
             ->when($request->city, fn ($q, $v) => $q->where('city', $v))
             ->when($request->status, fn ($q, $v) => $q->where('status', $v))
             ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
-            ->when($request->verified, fn ($q) => $q->where('is_verified', true))
-            ->when($request->category, fn ($q, $v) => $q->whereHas(
-                'category', fn ($q) => $q->where('slug', $v)
-            ))
-            ->when($request->search, fn ($q, $v) => $q->where(
-                fn ($q) => $q->where('name', 'like', "%{$v}%")
-                    ->orWhere('tagline', 'like', "%{$v}%")
-                    ->orWhere('city', 'like', "%{$v}%")
-            ))
+            ->filterVerified($request->boolean('verified'))
+            ->filterCategorySlug($request->query('category'))
+            ->filterSearch($request->query('search'))
             ->orderByDesc('created_at')
             ->paginate($request->integer('per_page', 15));
 
@@ -82,7 +76,7 @@ class PlaceController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->id !== $place->user_id && $user->role !== 'admin') {
+        if ($user->id !== $place->user_id && ! $user->isAdmin()) {
             return response()->json(['message' => 'Forbidden.'], 403);
         }
 

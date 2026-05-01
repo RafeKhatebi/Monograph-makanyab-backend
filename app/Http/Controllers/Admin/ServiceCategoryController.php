@@ -23,7 +23,7 @@ class ServiceCategoryController extends Controller
     public function create()
     {
         $categories = ServiceCategory::whereNull('parent_id')
-            ->where('is_active', true)
+            ->active()
             ->orderBy('name')
             ->get();
 
@@ -34,7 +34,7 @@ class ServiceCategoryController extends Controller
     {
         $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = $request->boolean('is_active');
 
         ServiceCategory::create($validated);
 
@@ -53,7 +53,7 @@ class ServiceCategoryController extends Controller
     {
         $categories = ServiceCategory::whereNull('parent_id')
             ->where('id', '!=', $serviceCategory->id)
-            ->where('is_active', true)
+            ->active()
             ->orderBy('name')
             ->get();
 
@@ -64,7 +64,7 @@ class ServiceCategoryController extends Controller
     {
         $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = $request->boolean('is_active');
 
         $serviceCategory->update($validated);
 

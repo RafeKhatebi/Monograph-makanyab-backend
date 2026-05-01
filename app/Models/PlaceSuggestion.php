@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\PlaceStatus;
+use App\Enums\PriceLevel;
+use App\Enums\SuggestionStatus;
+use App\Models\Traits\SuggestionFilterable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PlaceSuggestion extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, SuggestionFilterable;
 
     protected $fillable = [
         'user_id',
@@ -48,6 +52,11 @@ class PlaceSuggestion extends Model
         'social_links' => 'array',
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
+        'status' => PlaceStatus::class,
+        'price_level' => PriceLevel::class,
+        'suggestion_status' => SuggestionStatus::class,
+        'approved_at' => 'datetime',
+        'rejected_at' => 'datetime',
     ];
 
     public function user(): BelongsTo

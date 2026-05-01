@@ -60,7 +60,7 @@ class ReviewController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->id !== $review->user_id && $user->role !== 'admin') {
+        if ($user->id !== $review->user_id && ! $user->isAdmin()) {
             return response()->json(['message' => 'Forbidden.'], 403);
         }
 

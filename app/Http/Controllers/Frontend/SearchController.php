@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
@@ -19,111 +20,47 @@ class SearchController extends Controller
         $services = null;
 
         if ($showPlaces) {
-            $placeQuery = Place::with(['category', 'media']);
-
-            if ($request->filled('search')) {
-                $placeQuery->where(function ($q) use ($request) {
-                    $q->where('name', 'like', "%{$request->search}%")
-                        ->orWhere('description', 'like', "%{$request->search}%");
-                });
-            }
-
-            if ($request->filled('place_category')) {
-                $placeQuery->whereHas('category', function ($q) use ($request) {
-                    $q->where('slug', $request->place_category);
-                });
-            }
-
-            if ($request->filled('city')) {
-                $placeQuery->where('city', 'like', "%{$request->city}%");
-            }
-
-            if ($request->filled('province')) {
-                $placeQuery->where('province', 'like', "%{$request->province}%");
-            }
-
-            if ($request->filled('district')) {
-                $placeQuery->where('district', 'like', "%{$request->district}%");
-            }
-
-            if ($request->filled('status')) {
-                $placeQuery->where('status', $request->status);
-            }
-
-            if ($request->filled('price_level')) {
-                $placeQuery->where('price_level', $request->price_level);
-            }
-
-            if ($request->filled('rating')) {
-                $placeQuery->whereHas('reviews', function ($q) use ($request) {
-                    $q->where('is_approved', true)
-                        ->where('rating', '>=', $request->rating);
-                });
-            }
-
-            if ($request->filled('open_now')) {
-                $placeQuery->where('status', 'open');
-            }
-
-            if ($request->filled('verified')) {
-                $placeQuery->where('is_verified', 1);
-            }
-
-            $places = $placeQuery->latest()->paginate(8)->withQueryString();
+            $places = Place::query()
+                ->with(['category', 'media'])
+                ->active()
+                ->filterSearch($request->query('search'))
+                ->filterCategorySlug($request->query('place_category'))
+                ->when($request->filled('city'), fn ($q) => $q->where('city', 'like', '%'.$request->city.'%'))
+                ->when($request->filled('province'), fn ($q) => $q->where('province', 'like', '%'.$request->province.'%'))
+                ->when($request->filled('district'), fn ($q) => $q->where('district', 'like', '%'.$request->district.'%'))
+                ->when($request->filled('status'), fn ($q) => $q->where('status', $request->status))
+                ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->price_level))
+                ->filterRatingAtLeast($request->integer('rating'))
+                ->filterOpenNow($request->boolean('open_now'))
+                ->filterVerified($request->boolean('verified'))
+                ->latest()
+                ->paginate(8)
+                ->withQueryString();
         }
 
         if ($showServices) {
-            $serviceQuery = Service::with(['category', 'media']);
-
-            if ($request->filled('search')) {
-                $serviceQuery->where(function ($q) use ($request) {
-                    $q->where('name', 'like', "%{$request->search}%")
-                        ->orWhere('description', 'like', "%{$request->search}%");
-                });
-            }
-
-            if ($request->filled('service_category')) {
-                $serviceQuery->whereHas('category', function ($q) use ($request) {
-                    $q->where('slug', $request->service_category);
-                });
-            }
-
-            if ($request->filled('city')) {
-                $serviceQuery->where('city', 'like', "%{$request->city}%");
-            }
-
-            if ($request->filled('province')) {
-                $serviceQuery->where('province', 'like', "%{$request->province}%");
-            }
-
-            if ($request->filled('district')) {
-                $serviceQuery->where('district', 'like', "%{$request->district}%");
-            }
-
-            if ($request->filled('status')) {
-                $serviceQuery->where('status', $request->status);
-            }
-
-            if ($request->filled('price_level')) {
-                $serviceQuery->where('price_level', $request->price_level);
-            }
-
-            if ($request->filled('open_now')) {
-                $serviceQuery->where('status', 'open');
-            }
-
-            if ($request->filled('verified')) {
-                $serviceQuery->where('is_verified', 1);
-            }
-
-            $services = $serviceQuery->latest()->paginate(8)->withQueryString();
+            $services = Service::query()
+                ->with(['category', 'media'])
+                ->active()
+                ->filterSearch($request->query('search'))
+                ->filterCategorySlug($request->query('service_category'))
+                ->when($request->filled('city'), fn ($q) => $q->where('city', 'like', '%'.$request->city.'%'))
+                ->when($request->filled('province'), fn ($q) => $q->where('province', 'like', '%'.$request->province.'%'))
+                ->when($request->filled('district'), fn ($q) => $q->where('district', 'like', '%'.$request->district.'%'))
+                ->when($request->filled('status'), fn ($q) => $q->where('status', $request->status))
+                ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->price_level))
+                ->filterOpenNow($request->boolean('open_now'))
+                ->filterVerified($request->boolean('verified'))
+                ->latest()
+                ->paginate(8)
+                ->withQueryString();
         }
 
-        $placeCategories = PlaceCategory::where('is_active', true)
+        $placeCategories = PlaceCategory::active()
             ->orderBy('name')
             ->get();
 
-        $serviceCategories = ServiceCategory::where('is_active', true)
+        $serviceCategories = ServiceCategory::active()
             ->orderBy('name')
             ->get();
 

@@ -2,14 +2,16 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Enums\PlaceStatus;
+use App\Enums\PriceLevel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreServiceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->isAdmin() ?? false;
     }
 
     public function rules(): array
@@ -37,10 +39,10 @@ class StoreServiceRequest extends FormRequest
             'postal_code' => 'nullable|string|max:10',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
-            'status' => 'nullable|in:open,closed,temporarily_closed',
-            'price_level' => 'nullable|in:low,medium,high,luxury',
-            'is_published' => 'nullable|boolean',
+            'status' => ['nullable', Rule::enum(PlaceStatus::class)],
+            'price_level' => ['nullable', Rule::enum(PriceLevel::class)],
             'is_active' => 'nullable|boolean',
+            'images' => 'sometimes|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }

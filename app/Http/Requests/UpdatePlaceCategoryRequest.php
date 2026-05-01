@@ -9,16 +9,18 @@ class UpdatePlaceCategoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->role === 'admin';
+        return $this->user()?->isAdmin() ?? false;
     }
 
     public function rules(): array
     {
-        $categoryId = $this->route('place_category')?->id
+        $categoryId = $this->route('category')?->id
+            ?? $this->route('place_category')?->id
+            ?? $this->route('category')
             ?? $this->route('place_category');
 
         return [
-            'parent_id' => ['nullable', 'integer', Rule::exists('place_categories', 'id')],
+            'parent_id' => ['nullable', 'integer', Rule::exists('place_categories', 'id'), Rule::notIn([$categoryId])],
             'name' => ['sometimes', 'string', 'max:255', Rule::unique('place_categories', 'name')->ignore($categoryId)],
             'slug' => ['sometimes', 'string', 'max:255', 'alpha_dash', Rule::unique('place_categories', 'slug')->ignore($categoryId)],
             'icon_name' => ['nullable', 'string', 'max:100'],

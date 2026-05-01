@@ -16,7 +16,7 @@ class StoreOpeningHourRequest extends FormRequest
         // Only the place owner or an admin can set opening hours
         return $place
             && ($this->user()?->id === $place->user_id
-                || $this->user()?->role === 'admin');
+                || $this->user()?->isAdmin());
     }
 
     public function rules(): array

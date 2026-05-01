@@ -2,74 +2,67 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PlaceStatus;
+use App\Enums\PriceLevel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use App\Models\ServiceCategory;
+use App\Services\MediaUploadService;
+use App\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Service::with(['category', 'user']);
+        $query = Service::query()->with(['category', 'user']);
 
         if ($request->filled('service_category')) {
-            $query->where('service_category_id', $request->service_category);
+            $query->where('service_category_id', $request->integer('service_category'));
         }
 
         if ($request->filled('is_verified')) {
-            $query->where('is_verified', $request->is_verified);
+            $query->where('is_verified', $request->boolean('is_verified'));
         }
 
         if ($request->filled('is_active')) {
-            $query->where('is_active', $request->is_active);
+            $query->where('is_active', $request->boolean('is_active'));
         }
 
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%'.$request->search.'%')
-                    ->orWhere('address', 'like', '%'.$request->search.'%');
-            });
-        }
+        $query->filterSearch($request->query('search'));
 
-        $services = $query->latest()->paginate(20);
-        $categories = ServiceCategory::where('is_active', true)->orderBy('name')->get();
+        $services = $query->latest()->paginate(20)->withQueryString();
+        $categories = ServiceCategory::active()->orderBy('name')->get();
 
         return view('admin.services.index', compact('services', 'categories'));
-
-        return view('admin.services.index', compact('services'));
     }
 
     public function create()
     {
-        $categories = ServiceCategory::where('is_active', true)
+        $categories = ServiceCategory::active()
             ->orderBy('name')
             ->get();
 
         return view('admin.services.create', compact('categories'));
     }
 
-    public function store(StoreServiceRequest $request)
+    public function store(StoreServiceRequest $request, SlugService $slugService, MediaUploadService $mediaUploadService)
     {
         $validated = $request->validated();
-        $validated['slug'] = Str::slug($validated['name']);
+        $validated['slug'] = $slugService->createUniqueSlug(Service::class, $validated['name']);
         $validated['user_id'] = Auth::id();
-        $validated['is_verified'] = $request->has('is_verified');
-        $validated['is_active'] = $request->has('is_active');
-        $validated['status'] = $validated['status'] ?? 'open';
-        $validated['price_level'] = $validated['price_level'] ?? 'medium';
+        $validated['is_verified'] = $request->boolean('is_verified');
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
+        $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
         $service = Service::create($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('services', 'public');
-                $service->media()->create(['file_path' => $path, 'type' => 'image']);
-            }
+            $mediaUploadService->attachImages($service, $request->file('images'), 'services');
         }
 
         return redirect()->route('admin.services.index')
@@ -85,29 +78,26 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
-        $categories = ServiceCategory::where('is_active', true)
+        $categories = ServiceCategory::active()
             ->orderBy('name')
             ->get();
 
         return view('admin.services.edit', compact('service', 'categories'));
     }
 
-    public function update(UpdateServiceRequest $request, Service $service)
+    public function update(UpdateServiceRequest $request, Service $service, SlugService $slugService, MediaUploadService $mediaUploadService)
     {
         $validated = $request->validated();
-        $validated['slug'] = Str::slug($validated['name']);
-        $validated['is_verified'] = $request->has('is_verified');
-        $validated['is_active'] = $request->has('is_active');
-        $validated['status'] = $validated['status'] ?? 'open';
-        $validated['price_level'] = $validated['price_level'] ?? 'medium';
+        $validated['slug'] = $slugService->createUniqueSlug(Service::class, $validated['name'], $service->id);
+        $validated['is_verified'] = $request->boolean('is_verified');
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
+        $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
         $service->update($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('services', 'public');
-                $service->media()->create(['file_path' => $path, 'type' => 'image']);
-            }
+            $mediaUploadService->attachImages($service, $request->file('images'), 'services');
         }
 
         return redirect()->route('admin.services.index')

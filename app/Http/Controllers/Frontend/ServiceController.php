@@ -11,22 +11,20 @@ class ServiceController extends Controller
 {
     public function index(Request $request)
     {
-        $services = Service::with(['category', 'media'])
-            ->where('is_active', true)
-            ->when($request->search, fn ($q, $v) => $q->where(function ($q) use ($v) {
-                $q->where('name', 'like', "%{$v}%")
-                  ->orWhere('tagline', 'like', "%{$v}%")
-                  ->orWhere('city', 'like', "%{$v}%");
-            }))
-            ->when($request->category, fn ($q, $v) => $q->whereHas('category', fn ($q) => $q->where('slug', $v)))
+        $services = Service::query()
+            ->with(['category', 'media'])
+            ->active()
+            ->filterSearch($request->query('search'))
+            ->filterCategorySlug($request->query('category'))
             ->when($request->city, fn ($q, $v) => $q->where('city', 'like', "%{$v}%"))
             ->when($request->status, fn ($q, $v) => $q->where('status', $v))
             ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
-            ->when($request->verified, fn ($q) => $q->where('is_verified', true))
+            ->filterVerified($request->boolean('verified'))
             ->orderByDesc('created_at')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
-        $categories = ServiceCategory::where('is_active', true)->orderBy('name')->get();
+        $categories = ServiceCategory::active()->orderBy('name')->get();
 
         return view('pages.services.index', compact('services', 'categories'));
     }
@@ -40,7 +38,7 @@ class ServiceController extends Controller
         $similar = Service::with('media')
             ->where('service_category_id', $service->service_category_id)
             ->where('id', '!=', $service->id)
-            ->where('is_active', true)
+            ->active()
             ->limit(4)
             ->get();
 

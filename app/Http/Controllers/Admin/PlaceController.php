@@ -2,86 +2,70 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PlaceStatus;
+use App\Enums\PriceLevel;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StorePlaceRequest;
+use App\Http\Requests\Admin\UpdatePlaceRequest;
 use App\Models\Place;
 use App\Models\PlaceCategory;
-use Illuminate\Support\Facades\Auth;
+use App\Services\MediaUploadService;
+use App\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class PlaceController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Place::with(['category', 'user'])
+        $query = Place::query()
+            ->with(['category', 'user'])
             ->withCount('reviews')
             ->withAvg('reviews', 'rating');
 
         if ($request->filled('is_verified')) {
-            $query->where('is_verified', $request->is_verified);
+            $query->where('is_verified', $request->boolean('is_verified'));
         }
 
         if ($request->filled('is_active')) {
-            $query->where('is_active', $request->is_active);
+            $query->where('is_active', $request->boolean('is_active'));
         }
 
         if ($request->filled('category')) {
-            $query->where('place_category_id', $request->category);
+            $query->where('place_category_id', $request->integer('category'));
         }
 
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%'.$request->search.'%')
-                    ->orWhere('address', 'like', '%'.$request->search.'%');
-            });
-        }
+        $query->filterSearch($request->query('search'));
 
-        $places = $query->latest()->paginate(20);
-        $categories = PlaceCategory::where('is_active', true)->orderBy('name')->get();
+        $places = $query->latest()->paginate(20)->withQueryString();
+        $categories = PlaceCategory::active()->orderBy('name')->get();
 
         return view('admin.places.index', compact('places', 'categories'));
     }
 
     public function create()
     {
-        $categories = PlaceCategory::where('is_active', true)->orderBy('name')->get();
+        $categories = PlaceCategory::active()->orderBy('name')->get();
 
         return view('admin.places.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StorePlaceRequest $request, SlugService $slugService, MediaUploadService $mediaUploadService)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'place_category_id' => 'required|exists:place_categories,id',
-            'address' => 'required|string|max:500',
-            'phone_1' => 'required|string|max:20',
-            'country' => ['required', 'string', 'max:100'],
-            'province' => ['required', 'string', 'max:100'],
-            'district' => ['required', 'string', 'max:100'],
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'website' => 'nullable|url|max:255',
-            'images.*' => 'nullable|image|max:2048',
-        ]);
-
-        $validated['slug'] = $this->createUniqueSlug($validated['name']);
+        $validated = $request->validated();
+        $validated['slug'] = $slugService->createUniqueSlug(Place::class, $validated['name']);
         $validated['user_id'] = Auth::id();
-        $validated['is_verified'] = $request->has('is_verified');
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_verified'] = $request->boolean('is_verified');
+        $validated['is_active'] = $request->boolean('is_active');
         $validated['country'] = $request->input('country', 'Afghanistan');
-        $validated['province'] = $request->input('province');
-        $validated['city'] = $request->input('province');
-        $validated['district'] = $request->input('district');
+        $validated['city'] = $validated['city'] ?? $validated['province'];
+        $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
+        $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
         $place = Place::create($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('places', 'public');
-                $place->media()->create(['file_path' => $path, 'type' => 'image']);
-            }
+            $mediaUploadService->attachImages($place, $request->file('images'), 'places');
         }
 
         return redirect()->route('admin.places.index')
@@ -99,43 +83,26 @@ class PlaceController extends Controller
 
     public function edit(Place $place)
     {
-        $categories = PlaceCategory::where('is_active', true)->orderBy('name')->get();
+        $categories = PlaceCategory::active()->orderBy('name')->get();
 
         return view('admin.places.edit', compact('place', 'categories'));
     }
 
-    public function update(Request $request, Place $place)
+    public function update(UpdatePlaceRequest $request, Place $place, SlugService $slugService, MediaUploadService $mediaUploadService)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'place_category_id' => 'required|exists:place_categories,id',
-            'address' => 'required|string|max:500',
-            'phone_1' => 'required|string|max:20',
-            'country' => ['required', 'string', 'max:100'],
-            'province' => ['required', 'string', 'max:100'],
-            'district' => ['required', 'string', 'max:100'],
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'website' => 'nullable|url|max:255',
-            'images.*' => 'nullable|image|max:2048',
-        ]);
-
-        $validated['slug'] = $this->createUniqueSlug($validated['name'], $place->id);
-        $validated['is_verified'] = $request->has('is_verified');
-        $validated['is_active'] = $request->has('is_active');
+        $validated = $request->validated();
+        $validated['slug'] = $slugService->createUniqueSlug(Place::class, $validated['name'], $place->id);
+        $validated['is_verified'] = $request->boolean('is_verified');
+        $validated['is_active'] = $request->boolean('is_active');
         $validated['country'] = $request->input('country', 'Afghanistan');
-        $validated['province'] = $request->input('province');
-        $validated['city'] = $request->input('province');
-        $validated['district'] = $request->input('district');
+        $validated['city'] = $validated['city'] ?? $validated['province'];
+        $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
+        $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
         $place->update($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('places', 'public');
-                $place->media()->create(['file_path' => $path, 'type' => 'image']);
-            }
+            $mediaUploadService->attachImages($place, $request->file('images'), 'places');
         }
 
         return redirect()->route('admin.places.index')
@@ -162,20 +129,5 @@ class PlaceController extends Controller
         $place->update(['is_active' => ! $place->is_active]);
 
         return back()->with('success', 'Active status updated.');
-    }
-
-    private function createUniqueSlug(string $title, ?string $ignoreId = null): string
-    {
-        $baseSlug = Str::slug($title);
-        $slug = $baseSlug;
-        $counter = 1;
-
-        while (Place::where('slug', $slug)
-            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
-            ->exists()) {
-            $slug = $baseSlug.'-'.$counter++;
-        }
-
-        return $slug;
     }
 }

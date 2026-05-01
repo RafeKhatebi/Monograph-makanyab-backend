@@ -15,7 +15,7 @@ class UpdatePlaceRequest extends FormRequest
 
         // Only the place owner or an admin can update
         return $this->user()?->id === $place->user_id
-            || $this->user()?->role === 'admin';
+            || $this->user()?->isAdmin();
     }
 
     public function rules(): array
@@ -57,7 +57,7 @@ class UpdatePlaceRequest extends FormRequest
             'price_level' => ['sometimes', 'string', Rule::in(['low', 'medium', 'high', 'luxury'])],
             'is_active' => ['sometimes', 'boolean'],
             'is_verified' => ['sometimes', 'boolean', Rule::when(
-                $this->user()?->role !== 'admin',
+                ! ($this->user()?->isAdmin()),
                 ['prohibited'] // only admins can set is_verified
             )],
         ];
