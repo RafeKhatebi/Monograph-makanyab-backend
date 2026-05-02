@@ -5,7 +5,8 @@
 @section('content')
     @include('pages.shared.suggestion-page', [
         'title' => 'Suggest a Service',
-        'description' => 'Know a service that should be listed on Makanyab? Submit it and our admin team will review it before it goes live.',
+        'description' =>
+            'Know a service that should be listed on Makanyab? Submit it and our admin team will review it before it goes live.',
         'switchText' => 'If you meant to suggest a place instead,',
         'switchRoute' => 'place-suggestions.create',
         'switchLinkText' => 'click here',

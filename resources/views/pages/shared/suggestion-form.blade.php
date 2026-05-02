@@ -1,19 +1,19 @@
 @php
-use App\Enums\PlaceStatus;
-use App\Enums\PriceLevel;
+    use App\Enums\PlaceStatus;
+    use App\Enums\PriceLevel;
 
-$statusOptions = [
-    PlaceStatus::Open->value => PlaceStatus::Open->label(),
-    PlaceStatus::Closed->value => PlaceStatus::Closed->label(),
-    PlaceStatus::TemporarilyClosed->value => PlaceStatus::TemporarilyClosed->label(),
-];
+    $statusOptions = [
+        PlaceStatus::Open->value => PlaceStatus::Open->label(),
+        PlaceStatus::Closed->value => PlaceStatus::Closed->label(),
+        PlaceStatus::TemporarilyClosed->value => PlaceStatus::TemporarilyClosed->label(),
+    ];
 
-$priceOptions = [
-    PriceLevel::Low->value => 'Low',
-    PriceLevel::Medium->value => 'Medium',
-    PriceLevel::High->value => 'High',
-    PriceLevel::Luxury->value => 'Luxury',
-];
+    $priceOptions = [
+        PriceLevel::Low->value => 'Low',
+        PriceLevel::Medium->value => 'Medium',
+        PriceLevel::High->value => 'High',
+        PriceLevel::Luxury->value => 'Luxury',
+    ];
 @endphp
 
 <form action="{{ $action }}" method="POST">
@@ -24,7 +24,8 @@ $priceOptions = [
 
         <div>
             <x-input-label for="{{ $categoryField }}" :value="$categoryLabel" />
-            <x-select-input id="{{ $categoryField }}" name="{{ $categoryField }}" :options="$categories" placeholder="Select category" />
+            <x-select-input id="{{ $categoryField }}" name="{{ $categoryField }}" :options="$categories"
+                placeholder="Select category" />
             <x-input-error :messages="$errors->get($categoryField)" class="mt-2" />
         </div>
     </div>
@@ -65,7 +66,8 @@ $priceOptions = [
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
             <x-input-label for="description" value="Description" />
-            <x-textarea id="description" name="description" rows="6" placeholder="Describe the place or service">{{ old('description') }}</x-textarea>
+            <x-textarea id="description" name="description" rows="6"
+                placeholder="Describe the place or service">{{ old('description') }}</x-textarea>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
