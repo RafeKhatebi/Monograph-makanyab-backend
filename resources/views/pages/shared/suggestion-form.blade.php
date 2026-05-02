@@ -31,13 +31,38 @@
     </div>
 
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <x-form-field for="city" label="City" :value="old('city')" />
-        <x-form-field for="province" label="Province" :value="old('province')" />
+        <div>
+            <x-input-label for="province-search" value="Search Province" />
+            <input id="province-search" type="search" value="{{ old('province') }}" placeholder="Type province name"
+                class="form-control" />
+        </div>
+
+        <div>
+            <x-input-label for="province-select" value="Province" />
+            <select id="province-select" name="province" data-selected="{{ old('province') }}"
+                class="form-control">
+                <option value="">Select province</option>
+            </select>
+            <x-input-error :messages="$errors->get('province')" class="mt-2" />
+        </div>
     </div>
 
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <x-form-field for="district" label="District" :value="old('district')" />
+        <div>
+            <x-input-label for="district-select" value="District" />
+            <select id="district-select" name="district" data-selected="{{ old('district') }}"
+                class="form-control" disabled>
+                <option value="">Select province first</option>
+            </select>
+            <x-input-error :messages="$errors->get('district')" class="mt-2" />
+        </div>
+
+        <x-form-field for="city" label="City" :value="old('city')" />
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <x-form-field for="address" label="Address" :value="old('address')" />
+        <x-form-field for="website" label="Website" :value="old('website')" />
     </div>
 
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
@@ -46,20 +71,19 @@
     </div>
 
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <x-form-field for="website" label="Website" :value="old('website')" />
         <div>
             <x-input-label for="price_level" value="Price Level" />
             <x-select-input id="price_level" name="price_level" :options="$priceOptions" placeholder="Select price level" />
             <x-input-error :messages="$errors->get('price_level')" class="mt-2" />
         </div>
-    </div>
-
-    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
             <x-input-label for="status" value="Status" />
             <x-select-input id="status" name="status" :options="$statusOptions" placeholder="Choose status" />
             <x-input-error :messages="$errors->get('status')" class="mt-2" />
         </div>
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr;gap:16px;">
         <x-form-field for="tagline" label="Tagline" :value="old('tagline')" />
     </div>
 
@@ -72,7 +96,7 @@
 
     <div style="margin-top:20px;">
         <x-input-label for="suggestion-map" value="Select Exact Location" />
-        <p style="margin-top:6px;margin-bottom:12px;color:#6B7280;font-size:14px;">Click anywhere on the map to set the exact latitude and longitude for this suggestion.</p>
+        <p style="margin-top:6px;margin-bottom:12px;color:#6B7280;font-size:14px;">Choose a province and district, then click on the map to set the exact latitude and longitude for this suggestion.</p>
         <div id="suggestion-map" style="height:320px;border:1px solid #E5E7EB;border-radius:14px;overflow:hidden;background:#f9fafb;"></div>
         <p style="margin-top:10px;color:#6B7280;font-size:14px;">Selected coordinates: <span id="selected-coords">{{ old('latitude') && old('longitude') ? old('latitude') . ', ' . old('longitude') : 'None' }}</span></p>
     </div>
