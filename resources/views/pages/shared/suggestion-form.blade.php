@@ -76,11 +76,6 @@
             <x-select-input id="price_level" name="price_level" :options="$priceOptions" placeholder="Select price level" />
             <x-input-error :messages="$errors->get('price_level')" class="mt-2" />
         </div>
-        <div>
-            <x-input-label for="status" value="Status" />
-            <x-select-input id="status" name="status" :options="$statusOptions" placeholder="Choose status" />
-            <x-input-error :messages="$errors->get('status')" class="mt-2" />
-        </div>
     </div>
 
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr;gap:16px;">
@@ -95,7 +90,7 @@
     </div>
 
     <div style="margin-top:20px;">
-        <x-input-label for="suggestion-map" value="Select Exact Location" />
+        <x-input-label value="Select Exact Location" />
         <p style="margin-top:6px;margin-bottom:12px;color:#6B7280;font-size:14px;">Choose a province and district, then click on the map to set the exact latitude and longitude for this suggestion.</p>
         <div id="suggestion-map" style="height:320px;border:1px solid #E5E7EB;border-radius:14px;overflow:hidden;background:#f9fafb;"></div>
         <p style="margin-top:10px;color:#6B7280;font-size:14px;">Selected coordinates: <span id="selected-coords">{{ old('latitude') && old('longitude') ? old('latitude') . ', ' . old('longitude') : 'None' }}</span></p>

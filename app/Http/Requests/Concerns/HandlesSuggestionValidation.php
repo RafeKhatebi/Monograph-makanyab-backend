@@ -30,7 +30,7 @@ trait HandlesSuggestionValidation
             'postal_code' => 'nullable|string|max:10',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
-            'status' => ['required', Rule::enum(PlaceStatus::class)],
+            'status' => ['nullable', Rule::enum(PlaceStatus::class)],
             'price_level' => ['required', Rule::enum(PriceLevel::class)],
         ];
     }

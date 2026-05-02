@@ -39,6 +39,7 @@
 
         {{-- @include('partials.topbar') --}}
         @include('partials.navbar')
+        @include('partials.flash-message')
         <main>@yield('content')</main>
         @include('partials.footer')
 

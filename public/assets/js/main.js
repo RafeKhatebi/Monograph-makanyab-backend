@@ -64,10 +64,12 @@ $(document).ready(function () {
         items: 3
     });
 
-    $('#price-range').slider();
-    $('#property-geo').slider();
-    $('#min-baths').slider();
-    $('#min-bed').slider();
+    if ($.isFunction($.fn.slider)) {
+        $('#price-range').slider();
+        $('#property-geo').slider();
+        $('#min-baths').slider();
+        $('#min-bed').slider();
+    }
 
     var RGBChange = function () {
         $('#RGB').css('background', '#FDC600')
