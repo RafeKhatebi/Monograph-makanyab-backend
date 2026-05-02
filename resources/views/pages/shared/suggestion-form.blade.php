@@ -63,17 +63,23 @@
         <x-form-field for="tagline" label="Tagline" :value="old('tagline')" />
     </div>
 
+    <div style="margin-top:16px;">
+        <x-input-label for="description" value="Description" />
+        <x-textarea id="description" name="description" rows="6"
+            placeholder="Describe the place or service">{{ old('description') }}</x-textarea>
+        <x-input-error :messages="$errors->get('description')" class="mt-2" />
+    </div>
+
+    <div style="margin-top:20px;">
+        <x-input-label for="suggestion-map" value="Select Exact Location" />
+        <p style="margin-top:6px;margin-bottom:12px;color:#6B7280;font-size:14px;">Click anywhere on the map to set the exact latitude and longitude for this suggestion.</p>
+        <div id="suggestion-map" style="height:320px;border:1px solid #E5E7EB;border-radius:14px;overflow:hidden;background:#f9fafb;"></div>
+        <p style="margin-top:10px;color:#6B7280;font-size:14px;">Selected coordinates: <span id="selected-coords">{{ old('latitude') && old('longitude') ? old('latitude') . ', ' . old('longitude') : 'None' }}</span></p>
+    </div>
+
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <div>
-            <x-input-label for="description" value="Description" />
-            <x-textarea id="description" name="description" rows="6"
-                placeholder="Describe the place or service">{{ old('description') }}</x-textarea>
-            <x-input-error :messages="$errors->get('description')" class="mt-2" />
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <x-form-field for="latitude" label="Latitude" :value="old('latitude')" />
-            <x-form-field for="longitude" label="Longitude" :value="old('longitude')" />
-        </div>
+        <x-form-field for="latitude" label="Latitude" :value="old('latitude')" />
+        <x-form-field for="longitude" label="Longitude" :value="old('longitude')" />
     </div>
 
     @guest

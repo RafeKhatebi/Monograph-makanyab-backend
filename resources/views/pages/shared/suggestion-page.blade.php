@@ -54,4 +54,16 @@
             </div>
         </div>
     </div>
+
+    @push('styles')
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    @endpush
+
+    @push('scripts')
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+        <script src="{{ asset('assets/js/suggestion-map.js') }}"></script>
+    @endpush
+            </div>
+        </div>
+    </div>
 </div>
