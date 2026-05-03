@@ -38,6 +38,14 @@
                         class="nav-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                         <span></span><span>Categories</span>
                     </a>
+                    <a href="{{ route('admin.services.create') }}"
+                        class="nav-item {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                        <span></span><span>Add Service</span>
+                    </a>
+                    <a href="{{ route('admin.service-categories.create') }}"
+                        class="nav-item {{ request()->routeIs('admin.service-categories.*') ? 'active' : '' }}">
+                        <span></span><span>Add Service Category</span>
+                    </a>
                     <a href="{{ route('admin.users.index') }}"
                         class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                         <span></span><span>Users</span>

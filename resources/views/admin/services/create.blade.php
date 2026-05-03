@@ -1,17 +1,20 @@
 @extends('layouts.admin')
 
+@section('title', 'Add New Service')
+@section('page-title', 'Add Service')
+
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h1 class="text-2xl font-bold text-gray-900">Add New Place</h1>
-                    <a href="{{ route('admin.places.index') }}" class="text-emerald-600 hover:text-emerald-700">
-                        ← Back to Places
+                    <h1 class="text-2xl font-bold text-gray-900">Add New Service</h1>
+                    <a href="{{ route('admin.dashboard') }}" class="text-emerald-600 hover:text-emerald-700">
+                        Back to Dashboard
                     </a>
                 </div>
 
-                <form action="{{ route('admin.places.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="space-y-6">
@@ -26,21 +29,30 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                                <select name="place_category_id" required
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Service Category *</label>
+                                <select name="service_category_id" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
-                                            {{ old('place_category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ old('service_category_id') == $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('place_category_id')
+                                @error('service_category_id')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tagline</label>
+                            <input type="text" name="tagline" value="{{ old('tagline') }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('tagline')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div>
@@ -54,34 +66,58 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
-                                <input type="text" name="address" value="{{ old('address') }}" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                @error('address')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone 1 *</label>
                                 <input type="text" name="phone_1" value="{{ old('phone_1') }}" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('phone_1')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone 2</label>
+                                <input type="text" name="phone_2" value="{{ old('phone_2') }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                @error('phone_2')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp</label>
+                                <input type="text" name="whatsapp" value="{{ old('whatsapp') }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                @error('whatsapp')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                                <input type="url" name="website" value="{{ old('website') }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                @error('website')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                            <input type="text" name="address" value="{{ old('address') }}" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('address')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
-                                <select name="country" required
+                                <input type="text" name="country" value="{{ old('country', 'Afghanistan') }}" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="Afghanistan"
-                                        {{ old('country', 'Afghanistan') === 'Afghanistan' ? 'selected' : '' }}>
-                                        Afghanistan
-                                    </option>
-                                </select>
                                 @error('country')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -89,69 +125,79 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Province *</label>
-                                <input type="search" id="province-search" placeholder="Search province"
-                                    class="w-full mb-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                <select name="province" id="province-select" required
-                                    data-selected="{{ old('province', 'Kabul') }}"
+                                <input type="text" name="province" value="{{ old('province') }}" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                </select>
                                 @error('province')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">District *</label>
-                                <select name="district" id="district-select" required disabled
-                                    data-selected="{{ old('district') }}"
+                                <label class="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                                <input type="text" name="city" value="{{ old('city') }}" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="">Select province first</option>
-                                </select>
+                                @error('city')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">District *</label>
+                                <input type="text" name="district" value="{{ old('district') }}" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('district')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
-                        <div class="mt-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Exact Location *</label>
-                            <p class="text-sm text-gray-500 mb-3">Choose country, province and district first, then click on
-                                the map to set the exact latitude and longitude.</p>
-                            <div id="place-map" data-scroll-wheel="false"
-                                class="rounded-lg border border-gray-300 overflow-hidden"
-                                style="height: 320px;"></div>
-                            <p class="mt-2 text-sm text-gray-600">Selected coordinates: <span
-                                    id="selected-coords">{{ old('latitude') && old('longitude') ? old('latitude') . ', ' . old('longitude') : 'None' }}</span>
-                            </p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Latitude *</label>
-                                <input type="number" step="0.000001" min="-90" max="90" name="latitude"
-                                    value="{{ old('latitude') }}" required readonly
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Latitude</label>
+                                <input type="number" step="0.000001" name="latitude" value="{{ old('latitude') }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('latitude')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Longitude *</label>
-                                <input type="number" step="0.000001" min="-180" max="180" name="longitude"
-                                    value="{{ old('longitude') }}" required readonly
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Longitude</label>
+                                <input type="number" step="0.000001" name="longitude" value="{{ old('longitude') }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('longitude')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Price Level</label>
+                                <select name="price_level"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                    <option value="low" {{ old('price_level') === 'low' ? 'selected' : '' }}>Low</option>
+                                    <option value="medium" {{ old('price_level', 'medium') === 'medium' ? 'selected' : '' }}>
+                                        Medium</option>
+                                    <option value="high" {{ old('price_level') === 'high' ? 'selected' : '' }}>High</option>
+                                    <option value="luxury" {{ old('price_level') === 'luxury' ? 'selected' : '' }}>
+                                        Luxury</option>
+                                </select>
+                                @error('price_level')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Website</label>
-                            <input type="url" name="website" value="{{ old('website') }}"
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <select name="status"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            @error('website')
+                                <option value="open" {{ old('status', 'open') === 'open' ? 'selected' : '' }}>Open</option>
+                                <option value="closed" {{ old('status') === 'closed' ? 'selected' : '' }}>Closed</option>
+                                <option value="temporarily_closed"
+                                    {{ old('status') === 'temporarily_closed' ? 'selected' : '' }}>Temporarily Closed
+                                </option>
+                            </select>
+                            @error('status')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -182,13 +228,13 @@
                         </div>
 
                         <div class="flex justify-end space-x-4 pt-4">
-                            <a href="{{ route('admin.places.index') }}"
+                            <a href="{{ route('admin.dashboard') }}"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
                                 Cancel
                             </a>
                             <button type="submit"
                                 class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
-                                Create Place
+                                Create Service
                             </button>
                         </div>
                     </div>
@@ -197,12 +243,3 @@
         </div>
     </div>
 @endsection
-
-@push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-@endpush
-
-@push('scripts')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <script src="{{ asset('assets/js/places-search-local.js') }}"></script>
-@endpush

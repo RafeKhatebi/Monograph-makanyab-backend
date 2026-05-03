@@ -62,6 +62,20 @@
         </div>
     </div>
 
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-3">Quick Actions</h3>
+        <div class="flex gap-4" style="flex-wrap: wrap;">
+            <a href="{{ route('admin.services.create') }}"
+                class="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg hover:bg-emerald-700">
+                + Add New Service
+            </a>
+            <a href="{{ route('admin.service-categories.create') }}"
+                class="px-4 py-2 border border-emerald-600 text-emerald-600 text-sm rounded-lg hover:bg-emerald-50">
+                + Add Service Category
+            </a>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {{-- Recent Places --}}
         <div class="bg-white rounded-lg shadow-md overflow-hidden">

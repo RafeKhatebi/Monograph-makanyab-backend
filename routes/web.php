@@ -108,6 +108,7 @@ Route::middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
 
+        Route::get('/', fn () => redirect()->route('admin.dashboard'))->name('home');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         //  Places Management
         Route::resource('places', App\Http\Controllers\Admin\PlaceController::class);

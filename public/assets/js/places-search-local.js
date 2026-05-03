@@ -227,7 +227,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var initialLat = parseFloat(latInput.value);
     var initialLng = parseFloat(lngInput.value);
     var hasInitial = !isNaN(initialLat) && !isNaN(initialLng);
-    var map = L.map(mapElement).setView(hasInitial ? [initialLat, initialLng] : initialCenter, hasInitial ? 13 : 5);
+    var enableScrollWheel = mapElement.dataset.scrollWheel !== 'false';
+    var map = L.map(mapElement, {
+        scrollWheelZoom: enableScrollWheel
+    }).setView(hasInitial ? [initialLat, initialLng] : initialCenter, hasInitial ? 13 : 5);
 
     populateProvinces(provinceSearch.value);
 
