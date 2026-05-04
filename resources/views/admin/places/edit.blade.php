@@ -1,200 +1,184 @@
 @extends('layouts.admin')
 
+@section('title', 'Edit Place')
+@section('page-title', 'Edit Place')
+
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h1 class="text-2xl font-bold text-gray-900">Edit Place</h1>
-                    <a href="{{ route('admin.places.index') }}" class="text-emerald-600 hover:text-emerald-700">
-                        ← Back to Places
-                    </a>
+    <div class="bg-light rounded h-100 p-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+            <h6 class="mb-0">Edit Place</h6>
+            <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="fa fa-arrow-left me-1"></i>Back to Places
+            </a>
+        </div>
+
+        <form action="{{ route('admin.places.update', $place) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Name *</label>
+                    <input type="text" id="name" name="name" value="{{ old('name', $place->name) }}" required
+                        class="form-control @error('name') is-invalid @enderror">
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <form action="{{ route('admin.places.update', $place) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+                <div class="col-md-6">
+                    <label for="place_category_id" class="form-label">Category *</label>
+                    <select id="place_category_id" name="place_category_id" required
+                        class="form-select @error('place_category_id') is-invalid @enderror">
+                        <option value="">Select Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('place_category_id', $place->place_category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('place_category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                    <div class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
-                                <input type="text" name="name" value="{{ old('name', $place->name) }}" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                @error('name')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
+                <div class="col-12">
+                    <label for="description" class="form-label">Description *</label>
+                    <textarea id="description" name="description" rows="4" required
+                        class="form-control @error('description') is-invalid @enderror">{{ old('description', $place->description) }}</textarea>
+                    @error('description')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                                <select name="place_category_id" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ old('place_category_id', $place->place_category_id) == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('place_category_id')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <label for="address" class="form-label">Address *</label>
+                    <input type="text" id="address" name="address" value="{{ old('address', $place->address) }}" required
+                        class="form-control @error('address') is-invalid @enderror">
+                    @error('address')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Description *</label>
-                            <textarea name="description" rows="4" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">{{ old('description', $place->description) }}</textarea>
-                            @error('description')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <div class="col-md-6">
+                    <label for="phone_1" class="form-label">Phone *</label>
+                    <input type="text" id="phone_1" name="phone_1" value="{{ old('phone_1', $place->phone_1) }}" required
+                        class="form-control @error('phone_1') is-invalid @enderror">
+                    @error('phone_1')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
-                                <input type="text" name="address" value="{{ old('address', $place->address) }}" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                @error('address')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
+                <div class="col-md-4">
+                    <label for="country" class="form-label">Country *</label>
+                    <select id="country" name="country" required class="form-select @error('country') is-invalid @enderror">
+                        <option value="Afghanistan"
+                            {{ old('country', $place->country ?? 'Afghanistan') === 'Afghanistan' ? 'selected' : '' }}>
+                            Afghanistan
+                        </option>
+                    </select>
+                    @error('country')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
-                                <input type="text" name="phone_1" value="{{ old('phone_1', $place->phone_1) }}" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                @error('phone_1')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="col-md-4">
+                    <label for="province-search" class="form-label">Province *</label>
+                    <input type="search" id="province-search" placeholder="Search province" class="form-control mb-2">
+                    <select id="province-select" name="province" required
+                        data-selected="{{ old('province', $place->province ?? 'Kabul') }}"
+                        class="form-select @error('province') is-invalid @enderror">
+                    </select>
+                    @error('province')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
-                                <select name="country" required
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="Afghanistan"
-                                        {{ old('country', $place->country ?? 'Afghanistan') === 'Afghanistan' ? 'selected' : '' }}>
-                                        Afghanistan
-                                    </option>
-                                </select>
-                                @error('country')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
+                <div class="col-md-4">
+                    <label for="district-select" class="form-label">District *</label>
+                    <select id="district-select" name="district" required disabled
+                        data-selected="{{ old('district', $place->district) }}"
+                        class="form-select @error('district') is-invalid @enderror">
+                        <option value="">Select province first</option>
+                    </select>
+                    @error('district')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Province *</label>
-                                <input type="search" id="province-search" placeholder="Search province"
-                                    class="w-full mb-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                <select name="province" id="province-select" required
-                                    data-selected="{{ old('province', $place->province ?? 'Kabul') }}"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                </select>
-                                @error('province')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
+                <div class="col-12">
+                    <label class="form-label">Select Exact Location *</label>
+                    <p class="small text-muted mb-2">Choose country, province and district first, then click on the map to set
+                        the exact latitude and longitude.</p>
+                    <div id="place-map" data-scroll-wheel="false" class="border rounded overflow-hidden"
+                        style="height: 320px;"></div>
+                    <p class="small text-muted mt-2 mb-0">Selected coordinates:
+                        <span
+                            id="selected-coords">{{ old('latitude', $place->latitude) && old('longitude', $place->longitude) ? old('latitude', $place->latitude) . ', ' . old('longitude', $place->longitude) : ($place->latitude && $place->longitude ? $place->latitude . ', ' . $place->longitude : 'None') }}</span>
+                    </p>
+                </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">District *</label>
-                                <select name="district" id="district-select" required disabled
-                                    data-selected="{{ old('district', $place->district) }}"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="">Select province first</option>
-                                </select>
-                                @error('district')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <label for="latitude" class="form-label">Latitude *</label>
+                    <input type="number" step="0.000001" min="-90" max="90" id="latitude" name="latitude"
+                        value="{{ old('latitude', $place->latitude) }}" required readonly
+                        class="form-control bg-light @error('latitude') is-invalid @enderror">
+                    @error('latitude')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <div class="mt-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Exact Location *</label>
-                            <p class="text-sm text-gray-500 mb-3">Choose country, province and district first, then click on
-                                the map to set the exact latitude and longitude.</p>
-                            <div id="place-map" class="rounded-lg border border-gray-300 overflow-hidden"
-                                style="height: 320px;"></div>
-                            <p class="mt-2 text-sm text-gray-600">Selected coordinates: <span
-                                    id="selected-coords">{{ old('latitude', $place->latitude) && old('longitude', $place->longitude) ? old('latitude', $place->latitude) . ', ' . old('longitude', $place->longitude) : ($place->latitude && $place->longitude ? $place->latitude . ', ' . $place->longitude : 'None') }}</span>
-                            </p>
-                        </div>
+                <div class="col-md-6">
+                    <label for="longitude" class="form-label">Longitude *</label>
+                    <input type="number" step="0.000001" min="-180" max="180" id="longitude" name="longitude"
+                        value="{{ old('longitude', $place->longitude) }}" required readonly
+                        class="form-control bg-light @error('longitude') is-invalid @enderror">
+                    @error('longitude')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Latitude *</label>
-                                <input type="number" step="0.000001" min="-90" max="90" name="latitude"
-                                    value="{{ old('latitude', $place->latitude) }}" required readonly
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                @error('latitude')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
+                <div class="col-12">
+                    <label for="website" class="form-label">Website</label>
+                    <input type="url" id="website" name="website" value="{{ old('website', $place->website) }}"
+                        class="form-control @error('website') is-invalid @enderror">
+                    @error('website')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Longitude *</label>
-                                <input type="number" step="0.000001" min="-180" max="180" name="longitude"
-                                    value="{{ old('longitude', $place->longitude) }}" required readonly
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                @error('longitude')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="col-12">
+                    <label for="images" class="form-label">Add New Images</label>
+                    <input type="file" id="images" name="images[]" multiple accept="image/*"
+                        class="form-control @error('images') is-invalid @enderror">
+                    @error('images')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Website</label>
-                            <input type="url" name="website" value="{{ old('website', $place->website) }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            @error('website')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Add New Images</label>
-                            <input type="file" name="images[]" multiple accept="image/*"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            @error('images')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="flex items-center space-x-6">
-                            <label class="flex items-center">
-                                <input type="checkbox" name="is_verified" value="1"
-                                    {{ old('is_verified', $place->is_verified) ? 'checked' : '' }}
-                                    class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
-                                <span class="ml-2 text-sm text-gray-700">Verified</span>
-                            </label>
-
-                            <label class="flex items-center">
-                                <input type="checkbox" name="is_active" value="1"
-                                    {{ old('is_active', $place->is_active) ? 'checked' : '' }}
-                                    class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
-                                <span class="ml-2 text-sm text-gray-700">Active</span>
-                            </label>
-                        </div>
-
-                        <div class="flex justify-end space-x-4 pt-4">
-                            <a href="{{ route('admin.places.index') }}"
-                                class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                                Cancel
-                            </a>
-                            <button type="submit"
-                                class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
-                                Update Place
-                            </button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-check form-switch mt-2">
+                        <input type="checkbox" class="form-check-input" id="is_verified" name="is_verified" value="1"
+                            {{ old('is_verified', $place->is_verified) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_verified">Verified</label>
                     </div>
-                </form>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-check form-switch mt-2">
+                        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
+                            {{ old('is_active', $place->is_active) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_active">Active</label>
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end gap-2 pt-2">
+                    <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Update Place</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 
