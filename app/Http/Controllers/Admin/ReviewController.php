@@ -17,8 +17,8 @@ class ReviewController extends Controller
         }
 
         if ($request->filled('search')) {
-            $query->whereHas('place', function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%');
+            $query->whereHas('place', function ($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%');
             });
         }
 

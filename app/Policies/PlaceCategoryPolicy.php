@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\PlaceCategory;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PlaceCategoryPolicy
 {
@@ -13,7 +12,7 @@ class PlaceCategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-          return in_array($user->role, ['admin', 'owner']);
+        return in_array($user->role, ['admin', 'owner']);
     }
 
     /**
