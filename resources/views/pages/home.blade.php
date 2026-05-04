@@ -127,7 +127,7 @@
         </div>
     </div>
 
-    {{-- CTA --}}
+    {{-- CTA  --}}
     <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:60px 0;">
         <div class="container">
             <div class="row">

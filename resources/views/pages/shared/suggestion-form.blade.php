@@ -18,6 +18,7 @@
 
 <form action="{{ $action }}" method="POST">
     @csrf
+    <input type="hidden" name="country" value="{{ old('country', 'Afghanistan') }}">
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <x-form-field for="name" label="Name" :value="old('name')" />

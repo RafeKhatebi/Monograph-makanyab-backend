@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Categories')
-@section('page-title', 'Categories')
+@section('title', 'Manage Service Categories')
+@section('page-title', 'Service Categories')
 
 @section('content')
     <div class="bg-light rounded h-100 p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">All Categories ({{ $categories->total() }})</h6>
-            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm">+ Add New Category</a>
+            <h6 class="mb-0">All Service Categories ({{ $categories->total() }})</h6>
+            <a href="{{ route('admin.service-categories.create') }}" class="btn btn-primary btn-sm">+ Add New Service Category</a>
         </div>
 
         <div class="table-responsive">
@@ -17,7 +17,7 @@
                         <th>Name</th>
                         <th>Slug</th>
                         <th>Parent</th>
-                        <th>Places</th>
+                        <th>Services</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -28,7 +28,7 @@
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->slug }}</td>
                             <td>{{ $category->parent->name ?? '-' }}</td>
-                            <td>{{ $category->places_count }}</td>
+                            <td>{{ $category->services_count }}</td>
                             <td>
                                 <span class="badge {{ $category->is_active ? 'bg-success' : 'bg-secondary' }}">
                                     {{ $category->is_active ? 'Active' : 'Inactive' }}
@@ -36,9 +36,9 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.categories.show', $category) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                    <a href="{{ route('admin.service-categories.show', $category) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.service-categories.edit', $category) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.service-categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this service category?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -48,7 +48,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4">No categories found</td>
+                            <td colspan="6" class="text-center py-4">No service categories found</td>
                         </tr>
                     @endforelse
                 </tbody>

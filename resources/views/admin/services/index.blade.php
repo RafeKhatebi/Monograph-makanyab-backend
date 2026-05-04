@@ -1,24 +1,24 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Places')
-@section('page-title', 'Places')
+@section('title', 'Manage Services')
+@section('page-title', 'Services')
 
 @section('content')
     <div class="bg-light rounded h-100 p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">All Places ({{ $places->total() }})</h6>
-            <a href="{{ route('admin.places.create') }}" class="btn btn-primary btn-sm">+ Add New Place</a>
+            <h6 class="mb-0">All Services ({{ $services->total() }})</h6>
+            <a href="{{ route('admin.services.create') }}" class="btn btn-primary btn-sm">+ Add New Service</a>
         </div>
 
-        <form method="GET" action="{{ route('admin.places.index') }}" class="row g-2 mb-4">
+        <form method="GET" action="{{ route('admin.services.index') }}" class="row g-2 mb-4">
             <div class="col-md-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..." class="form-control">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search services..." class="form-control">
             </div>
             <div class="col-md-2">
-                <select name="category" class="form-select">
+                <select name="service_category" class="form-select">
                     <option value="">All Categories</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('service_category') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-3 d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">Filter</button>
-                <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary w-100">Clear</a>
+                <a href="{{ route('admin.services.index') }}" class="btn btn-outline-secondary w-100">Clear</a>
             </div>
         </form>
 
@@ -51,35 +51,33 @@
                         <th>Name</th>
                         <th>Category</th>
                         <th>Address</th>
-                        <th>Reviews</th>
-                        <th>Rating</th>
+                        <th>Owner</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($places as $place)
+                    @forelse($services as $service)
                         <tr>
                             <td>
-                                {{ $place->name }}
-                                @if($place->is_verified)
+                                {{ $service->name }}
+                                @if($service->is_verified)
                                     <span class="badge bg-success ms-1">Verified</span>
                                 @endif
                             </td>
-                            <td>{{ $place->category->name ?? '-' }}</td>
-                            <td>{{ Str::limit($place->address, 30) }}</td>
-                            <td>{{ $place->reviews_count }}</td>
-                            <td>{{ number_format($place->reviews_avg_rating ?? 0, 1) }}</td>
+                            <td>{{ $service->category->name ?? '-' }}</td>
+                            <td>{{ Str::limit($service->address, 35) }}</td>
+                            <td>{{ $service->user->name ?? '-' }}</td>
                             <td>
-                                <span class="badge {{ $place->is_active ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $place->is_active ? 'Active' : 'Inactive' }}
+                                <span class="badge {{ $service->is_active ? 'bg-success' : 'bg-secondary' }}">
+                                    {{ $service->is_active ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.places.show', $place) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.places.edit', $place) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.places.destroy', $place) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this place?');">
+                                    <a href="{{ route('admin.services.show', $service) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.services.destroy', $service) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this service?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -89,16 +87,16 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-4">No places found</td>
+                            <td colspan="6" class="text-center py-4">No services found</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
 
-        @if($places->hasPages())
+        @if($services->hasPages())
             <div class="pt-4">
-                {{ $places->links() }}
+                {{ $services->links() }}
             </div>
         @endif
     </div>

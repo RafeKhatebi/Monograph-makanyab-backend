@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    if (typeof L === 'undefined') {
-        console.error('Leaflet did not load.');
-        return;
+    var hasLeaflet = typeof L !== 'undefined';
+    if (!hasLeaflet) {
+        console.error('Leaflet did not load. Map interaction is disabled, but form submission is still available.');
     }
 
     var provinceSearch = document.getElementById('province-search');
@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var latInput = document.querySelector('input[name="latitude"]');
     var lngInput = document.querySelector('input[name="longitude"]');
     var coordsLabel = document.getElementById('selected-coords');
+    var map = null;
+    var marker;
 
     var locationData = {
         "Badakhshan": {
@@ -243,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (marker) {
             marker.setLatLng([latitude, longitude]);
-        } else {
+        } else if (map) {
             marker = L.marker([latitude, longitude], { draggable: true }).addTo(map);
             marker.on('dragend', function (event) {
                 var pos = event.target.getLatLng();
@@ -270,24 +272,26 @@ document.addEventListener('DOMContentLoaded', function () {
     var initialLng = lngInput ? parseFloat(lngInput.value) : NaN;
     var hasInitial = !isNaN(initialLat) && !isNaN(initialLng);
 
-    var map = L.map(mapElement).setView(hasInitial ? [initialLat, initialLng] : initialCenter, hasInitial ? 13 : 5);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var marker;
-
     if (provinceSelect) {
         populateProvinces(provinceSearch ? provinceSearch.value : '');
     }
 
-    if (hasInitial) {
-        updatePosition(initialLat, initialLng);
-    }
+    if (hasLeaflet) {
+        map = L.map(mapElement).setView(hasInitial ? [initialLat, initialLng] : initialCenter, hasInitial ? 13 : 5);
 
-    map.on('click', function (event) {
-        updatePosition(event.latlng.lat, event.latlng.lng);
-    });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        if (hasInitial) {
+            updatePosition(initialLat, initialLng);
+        }
+
+        map.on('click', function (event) {
+            updatePosition(event.latlng.lat, event.latlng.lng);
+        });
+    } else if (coordsLabel && !hasInitial) {
+        coordsLabel.textContent = 'Map unavailable (Leaflet failed to load)';
+    }
 });
