@@ -7,7 +7,8 @@
     <div class="bg-light rounded h-100 p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">All Service Categories ({{ $categories->total() }})</h6>
-            <a href="{{ route('admin.service-categories.create') }}" class="btn btn-primary btn-sm">+ Add New Service Category</a>
+            <a href="{{ route('admin.service-categories.create') }}" class="btn btn-primary btn-sm">+ Add New Service
+                Category</a>
         </div>
 
         <div class="table-responsive">
@@ -36,9 +37,13 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.service-categories.show', $category) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.service-categories.edit', $category) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.service-categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this service category?');">
+                                    <a href="{{ route('admin.service-categories.show', $category) }}"
+                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.service-categories.edit', $category) }}"
+                                        class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.service-categories.destroy', $category) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this service category?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -55,7 +60,7 @@
             </table>
         </div>
 
-        @if($categories->hasPages())
+        @if ($categories->hasPages())
             <div class="pt-4">
                 {{ $categories->links() }}
             </div>

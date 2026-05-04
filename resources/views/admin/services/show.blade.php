@@ -10,14 +10,15 @@
                 <div class="flex items-center justify-between mb-6">
                     <h1 class="text-2xl font-bold text-gray-900">{{ $service->name }}</h1>
                     <div class="flex space-x-3">
-                        <a href="{{ route('admin.services.edit', $service) }}" class="text-emerald-600 hover:text-emerald-700">Edit</a>
+                        <a href="{{ route('admin.services.edit', $service) }}"
+                            class="text-emerald-600 hover:text-emerald-700">Edit</a>
                         <a href="{{ route('admin.services.index') }}" class="text-gray-600 hover:text-gray-700">Back</a>
                     </div>
                 </div>
 
                 <div class="space-y-6">
                     <div class="flex items-center gap-3">
-                        @if($service->is_verified)
+                        @if ($service->is_verified)
                             <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-sm rounded-full">Verified</span>
                         @endif
                         <span
@@ -43,7 +44,7 @@
                         </div>
                     </div>
 
-                    @if($service->tagline)
+                    @if ($service->tagline)
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Tagline</h3>
                             <p class="text-gray-900">{{ $service->tagline }}</p>
@@ -64,7 +65,8 @@
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Location</h3>
                             <p class="text-gray-900">
-                                {{ $service->district }}, {{ $service->city }}, {{ $service->province }}, {{ $service->country }}
+                                {{ $service->district }}, {{ $service->city }}, {{ $service->province }},
+                                {{ $service->country }}
                             </p>
                         </div>
                     </div>
@@ -90,7 +92,7 @@
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Website</h3>
                             <p class="text-gray-900">
-                                @if($service->website)
+                                @if ($service->website)
                                     <a href="{{ $service->website }}" target="_blank" rel="noopener noreferrer"
                                         class="text-emerald-600 hover:underline">{{ $service->website }}</a>
                                 @else
@@ -110,11 +112,11 @@
                         </div>
                     </div>
 
-                    @if($service->media->where('type', 'image')->count() > 0)
+                    @if ($service->media->where('type', 'image')->count() > 0)
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-3">Images</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                @foreach($service->media->where('type', 'image') as $image)
+                                @foreach ($service->media->where('type', 'image') as $image)
                                     <img src="{{ asset('storage/' . $image->file_path) }}" alt="{{ $service->name }}"
                                         class="w-full h-28 object-cover rounded-lg border border-gray-100">
                                 @endforeach

@@ -174,10 +174,13 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Price Level</label>
                                 <select name="price_level"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="low" {{ old('price_level') === 'low' ? 'selected' : '' }}>Low</option>
-                                    <option value="medium" {{ old('price_level', 'medium') === 'medium' ? 'selected' : '' }}>
+                                    <option value="low" {{ old('price_level') === 'low' ? 'selected' : '' }}>Low
+                                    </option>
+                                    <option value="medium"
+                                        {{ old('price_level', 'medium') === 'medium' ? 'selected' : '' }}>
                                         Medium</option>
-                                    <option value="high" {{ old('price_level') === 'high' ? 'selected' : '' }}>High</option>
+                                    <option value="high" {{ old('price_level') === 'high' ? 'selected' : '' }}>High
+                                    </option>
                                     <option value="luxury" {{ old('price_level') === 'luxury' ? 'selected' : '' }}>
                                         Luxury</option>
                                 </select>
@@ -191,7 +194,8 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                             <select name="status"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                <option value="open" {{ old('status', 'open') === 'open' ? 'selected' : '' }}>Open</option>
+                                <option value="open" {{ old('status', 'open') === 'open' ? 'selected' : '' }}>Open
+                                </option>
                                 <option value="closed" {{ old('status') === 'closed' ? 'selected' : '' }}>Closed</option>
                                 <option value="temporarily_closed"
                                     {{ old('status') === 'temporarily_closed' ? 'selected' : '' }}>Temporarily Closed

@@ -51,11 +51,11 @@
                             </tr>
                             <tr>
                                 <th>Status</th>
-                                <td>{{ ucfirst(str_replace('_', ' ', $placeSuggestion->status)) }}</td>
+                                <td>{{ ucfirst(str_replace('_', ' ', $placeSuggestion->status->value)) }}</td>
                             </tr>
                             <tr>
                                 <th>Price</th>
-                                <td>{{ ucfirst($placeSuggestion->price_level) }}</td>
+                                <td>{{ ucfirst($placeSuggestion->price_level->value) }}</td>
                             </tr>
                             <tr>
                                 <th>Submitted</th>
@@ -63,7 +63,7 @@
                             </tr>
                             <tr>
                                 <th>Suggestion State</th>
-                                <td>{{ ucfirst($placeSuggestion->suggestion_status) }}</td>
+                                <td>{{ ucfirst($placeSuggestion->suggestion_status->value) }}</td>
                             </tr>
                             <tr>
                                 <th>Admin Note</th>

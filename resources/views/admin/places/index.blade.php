@@ -12,12 +12,13 @@
 
         <form method="GET" action="{{ route('admin.places.index') }}" class="row g-2 mb-4">
             <div class="col-md-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..." class="form-control">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
+                    class="form-control">
             </div>
             <div class="col-md-2">
                 <select name="category" class="form-select">
                     <option value="">All Categories</option>
-                    @foreach($categories as $category)
+                    @foreach ($categories as $category)
                         <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
@@ -62,7 +63,7 @@
                         <tr>
                             <td>
                                 {{ $place->name }}
-                                @if($place->is_verified)
+                                @if ($place->is_verified)
                                     <span class="badge bg-success ms-1">Verified</span>
                                 @endif
                             </td>
@@ -77,9 +78,12 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.places.show', $place) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.places.edit', $place) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.places.destroy', $place) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this place?');">
+                                    <a href="{{ route('admin.places.show', $place) }}"
+                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.places.edit', $place) }}"
+                                        class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this place?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -96,7 +100,7 @@
             </table>
         </div>
 
-        @if($places->hasPages())
+        @if ($places->hasPages())
             <div class="pt-4">
                 {{ $places->links() }}
             </div>

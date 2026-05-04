@@ -49,7 +49,8 @@
     <div class="bg-light rounded p-4 mb-4">
         <div class="d-flex flex-wrap gap-2">
             <a href="{{ route('admin.services.create') }}" class="btn btn-primary">+ Add New Service</a>
-            <a href="{{ route('admin.service-categories.create') }}" class="btn btn-outline-primary">+ Add Service Category</a>
+            <a href="{{ route('admin.service-categories.create') }}" class="btn btn-outline-primary">+ Add Service
+                Category</a>
             <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary">Manage Places</a>
             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Manage Users</a>
         </div>
@@ -74,7 +75,9 @@
                         <tbody>
                             @forelse($stats['recent_places'] as $place)
                                 <tr>
-                                    <td><a href="{{ route('admin.places.show', $place) }}">{{ Str::limit($place->name, 30) }}</a></td>
+                                    <td><a
+                                            href="{{ route('admin.places.show', $place) }}">{{ Str::limit($place->name, 30) }}</a>
+                                    </td>
                                     <td>{{ $place->category->name ?? '-' }}</td>
                                     <td>
                                         <span class="badge {{ $place->is_active ? 'bg-success' : 'bg-secondary' }}">

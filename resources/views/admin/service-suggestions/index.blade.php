@@ -5,9 +5,11 @@
 
 @section('content')
     <div class="panel">
-        <div class="panel-heading" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div class="panel-heading"
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <h3 class="panel-title">Pending Service Suggestions</h3>
-            <form method="GET" action="{{ route('admin.service-suggestions.index') }}" style="display:flex;gap:8px;flex-wrap:wrap;">
+            <form method="GET" action="{{ route('admin.service-suggestions.index') }}"
+                style="display:flex;gap:8px;flex-wrap:wrap;">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search suggestions..."
                     style="padding:10px;border:1px solid #D1D5DB;border-radius:10px;min-width:220px;">
                 <select name="status" style="padding:10px;border:1px solid #D1D5DB;border-radius:10px;">
@@ -42,16 +44,19 @@
                             <td>
                                 {{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? 'Guest') }}
                                 <br>
-                                <small class="text-muted">{{ $suggestion->submitted_by_email ?? $suggestion->user->email ?? '' }}</small>
+                                <small
+                                    class="text-muted">{{ $suggestion->submitted_by_email ?? ($suggestion->user->email ?? '') }}</small>
                             </td>
-                            <td>{{ ucfirst($suggestion->status) }}</td>
+                            <td>{{ ucfirst($suggestion->status->value) }}</td>
                             <td>
-                                <span class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
-                                    {{ ucfirst($suggestion->suggestion_status) }}
+                                <span
+                                    class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
+                                    {{ ucfirst($suggestion->suggestion_status->value) }}
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.service-suggestions.show', $suggestion) }}" class="btn btn-sm btn-primary">View</a>
+                                <a href="{{ route('admin.service-suggestions.show', $suggestion) }}"
+                                    class="btn btn-sm btn-primary">View</a>
                             </td>
                         </tr>
                     @empty

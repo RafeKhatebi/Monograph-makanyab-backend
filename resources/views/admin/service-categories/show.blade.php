@@ -12,7 +12,8 @@
                     <div class="flex space-x-3">
                         <a href="{{ route('admin.service-categories.edit', $serviceCategory) }}"
                             class="text-emerald-600 hover:text-emerald-700">Edit</a>
-                        <a href="{{ route('admin.service-categories.index') }}" class="text-gray-600 hover:text-gray-700">Back</a>
+                        <a href="{{ route('admin.service-categories.index') }}"
+                            class="text-gray-600 hover:text-gray-700">Back</a>
                     </div>
                 </div>
 
@@ -36,7 +37,7 @@
                         </div>
                     </div>
 
-                    @if($serviceCategory->description)
+                    @if ($serviceCategory->description)
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Description</h3>
                             <p class="text-gray-900">{{ $serviceCategory->description }}</p>
@@ -93,7 +94,7 @@
                         </div>
                     </div>
 
-                    @if($serviceCategory->keywords)
+                    @if ($serviceCategory->keywords)
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Keywords</h3>
                             <p class="text-gray-900">{{ $serviceCategory->keywords }}</p>

@@ -12,7 +12,8 @@
 
         <form method="GET" action="{{ route('admin.posts.index') }}" class="row g-2 mb-4">
             <div class="col-md-6">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search posts..." class="form-control">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search posts..."
+                    class="form-control">
             </div>
             <div class="col-md-3">
                 <select name="is_published" class="form-select">
@@ -51,8 +52,10 @@
                             <td>{{ $post->published_at ? $post->published_at->format('M d, Y') : '-' }}</td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Delete this post?');">
+                                    <a href="{{ route('admin.posts.edit', $post) }}"
+                                        class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.posts.destroy', $post) }}" method="POST"
+                                        onsubmit="return confirm('Delete this post?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -69,7 +72,7 @@
             </table>
         </div>
 
-        @if($posts->hasPages())
+        @if ($posts->hasPages())
             <div class="pt-4">
                 {{ $posts->links() }}
             </div>

@@ -12,7 +12,8 @@
 
         <form method="GET" action="{{ route('admin.users.index') }}" class="row g-2 mb-4">
             <div class="col-md-4">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users..." class="form-control">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users..."
+                    class="form-control">
             </div>
             <div class="col-md-2">
                 <select name="role" class="form-select">
@@ -65,10 +66,13 @@
                             <td>{{ $user->created_at->format('M d, Y') }}</td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.users.show', $user) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    @if($user->id !== auth()->id())
-                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <a href="{{ route('admin.users.show', $user) }}"
+                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.users.edit', $user) }}"
+                                        class="btn btn-sm btn-outline-success">Edit</a>
+                                    @if ($user->id !== auth()->id())
+                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this user?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -86,7 +90,7 @@
             </table>
         </div>
 
-        @if($users->hasPages())
+        @if ($users->hasPages())
             <div class="pt-4">
                 {{ $users->links() }}
             </div>

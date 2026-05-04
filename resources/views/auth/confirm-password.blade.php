@@ -7,14 +7,8 @@
         @csrf
 
         <!-- Password -->
-        <x-form-field
-            label="{{ __('Password') }}"
-            for="password"
-            type="password"
-            name="password"
-            autocomplete="current-password"
-            required
-        />
+        <x-form-field label="{{ __('Password') }}" for="password" type="password" name="password"
+            autocomplete="current-password" required />
 
         <div class="flex justify-end mt-4">
             <x-primary-button>

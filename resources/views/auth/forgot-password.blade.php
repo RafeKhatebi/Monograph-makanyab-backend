@@ -10,16 +10,8 @@
         @csrf
 
         <!-- Email Address -->
-        <x-form-field
-            label="{{ __('Email') }}"
-            for="email"
-            type="email"
-            name="email"
-            :value="old('email')"
-            autocomplete="username"
-            required
-            autofocus
-        />
+        <x-form-field label="{{ __('Email') }}" for="email" type="email" name="email" :value="old('email')"
+            autocomplete="username" required autofocus />
 
         <div class="flex items-center justify-end mt-4">
             <x-primary-button>

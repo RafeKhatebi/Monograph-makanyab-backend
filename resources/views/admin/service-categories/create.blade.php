@@ -117,7 +117,8 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <label class="flex items-center">
-                                <input type="checkbox" name="has_menu" value="1" {{ old('has_menu') ? 'checked' : '' }}
+                                <input type="checkbox" name="has_menu" value="1"
+                                    {{ old('has_menu') ? 'checked' : '' }}
                                     class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
                                 <span class="ml-2 text-sm text-gray-700">Has Menu</span>
                             </label>

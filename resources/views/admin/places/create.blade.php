@@ -118,8 +118,7 @@
                             <p class="text-sm text-gray-500 mb-3">Choose country, province and district first, then click on
                                 the map to set the exact latitude and longitude.</p>
                             <div id="place-map" data-scroll-wheel="false"
-                                class="rounded-lg border border-gray-300 overflow-hidden"
-                                style="height: 320px;"></div>
+                                class="rounded-lg border border-gray-300 overflow-hidden" style="height: 320px;"></div>
                             <p class="mt-2 text-sm text-gray-600">Selected coordinates: <span
                                     id="selected-coords">{{ old('latitude') && old('longitude') ? old('latitude') . ', ' . old('longitude') : 'None' }}</span>
                             </p>

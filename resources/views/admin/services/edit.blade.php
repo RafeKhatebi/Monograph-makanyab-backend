@@ -68,7 +68,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Phone 1 *</label>
-                                <input type="text" name="phone_1" value="{{ old('phone_1', $service->phone_1) }}" required
+                                <input type="text" name="phone_1" value="{{ old('phone_1', $service->phone_1) }}"
+                                    required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('phone_1')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -117,7 +118,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
-                                <input type="text" name="country" value="{{ old('country', $service->country ?: 'Afghanistan') }}" required
+                                <input type="text" name="country"
+                                    value="{{ old('country', $service->country ?: 'Afghanistan') }}" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('country')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -126,7 +128,8 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Province *</label>
-                                <input type="text" name="province" value="{{ old('province', $service->province) }}" required
+                                <input type="text" name="province" value="{{ old('province', $service->province) }}"
+                                    required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('province')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -144,7 +147,8 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">District *</label>
-                                <input type="text" name="district" value="{{ old('district', $service->district) }}" required
+                                <input type="text" name="district" value="{{ old('district', $service->district) }}"
+                                    required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('district')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -177,11 +181,17 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Price Level</label>
                                 <select name="price_level"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                    <option value="low" {{ old('price_level', (string) $service->price_level) === 'low' ? 'selected' : '' }}>Low</option>
-                                    <option value="medium" {{ old('price_level', (string) $service->price_level ?: 'medium') === 'medium' ? 'selected' : '' }}>
+                                    <option value="low"
+                                        {{ old('price_level', (string) $service->price_level) === 'low' ? 'selected' : '' }}>
+                                        Low</option>
+                                    <option value="medium"
+                                        {{ old('price_level', (string) $service->price_level ?: 'medium') === 'medium' ? 'selected' : '' }}>
                                         Medium</option>
-                                    <option value="high" {{ old('price_level', (string) $service->price_level) === 'high' ? 'selected' : '' }}>High</option>
-                                    <option value="luxury" {{ old('price_level', (string) $service->price_level) === 'luxury' ? 'selected' : '' }}>
+                                    <option value="high"
+                                        {{ old('price_level', (string) $service->price_level) === 'high' ? 'selected' : '' }}>
+                                        High</option>
+                                    <option value="luxury"
+                                        {{ old('price_level', (string) $service->price_level) === 'luxury' ? 'selected' : '' }}>
                                         Luxury</option>
                                 </select>
                                 @error('price_level')
@@ -194,10 +204,15 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                             <select name="status"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                                <option value="open" {{ old('status', (string) $service->status ?: 'open') === 'open' ? 'selected' : '' }}>Open</option>
-                                <option value="closed" {{ old('status', (string) $service->status) === 'closed' ? 'selected' : '' }}>Closed</option>
+                                <option value="open"
+                                    {{ old('status', (string) $service->status ?: 'open') === 'open' ? 'selected' : '' }}>
+                                    Open</option>
+                                <option value="closed"
+                                    {{ old('status', (string) $service->status) === 'closed' ? 'selected' : '' }}>Closed
+                                </option>
                                 <option value="temporarily_closed"
-                                    {{ old('status', (string) $service->status) === 'temporarily_closed' ? 'selected' : '' }}>Temporarily Closed
+                                    {{ old('status', (string) $service->status) === 'temporarily_closed' ? 'selected' : '' }}>
+                                    Temporarily Closed
                                 </option>
                             </select>
                             @error('status')
@@ -214,12 +229,13 @@
                             @enderror
                         </div>
 
-                        @if($service->media->where('type', 'image')->count() > 0)
+                        @if ($service->media->where('type', 'image')->count() > 0)
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
                                 <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                                    @foreach($service->media->where('type', 'image') as $image)
-                                        <img src="{{ asset('storage/' . $image->file_path) }}" alt="{{ $service->name }}"
+                                    @foreach ($service->media->where('type', 'image') as $image)
+                                        <img src="{{ asset('storage/' . $image->file_path) }}"
+                                            alt="{{ $service->name }}"
                                             class="w-full h-24 object-cover rounded border border-gray-100">
                                     @endforeach
                                 </div>

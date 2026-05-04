@@ -12,13 +12,15 @@
 
         <form method="GET" action="{{ route('admin.services.index') }}" class="row g-2 mb-4">
             <div class="col-md-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search services..." class="form-control">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search services..."
+                    class="form-control">
             </div>
             <div class="col-md-2">
                 <select name="service_category" class="form-select">
                     <option value="">All Categories</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ request('service_category') == $category->id ? 'selected' : '' }}>
+                        <option value="{{ $category->id }}"
+                            {{ request('service_category') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
@@ -61,7 +63,7 @@
                         <tr>
                             <td>
                                 {{ $service->name }}
-                                @if($service->is_verified)
+                                @if ($service->is_verified)
                                     <span class="badge bg-success ms-1">Verified</span>
                                 @endif
                             </td>
@@ -75,9 +77,12 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.services.show', $service) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.services.destroy', $service) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this service?');">
+                                    <a href="{{ route('admin.services.show', $service) }}"
+                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.services.edit', $service) }}"
+                                        class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.services.destroy', $service) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this service?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -94,7 +99,7 @@
             </table>
         </div>
 
-        @if($services->hasPages())
+        @if ($services->hasPages())
             <div class="pt-4">
                 {{ $services->links() }}
             </div>

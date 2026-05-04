@@ -45,7 +45,7 @@
                                 </td>
                                 <td>
                                     <span class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
-                                        {{ ucfirst($suggestion->suggestion_status) }}
+                                        {{ ucfirst($suggestion->suggestion_status->value) }}
                                     </span>
                                 </td>
                                 <td class="text-right">

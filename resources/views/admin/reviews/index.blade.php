@@ -11,7 +11,8 @@
 
         <form method="GET" action="{{ route('admin.reviews.index') }}" class="row g-2 mb-4">
             <div class="col-md-5">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search reviews..." class="form-control">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search reviews..."
+                    class="form-control">
             </div>
             <div class="col-md-3">
                 <select name="rating" class="form-select">
@@ -55,8 +56,10 @@
                             <td>{{ $review->created_at->format('M d, Y') }}</td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.reviews.show', $review) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                    <a href="{{ route('admin.reviews.show', $review) }}"
+                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this review?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -73,7 +76,7 @@
             </table>
         </div>
 
-        @if($reviews->hasPages())
+        @if ($reviews->hasPages())
             <div class="pt-4">
                 {{ $reviews->links() }}
             </div>

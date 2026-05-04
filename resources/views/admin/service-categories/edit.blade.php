@@ -90,7 +90,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Keywords</label>
-                                <input type="text" name="keywords" value="{{ old('keywords', $serviceCategory->keywords) }}"
+                                <input type="text" name="keywords"
+                                    value="{{ old('keywords', $serviceCategory->keywords) }}"
                                     placeholder="plumber, electrician"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                                 @error('keywords')
