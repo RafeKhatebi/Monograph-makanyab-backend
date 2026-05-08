@@ -13,8 +13,10 @@ class FavoriteController extends Controller
     public function index(Request $request): JsonResponse
     {
         /** @var User $user */
+        // get the authenticated user
         $user = $request->user();
 
+        // get the user's favorites with pagination, including the category relationship
         $favorites = $user->favorites()
             ->with(['category:id,name,slug'])
             ->where('is_active', true)

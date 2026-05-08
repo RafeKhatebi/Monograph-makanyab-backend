@@ -41,4 +41,18 @@ class ReviewController extends Controller
         return redirect()->route('admin.reviews.index')
             ->with('success', 'Review deleted successfully.');
     }
+
+    public function approve(Review $review)
+    {
+        $review->update(['is_approved' => true]);
+
+        return back()->with('success', 'Review approved successfully.');
+    }
+
+    public function reject(Review $review)
+    {
+        $review->update(['is_approved' => false]);
+
+        return back()->with('success', 'Review marked as rejected.');
+    }
 }

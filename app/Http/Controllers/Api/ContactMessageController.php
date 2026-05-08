@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ContactController extends Controller
+class ContactMessageController extends Controller
 {
-    public function index()
-    {
-        return view('pages.contact.index');
-    }
-
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -23,10 +19,10 @@ class ContactController extends Controller
             'message' => 'required|string|max:2000',
         ]);
 
-        ContactMessage::create($validated + [
-            'user_id' => auth()->id(),
+        $message = ContactMessage::create($validated + [
+            'user_id' => $request->user()?->id,
         ]);
 
-        return back()->with('success', 'Thank you for contacting us! We will get back to you soon.');
+        return response()->json($message, 201);
     }
 }

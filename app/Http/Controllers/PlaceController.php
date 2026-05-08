@@ -65,6 +65,13 @@ class PlaceController extends Controller
 
     public function update(UpdatePlaceRequest $request, Place $place): JsonResponse
     {
+        /** @var User $user */
+        $user = $request->user();
+
+        if ($user->id !== $place->user_id && ! $user->isAdmin()) {
+            return response()->json(['message' => 'Forbidden.'], 403);
+        }
+
         $place->update($request->validated());
         $place->load(['category:id,name,slug', 'user:id,name']);
 

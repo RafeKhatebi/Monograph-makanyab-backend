@@ -45,17 +45,6 @@
             </div>
         </div>
     </div>
-
-    <div class="bg-light rounded p-4 mb-4">
-        <div class="d-flex flex-wrap gap-2">
-            <a href="{{ route('admin.services.create') }}" class="btn btn-primary">+ Add New Service</a>
-            <a href="{{ route('admin.service-categories.create') }}" class="btn btn-outline-primary">+ Add Service
-                Category</a>
-            <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary">Manage Places</a>
-            <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Manage Users</a>
-        </div>
-    </div>
-
     <div class="row g-4">
         <div class="col-lg-6">
             <div class="bg-light rounded p-4 h-100">

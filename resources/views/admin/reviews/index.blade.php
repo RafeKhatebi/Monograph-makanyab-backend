@@ -37,6 +37,7 @@
                         <th>Place</th>
                         <th>User</th>
                         <th>Rating</th>
+                        <th>Status</th>
                         <th>Comment</th>
                         <th>Date</th>
                         <th>Actions</th>
@@ -52,12 +53,28 @@
                             </td>
                             <td>{{ $review->user->name }}</td>
                             <td>{{ $review->rating }}/5</td>
+                            <td>
+                                <span class="badge {{ $review->is_approved ? 'bg-success' : 'bg-warning text-dark' }}">
+                                    {{ $review->is_approved ? 'Approved' : 'Pending' }}
+                                </span>
+                            </td>
                             <td>{{ Str::limit($review->comment, 50) }}</td>
                             <td>{{ $review->created_at->format('M d, Y') }}</td>
                             <td>
                                 <div class="d-flex gap-2">
                                     <a href="{{ route('admin.reviews.show', $review) }}"
                                         class="btn btn-sm btn-outline-primary">View</a>
+                                    @if (! $review->is_approved)
+                                        <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-success">Approve</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.reviews.reject', $review) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-outline-warning">Reject</button>
+                                        </form>
+                                    @endif
                                     <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this review?');">
                                         @csrf
@@ -69,7 +86,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4">No reviews found</td>
+                            <td colspan="7" class="text-center py-4">No reviews found</td>
                         </tr>
                     @endforelse
                 </tbody>

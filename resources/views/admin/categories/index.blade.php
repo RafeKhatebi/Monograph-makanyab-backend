@@ -36,9 +36,12 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.categories.show', $category) }}" class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                    <a href="{{ route('admin.categories.show', $category) }}"
+                                        class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="{{ route('admin.categories.edit', $category) }}"
+                                        class="btn btn-sm btn-outline-success">Edit</a>
+                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this category?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -55,7 +58,7 @@
             </table>
         </div>
 
-        @if($categories->hasPages())
+        @if ($categories->hasPages())
             <div class="pt-4">
                 {{ $categories->links() }}
             </div>

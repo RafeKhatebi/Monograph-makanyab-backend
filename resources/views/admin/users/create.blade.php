@@ -1,17 +1,19 @@
 @extends('layouts.admin')
 
-@section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h1 class="text-2xl font-bold text-gray-900">Add New User</h1>
-                    <a href="{{ route('admin.users.index') }}" class="text-emerald-600 hover:text-emerald-700">
-                        ← Back to Users
-                    </a>
-                </div>
+@section('title', 'Add User')
+@section('page-title', 'Add User')
 
-                <form action="{{ route('admin.users.store') }}" method="POST">
+@section('content')
+    <div class="bg-light rounded h-100 p-4">
+        <div class="bg-white rounded p-4 shadow-sm">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+                <h6 class="mb-0">Add New User</h6>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa fa-arrow-left me-1"></i>Back to Users
+                </a>
+            </div>
+
+            <form action="{{ route('admin.users.store') }}" method="POST">
                     @csrf
 
                     <div class="space-y-6">
@@ -29,6 +31,15 @@
                             <input type="email" name="email" value="{{ old('email') }}" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                             @error('email')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Username *</label>
+                            <input type="text" name="username" value="{{ old('username') }}" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('username')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -70,19 +81,18 @@
                             </label>
                         </div>
 
-                        <div class="flex justify-end space-x-4 pt-4">
+                        <div class="d-flex justify-content-end gap-2 pt-2">
                             <a href="{{ route('admin.users.index') }}"
-                                class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                                class="btn btn-outline-secondary">
                                 Cancel
                             </a>
                             <button type="submit"
-                                class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                                class="btn btn-primary">
                                 Create User
                             </button>
                         </div>
                     </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
 @endsection

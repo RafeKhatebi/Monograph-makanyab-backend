@@ -168,6 +168,8 @@ Route::middleware(['auth', 'admin'])
 
         Route::resource('reviews', ReviewController::class)
             ->only(['index', 'show', 'destroy']);
+        Route::post('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+        Route::post('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
 
         /*
         Posts Management
