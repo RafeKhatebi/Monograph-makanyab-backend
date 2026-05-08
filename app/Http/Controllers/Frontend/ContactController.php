@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -13,15 +12,9 @@ class ContactController extends Controller
         return view('pages.contact.index');
     }
 
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'telephone' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string|max:2000',
-        ]);
+        $validated = $request->validated();
 
         ContactMessage::create($validated + [
             'user_id' => auth()->id(),

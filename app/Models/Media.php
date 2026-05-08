@@ -15,12 +15,14 @@ class Media extends Model
         'file_path', 'disk', 'mime_type', 'file_size',
         'type', 'is_cover', 'sort_order',
     ];
-// 
+
+    //
     protected $casts = [
         'is_cover' => 'boolean',
         'file_size' => 'integer',
         'sort_order' => 'integer',
     ];
+
     public function mediable(): MorphTo
     {
         return $this->morphTo();
