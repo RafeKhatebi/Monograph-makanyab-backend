@@ -1,15 +1,25 @@
 @extends('layouts.admin')
 
+@section('title', 'Review Details')
+@section('page-title', 'Review Details')
+
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h1 class="text-2xl font-bold text-gray-900">Review Details</h1>
-                    <a href="{{ route('admin.reviews.index') }}" class="text-gray-600 hover:text-gray-700">← Back</a>
-                </div>
+    <div class="bg-light rounded h-100 p-4">
+        <div class="bg-white rounded p-4 shadow-sm">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+                <h6 class="mb-0">Review Details</h6>
+                <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa fa-arrow-left me-1"></i>Back
+                </a>
+            </div>
 
                 <div class="space-y-6">
+                    <div>
+                        <span class="badge {{ $review->is_approved ? 'bg-success' : 'bg-warning text-dark' }}">
+                            {{ $review->is_approved ? 'Approved' : 'Pending Approval' }}
+                        </span>
+                    </div>
+
                     <div>
                         <h3 class="text-sm font-medium text-gray-500 mb-1">Rating</h3>
                         <div class="flex items-center">
@@ -56,17 +66,30 @@
                     </div>
 
                     <div class="pt-4 border-t">
+                        <div class="d-flex gap-2 mb-3">
+                            @if (! $review->is_approved)
+                                <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Approve Review</button>
+                                </form>
+                            @else
+                                <form action="{{ route('admin.reviews.reject', $review) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning">Reject Review</button>
+                                </form>
+                            @endif
+                        </div>
+
                         <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
                             onsubmit="return confirm('Are you sure you want to delete this review?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                            <button type="submit" class="btn btn-danger">
                                 Delete Review
                             </button>
                         </form>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 @endsection

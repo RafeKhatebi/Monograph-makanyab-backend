@@ -133,6 +133,13 @@
                                     </div>
                                     <div style="margin-bottom:16px;">
                                         <label
+                                            style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Username</label>
+                                        <input type="text" name="username"
+                                            value="{{ old('username', auth()->user()->username) }}" class="form-control"
+                                            style="height:44px;border-radius:8px;">
+                                    </div>
+                                    <div style="margin-bottom:16px;">
+                                        <label
                                             style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Phone</label>
                                         <input type="text" name="phone"
                                             value="{{ old('phone', auth()->user()->phone) }}" class="form-control"
@@ -142,6 +149,36 @@
                                         <label
                                             style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Bio</label>
                                         <textarea name="bio" class="form-control" rows="3" style="border-radius:8px;">{{ old('bio', auth()->user()->bio) }}</textarea>
+                                    </div>
+                                    <hr style="margin:24px 0;">
+                                    <h4 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 16px;">Change Password
+                                    </h4>
+                                    <div style="margin-bottom:16px;">
+                                        <label
+                                            style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Current
+                                            Password</label>
+                                        <input type="password" name="current_password" class="form-control"
+                                            style="height:44px;border-radius:8px;">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div style="margin-bottom:16px;">
+                                                <label
+                                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">New
+                                                    Password</label>
+                                                <input type="password" name="password" class="form-control"
+                                                    style="height:44px;border-radius:8px;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="margin-bottom:16px;">
+                                                <label
+                                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Confirm
+                                                    New Password</label>
+                                                <input type="password" name="password_confirmation" class="form-control"
+                                                    style="height:44px;border-radius:8px;">
+                                            </div>
+                                        </div>
                                     </div>
                                     <button type="submit"
                                         style="background:#10B981;color:#fff;border:none;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">

@@ -4,12 +4,11 @@
 @section('page-title', 'Service Category Details')
 
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h1 class="text-2xl font-bold text-gray-900">{{ $serviceCategory->name }}</h1>
-                    <div class="flex space-x-3">
+    <div class="bg-light rounded h-100 p-4">
+        <div class="bg-white rounded p-4 shadow-sm">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+                <h6 class="mb-0">{{ $serviceCategory->name }}</h6>
+                <div class="d-flex gap-2">
                         <a href="{{ route('admin.service-categories.edit', $serviceCategory) }}"
                             class="text-emerald-600 hover:text-emerald-700">Edit</a>
                         <a href="{{ route('admin.service-categories.index') }}"
@@ -118,7 +117,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 @endsection

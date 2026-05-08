@@ -22,6 +22,13 @@ class OpeningHourController extends Controller
 
     public function store(StoreOpeningHourRequest $request, Place $place): JsonResponse
     {
+        /** @var User $user */
+        $user = $request->user();
+
+        if ($user->id !== $place->user_id && ! $user->isAdmin()) {
+            return response()->json(['message' => 'Forbidden.'], 403);
+        }
+
         $hour = $place->openingHours()->create($request->validated());
 
         return response()->json($hour, 201);

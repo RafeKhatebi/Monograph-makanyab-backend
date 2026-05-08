@@ -12,6 +12,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+        // Admin can filter users by role, active status, and search by name/email/username
         $query = User::withCount(['reviews', 'favorites', 'places']);
 
         if ($request->filled('role')) {
@@ -44,6 +45,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|alpha_dash|unique:users,username',
             'email' => 'required|string|lowercase|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => 'required|in:user,owner,admin',
@@ -74,6 +76,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|alpha_dash|unique:users,username,'.$user->id,
             'email' => 'required|string|lowercase|email|max:255|unique:users,email,'.$user->id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'role' => 'required|in:user,owner,admin',
@@ -95,6 +98,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+
         if ($user->id === auth()->id()) {
             return back()->with('error', 'You cannot delete your own account.');
         }
@@ -110,6 +114,14 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return back()->with('error', 'You cannot deactivate your own account.');
         }
+
+        // if ($user->role === 'admin') {
+        //     return back()->with('error', 'You cannot change the status of another admin account.');
+        // }
+        
+        // if ($user->role === 'owner') {
+        //     return back()->with('error', 'You cannot change the status of an owner account. Please contact support.');
+        // }
 
         $user->update(['is_active' => ! $user->is_active]);
 

@@ -16,6 +16,7 @@ class Media extends Model
         'type', 'is_cover', 'sort_order',
     ];
 
+    //
     protected $casts = [
         'is_cover' => 'boolean',
         'file_size' => 'integer',
