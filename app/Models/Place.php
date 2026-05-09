@@ -70,12 +70,13 @@ class Place extends Model
     {
         return $this->morphMany(Media::class, 'mediable')->where('is_cover', true);
     }
-
+// TODO: Add filter for category_id
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
+    // TODO: Add filter for category_id
     public function scopeFilterSearch(Builder $query, ?string $search): Builder
     {
         if (! $search) {
@@ -89,6 +90,7 @@ class Place extends Model
                 ->orWhere('description', 'like', "%{$search}%");
         });
     }
+    // TODO: Add filter for category_id
 
     public function scopeFilterCategorySlug(Builder $query, ?string $slug): Builder
     {
@@ -98,6 +100,7 @@ class Place extends Model
 
         return $query->whereHas('category', fn (Builder $query) => $query->where('slug', $slug));
     }
+    // TODO: Add filter for category_id
 
     public function scopeFilterVerified(Builder $query, bool $verified = false): Builder
     {
