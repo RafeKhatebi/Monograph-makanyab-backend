@@ -34,6 +34,10 @@ class PlaceController extends Controller
         /** @var User $user */
         $user = $request->user();
 
+        if (! $user->isAdmin() && ! $user->isOwner()) {
+            return response()->json(['message' => 'Only admins and owners can create places.'], 403);
+        }
+
         $place = Place::create(array_merge(
             $request->validated(),
             [
@@ -49,13 +53,17 @@ class PlaceController extends Controller
 
     public function show(Place $place): JsonResponse
     {
+        abort_if(! $place->is_active, 404);
+
+        // Select only needed columns for related models to reduce query payload
         $place->load([
             'category:id,name,slug',
             'user:id,name',
-            'openingHours',
-            'media',
+            'openingHours:id,place_id,day_of_week,open_time,close_time,is_closed',
+            'media:id,mediable_type,mediable_id,file_path,type,is_cover',
             'reviews' => fn ($q) => $q->where('is_approved', true)
                 ->with('user:id,name')
+                ->select('id', 'user_id', 'place_id', 'rating', 'comment', 'created_at')
                 ->latest()
                 ->limit(10),
         ]);

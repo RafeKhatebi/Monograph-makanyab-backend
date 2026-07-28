@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class ServiceCategory extends Model
 {
@@ -33,5 +34,30 @@ class ServiceCategory extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
+    }
+
+    /**
+     * Get active categories with caching (rarely change).
+     */
+    public static function getActiveCached()
+    {
+        return Cache::remember('active_service_categories_list', 1800, function () {
+            return static::active()->orderBy('name')->get();
+        });
+    }
+
+    /**
+     * Clear category cache when categories are updated.
+     */
+    public static function clearCache(): void
+    {
+        Cache::forget('active_service_categories_list');
+        Cache::forget('active_service_categories');
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => static::clearCache());
+        static::deleted(fn () => static::clearCache());
     }
 }

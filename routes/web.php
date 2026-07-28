@@ -56,6 +56,16 @@ Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'
 
 // Services Index
 Route::get('/services', [FrontendServiceController::class, 'index'])->name('services.index');
+Route::middleware('auth')->group(function () {
+    Route::post('/services/{service:slug}/favorite', [FrontendServiceController::class, 'toggleFavorite'])
+        ->name('services.favorite');
+    Route::post('/services/{service:slug}/reviews', [FrontendServiceController::class, 'storeReview'])
+        ->name('services.reviews.store');
+    Route::patch('/services/{service:slug}/reviews/{review}', [FrontendServiceController::class, 'updateReview'])
+        ->name('services.reviews.update');
+    Route::delete('/services/{service:slug}/reviews/{review}', [FrontendServiceController::class, 'destroyReview'])
+        ->name('services.reviews.destroy');
+});
 
 //  Service Categories
 
@@ -66,6 +76,12 @@ Route::get('/service-categories/{slug}', [FrontendServiceCategoryController::cla
 Route::post('/places/{place:slug}/reviews', [PlaceController::class, 'storeReview'])
     ->middleware('auth')
     ->name('places.reviews.store');
+Route::patch('/places/{place:slug}/reviews/{review}', [PlaceController::class, 'updateReview'])
+    ->middleware('auth')
+    ->name('places.reviews.update');
+Route::delete('/places/{place:slug}/reviews/{review}', [PlaceController::class, 'destroyReview'])
+    ->middleware('auth')
+    ->name('places.reviews.destroy');
 
 //  Categories
 

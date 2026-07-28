@@ -1,0 +1,109 @@
+<?php
+
+use App\Models\Place;
+use App\Models\PlaceCategory;
+use App\Models\Service;
+use App\Models\ServiceCategory;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->placeCategory = PlaceCategory::create([
+        'name' => 'Restaurants',
+        'slug' => 'restaurants',
+        'is_active' => true,
+    ]);
+    $this->serviceCategory = ServiceCategory::create([
+        'name' => 'Repairs',
+        'slug' => 'repairs',
+        'is_active' => true,
+    ]);
+    $userId = $this->user->id;
+    $categoryId = $this->serviceCategory->id;
+    $this->createService = fn (array $attributes = []) => Service::create(array_merge([
+        'user_id' => $userId,
+        'service_category_id' => $categoryId,
+        'name' => 'Repair Service '.uniqid(),
+        'slug' => 'repair-service-'.uniqid(),
+        'description' => 'Professional repair service.',
+        'phone_1' => '+93000000000',
+        'address' => 'Main Street',
+        'country' => 'Afghanistan',
+        'province' => 'Kabul',
+        'city' => 'Kabul',
+        'district' => 'Kabul',
+        'status' => 'open',
+        'price_level' => 'medium',
+        'is_active' => true,
+        'is_verified' => false,
+    ], $attributes));
+});
+
+test('search renders a desktop sidebar and accessible mobile filter toggle', function () {
+    $this->get('/search?province=Kabul&verified=1')
+        ->assertOk()
+        ->assertSee('class="col-md-3 search-sidebar"', false)
+        ->assertSee('class="filter-toggle"', false)
+        ->assertSee('aria-controls="search-filter-panel"', false)
+        ->assertSee('class="filter-active-count">2', false);
+});
+
+test('combined search keeps place and service pagination independent', function () {
+    Place::factory()->count(9)->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'is_active' => true,
+    ]);
+    foreach (range(1, 9) as $number) {
+        ($this->createService)(['name' => "Service {$number}", 'slug' => "service-{$number}"]);
+    }
+
+    $this->get('/search')
+        ->assertOk()
+        ->assertSee('places_page=2', false)
+        ->assertSee('services_page=2', false);
+});
+
+test('search combines type location category status price and verified filters', function () {
+    ($this->createService)([
+        'name' => 'Matching Plumbing',
+        'slug' => 'matching-plumbing',
+        'province' => 'Herat',
+        'city' => 'Herat',
+        'district' => 'Injil',
+        'status' => 'open',
+        'price_level' => 'high',
+        'is_verified' => true,
+    ]);
+    ($this->createService)([
+        'name' => 'Other Plumbing',
+        'slug' => 'other-plumbing',
+        'province' => 'Kabul',
+    ]);
+
+    $this->get('/search?type=services&search=Plumbing&province=Herat&district=Injil&service_category=repairs&status=open&price_level=high&verified=1')
+        ->assertOk()
+        ->assertSee('Matching Plumbing')
+        ->assertDontSee('Other Plumbing');
+});
+
+test('service cards are shared by service search listing and category pages', function () {
+    $service = ($this->createService)(['name' => 'Shared Card Service', 'slug' => 'shared-card-service']);
+
+    $this->get('/services')->assertOk()->assertSee('class="service-card"', false);
+    $this->get('/search?type=services')->assertOk()->assertSee('class="service-card"', false);
+    $this->get('/service-categories/'.$this->serviceCategory->slug)
+        ->assertOk()
+        ->assertSee('class="service-card"', false);
+    $this->get('/services/'.$service->slug)
+        ->assertOk()
+        ->assertSee('Shared Card Service');
+});
+
+test('search rejects unsupported filter and sorting values', function () {
+    $this->get('/search?status=invalid&sort=random')
+        ->assertSessionHasErrors(['status', 'sort']);
+});

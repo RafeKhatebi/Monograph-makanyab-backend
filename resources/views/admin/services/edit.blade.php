@@ -4,7 +4,7 @@
 @section('page-title', 'Edit Service')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
+    <div class="card">
         <div class="bg-white rounded p-4 shadow-sm">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
                 <h6 class="mb-0">Edit Service</h6>
@@ -13,7 +13,8 @@
                 </a>
             </div>
 
-            <form action="{{ route('admin.services.update', $service) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.services.update', $service) }}" method="POST" enctype="multipart/form-data"
+                data-prevent-double-submit>
                     @csrf
                     @method('PUT')
 
@@ -219,11 +220,19 @@
                             @enderror
                         </div>
 
-                        <div>
+                        <div data-media-upload>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Add New Images</label>
-                            <input type="file" name="images[]" multiple accept="image/*"
+                            <div data-drop-zone style="border:2px dashed #D1D5DB;border-radius:8px;padding:16px;">
+                            <input type="file" name="images[]" multiple
+                                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            </div>
+                            <input type="hidden" name="cover_image_index" value="{{ old('cover_image_index', 0) }}" data-cover-index>
+                            <div data-image-preview style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:12px;"></div>
                             @error('images')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                            @error('images.*')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -233,9 +242,15 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
                                 <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                                     @foreach ($service->media->where('type', 'image') as $image)
-                                        <img src="{{ asset('storage/' . $image->file_path) }}"
-                                            alt="{{ $service->name }}"
-                                            class="w-full h-24 object-cover rounded border border-gray-100">
+                                        <div>
+                                            <img src="{{ asset('storage/' . $image->file_path) }}"
+                                                alt="{{ $service->name }}"
+                                                class="w-full h-24 object-cover rounded border border-gray-100">
+                                            <label><input type="radio" name="cover_media_id" value="{{ $image->id }}"
+                                                @checked(old('cover_media_id', $service->media->firstWhere('is_cover', true)?->id) == $image->id)> Cover</label>
+                                            <label><input type="checkbox" name="remove_media[]" value="{{ $image->id }}"
+                                                @checked(in_array($image->id, old('remove_media', [])))> Remove</label>
+                                        </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -262,7 +277,7 @@
                                 class="btn btn-outline-secondary">
                                 Cancel
                             </a>
-                            <button type="submit"
+                            <button type="submit" data-submit-button data-loading-text="Updating…"
                                 class="btn btn-primary">
                                 Update Service
                             </button>
@@ -272,3 +287,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/media-upload.js') }}"></script>
+@endpush

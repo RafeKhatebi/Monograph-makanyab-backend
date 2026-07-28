@@ -4,13 +4,15 @@
 @section('page-title', 'Place Suggestions')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading" style="display:flex;justify-content:space-between;align-items:center;">
-            <h3 class="panel-title">Pending Suggestions</h3>
-            <form method="GET" action="{{ route('admin.place-suggestions.index') }}" style="display:flex;gap:8px;flex-wrap:wrap;">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search suggestions..."
-                    style="padding:10px 12px;border:1px solid #D1D5DB;border-radius:10px;outline:none;min-width:220px;">
-                <select name="status" style="padding:10px 12px;border:1px solid #D1D5DB;border-radius:10px;outline:none;">
+    <section class="card" aria-label="Place Suggestions">
+        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
+            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">Pending Suggestions</h2>
+            <form method="GET" action="{{ route('admin.place-suggestions.index') }}" role="search" aria-label="Filter suggestions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <label for="search" class="sr-only">Search suggestions</label>
+                <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search suggestions..."
+                    class="form-control" style="min-width: 220px;">
+                <label for="status" class="sr-only">Filter by status</label>
+                <select id="status" name="status" class="form-select" style="width: auto;">
                     <option value="">All Statuses</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -19,17 +21,17 @@
                 <button type="submit" class="btn btn-primary">Filter</button>
             </form>
         </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
+        <div class="card-body">
+            <div style="overflow-x: auto;">
+                <table class="table" aria-label="Place Suggestions list">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>City</th>
-                            <th>Category</th>
-                            <th>Submitted By</th>
-                            <th>Status</th>
-                            <th class="text-right">Actions</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Submitted By</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" style="text-align: right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,29 +43,34 @@
                                 <td>
                                     {{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? 'Guest') }}
                                     <br>
-                                    <small class="text-muted">{{ $suggestion->submitted_by_email ?? $suggestion->user->email ?? '' }}</small>
+                                    <small style="color: var(--color-gray-500);">{{ $suggestion->submitted_by_email ?? $suggestion->user->email ?? '' }}</small>
                                 </td>
                                 <td>
                                     <span class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
                                         {{ ucfirst($suggestion->suggestion_status->value) }}
                                     </span>
                                 </td>
-                                <td class="text-right">
-                                    <a href="{{ route('admin.place-suggestions.show', $suggestion) }}" class="btn btn-sm btn-primary">View</a>
+                                <td style="text-align: right;">
+                                    <a href="{{ route('admin.place-suggestions.show', $suggestion) }}" class="btn btn-sm btn-primary"
+                                        aria-label="View suggestion: {{ $suggestion->name }}">View</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center">No suggestions found.</td>
+                                <td colspan="6" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                    No suggestions found.
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <div class="text-center" style="margin-top:20px;">
-                {{ $suggestions->appends(request()->query())->links() }}
-            </div>
+            @if ($suggestions->hasPages())
+                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Suggestions pagination">
+                    {{ $suggestions->appends(request()->query())->links() }}
+                </nav>
+            @endif
         </div>
-    </div>
+    </section>
 @endsection

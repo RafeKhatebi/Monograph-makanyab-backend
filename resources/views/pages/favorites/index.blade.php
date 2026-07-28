@@ -12,7 +12,7 @@
 
     <div style="background:#F8FAFC;padding:40px 0 70px;">
         <div class="container">
-            @if ($favorites->isEmpty())
+            @if ($favorites->isEmpty() && $favoriteServices->isEmpty())
                 <div
                     style="background:#fff;border-radius:14px;padding:80px 30px;text-align:center;border:1px solid #E5E7EB;">
                     <div style="font-size:56px;margin-bottom:16px;">❤️</div>
@@ -39,6 +39,19 @@
                 </div>
                 @if ($favorites->hasPages())
                     <div style="text-align:center;margin-top:20px;">{{ $favorites->links() }}</div>
+                @endif
+                @if ($favoriteServices->isNotEmpty())
+                    <h2 style="font-size:22px;font-weight:700;margin:36px 0 18px;">Saved services</h2>
+                    <div class="row">
+                        @foreach ($favoriteServices as $service)
+                            <div class="col-sm-6 col-md-4" style="margin-bottom:20px;">
+                                <x-service-card :service="$service" />
+                            </div>
+                        @endforeach
+                    </div>
+                    @if ($favoriteServices->hasPages())
+                        <div style="text-align:center;margin-top:20px;">{{ $favoriteServices->links() }}</div>
+                    @endif
                 @endif
             @endif
         </div>

@@ -65,44 +65,7 @@
             <div class="row">
                 @forelse($services as $service)
                     <div class="col-sm-6 col-md-4" style="margin-bottom:20px;">
-                        <div class="svc-card"
-                            style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #E5E7EB;height:100%;display:flex;flex-direction:column;transition:box-shadow .2s;">
-                            <div style="position:relative;overflow:hidden;height:180px;">
-                                <a href="{{ route('services.show', $service) }}">
-                                    @if ($service->media->first())
-                                        <img src="{{ asset('storage/' . $service->media->first()->file_path) }}"
-                                            alt="{{ $service->name }}"
-                                            style="width:100%;height:180px;object-fit:cover;transition:transform .3s;">
-                                    @else
-                                        <img src="{{ asset('assets/img/demo/property-1.jpg') }}"
-                                            alt="{{ $service->name }}" style="width:100%;height:180px;object-fit:cover;">
-                                    @endif
-                                </a>
-                                @if ($service->is_verified)
-                                    <span
-                                        style="position:absolute;top:10px;left:10px;background:rgba(16,185,129,.9);color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;"><i
-                                            class="fa fa-check-circle"></i> Verified</span>
-                                @endif
-                            </div>
-                            <div style="padding:14px 16px;flex:1;display:flex;flex-direction:column;">
-                                <h5 style="margin:0 0 6px;font-size:15px;font-weight:700;color:#111827;">
-                                    <a href="{{ route('services.show', $service) }}"
-                                        style="color:inherit;text-decoration:none;">{{ $service->name }}</a>
-                                </h5>
-                                <p style="margin:0 0 8px;font-size:13px;color:#6B7280;"><i class="fa fa-map-marker"
-                                        style="color:#EF4444;margin-right:4px;"></i>{{ $service->city }}</p>
-                                @if ($service->tagline)
-                                    <p style="margin:0 0 10px;font-size:13px;color:#6B7280;line-height:1.5;flex:1;">
-                                        {{ Str::limit($service->tagline, 70) }}</p>
-                                @endif
-                                <div
-                                    style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid #F3F4F6;">
-                                    <span style="font-size:12px;color:#9CA3AF;">{{ ucfirst($service->price_level) }}</span>
-                                    <a href="{{ route('services.show', $service) }}"
-                                        style="background:#3B82F6;color:#fff;padding:5px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">View</a>
-                                </div>
-                            </div>
-                        </div>
+                        <x-service-card :service="$service" />
                     </div>
                 @empty
                     <div class="col-md-12 text-center" style="padding:60px 0;">
@@ -116,17 +79,5 @@
             @endif
         </div>
     </div>
-
-    @push('styles')
-        <style>
-            .svc-card:hover {
-                box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
-            }
-
-            .svc-card:hover img {
-                transform: scale(1.03);
-            }
-        </style>
-    @endpush
 
 @endsection

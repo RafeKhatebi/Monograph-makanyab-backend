@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Place::class, 'favorites');
     }
 
+    public function favoriteServices(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'favorites');
+    }
+
     public function places(): HasMany
     {
         return $this->hasMany(Place::class);

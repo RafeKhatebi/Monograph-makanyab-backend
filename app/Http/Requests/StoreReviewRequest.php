@@ -18,7 +18,7 @@ class StoreReviewRequest extends FormRequest
             'place_id' => [
                 'required',
                 'uuid',
-                Rule::exists('places', 'id')->whereNull('deleted_at'),
+                Rule::exists('places', 'id')->whereNull('deleted_at')->where('is_active', true),
                 // Prevent duplicate review: one user can only review a place once
                 Rule::unique('reviews', 'place_id')->where('user_id', $this->user()->id),
             ],
@@ -38,6 +38,9 @@ class StoreReviewRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge(['user_id' => $this->user()->id]);
+        $this->merge([
+            'user_id' => $this->user()->id,
+            'place_id' => $this->route('place')?->id,
+        ]);
     }
 }

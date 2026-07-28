@@ -13,6 +13,7 @@ use App\Services\MediaUploadService;
 use App\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
@@ -20,8 +21,8 @@ class PlaceController extends Controller
     {
         $query = Place::query()
             ->with(['category', 'user'])
-            ->withCount('reviews')
-            ->withAvg('reviews', 'rating');
+            ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
+            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating');
 
         if ($request->filled('is_verified')) {
             $query->where('is_verified', $request->boolean('is_verified'));
@@ -46,8 +47,9 @@ class PlaceController extends Controller
     public function create()
     {
         $categories = PlaceCategory::active()->orderBy('name')->get();
+        $locations = config('afghanistan_locations');
 
-        return view('admin.places.create', compact('categories'));
+        return view('admin.places.create', compact('categories', 'locations'));
     }
 
     public function store(StorePlaceRequest $request, SlugService $slugService, MediaUploadService $mediaUploadService)
@@ -62,11 +64,18 @@ class PlaceController extends Controller
         $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
         $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
-        $place = Place::create($validated);
+        DB::transaction(function () use ($request, $validated, $mediaUploadService): void {
+            $place = Place::create($validated);
 
-        if ($request->hasFile('images')) {
-            $mediaUploadService->attachImages($place, $request->file('images'), 'places');
-        }
+            if ($request->hasFile('images')) {
+                $mediaUploadService->attachImages(
+                    $place,
+                    $request->file('images'),
+                    'places',
+                    $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
+                );
+            }
+        });
 
         return redirect()->route('admin.places.index')
             ->with('success', 'Place created successfully.');
@@ -75,8 +84,8 @@ class PlaceController extends Controller
     public function show(Place $place)
     {
         $place->load(['category', 'user', 'media'])
-            ->loadCount('reviews')
-            ->loadAvg('reviews', 'rating');
+            ->loadCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
+            ->loadAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating');
 
         return view('admin.places.show', compact('place'));
     }
@@ -84,8 +93,10 @@ class PlaceController extends Controller
     public function edit(Place $place)
     {
         $categories = PlaceCategory::active()->orderBy('name')->get();
+        $locations = config('afghanistan_locations');
+        $place->load('media');
 
-        return view('admin.places.edit', compact('place', 'categories'));
+        return view('admin.places.edit', compact('place', 'categories', 'locations'));
     }
 
     public function update(UpdatePlaceRequest $request, Place $place, SlugService $slugService, MediaUploadService $mediaUploadService)
@@ -99,11 +110,25 @@ class PlaceController extends Controller
         $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
         $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
-        $place->update($validated);
+        DB::transaction(function () use ($request, $validated, $place, $mediaUploadService): void {
+            $place->update($validated);
 
-        if ($request->hasFile('images')) {
-            $mediaUploadService->attachImages($place, $request->file('images'), 'places');
-        }
+            $mediaUploadService->removeImages($place, $request->input('remove_media', []));
+
+            if ($request->filled('cover_media_id')
+                && ! in_array($request->integer('cover_media_id'), $request->input('remove_media', []), true)) {
+                $mediaUploadService->setCoverImage($place, $request->integer('cover_media_id'));
+            }
+
+            if ($request->hasFile('images')) {
+                $mediaUploadService->attachImages(
+                    $place,
+                    $request->file('images'),
+                    'places',
+                    $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
+                );
+            }
+        });
 
         return redirect()->route('admin.places.index')
             ->with('success', 'Place updated successfully.');

@@ -13,6 +13,7 @@ use App\Services\MediaUploadService;
 use App\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -59,11 +60,18 @@ class ServiceController extends Controller
         $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
         $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
-        $service = Service::create($validated);
+        DB::transaction(function () use ($request, $validated, $mediaUploadService): void {
+            $service = Service::create($validated);
 
-        if ($request->hasFile('images')) {
-            $mediaUploadService->attachImages($service, $request->file('images'), 'services');
-        }
+            if ($request->hasFile('images')) {
+                $mediaUploadService->attachImages(
+                    $service,
+                    $request->file('images'),
+                    'services',
+                    $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
+                );
+            }
+        });
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Service created successfully.');
@@ -94,11 +102,24 @@ class ServiceController extends Controller
         $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
         $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
 
-        $service->update($validated);
+        DB::transaction(function () use ($request, $validated, $service, $mediaUploadService): void {
+            $service->update($validated);
+            $mediaUploadService->removeImages($service, $request->input('remove_media', []));
 
-        if ($request->hasFile('images')) {
-            $mediaUploadService->attachImages($service, $request->file('images'), 'services');
-        }
+            if ($request->filled('cover_media_id')
+                && ! in_array($request->integer('cover_media_id'), $request->input('remove_media', []), true)) {
+                $mediaUploadService->setCoverImage($service, $request->integer('cover_media_id'));
+            }
+
+            if ($request->hasFile('images')) {
+                $mediaUploadService->attachImages(
+                    $service,
+                    $request->file('images'),
+                    'services',
+                    $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
+                );
+            }
+        });
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Service updated successfully.');

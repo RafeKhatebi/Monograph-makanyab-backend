@@ -4,8 +4,10 @@ namespace App\Http\Requests;
 
 use App\Enums\PlaceStatus;
 use App\Enums\PriceLevel;
+use App\Models\Service;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateServiceRequest extends FormRequest
 {
@@ -42,8 +44,45 @@ class UpdateServiceRequest extends FormRequest
             'status' => ['nullable', Rule::enum(PlaceStatus::class)],
             'price_level' => ['nullable', Rule::enum(PriceLevel::class)],
             'is_active' => 'nullable|boolean',
-            'images' => 'sometimes|array',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images' => 'sometimes|array|max:10',
+            'images.*' => 'required|file|image|mimetypes:image/jpeg,image/png,image/webp|mimes:jpg,jpeg,png,webp|max:2048',
+            'remove_media' => 'sometimes|array',
+            'remove_media.*' => [
+                'integer',
+                Rule::exists('media', 'id')->where(fn ($query) => $query
+                    ->where('mediable_type', Service::class)
+                    ->where('mediable_id', $this->route('service')?->id)),
+            ],
+            'cover_media_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('media', 'id')->where(fn ($query) => $query
+                    ->where('mediable_type', Service::class)
+                    ->where('mediable_id', $this->route('service')?->id)),
+            ],
+            'cover_image_index' => 'nullable|integer|min:0|max:9',
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                $existing = $this->route('service')->media()
+                    ->where('type', 'image')
+                    ->whereNotIn('id', $this->input('remove_media', []))
+                    ->count();
+
+                $newImages = count(array_filter((array) $this->file('images')));
+                if ($existing + $newImages > 10) {
+                    $validator->errors()->add('images', 'A service can have at most 10 images.');
+                }
+
+                if ($newImages > 0 && $this->filled('cover_image_index')
+                    && $this->integer('cover_image_index') >= $newImages) {
+                    $validator->errors()->add('cover_image_index', 'Select a cover image from the uploaded images.');
+                }
+            },
         ];
     }
 }

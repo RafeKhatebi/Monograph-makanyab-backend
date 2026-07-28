@@ -4,15 +4,15 @@
 @section('page-title', 'Service Suggestions')
 
 @section('content')
-    <div class="panel">
-        <div class="panel-heading"
-            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-            <h3 class="panel-title">Pending Service Suggestions</h3>
-            <form method="GET" action="{{ route('admin.service-suggestions.index') }}"
-                style="display:flex;gap:8px;flex-wrap:wrap;">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search suggestions..."
-                    style="padding:10px;border:1px solid #D1D5DB;border-radius:10px;min-width:220px;">
-                <select name="status" style="padding:10px;border:1px solid #D1D5DB;border-radius:10px;">
+    <section class="card" aria-label="Service Suggestions">
+        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">Pending Service Suggestions</h2>
+            <form method="GET" action="{{ route('admin.service-suggestions.index') }}" role="search" aria-label="Filter suggestions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <label for="search" class="sr-only">Search suggestions</label>
+                <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search suggestions..."
+                    class="form-control" style="min-width: 220px;">
+                <label for="status" class="sr-only">Filter by status</label>
+                <select id="status" name="status" class="form-select" style="width: auto;">
                     <option value="">All Statuses</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -22,52 +22,57 @@
             </form>
         </div>
 
-        <div class="panel-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>City</th>
-                        <th>Category</th>
-                        <th>Submitted By</th>
-                        <th>Status</th>
-                        <th>State</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($suggestions as $suggestion)
+        <div class="card-body">
+            <div style="overflow-x: auto;">
+                <table class="table" aria-label="Service Suggestions list">
+                    <thead>
                         <tr>
-                            <td>{{ $suggestion->name }}</td>
-                            <td>{{ $suggestion->city }}</td>
-                            <td>{{ $suggestion->category->name ?? '—' }}</td>
-                            <td>
-                                {{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? 'Guest') }}
-                                <br>
-                                <small
-                                    class="text-muted">{{ $suggestion->submitted_by_email ?? ($suggestion->user->email ?? '') }}</small>
-                            </td>
-                            <td>{{ ucfirst($suggestion->status->value) }}</td>
-                            <td>
-                                <span
-                                    class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
-                                    {{ ucfirst($suggestion->suggestion_status->value) }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.service-suggestions.show', $suggestion) }}"
-                                    class="btn btn-sm btn-primary">View</a>
-                            </td>
+                            <th scope="col">Name</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Submitted By</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center">No suggestions found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse($suggestions as $suggestion)
+                            <tr>
+                                <td>{{ $suggestion->name }}</td>
+                                <td>{{ $suggestion->city }}</td>
+                                <td>{{ $suggestion->category->name ?? '—' }}</td>
+                                <td>
+                                    {{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? 'Guest') }}
+                                    <br>
+                                    <small style="color: var(--color-gray-500);">{{ $suggestion->submitted_by_email ?? ($suggestion->user->email ?? '') }}</small>
+                                </td>
+                                <td>
+                                    <span class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
+                                        {{ ucfirst($suggestion->suggestion_status->value) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.service-suggestions.show', $suggestion) }}"
+                                        class="btn btn-sm btn-primary"
+                                        aria-label="View suggestion: {{ $suggestion->name }}">View</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                    No suggestions found.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
-            {{ $suggestions->appends(request()->query())->links() }}
+            @if ($suggestions->hasPages())
+                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Suggestions pagination">
+                    {{ $suggestions->appends(request()->query())->links() }}
+                </nav>
+            @endif
         </div>
-    </div>
+    </section>
 @endsection

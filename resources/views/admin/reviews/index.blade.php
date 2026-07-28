@@ -4,99 +4,115 @@
 @section('page-title', 'Reviews')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">All Reviews ({{ $reviews->total() }})</h6>
+    <section class="card" aria-label="Reviews Management">
+        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
+            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">All Reviews ({{ $reviews->total() }})</h2>
         </div>
 
-        <form method="GET" action="{{ route('admin.reviews.index') }}" class="row g-2 mb-4">
-            <div class="col-md-5">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search reviews..."
-                    class="form-control">
-            </div>
-            <div class="col-md-3">
-                <select name="rating" class="form-select">
-                    <option value="">All Ratings</option>
-                    <option value="5" {{ request('rating') === '5' ? 'selected' : '' }}>5 Stars</option>
-                    <option value="4" {{ request('rating') === '4' ? 'selected' : '' }}>4 Stars</option>
-                    <option value="3" {{ request('rating') === '3' ? 'selected' : '' }}>3 Stars</option>
-                    <option value="2" {{ request('rating') === '2' ? 'selected' : '' }}>2 Stars</option>
-                    <option value="1" {{ request('rating') === '1' ? 'selected' : '' }}>1 Star</option>
-                </select>
-            </div>
-            <div class="col-md-4 d-flex gap-2">
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
-                <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary w-100">Clear</a>
-            </div>
-        </form>
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.reviews.index') }}" role="search" aria-label="Filter reviews" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+                <div style="flex: 1; min-width: 200px;">
+                    <label for="search" class="sr-only">Search reviews</label>
+                    <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search reviews..."
+                        class="form-control">
+                </div>
+                <div>
+                    <label for="rating" class="sr-only">Filter by rating</label>
+                    <select id="rating" name="rating" class="form-select" style="width: auto; min-width: 140px;">
+                        <option value="">All Ratings</option>
+                        <option value="5" {{ request('rating') === '5' ? 'selected' : '' }}>5 Stars</option>
+                        <option value="4" {{ request('rating') === '4' ? 'selected' : '' }}>4 Stars</option>
+                        <option value="3" {{ request('rating') === '3' ? 'selected' : '' }}>3 Stars</option>
+                        <option value="2" {{ request('rating') === '2' ? 'selected' : '' }}>2 Stars</option>
+                        <option value="1" {{ request('rating') === '1' ? 'selected' : '' }}>1 Star</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-filter" aria-hidden="true"></i> Filter
+                </button>
+                <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary">Clear</a>
+            </form>
 
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-dark">
-                        <th>Place</th>
-                        <th>User</th>
-                        <th>Rating</th>
-                        <th>Status</th>
-                        <th>Comment</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($reviews as $review)
+            <div style="overflow-x: auto;">
+                <table class="table" aria-label="Reviews list">
+                    <thead>
                         <tr>
-                            <td>
-                                <a href="{{ route('admin.places.show', $review->place) }}">
-                                    {{ Str::limit($review->place->name, 30) }}
-                                </a>
-                            </td>
-                            <td>{{ $review->user->name }}</td>
-                            <td>{{ $review->rating }}/5</td>
-                            <td>
-                                <span class="badge {{ $review->is_approved ? 'bg-success' : 'bg-warning text-dark' }}">
-                                    {{ $review->is_approved ? 'Approved' : 'Pending' }}
-                                </span>
-                            </td>
-                            <td>{{ Str::limit($review->comment, 50) }}</td>
-                            <td>{{ $review->created_at->format('M d, Y') }}</td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.reviews.show', $review) }}"
-                                        class="btn btn-sm btn-outline-primary">View</a>
-                                    @if (! $review->is_approved)
-                                        <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-success">Approve</button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('admin.reviews.reject', $review) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-warning">Reject</button>
-                                        </form>
+                            <th scope="col">Place / Service</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Comment</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($reviews as $review)
+                            <tr>
+                                <td>
+                                    @if ($review->place)
+                                        <a href="{{ route('admin.places.show', $review->place) }}">
+                                            {{ Str::limit($review->place->name, 30) }}
+                                        </a>
+                                    @elseif ($review->service)
+                                        <a href="{{ route('admin.services.show', $review->service) }}">
+                                            {{ Str::limit($review->service->name, 30) }}
+                                        </a>
                                     @endif
-                                    <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this review?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center py-4">No reviews found</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if ($reviews->hasPages())
-            <div class="pt-4">
-                {{ $reviews->links() }}
+                                </td>
+                                <td>{{ $review->user->name }}</td>
+                                <td>{{ $review->rating }}/5</td>
+                                <td>
+                                    <span class="badge {{ $review->is_approved ? 'badge-success' : 'badge-warning' }}">
+                                        {{ $review->is_approved ? 'Approved' : 'Pending' }}
+                                    </span>
+                                </td>
+                                <td>{{ Str::limit($review->comment, 50) }}</td>
+                                <td>{{ $review->created_at->format('M d, Y') }}</td>
+                                <td>
+                                    <div style="display: flex; gap: 8px;">
+                                        <a href="{{ route('admin.reviews.show', $review) }}"
+                                            class="btn btn-sm btn-outline-primary"
+                                            aria-label="View review by {{ $review->user->name }}">View</a>
+                                        @if (! $review->is_approved)
+                                            <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-success"
+                                                    aria-label="Approve review by {{ $review->user->name }}">Approve</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('admin.reviews.reject', $review) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-warning"
+                                                    aria-label="Reject review by {{ $review->user->name }}">Reject</button>
+                                            </form>
+                                        @endif
+                                        <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                aria-label="Delete review by {{ $review->user->name }}">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                    No reviews found
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-        @endif
-    </div>
+
+            @if ($reviews->hasPages())
+                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Reviews pagination">
+                    {{ $reviews->links() }}
+                </nav>
+            @endif
+        </div>
+    </section>
 @endsection

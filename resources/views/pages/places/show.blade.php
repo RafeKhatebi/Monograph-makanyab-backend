@@ -32,7 +32,8 @@
                                             <input type="hidden" name="place_id" value="{{ $place->id }}">
                                             <button type="submit" class="add-to-fav" id="favorite-btn" title="Add to Favorites"
                                                 style="background:none;border:none;cursor:pointer;">
-                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}"></i>
+                                                <span class="sr-only">{{ $isFavorited ? 'Remove from favorites' : 'Add to favorites' }}</span>
                                             </button>
                                         </form>
                                     @endauth
@@ -64,7 +65,7 @@
                         <div class="single-property-header">
                             <h1 class="property-title pull-left">{{ $place->name }}</h1>
                             <span class="property-price pull-right">
-                                @include('components.rating-stars', ['rating' => $place->avg_rating ?? 0])
+                                @include('components.rating-stars', ['rating' => $place->avg_rating])
                                 <small>({{ $place->reviews->count() }} reviews)</small>
                             </span>
                         </div>
@@ -171,26 +172,31 @@
                                 @endforelse
 
                                 @auth
-                                    <div class="section" style="margin-top:30px;">
-                                        <h4 class="s-property-title">Write a Review</h4>
-                                        <form action="{{ route('places.reviews.store', $place) }}" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label>Rating</label>
-                                                <select name="rating" class="form-control" style="width:auto;">
-                                                    @for ($i = 5; $i >= 1; $i--)
-                                                        <option value="{{ $i }}">{{ $i }}
-                                                            Star{{ $i > 1 ? 's' : '' }}</option>
-                                                    @endfor
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Comment</label>
-                                                <textarea name="comment" class="form-control" rows="4" placeholder="Share your experience..."></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit Review</button>
-                                        </form>
-                                    </div>
+                                    @if (! auth()->user()->reviews()->where('place_id', $place->id)->exists())
+                                        <div class="section" style="margin-top:30px;">
+                                            <h4 class="s-property-title">Write a Review</h4>
+                                            <form action="{{ route('places.reviews.store', $place) }}" method="POST">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label>Rating</label>
+                                                    <select name="rating" class="form-control" style="width:auto;" required>
+                                                        @for ($i = 5; $i >= 1; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                                Star{{ $i > 1 ? 's' : '' }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Comment</label>
+                                                    <textarea name="comment" class="form-control" rows="4" maxlength="2000"
+                                                        placeholder="Share your experience..."></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <p class="text-muted" style="margin-top:20px;">You have already reviewed this place. Manage it from your profile.</p>
+                                    @endif
                                 @else
                                     <p><a href="{{ route('login') }}">Login</a> to write a review.</p>
                                 @endauth

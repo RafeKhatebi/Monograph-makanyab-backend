@@ -115,14 +115,6 @@ class UserController extends Controller
             return back()->with('error', 'You cannot deactivate your own account.');
         }
 
-        // if ($user->role === 'admin') {
-        //     return back()->with('error', 'You cannot change the status of another admin account.');
-        // }
-        
-        // if ($user->role === 'owner') {
-        //     return back()->with('error', 'You cannot change the status of an owner account. Please contact support.');
-        // }
-
         $user->update(['is_active' => ! $user->is_active]);
 
         return back()->with('success', 'User status updated.');

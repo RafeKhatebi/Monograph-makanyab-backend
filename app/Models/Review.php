@@ -13,7 +13,7 @@ class Review extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'user_id', 'place_id', 'rating', 'comment', 'is_approved',
+        'user_id', 'place_id', 'service_id', 'rating', 'comment', 'is_approved',
     ];
 
     protected $casts = [
@@ -29,5 +29,10 @@ class Review extends Model
     public function place(): BelongsTo
     {
         return $this->belongsTo(Place::class);
+    }
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
     }
 }

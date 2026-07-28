@@ -28,6 +28,8 @@ class ServiceCategoryController extends Controller
             ->firstOrFail();
 
         $services = Service::with(['category', 'media'])
+            ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
+            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating')
             ->where('service_category_id', $category->id)
             ->where('is_active', true)
             ->orderByDesc('created_at')

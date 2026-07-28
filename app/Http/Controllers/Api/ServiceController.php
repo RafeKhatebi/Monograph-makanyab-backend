@@ -28,6 +28,8 @@ class ServiceController extends Controller
 
     public function show(Service $service): JsonResponse
     {
+        abort_if(! $service->is_active, 404);
+
         $service->load([
             'category:id,name,slug',
             'user:id,name',

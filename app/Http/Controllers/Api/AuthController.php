@@ -38,20 +38,22 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
+        $loginField = $validated['email'] ?? $validated['login'] ?? '';
+
         $user = User::query()
-            ->where('email', $validated['login'])
-            ->orWhere('username', $validated['login'])
+            ->where('email', $loginField)
+            ->orWhere('username', $loginField)
             ->first();
 
         if (! $user || ! Hash::check($validated['password'], $user->password)) {
             return response()->json([
-                'message' => 'Invalid credentials.'
+                'message' => 'Invalid credentials.',
             ], 422);
         }
 
         if (! $user->is_active) {
             return response()->json([
-                'message' => 'Account is inactive.'
+                'message' => 'Account is inactive.',
             ], 403);
         }
 
@@ -74,7 +76,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()?->delete();
 
         return response()->json([
-            'message' => 'Logged out successfully.'
+            'message' => 'Logged out successfully.',
         ]);
     }
 }

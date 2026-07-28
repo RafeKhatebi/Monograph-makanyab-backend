@@ -67,6 +67,16 @@
                                         </div>
                                     @endforelse
                                 </div>
+                                @if ($favoriteServices->isNotEmpty())
+                                    <h4 style="font-size:17px;font-weight:700;margin:24px 0 14px;">Saved services</h4>
+                                    <div class="row">
+                                        @foreach ($favoriteServices as $service)
+                                            <div class="col-sm-6 col-md-4" style="margin-bottom:20px;">
+                                                <x-service-card :service="$service" />
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -149,6 +159,17 @@
                                         <label
                                             style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Bio</label>
                                         <textarea name="bio" class="form-control" rows="3" style="border-radius:8px;">{{ old('bio', auth()->user()->bio) }}</textarea>
+                                    </div>
+                                    <div style="margin-bottom:20px;">
+                                        <label for="profile_picture"
+                                            style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Profile picture</label>
+                                        <input id="profile_picture" type="file" name="profile_picture"
+                                            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                            class="form-control">
+                                        <small style="color:#6B7280;">JPG, PNG, or WebP; maximum 2MB.</small>
+                                        @error('profile_picture')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <hr style="margin:24px 0;">
                                     <h4 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 16px;">Change Password

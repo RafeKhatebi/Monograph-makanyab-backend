@@ -4,7 +4,7 @@
 @section('page-title', 'Add Service')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
+    <div class="card">
         <div class="bg-white rounded p-4 shadow-sm">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
                 <h6 class="mb-0">Add New Service</h6>
@@ -13,7 +13,8 @@
                 </a>
             </div>
 
-            <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data"
+                data-prevent-double-submit>
                     @csrf
 
                     <div class="space-y-6">
@@ -205,11 +206,20 @@
                             @enderror
                         </div>
 
-                        <div>
+                        <div data-media-upload>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
-                            <input type="file" name="images[]" multiple accept="image/*"
+                            <div data-drop-zone style="border:2px dashed #D1D5DB;border-radius:8px;padding:16px;">
+                            <input type="file" name="images[]" multiple
+                                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            </div>
+                            <input type="hidden" name="cover_image_index" value="{{ old('cover_image_index', 0) }}" data-cover-index>
+                            <div data-image-preview style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:12px;"></div>
+                            <small>JPG, PNG, or WebP; up to 2MB each and 10 images total.</small>
                             @error('images')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                            @error('images.*')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -235,7 +245,7 @@
                                 class="btn btn-outline-secondary">
                                 Cancel
                             </a>
-                            <button type="submit"
+                            <button type="submit" data-submit-button data-loading-text="Creating…"
                                 class="btn btn-primary">
                                 Create Service
                             </button>
@@ -245,3 +255,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/media-upload.js') }}"></script>
+@endpush
