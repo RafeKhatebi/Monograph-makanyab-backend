@@ -42,6 +42,7 @@ The empty `public/dashmin` directory tree was removed after its remaining files 
 - Added `public/assets/js/admin-layout.js` for admin sidebar and account dropdown interactions.
 - Added `public/assets/css/frontend-pages.css` for shared frontend page sections, hero blocks, cards, buttons, forms, alerts, avatars, hover states, and responsive utilities.
 - Added `public/assets/js/frontend-pages.js` for shared search-filter toggling and place gallery initialization.
+- Added Playwright browser audit tooling: `@playwright/test`, `playwright.config.js`, `tests/e2e/admin-ui.spec.js`, and the `npm run test:e2e` script.
 - Updated `resources/views/layouts/app.blade.php`, `resources/views/layouts/auth.blade.php`, and `resources/views/layouts/admin.blade.php` to load the shared assets.
 - Removed unused EasyPieChart script includes from the public and auth layouts.
 
@@ -75,6 +76,7 @@ The empty `public/dashmin` directory tree was removed after its remaining files 
 - Replaced missing `assets/img/demo/small-property-1.jpg` with existing media/placeholder logic.
 - Removed stale CSS references to missing `page-header.jpg`, `welcome-bg.png`, `bg-footer.jpg`, `AjaxLoader.gif`, `grabbing.png`, and `controls.png`.
 - Fixed navbar script loading from a route-relative path to `asset('assets/js/navbar.js')`.
+- Updated the Content Security Policy to allow existing intended third-party frontend resources: Leaflet CSS from `unpkg.com`, OpenStreetMap tile images, and Google Maps contact-page frames.
 
 ## Pages Tested
 
@@ -90,22 +92,24 @@ The empty `public/dashmin` directory tree was removed after its remaining files 
 - `/favorites` and `/profile` returned expected auth redirects.
 - Admin feature coverage from automated tests: places index/create/show/edit/store/update/delete/toggle/filter/upload, service upload/edit removal, suggestion queues, admin middleware.
 - Admin route smoke checks while unauthenticated: `/admin`, `/admin/dashboard`, `/admin/places`, `/admin/places/create`, `/admin/users`, `/admin/users/create`, `/admin/reviews`, `/admin/services`, `/admin/services/create`, `/admin/categories`, `/admin/service-categories`, `/admin/place-suggestions`, and `/admin/service-suggestions` all returned `302` redirects to `/login`, as expected.
+- Browser audit coverage at 1440px, 1024px, and 390px: `/`, `/about`, `/contact`, `/search`, `/places`, `/categories`, `/service-categories`, `/posts`, `/login`, plus authenticated admin pages `/admin`, `/admin/dashboard`, `/admin/places`, `/admin/places/create`, `/admin/users`, `/admin/users/create`, `/admin/reviews`, `/admin/services`, `/admin/services/create`, `/admin/categories`, `/admin/service-categories`, `/admin/place-suggestions`, and `/admin/service-suggestions`.
 
 ## Verification
 
 - `npm run build`
+- `npm run test:e2e`
 - `php artisan view:clear && php artisan view:cache`
 - `composer test`
 - `php artisan route:list --except-vendor`
 - Local HTTP smoke checks against `http://127.0.0.1:8000`
-- Local linked asset scan for CSS, JavaScript, image, font, favicon, and Vite build URLs
+- Browser console and same-origin network checks through Playwright for public and authenticated admin pages.
+- Local linked asset scan for CSS, JavaScript, image, font, favicon, and Vite build URLs.
 - Stale-reference scans for deleted Dashmin, EasyPieChart, unminified Bootstrap, and missing image assets
 - Admin inline style/script scan: one remaining inline style, the dynamic service-category color swatch; remaining admin `<script>` tags are external page assets or JSON data for Leaflet.
 - Retained admin assets verified on disk: `variables.css`, `admin-utilities.css`, `admin-layout.css`, `admin-layout.js`, `places-search-local.js`, and `media-upload.js`.
 
 ## Remaining Risks
 
-- Playwright is not installed in this project, so a real browser console/network-panel pass was not available without adding a new dependency.
 - The admin service create/edit forms still use existing utility-style class names for much of their field layout; their inline media upload styles were moved, and behavior was verified by existing upload tests.
 - One inline dynamic swatch style remains in `resources/views/admin/service-categories/show.blade.php` because it renders user-configured category color values.
 - Some legacy frontend templates still contain inline styles where moving them would require a broader component rewrite. The most duplicated and unstable blocks were consolidated first.
