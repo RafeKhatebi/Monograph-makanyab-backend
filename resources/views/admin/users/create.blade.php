@@ -5,8 +5,8 @@
 
 @section('content')
     <section class="card" aria-label="Add New User">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">Add New User</h2>
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">Add New User</h2>
             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Users
             </a>
@@ -16,7 +16,7 @@
             <form action="{{ route('admin.users.store') }}" method="POST" novalidate>
                 @csrf
 
-                <div class="admin-form-grid" style="display: grid; gap: 20px;">
+                <div class="admin-form-grid">
                     <div>
                         <label for="name" class="form-label">Name <span aria-hidden="true">*</span></label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}" required
@@ -79,8 +79,8 @@
                         @enderror
                     </div>
 
-                    <div style="grid-column: 1 / -1;">
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <div class="admin-full-span">
+                        <label class="admin-check-row">
                             <input type="checkbox" name="is_active" value="1"
                                 {{ old('is_active', true) ? 'checked' : '' }}
                                 class="form-check-input">
@@ -88,7 +88,7 @@
                         </label>
                     </div>
 
-                    <div style="grid-column: 1 / -1; display: flex; gap: 12px; justify-content: flex-end; padding-top: 12px; border-top: 1px solid var(--color-gray-200);">
+                    <div class="admin-full-span admin-form-actions">
                         <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Cancel</a>
                         <button type="submit" class="btn btn-primary">Create User</button>
                     </div>

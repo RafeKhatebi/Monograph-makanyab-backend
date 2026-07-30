@@ -5,23 +5,23 @@
 
 @section('content')
     <section class="card" aria-label="Users Management">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">All Users ({{ $users->total() }})</h2>
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">All Users ({{ $users->total() }})</h2>
             <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add New User
             </a>
         </div>
 
         <div class="card-body">
-            <form method="GET" action="{{ route('admin.users.index') }}" role="search" aria-label="Filter users" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
-                <div style="flex: 1; min-width: 200px;">
+            <form method="GET" action="{{ route('admin.users.index') }}" role="search" aria-label="Filter users" class="admin-filter-form">
+                <div class="admin-filter-field">
                     <label for="search" class="sr-only">Search users</label>
                     <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search users..."
                         class="form-control">
                 </div>
                 <div>
                     <label for="role" class="sr-only">Filter by role</label>
-                    <select id="role" name="role" class="form-select" style="width: auto; min-width: 150px;">
+                    <select id="role" name="role" class="form-select admin-filter-select">
                         <option value="">All Roles</option>
                         <option value="user" {{ request('role') === 'user' ? 'selected' : '' }}>User</option>
                         <option value="owner" {{ request('role') === 'owner' ? 'selected' : '' }}>Owner</option>
@@ -30,7 +30,7 @@
                 </div>
                 <div>
                     <label for="is_active" class="sr-only">Filter by status</label>
-                    <select id="is_active" name="is_active" class="form-select" style="width: auto; min-width: 120px;">
+                    <select id="is_active" name="is_active" class="form-select admin-filter-select admin-filter-select--sm">
                         <option value="">All Status</option>
                         <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Active</option>
                         <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
@@ -42,7 +42,7 @@
                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Clear</a>
             </form>
 
-            <div style="overflow-x: auto;">
+            <div class="admin-table-wrap">
                 <table class="table" aria-label="Users list">
                     <thead>
                         <tr>
@@ -71,7 +71,7 @@
                                 </td>
                                 <td>{{ $user->created_at->format('M d, Y') }}</td>
                                 <td>
-                                    <div style="display: flex; gap: 8px;">
+                                    <div class="admin-actions">
                                         <a href="{{ route('admin.users.show', $user) }}"
                                             class="btn btn-sm btn-outline-primary"
                                             aria-label="View {{ $user->name }}">View</a>
@@ -80,7 +80,8 @@
                                             aria-label="Edit {{ $user->name }}">Edit</a>
                                         @if ($user->id !== auth()->id())
                                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                onsubmit="return confirm('Are you sure you want to delete this user?');"
+                                                class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger"
@@ -92,7 +93,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                <td colspan="8" class="admin-empty">
                                     No users found
                                 </td>
                             </tr>
@@ -102,7 +103,7 @@
             </div>
 
             @if ($users->hasPages())
-                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Users pagination">
+                <nav class="admin-pagination" aria-label="Users pagination">
                     {{ $users->links() }}
                 </nav>
             @endif

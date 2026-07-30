@@ -5,14 +5,14 @@
 
 @section('content')
     <section class="card" aria-label="Service Suggestions">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">Pending Service Suggestions</h2>
-            <form method="GET" action="{{ route('admin.service-suggestions.index') }}" role="search" aria-label="Filter suggestions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">Pending Service Suggestions</h2>
+            <form method="GET" action="{{ route('admin.service-suggestions.index') }}" role="search" aria-label="Filter suggestions" class="admin-filter-form admin-filter-form--compact">
                 <label for="search" class="sr-only">Search suggestions</label>
                 <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search suggestions..."
-                    class="form-control" style="min-width: 220px;">
+                    class="form-control admin-filter-select">
                 <label for="status" class="sr-only">Filter by status</label>
-                <select id="status" name="status" class="form-select" style="width: auto;">
+                <select id="status" name="status" class="form-select admin-filter-select admin-filter-select--sm">
                     <option value="">All Statuses</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="card-body">
-            <div style="overflow-x: auto;">
+            <div class="admin-table-wrap">
                 <table class="table" aria-label="Service Suggestions list">
                     <thead>
                         <tr>
@@ -44,7 +44,7 @@
                                 <td>
                                     {{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? 'Guest') }}
                                     <br>
-                                    <small style="color: var(--color-gray-500);">{{ $suggestion->submitted_by_email ?? ($suggestion->user->email ?? '') }}</small>
+                                    <small class="admin-inline-muted">{{ $suggestion->submitted_by_email ?? ($suggestion->user->email ?? '') }}</small>
                                 </td>
                                 <td>
                                     <span class="badge {{ $suggestion->suggestion_status === 'approved' ? 'badge-success' : ($suggestion->suggestion_status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
@@ -59,7 +59,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                <td colspan="6" class="admin-empty">
                                     No suggestions found.
                                 </td>
                             </tr>
@@ -69,7 +69,7 @@
             </div>
 
             @if ($suggestions->hasPages())
-                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Suggestions pagination">
+                <nav class="admin-pagination" aria-label="Suggestions pagination">
                     {{ $suggestions->appends(request()->query())->links() }}
                 </nav>
             @endif

@@ -5,20 +5,20 @@
 
 @section('content')
     <section class="card" aria-label="Reviews Management">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">All Reviews ({{ $reviews->total() }})</h2>
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">All Reviews ({{ $reviews->total() }})</h2>
         </div>
 
         <div class="card-body">
-            <form method="GET" action="{{ route('admin.reviews.index') }}" role="search" aria-label="Filter reviews" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
-                <div style="flex: 1; min-width: 200px;">
+            <form method="GET" action="{{ route('admin.reviews.index') }}" role="search" aria-label="Filter reviews" class="admin-filter-form">
+                <div class="admin-filter-field">
                     <label for="search" class="sr-only">Search reviews</label>
                     <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search reviews..."
                         class="form-control">
                 </div>
                 <div>
                     <label for="rating" class="sr-only">Filter by rating</label>
-                    <select id="rating" name="rating" class="form-select" style="width: auto; min-width: 140px;">
+                    <select id="rating" name="rating" class="form-select admin-filter-select">
                         <option value="">All Ratings</option>
                         <option value="5" {{ request('rating') === '5' ? 'selected' : '' }}>5 Stars</option>
                         <option value="4" {{ request('rating') === '4' ? 'selected' : '' }}>4 Stars</option>
@@ -33,7 +33,7 @@
                 <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary">Clear</a>
             </form>
 
-            <div style="overflow-x: auto;">
+            <div class="admin-table-wrap">
                 <table class="table" aria-label="Reviews list">
                     <thead>
                         <tr>
@@ -70,25 +70,26 @@
                                 <td>{{ Str::limit($review->comment, 50) }}</td>
                                 <td>{{ $review->created_at->format('M d, Y') }}</td>
                                 <td>
-                                    <div style="display: flex; gap: 8px;">
+                                    <div class="admin-actions">
                                         <a href="{{ route('admin.reviews.show', $review) }}"
                                             class="btn btn-sm btn-outline-primary"
                                             aria-label="View review by {{ $review->user->name }}">View</a>
                                         @if (! $review->is_approved)
-                                            <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
+                                            <form action="{{ route('admin.reviews.approve', $review) }}" method="POST" class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-success"
                                                     aria-label="Approve review by {{ $review->user->name }}">Approve</button>
                                             </form>
                                         @else
-                                            <form action="{{ route('admin.reviews.reject', $review) }}" method="POST">
+                                            <form action="{{ route('admin.reviews.reject', $review) }}" method="POST" class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-warning"
                                                     aria-label="Reject review by {{ $review->user->name }}">Reject</button>
                                             </form>
                                         @endif
                                         <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                            onsubmit="return confirm('Are you sure you want to delete this review?');"
+                                            class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
@@ -99,7 +100,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                <td colspan="7" class="admin-empty">
                                     No reviews found
                                 </td>
                             </tr>
@@ -109,7 +110,7 @@
             </div>
 
             @if ($reviews->hasPages())
-                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Reviews pagination">
+                <nav class="admin-pagination" aria-label="Reviews pagination">
                     {{ $reviews->links() }}
                 </nav>
             @endif

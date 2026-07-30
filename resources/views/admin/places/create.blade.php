@@ -5,8 +5,8 @@
 
 @section('content')
     <section class="card" aria-label="Add New Place">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">Add New Place</h2>
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">Add New Place</h2>
             <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary btn-sm">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Places
             </a>
@@ -17,7 +17,7 @@
                 data-prevent-double-submit novalidate>
                 @csrf
 
-                <div class="admin-form-grid" style="display: grid; gap: 20px;">
+                <div class="admin-form-grid">
                     <div>
                         <label for="name" class="form-label">Name <span aria-hidden="true">*</span></label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}" required
@@ -98,7 +98,7 @@
                     <div>
                         <label for="province" class="form-label">Province <span aria-hidden="true">*</span></label>
                         <input type="search" id="province-search" placeholder="Search province"
-                            class="form-control" style="margin-bottom: 8px;" autocomplete="off">
+                            class="form-control admin-form-inline-gap" autocomplete="off">
                         <select id="province-select" name="province" required
                             data-selected="{{ old('province', 'Kabul') }}"
                             class="form-control @error('province') is-invalid @enderror"
@@ -147,7 +147,7 @@
                         @enderror
                     </div>
 
-                    <div style="grid-column: 1 / -1;">
+                    <div class="admin-full-span">
                         <label for="description" class="form-label">Description <span aria-hidden="true">*</span></label>
                         <textarea id="description" name="description" rows="3" required
                             class="form-control @error('description') is-invalid @enderror"
@@ -158,17 +158,17 @@
                         @enderror
                     </div>
 
-                    <div style="grid-column: 1 / -1;" data-media-upload>
+                    <div class="admin-full-span" data-media-upload>
                         <label for="images" class="form-label">Images</label>
-                        <div data-drop-zone style="border: 2px dashed var(--color-gray-300); border-radius: var(--radius-md); padding: 18px; text-align: center;">
+                        <div data-drop-zone class="admin-drop-zone">
                         <input type="file" id="images" name="images[]" multiple accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
                             class="form-control @error('images') is-invalid @enderror"
                             aria-describedby="images-help">
-                            <span style="display:block;margin-top:8px;color:var(--color-gray-500);">Choose images or drag and drop them here</span>
+                            <span class="admin-help-text">Choose images or drag and drop them here</span>
                         </div>
                         <input type="hidden" name="cover_image_index" value="{{ old('cover_image_index', 0) }}" data-cover-index>
-                        <div data-image-preview style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:12px;"></div>
-                        <div id="images-help" style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin-top: 4px;">
+                        <div data-image-preview class="admin-image-preview-grid"></div>
+                        <div id="images-help" class="admin-help-text">
                             JPG, PNG, or WebP. Maximum 2MB each and 10 images total. Select a preview to make it the cover.
                         </div>
                         @error('images')
@@ -179,17 +179,17 @@
                         @enderror
                     </div>
 
-                    <div style="grid-column: 1 / -1;">
+                    <div class="admin-full-span">
                         <fieldset>
-                            <legend style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-gray-700); margin-bottom: 8px;">Location</legend>
-                            <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin-bottom: 12px;">
+                            <legend class="admin-fieldset-legend">Location</legend>
+                            <p class="admin-help-text admin-help-text--block">
                                 Click on the map to set the exact latitude and longitude.
                             </p>
                             <div id="place-map" data-scroll-wheel="false"
-                                style="height: 320px; border: 1px solid var(--color-gray-200); border-radius: var(--radius-md); overflow: hidden;"
+                                class="admin-map"
                                 role="application"
                                 aria-label="Map for selecting location"></div>
-                            <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin-top: 8px; margin-bottom: 0;">
+                            <p class="admin-help-text">
                                 Selected coordinates:
                                 <span id="selected-coords">{{ old('latitude') && old('longitude') ? old('latitude') . ', ' . old('longitude') : 'None' }}</span>
                             </p>
@@ -200,8 +200,7 @@
                         <label for="latitude" class="form-label">Latitude <span aria-hidden="true">*</span></label>
                         <input type="number" step="0.000001" min="-90" max="90" id="latitude" name="latitude"
                             value="{{ old('latitude') }}" required readonly
-                            class="form-control @error('latitude') is-invalid @enderror"
-                            style="background-color: var(--color-gray-50);"
+                            class="form-control @error('latitude') is-invalid @enderror admin-readonly"
                             aria-required="true">
                         @error('latitude')
                             <div class="invalid-feedback" role="alert">{{ $message }}</div>
@@ -212,15 +211,14 @@
                         <label for="longitude" class="form-label">Longitude <span aria-hidden="true">*</span></label>
                         <input type="number" step="0.000001" min="-180" max="180" id="longitude"
                             name="longitude" value="{{ old('longitude') }}" required readonly
-                            class="form-control @error('longitude') is-invalid @enderror"
-                            style="background-color: var(--color-gray-50);"
+                            class="form-control @error('longitude') is-invalid @enderror admin-readonly"
                             aria-required="true">
                         @error('longitude')
                             <div class="invalid-feedback" role="alert">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div style="grid-column: 1 / -1; display: flex; gap: 12px; justify-content: flex-end; padding-top: 12px; border-top: 1px solid var(--color-gray-200);">
+                    <div class="admin-full-span admin-form-actions">
                         <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary">Cancel</a>
                         <button type="submit" class="btn btn-primary" data-submit-button data-loading-text="Creating…">Create Place</button>
                     </div>

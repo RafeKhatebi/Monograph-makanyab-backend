@@ -6,7 +6,7 @@
 @section('content')
     <section aria-label="Statistics">
         <h2 class="sr-only">Dashboard Statistics</h2>
-        <div class="admin-stats-grid" style="display: grid; gap: 24px; margin-bottom: 32px;">
+        <div class="admin-stats-grid admin-dashboard-stats">
             <div class="stat-card" role="region" aria-label="Total Places">
                 <div class="stat-card-icon green" aria-hidden="true">
                     <i class="fa fa-map-marker-alt"></i>
@@ -50,13 +50,13 @@
         </div>
     </section>
 
-    <div class="admin-two-column-grid" style="display: grid; gap: 24px;">
+    <div class="admin-two-column-grid admin-dashboard-grid">
         <section class="card" aria-label="Recent Places">
-            <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-                <h6 style="margin: 0; font-weight: 600;">Recent Places</h6>
-                <a href="{{ route('admin.places.index') }}" style="font-size: var(--font-size-xs);">Show all</a>
+            <div class="card-header admin-card-header">
+                <h6 class="admin-card-title">Recent Places</h6>
+                <a href="{{ route('admin.places.index') }}" class="admin-card-link">Show all</a>
             </div>
-            <div class="card-body" style="padding: 0;">
+            <div class="card-body admin-card-body-flush">
                 <table class="table" aria-label="Recent Places List">
                     <thead>
                         <tr>
@@ -80,7 +80,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" style="text-align: center; padding: 32px; color: var(--color-gray-400);">
+                                <td colspan="3" class="admin-empty admin-empty--compact">
                                     No places yet
                                 </td>
                             </tr>
@@ -91,11 +91,11 @@
         </section>
 
         <section class="card" aria-label="Recent Users">
-            <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-                <h6 style="margin: 0; font-weight: 600;">Recent Users</h6>
-                <a href="{{ route('admin.users.index') }}" style="font-size: var(--font-size-xs);">Show all</a>
+            <div class="card-header admin-card-header">
+                <h6 class="admin-card-title">Recent Users</h6>
+                <a href="{{ route('admin.users.index') }}" class="admin-card-link">Show all</a>
             </div>
-            <div class="card-body" style="padding: 0;">
+            <div class="card-body admin-card-body-flush">
                 <table class="table" aria-label="Recent Users List">
                     <thead>
                         <tr>
@@ -113,7 +113,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" style="text-align: center; padding: 32px; color: var(--color-gray-400);">
+                                <td colspan="3" class="admin-empty admin-empty--compact">
                                     No users yet
                                 </td>
                             </tr>

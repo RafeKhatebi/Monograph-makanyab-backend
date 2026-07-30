@@ -5,15 +5,15 @@
 
 @section('content')
     <section class="card" aria-label="Categories Management">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">All Categories ({{ $categories->total() }})</h2>
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">All Categories ({{ $categories->total() }})</h2>
             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add New Category
             </a>
         </div>
 
         <div class="card-body">
-            <div style="overflow-x: auto;">
+            <div class="admin-table-wrap">
                 <table class="table" aria-label="Categories list">
                     <thead>
                         <tr>
@@ -38,7 +38,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <div style="display: flex; gap: 8px;">
+                                    <div class="admin-actions">
                                         <a href="{{ route('admin.categories.show', $category) }}"
                                             class="btn btn-sm btn-outline-primary"
                                             aria-label="View {{ $category->name }}">View</a>
@@ -46,7 +46,8 @@
                                             class="btn btn-sm btn-outline-success"
                                             aria-label="Edit {{ $category->name }}">Edit</a>
                                         <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                            onsubmit="return confirm('Are you sure you want to delete this category?');"
+                                            class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
@@ -57,7 +58,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" style="text-align: center; padding: 48px; color: var(--color-gray-400);">
+                                <td colspan="6" class="admin-empty">
                                     No categories found
                                 </td>
                             </tr>
@@ -67,7 +68,7 @@
             </div>
 
             @if ($categories->hasPages())
-                <nav style="padding-top: 24px; display: flex; justify-content: center;" aria-label="Categories pagination">
+                <nav class="admin-pagination" aria-label="Categories pagination">
                     {{ $categories->links() }}
                 </nav>
             @endif

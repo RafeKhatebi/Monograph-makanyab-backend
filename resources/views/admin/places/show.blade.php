@@ -5,9 +5,9 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <h6 style="margin: 0; font-weight: 600;">{{ $place->name }}</h6>
+        <div class="card-header admin-card-header">
+            <div class="admin-title-group">
+                <h6 class="admin-card-title">{{ $place->name }}</h6>
                 @if ($place->is_verified)
                     <span class="badge badge-success">Verified</span>
                 @endif
@@ -15,7 +15,7 @@
                     {{ $place->is_active ? 'Active' : 'Inactive' }}
                 </span>
             </div>
-            <div style="display: flex; gap: 8px;">
+            <div class="admin-header-actions">
                 <a href="{{ route('admin.places.edit', $place) }}" class="btn btn-outline-primary btn-sm">
                     <i class="fa fa-edit"></i> Edit
                 </a>
@@ -26,74 +26,74 @@
         </div>
 
         <div class="card-body">
-            <div class="admin-detail-grid" style="display: grid; gap: 20px;">
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+            <div class="admin-detail-grid">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Category</p>
-                        <p style="margin: 0; font-weight: var(--font-weight-medium);">{{ $place->category->name }}</p>
+                        <p class="admin-detail-label">Category</p>
+                        <p class="admin-detail-value admin-detail-value--strong">{{ $place->category->name }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Rating</p>
-                        <p style="margin: 0; font-weight: var(--font-weight-medium);">
-                            <span style="color: var(--color-warning);"><i class="fa fa-star"></i></span>
+                        <p class="admin-detail-label">Rating</p>
+                        <p class="admin-detail-value admin-detail-value--strong">
+                            <span class="admin-rating"><i class="fa fa-star"></i></span>
                             {{ number_format($place->average_rating, 1) }} ({{ $place->reviews_count }} reviews)
                         </p>
                     </div>
                 </div>
 
-                <div style="grid-column: 1 / -1;">
-                    <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="admin-full-span">
+                    <div class="card admin-detail-card">
                         <div class="card-body">
-                            <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Description</p>
-                            <p style="margin: 0;">{{ $place->description }}</p>
+                            <p class="admin-detail-label">Description</p>
+                            <p class="admin-detail-value">{{ $place->description }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Address</p>
-                        <p style="margin: 0;">{{ $place->address }}</p>
+                        <p class="admin-detail-label">Address</p>
+                        <p class="admin-detail-value">{{ $place->address }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Phone</p>
-                        <p style="margin: 0;">{{ $place->phone_1 ?: 'N/A' }}</p>
+                        <p class="admin-detail-label">Phone</p>
+                        <p class="admin-detail-value">{{ $place->phone_1 ?: 'N/A' }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Coordinates</p>
-                        <p style="margin: 0; font-family: monospace; font-size: var(--font-size-xs);">{{ $place->latitude }}, {{ $place->longitude }}</p>
+                        <p class="admin-detail-label">Coordinates</p>
+                        <p class="admin-detail-value admin-code">{{ $place->latitude }}, {{ $place->longitude }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Website</p>
+                        <p class="admin-detail-label">Website</p>
                         @if ($place->website)
-                            <a href="{{ $place->website }}" target="_blank" rel="noopener noreferrer" style="font-size: var(--font-size-sm);">{{ $place->website }}</a>
+                            <a href="{{ $place->website }}" target="_blank" rel="noopener noreferrer" class="admin-detail-link">{{ $place->website }}</a>
                         @else
-                            <p style="margin: 0; color: var(--color-gray-400);">N/A</p>
+                            <p class="admin-detail-value admin-muted">N/A</p>
                         @endif
                     </div>
                 </div>
 
                 @if ($place->images && count($place->images) > 0)
-                    <div style="grid-column: 1 / -1;">
-                        <div class="card" style="border: 1px solid var(--color-gray-200);">
+                    <div class="admin-full-span">
+                        <div class="card admin-detail-card">
                             <div class="card-body">
-                                <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.05em;">Images</p>
-                                <div class="admin-image-grid" style="display: grid; gap: 12px;">
+                                <p class="admin-detail-label">Images</p>
+                                <div class="admin-image-grid">
                                     @foreach ($place->images as $image)
                                         <img src="{{ asset('storage/' . $image) }}" alt="{{ $place->name }}"
-                                            style="height: 130px; width: 100%; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--color-gray-200);">
+                                            class="admin-gallery-image">
                                     @endforeach
                                 </div>
                             </div>
@@ -101,17 +101,17 @@
                     </div>
                 @endif
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Created</p>
-                        <p style="margin: 0;">{{ $place->created_at->format('M d, Y H:i') }}</p>
+                        <p class="admin-detail-label">Created</p>
+                        <p class="admin-detail-value">{{ $place->created_at->format('M d, Y H:i') }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Last Updated</p>
-                        <p style="margin: 0;">{{ $place->updated_at->format('M d, Y H:i') }}</p>
+                        <p class="admin-detail-label">Last Updated</p>
+                        <p class="admin-detail-value">{{ $place->updated_at->format('M d, Y H:i') }}</p>
                     </div>
                 </div>
             </div>

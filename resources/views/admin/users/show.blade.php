@@ -5,9 +5,9 @@
 
 @section('content')
     <section class="card" aria-label="User Details">
-        <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="margin: 0; font-weight: 600; font-size: var(--font-size-base);">{{ $user->name }}</h2>
-            <div style="display: flex; gap: 8px;">
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">{{ $user->name }}</h2>
+            <div class="admin-header-actions">
                 <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-primary btn-sm">
                     <i class="fa fa-edit" aria-hidden="true"></i> Edit
                 </a>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="card-body">
-            <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <div class="admin-status-row">
                 <span class="badge {{ $user->role === 'admin' ? 'badge-primary' : ($user->role === 'owner' ? 'badge-info' : 'badge-secondary') }}">
                     {{ ucfirst($user->role) }}
                 </span>
@@ -27,55 +27,55 @@
                 </span>
             </div>
 
-            <div class="admin-detail-grid" style="display: grid; gap: 20px;">
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+            <div class="admin-detail-grid">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Email</p>
-                        <p style="margin: 0;">{{ $user->email }}</p>
+                        <p class="admin-detail-label">Email</p>
+                        <p class="admin-detail-value">{{ $user->email }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Email Verified</p>
-                        <p style="margin: 0;">{{ $user->email_verified_at ? 'Yes' : 'No' }}</p>
+                        <p class="admin-detail-label">Email Verified</p>
+                        <p class="admin-detail-value">{{ $user->email_verified_at ? 'Yes' : 'No' }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Total Reviews</p>
-                        <p style="margin: 0; font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);">{{ $user->reviews_count }}</p>
+                        <p class="admin-detail-label">Total Reviews</p>
+                        <p class="admin-detail-value admin-detail-value--metric">{{ $user->reviews_count }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Total Favorites</p>
-                        <p style="margin: 0; font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);">{{ $user->favorites_count }}</p>
+                        <p class="admin-detail-label">Total Favorites</p>
+                        <p class="admin-detail-value admin-detail-value--metric">{{ $user->favorites_count }}</p>
                     </div>
                 </div>
 
                 @if ($user->role === 'owner')
-                    <div class="card" style="border: 1px solid var(--color-gray-200);">
+                    <div class="card admin-detail-card">
                         <div class="card-body">
-                            <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Owned Places</p>
-                            <p style="margin: 0; font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold);">{{ $user->places_count }}</p>
+                            <p class="admin-detail-label">Owned Places</p>
+                            <p class="admin-detail-value admin-detail-value--metric">{{ $user->places_count }}</p>
                         </div>
                     </div>
                 @endif
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Joined</p>
-                        <p style="margin: 0;">{{ $user->created_at->format('M d, Y H:i') }}</p>
+                        <p class="admin-detail-label">Joined</p>
+                        <p class="admin-detail-value">{{ $user->created_at->format('M d, Y H:i') }}</p>
                     </div>
                 </div>
 
-                <div class="card" style="border: 1px solid var(--color-gray-200);">
+                <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Last Updated</p>
-                        <p style="margin: 0;">{{ $user->updated_at->format('M d, Y H:i') }}</p>
+                        <p class="admin-detail-label">Last Updated</p>
+                        <p class="admin-detail-value">{{ $user->updated_at->format('M d, Y H:i') }}</p>
                     </div>
                 </div>
             </div>
