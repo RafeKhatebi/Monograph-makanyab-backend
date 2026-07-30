@@ -13,7 +13,7 @@
         </div>
 
         <div class="card-body">
-            <form method="GET" action="{{ route('admin.places.index') }}" role="search" aria-label="Filter places" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+            <form method="GET" action="{{ route('admin.places.index') }}" role="search" aria-label="Filter places" class="admin-filter-form" style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
                 <div style="flex: 1; min-width: 200px;">
                     <label for="search" class="sr-only">Search places</label>
                     <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search places..."
@@ -137,17 +137,4 @@
         </div>
     </section>
 
-    <style>
-        @media (max-width: 767px) {
-            form[style*="display: flex"] {
-                flex-direction: column !important;
-            }
-            form[style*="display: flex"] .form-control,
-            form[style*="display: flex"] .form-select,
-            form[style*="display: flex"] .btn {
-                width: 100% !important;
-                min-width: 100% !important;
-            }
-        }
-    </style>
 @endsection

@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-components.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
 
         @stack('styles')
     </head>
@@ -50,13 +51,12 @@
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap-hover-dropdown.js') }}"></script>
-        <script src="{{ asset('assets/js/easypiechart.min.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.easypiechart.min.js') }}"></script>
         <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('assets/js/wow.js') }}"></script>
         <script src="{{ asset('assets/js/icheck.min.js') }}"></script>
         <script src="{{ asset('assets/js/lightslider.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
+        <script src="{{ asset('assets/js/frontend-pages.js') }}"></script>
 
         @stack('scripts')
     </body>

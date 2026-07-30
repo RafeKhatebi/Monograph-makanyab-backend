@@ -3,32 +3,30 @@
 @section('content')
 
     {{-- Header --}}
-    <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
+    <div class="mk-hero">
         <div class="container">
-            <h1 style="font-size:30px;font-weight:800;color:#fff;margin:0 0 6px;">My Favorites</h1>
-            <p style="color:rgba(255,255,255,.8);margin:0;font-size:15px;">Places you've saved for later.</p>
+            <h1 class="mk-hero__title">My Favorites</h1>
+            <p class="mk-hero__text">Places you've saved for later.</p>
         </div>
     </div>
 
-    <div style="background:#F8FAFC;padding:40px 0 70px;">
+    <div class="mk-page-section mk-page-section--compact">
         <div class="container">
             @if ($favorites->isEmpty() && $favoriteServices->isEmpty())
-                <div
-                    style="background:#fff;border-radius:14px;padding:80px 30px;text-align:center;border:1px solid #E5E7EB;">
-                    <div style="font-size:56px;margin-bottom:16px;">❤️</div>
-                    <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No Saved Places Yet</h3>
-                    <p style="color:#6B7280;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto;">
+                <div class="mk-card mk-card--empty">
+                    <div class="mk-empty-icon"><i class="fa fa-heart" aria-hidden="true"></i></div>
+                    <h3 class="mk-heading mk-heading--md">No Saved Places Yet</h3>
+                    <p class="mk-text mk-text--muted mk-stack-sm">
                         Start exploring and save your favorite places to find them easily later.
                     </p>
-                    <a href="{{ route('places.index') }}"
-                        style="background:#10B981;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
+                    <a href="{{ route('places.index') }}" class="mk-button mk-button--primary mk-button--md">
                         <i class="fa fa-search"></i> Explore Places
                     </a>
                 </div>
             @else
-                <div style="margin-bottom:20px;">
-                    <p style="color:#6B7280;font-size:14px;margin:0;">
-                        <i class="fa fa-heart" style="color:#10B981;"></i>
+                <div>
+                    <p class="mk-count">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
                         {{ $favorites->total() }} saved {{ $favorites->total() === 1 ? 'place' : 'places' }}
                     </p>
                 </div>
@@ -38,19 +36,19 @@
                     @endforeach
                 </div>
                 @if ($favorites->hasPages())
-                    <div style="text-align:center;margin-top:20px;">{{ $favorites->links() }}</div>
+                    <div class="mk-pagination">{{ $favorites->links() }}</div>
                 @endif
                 @if ($favoriteServices->isNotEmpty())
-                    <h2 style="font-size:22px;font-weight:700;margin:36px 0 18px;">Saved services</h2>
+                    <h2 class="mk-heading mk-heading--md">Saved services</h2>
                     <div class="row">
                         @foreach ($favoriteServices as $service)
-                            <div class="col-sm-6 col-md-4" style="margin-bottom:20px;">
+                            <div class="col-sm-6 col-md-4 mk-stack-sm">
                                 <x-service-card :service="$service" />
                             </div>
                         @endforeach
                     </div>
                     @if ($favoriteServices->hasPages())
-                        <div style="text-align:center;margin-top:20px;">{{ $favoriteServices->links() }}</div>
+                        <div class="mk-pagination">{{ $favoriteServices->links() }}</div>
                     @endif
                 @endif
             @endif

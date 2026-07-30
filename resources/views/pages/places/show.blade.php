@@ -277,8 +277,9 @@
                                 <div class="inner-wrapper">
                                     <div class="clear">
                                         <div class="col-xs-4 col-sm-4 dealer-face">
-                                            <img src="{{ asset('assets/img/client-face1.png') }}" class="img-circle"
-                                                alt="Owner">
+                                            <span class="mk-avatar" aria-label="Owner">
+                                                {{ Str::upper(Str::substr($place->user->name ?? 'O', 0, 1)) }}
+                                            </span>
                                         </div>
                                         <div class="col-xs-8 col-sm-8">
                                             <h3 class="dealer-name">
@@ -310,7 +311,9 @@
                                             <li>
                                                 <div class="col-md-3 col-sm-3 col-xs-3 blg-thumb p0">
                                                     <a href="{{ route('places.show', $similar) }}">
-                                                        <img src="{{ asset('assets/img/demo/small-property-1.jpg') }}"
+                                                        <img src="{{ $similar->media->first()
+                                                            ? asset('storage/' . $similar->media->first()->file_path)
+                                                            : asset('assets/img/demo/property-1.jpg') }}"
                                                             alt="{{ $similar->name }}">
                                                     </a>
                                                 </div>
@@ -335,24 +338,3 @@
     </div>
 
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            @if ($place->media->count())
-                $('#image-gallery').lightSlider({
-                    gallery: true,
-                    item: 1,
-                    thumbItem: 4,
-                    slideMargin: 0,
-                    speed: 500,
-                    auto: true,
-                    loop: true,
-                    onSliderLoad: function() {
-                        $('#image-gallery').removeClass('cS-hidden');
-                    }
-                });
-            @endif
-        });
-    </script>
-@endpush

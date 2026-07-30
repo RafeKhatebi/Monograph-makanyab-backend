@@ -227,4 +227,4 @@
         </div>
     </div>
 </nav>
-<script src="./assets/js/navbar.js"></script>
+<script src="{{ asset('assets/js/navbar.js') }}"></script>

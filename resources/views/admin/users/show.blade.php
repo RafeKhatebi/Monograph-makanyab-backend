@@ -27,7 +27,7 @@
                 </span>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="admin-detail-grid" style="display: grid; gap: 20px;">
                 <div class="card" style="border: 1px solid var(--color-gray-200);">
                     <div class="card-body">
                         <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Email</p>
@@ -82,11 +82,4 @@
         </div>
     </section>
 
-    <style>
-        @media (max-width: 767px) {
-            div[style*="grid-template-columns: 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
-            }
-        }
-    </style>
 @endsection

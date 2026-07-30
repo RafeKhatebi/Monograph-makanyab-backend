@@ -26,7 +26,7 @@
         </div>
 
         <div class="card-body">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="admin-detail-grid" style="display: grid; gap: 20px;">
                 <div class="card" style="border: 1px solid var(--color-gray-200);">
                     <div class="card-body">
                         <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Category</p>
@@ -90,7 +90,7 @@
                         <div class="card" style="border: 1px solid var(--color-gray-200);">
                             <div class="card-body">
                                 <p style="font-size: var(--font-size-xs); color: var(--color-gray-500); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.05em;">Images</p>
-                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+                                <div class="admin-image-grid" style="display: grid; gap: 12px;">
                                     @foreach ($place->images as $image)
                                         <img src="{{ asset('storage/' . $image) }}" alt="{{ $place->name }}"
                                             style="height: 130px; width: 100%; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--color-gray-200);">
@@ -118,14 +118,4 @@
         </div>
     </div>
 
-    <style>
-        @media (max-width: 767px) {
-            div[style*="grid-template-columns: 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
-            }
-            div[style*="grid-template-columns: repeat(4"] {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-        }
-    </style>
 @endsection

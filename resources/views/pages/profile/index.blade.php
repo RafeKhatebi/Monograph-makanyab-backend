@@ -3,43 +3,41 @@
 @section('content')
 
     {{-- Header --}}
-    <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
+    <div class="mk-hero">
         <div class="container">
-            <div style="display:flex;align-items:center;gap:20px;">
-                <img src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('assets/img/client-face1.png') }}"
-                    style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.4);"
-                    alt="Profile">
+            <div class="profile-header">
+                @if (auth()->user()->profile_picture)
+                    <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" class="profile-avatar" alt="Profile">
+                @else
+                    <span class="profile-avatar-placeholder" aria-label="Profile">
+                        {{ Str::upper(Str::substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                    </span>
+                @endif
                 <div>
-                    <h1 style="font-size:24px;font-weight:800;color:#fff;margin:0 0 4px;">{{ auth()->user()->name }}</h1>
-                    <p style="color:rgba(255,255,255,.8);margin:0;font-size:14px;">{{ ucfirst(auth()->user()->role) }} ·
+                    <h1 class="mk-hero__title">{{ auth()->user()->name }}</h1>
+                    <p class="mk-hero__text">{{ ucfirst(auth()->user()->role) }} ·
                         {{ auth()->user()->email }}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div style="background:#F8FAFC;padding:30px 0 70px;">
+    <div class="mk-page-section mk-page-section--compact">
         <div class="container">
             <div class="row">
 
                 {{-- Sidebar --}}
-                <div class="col-md-3" style="margin-bottom:24px;">
-                    <div style="background:#fff;border-radius:14px;border:1px solid #E5E7EB;overflow:hidden;">
-                        <div id="profile-tabs" style="padding:8px;">
-                            <a href="#tab-favorites" data-toggle="tab"
-                                style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#374151;text-decoration:none;font-weight:600;font-size:14px;margin-bottom:4px;"
-                                class="profile-tab-link active-tab">
-                                <i class="fa fa-heart" style="color:#10B981;width:16px;"></i> My Favorites
+                <div class="col-md-3 mk-stack-sm">
+                    <div class="mk-card profile-tab-shell">
+                        <div id="profile-tabs" class="profile-tabs">
+                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link active-tab">
+                                <i class="fa fa-heart" aria-hidden="true"></i> My Favorites
                             </a>
-                            <a href="#tab-reviews" data-toggle="tab"
-                                style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#374151;text-decoration:none;font-weight:600;font-size:14px;margin-bottom:4px;"
-                                class="profile-tab-link">
-                                <i class="fa fa-star" style="color:#10B981;width:16px;"></i> My Reviews
+                            <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link">
+                                <i class="fa fa-star" aria-hidden="true"></i> My Reviews
                             </a>
-                            <a href="#tab-settings" data-toggle="tab"
-                                style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#374151;text-decoration:none;font-weight:600;font-size:14px;"
-                                class="profile-tab-link">
-                                <i class="fa fa-cog" style="color:#10B981;width:16px;"></i> Settings
+                            <a href="#tab-settings" data-toggle="tab" class="profile-tab-link">
+                                <i class="fa fa-cog" aria-hidden="true"></i> Settings
                             </a>
                         </div>
                     </div>
@@ -51,27 +49,24 @@
 
                         {{-- Favorites --}}
                         <div id="tab-favorites" class="tab-pane fade in active">
-                            <div
-                                style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;margin-bottom:20px;">
-                                <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 20px;">My Favorites</h3>
+                            <div class="mk-card profile-panel">
+                                <h3 class="mk-heading mk-heading--md">My Favorites</h3>
                                 <div class="row">
                                     @forelse($favorites ?? [] as $place)
                                         @include('components.place-card', ['place' => $place])
                                     @empty
-                                        <div class="col-md-12 text-center" style="padding:40px 0;">
-                                            <div style="font-size:48px;margin-bottom:12px;">❤️</div>
-                                            <p style="color:#6B7280;">You haven't saved any places yet.</p>
-                                            <a href="{{ route('places.index') }}"
-                                                style="background:#10B981;color:#fff;padding:10px 24px;border-radius:10px;font-weight:600;text-decoration:none;font-size:14px;">Explore
-                                                Places</a>
+                                        <div class="col-md-12 text-center profile-empty">
+                                            <div class="mk-empty-icon"><i class="fa fa-heart" aria-hidden="true"></i></div>
+                                            <p class="mk-text mk-text--muted">You haven't saved any places yet.</p>
+                                            <a href="{{ route('places.index') }}" class="mk-button mk-button--primary mk-button--md">Explore Places</a>
                                         </div>
                                     @endforelse
                                 </div>
                                 @if ($favoriteServices->isNotEmpty())
-                                    <h4 style="font-size:17px;font-weight:700;margin:24px 0 14px;">Saved services</h4>
+                                    <h4 class="mk-heading mk-heading--sm">Saved services</h4>
                                     <div class="row">
                                         @foreach ($favoriteServices as $service)
-                                            <div class="col-sm-6 col-md-4" style="margin-bottom:20px;">
+                                            <div class="col-sm-6 col-md-4 mk-stack-sm">
                                                 <x-service-card :service="$service" />
                                             </div>
                                         @endforeach
@@ -82,18 +77,17 @@
 
                         {{-- Reviews --}}
                         <div id="tab-reviews" class="tab-pane fade">
-                            <div
-                                style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;margin-bottom:20px;">
-                                <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 20px;">My Reviews</h3>
+                            <div class="mk-card profile-panel">
+                                <h3 class="mk-heading mk-heading--md">My Reviews</h3>
                                 @forelse($reviews ?? [] as $review)
                                     @include('components.review-card', [
                                         'review' => $review,
                                         'showPlace' => true,
                                     ])
                                 @empty
-                                    <div class="text-center" style="padding:40px 0;">
-                                        <div style="font-size:48px;margin-bottom:12px;">⭐</div>
-                                        <p style="color:#6B7280;">You haven't written any reviews yet.</p>
+                                    <div class="text-center profile-empty">
+                                        <div class="mk-empty-icon"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                        <p class="mk-text mk-text--muted">You haven't written any reviews yet.</p>
                                     </div>
                                 @endforelse
                             </div>
@@ -101,12 +95,11 @@
 
                         {{-- Settings --}}
                         <div id="tab-settings" class="tab-pane fade">
-                            <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;">
-                                <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 24px;">Account Settings
+                            <div class="mk-card profile-panel">
+                                <h3 class="mk-heading mk-heading--md">Account Settings
                                 </h3>
                                 @if (session('success'))
-                                    <div
-                                        style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;padding:14px 18px;border-radius:10px;margin-bottom:20px;">
+                                    <div class="mk-alert mk-alert--success">
                                         {{ session('success') }}</div>
                                 @endif
                                 <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
@@ -214,19 +207,5 @@
             </div>
         </div>
     </div>
-
-    @push('styles')
-        <style>
-            .profile-tab-link:hover {
-                background: #F0FDF4;
-                color: #10B981 !important;
-            }
-
-            .active-tab {
-                background: #ECFDF5;
-                color: #10B981 !important;
-            }
-        </style>
-    @endpush
 
 @endsection

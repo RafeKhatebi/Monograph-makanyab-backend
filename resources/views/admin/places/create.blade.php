@@ -17,7 +17,7 @@
                 data-prevent-double-submit novalidate>
                 @csrf
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="admin-form-grid" style="display: grid; gap: 20px;">
                     <div>
                         <label for="name" class="form-label">Name <span aria-hidden="true">*</span></label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}" required
@@ -229,13 +229,6 @@
         </div>
     </section>
 
-    <style>
-        @media (max-width: 767px) {
-            div[style*="grid-template-columns: 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
-            }
-        }
-    </style>
 @endsection
 
 @push('styles')

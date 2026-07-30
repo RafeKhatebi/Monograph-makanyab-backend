@@ -6,7 +6,7 @@
 @section('content')
     <section aria-label="Statistics">
         <h2 class="sr-only">Dashboard Statistics</h2>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px;">
+        <div class="admin-stats-grid" style="display: grid; gap: 24px; margin-bottom: 32px;">
             <div class="stat-card" role="region" aria-label="Total Places">
                 <div class="stat-card-icon green" aria-hidden="true">
                     <i class="fa fa-map-marker-alt"></i>
@@ -50,7 +50,7 @@
         </div>
     </section>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+    <div class="admin-two-column-grid" style="display: grid; gap: 24px;">
         <section class="card" aria-label="Recent Places">
             <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
                 <h6 style="margin: 0; font-weight: 600;">Recent Places</h6>
@@ -124,19 +124,4 @@
         </section>
     </div>
 
-    <style>
-        @media (max-width: 991px) {
-            div[style*="grid-template-columns: repeat(4"] {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-            div[style*="grid-template-columns: 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
-            }
-        }
-        @media (max-width: 575px) {
-            div[style*="grid-template-columns: repeat(4"] {
-                grid-template-columns: 1fr !important;
-            }
-        }
-    </style>
 @endsection

@@ -98,6 +98,17 @@
     flex-shrink: 0;
 }
 
+.mk-footer-contact-link {
+    color: #9CA3AF;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.mk-footer-contact-link:hover {
+    color: #10B981;
+    text-decoration: none;
+}
+
 .mk-footer-social {
     display: flex;
     gap: 10px;

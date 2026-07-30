@@ -1506,7 +1506,7 @@ label small {
 page-header
 ======================================================*/
 .page-head {
-    background: #494C53 url("../../assets/img/page-header.jpg") no-repeat scroll center top / cover;
+    background: #494C53;
     color: #FFF;
     position: relative;
     min-height: 140px;
@@ -2792,7 +2792,7 @@ single property page
 Welcom 
 ======================================*/
 .Welcome-area {
-    background: #F3F3F3 url("../../assets/img/welcome-bg.png") no-repeat scroll left top;
+    background: #F3F3F3;
     position: relative;
 
 
@@ -3472,7 +3472,7 @@ blog
 /*FOOOTER*/
 .footer-area {
     border-top: 1px solid #D1D1D1;
-    background: #555 url("../../assets/img/bg-footer.jpg") repeat scroll 0% 0%;
+    background: #555;
     color: #535353;
 }
 

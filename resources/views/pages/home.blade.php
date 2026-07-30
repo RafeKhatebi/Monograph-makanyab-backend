@@ -163,12 +163,3 @@
     </div>
 
 @endsection
-
-@push('styles')
-    <style>
-        .cat-card:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
-            border-color: #10B981 !important;
-        }
-    </style>
-@endpush

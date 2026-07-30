@@ -17,16 +17,12 @@
                     </li>
                     <li>
                         <i class="fa fa-phone"></i>
-                        <a href="tel:+93712121211" style="color:#9CA3AF;text-decoration:none;transition:color .2s;"
-                            onmouseover="this.style.color='#10B981'" onmouseout="this.style.color='#9CA3AF'">+93 712 121
+                        <a href="tel:+93712121211" class="mk-footer-contact-link">+93 712 121
                             211</a>
                     </li>
                     <li>
                         <i class="fa fa-envelope"></i>
-                        <a href="mailto:info@makanyab.com"
-                            style="color:#9CA3AF;text-decoration:none;transition:color .2s;"
-                            onmouseover="this.style.color='#10B981'"
-                            onmouseout="this.style.color='#9CA3AF'">info@makanyab.com</a>
+                        <a href="mailto:info@makanyab.com" class="mk-footer-contact-link">info@makanyab.com</a>
                     </li>
                 </ul>
                 <div class="mk-footer-social">

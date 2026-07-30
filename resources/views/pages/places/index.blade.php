@@ -12,7 +12,7 @@
 
     <div style="background:#F8FAFC;padding:30px 0 70px;">
         <div class="container">
-            <div class="row">
+            <div class="row places-layout">
 
                 {{-- Sidebar Filters --}}
                 <div class="col-md-3" style="margin-bottom:24px;">
@@ -132,16 +132,5 @@
             </div>
         </div>
     </div>
-
-    @push('styles')
-        <style>
-            @media (max-width: 767px) {
-                .col-md-3, .col-md-9 {
-                    flex: 0 0 100%;
-                    max-width: 100%;
-                }
-            }
-        </style>
-    @endpush
 
 @endsection
