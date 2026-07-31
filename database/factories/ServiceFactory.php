@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Place;
-use App\Models\PlaceCategory;
+use App\Models\Service;
+use App\Models\ServiceCategory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class PlaceFactory extends Factory
+class ServiceFactory extends Factory
 {
-    protected $model = Place::class;
+    protected $model = Service::class;
 
     public function definition(): array
     {
@@ -18,16 +18,10 @@ class PlaceFactory extends Factory
 
         return [
             'user_id' => User::factory()->owner(),
-            'place_category_id' => function () {
-                return PlaceCategory::create([
-                    'name' => fake()->unique()->word(),
-                    'slug' => fake()->unique()->slug(),
-                    'is_active' => true,
-                ])->id;
-            },
+            'service_category_id' => ServiceCategory::factory(),
             'name' => Str::title($name),
-            'slug' => fake()->unique()->slug(),
-            'tagline' => fake()->sentence(),
+            'slug' => fake()->unique()->slug(3),
+            'tagline' => fake()->sentence(6),
             'description' => fake()->paragraphs(2, true),
             'phone_1' => '+93'.fake()->numerify('#########'),
             'phone_2' => fake()->optional()->numerify('+93#########'),
@@ -66,17 +60,17 @@ class PlaceFactory extends Factory
     public function longContent(): static
     {
         return $this->state(fn () => [
-            'name' => 'Historic Community Marketplace With An Exceptionally Long Display Name',
-            'description' => str_repeat('Detailed place description for layout and truncation testing. ', 35),
+            'name' => 'Professional Multi District Emergency Repair And Maintenance Service',
+            'description' => str_repeat('Detailed service description for layout and truncation testing. ', 35),
         ]);
     }
 
     public function dariContent(): static
     {
         return $this->state(fn () => [
-            'name' => 'رستورانت خانوادگی کابل',
-            'tagline' => 'غذاهای محلی با فضای آرام',
-            'description' => 'این متن برای آزمایش نمایش محتوای دری و راست به چپ در صفحات مکان‌ها استفاده می‌شود.',
+            'name' => 'خدمات ترمیمات خانه',
+            'tagline' => 'خدمات سریع و قابل اعتماد در کابل',
+            'description' => 'این متن برای آزمایش نمایش محتوای دری و راست به چپ در صفحات خدمات استفاده می‌شود.',
         ]);
     }
 }

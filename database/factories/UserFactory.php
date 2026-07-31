@@ -45,4 +45,28 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => ['role' => 'admin']);
+    }
+
+    public function owner(): static
+    {
+        return $this->state(fn () => ['role' => 'owner']);
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn () => ['is_active' => false]);
+    }
+
+    public function dariProfile(): static
+    {
+        return $this->state(fn () => [
+            'name' => 'کاربر آزمایشی',
+            'bio' => 'این حساب برای آزمایش محتوای دری استفاده می‌شود.',
+            'settings' => ['locale' => 'fa'],
+        ]);
+    }
 }

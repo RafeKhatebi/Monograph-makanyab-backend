@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -14,14 +12,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'id' => (string) Str::uuid(),
+        User::factory()->admin()->create([
             'name' => 'Admin',
             'lastname' => 'User',
             'username' => 'admin_user',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin123'), // Always hash passwords!
-            'role' => 'admin',
+            'password' => 'password',
             'is_active' => true,
         ]);
     }

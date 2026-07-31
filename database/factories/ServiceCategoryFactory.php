@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\PlaceCategory;
+use App\Models\ServiceCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class PlaceCategoryFactory extends Factory
+class ServiceCategoryFactory extends Factory
 {
-    protected $model = PlaceCategory::class;
+    protected $model = ServiceCategory::class;
 
     public function definition(): array
     {
@@ -16,12 +16,13 @@ class PlaceCategoryFactory extends Factory
 
         return [
             'name' => Str::title($name),
-            'slug' => fake()->unique()->slug(),
-            'icon_name' => fake()->randomElement(['map-pin', 'utensils', 'building', 'shopping-bag']),
+            'slug' => fake()->unique()->slug(2),
+            'description' => fake()->sentence(),
+            'icon_name' => fake()->randomElement(['wrench', 'briefcase', 'scissors', 'truck', 'home']),
             'color_code' => fake()->hexColor(),
-            'has_menu' => fake()->boolean(25),
-            'has_booking' => fake()->boolean(35),
-            'has_delivery' => fake()->boolean(30),
+            'has_menu' => fake()->boolean(20),
+            'has_booking' => fake()->boolean(50),
+            'has_delivery' => fake()->boolean(25),
             'keywords' => implode(', ', fake()->words(4)),
             'schema_type' => 'LocalBusiness',
             'is_active' => true,
@@ -37,8 +38,8 @@ class PlaceCategoryFactory extends Factory
     public function empty(): static
     {
         return $this->state(fn () => [
-            'name' => 'Empty Place Category '.fake()->unique()->numberBetween(1000, 9999),
-            'slug' => 'empty-place-category-'.fake()->unique()->numberBetween(1000, 9999),
+            'name' => 'Empty Service Category '.fake()->unique()->numberBetween(1000, 9999),
+            'slug' => 'empty-service-category-'.fake()->unique()->numberBetween(1000, 9999),
         ]);
     }
 }

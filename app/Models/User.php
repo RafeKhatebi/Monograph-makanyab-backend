@@ -30,12 +30,16 @@ class User extends Authenticatable
         'lastname',
         'username',
         'phone',
+        'gender',
+        'date_of_birth',
+        'address',
         'bio',
         'profile_picture',
         'email',
         'password',
         'role',
         'is_active',
+        'settings',
     ];
 
     /**
@@ -69,6 +73,31 @@ class User extends Authenticatable
         return $this->hasMany(Place::class);
     }
 
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function placeSuggestions(): HasMany
+    {
+        return $this->hasMany(PlaceSuggestion::class);
+    }
+
+    public function serviceSuggestions(): HasMany
+    {
+        return $this->hasMany(ServiceSuggestion::class);
+    }
+
+    public function contactMessages(): HasMany
+    {
+        return $this->hasMany(ContactMessage::class);
+    }
+
     // Role helper methods
     public function isAdmin(): bool
     {
@@ -94,12 +123,10 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'date_of_birth' => 'date',
+            'is_active' => 'boolean',
             'password' => 'hashed',
+            'settings' => 'array',
         ];
-    }
-
-    public function posts(): HasMany
-    {
-        return $this->hasMany(Post::class, 'user_id', 'id');
     }
 }
