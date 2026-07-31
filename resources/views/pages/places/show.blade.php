@@ -172,7 +172,7 @@
                                 @endforelse
 
                                 @auth
-                                    @if (! auth()->user()->reviews()->where('place_id', $place->id)->exists())
+                                    @if (! $hasReviewed)
                                         <div class="section" style="margin-top:30px;">
                                             <h4 class="s-property-title">Write a Review</h4>
                                             <form action="{{ route('places.reviews.store', $place) }}" method="POST">

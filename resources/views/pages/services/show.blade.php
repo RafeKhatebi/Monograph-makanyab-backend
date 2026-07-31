@@ -115,7 +115,7 @@
                         @endforelse
 
                         @auth
-                            @if (! auth()->user()->reviews()->where('service_id', $service->id)->exists())
+                            @if (! $hasReviewed)
                                 <form method="POST" action="{{ route('services.reviews.store', $service) }}" style="margin-top:20px;">
                                     @csrf
                                     <label for="service-rating">Rating</label>

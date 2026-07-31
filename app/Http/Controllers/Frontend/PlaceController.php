@@ -61,7 +61,10 @@ class PlaceController extends Controller
         $isFavorited = Auth::check()
             && Auth::user()->favorites()->whereKey($place->id)->exists();
 
-        return view('pages.places.show', compact('place', 'similarPlaces', 'isFavorited'));
+        $hasReviewed = Auth::check()
+            && Auth::user()->reviews()->where('place_id', $place->id)->exists();
+
+        return view('pages.places.show', compact('place', 'similarPlaces', 'isFavorited', 'hasReviewed'));
     }
 
     public function storeReview(StoreReviewRequest $request, Place $place)

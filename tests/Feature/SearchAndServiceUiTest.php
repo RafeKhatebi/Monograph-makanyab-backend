@@ -2,6 +2,7 @@
 
 use App\Models\Place;
 use App\Models\PlaceCategory;
+use App\Models\Review;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\User;
@@ -101,6 +102,53 @@ test('service cards are shared by service search listing and category pages', fu
     $this->get('/services/'.$service->slug)
         ->assertOk()
         ->assertSee('Shared Card Service');
+});
+
+test('place show review form depends on controller review state', function () {
+    $place = Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'is_active' => true,
+    ]);
+
+    $this->actingAs($this->user)
+        ->get('/places/'.$place->slug)
+        ->assertOk()
+        ->assertSee('Write a Review')
+        ->assertDontSee('You have already reviewed this place.');
+
+    Review::factory()->create([
+        'user_id' => $this->user->id,
+        'place_id' => $place->id,
+    ]);
+
+    $this->actingAs($this->user)
+        ->get('/places/'.$place->slug)
+        ->assertOk()
+        ->assertSee('You have already reviewed this place.')
+        ->assertDontSee('Write a Review');
+});
+
+test('service show review form depends on controller review state', function () {
+    $service = ($this->createService)(['name' => 'Reviewable Service', 'slug' => 'reviewable-service']);
+
+    $this->actingAs($this->user)
+        ->get('/services/'.$service->slug)
+        ->assertOk()
+        ->assertSee('Submit review')
+        ->assertDontSee('You have already reviewed this service.');
+
+    Review::create([
+        'user_id' => $this->user->id,
+        'service_id' => $service->id,
+        'rating' => 5,
+    ]);
+
+    $this->actingAs($this->user)
+        ->get('/services/'.$service->slug)
+        ->assertOk()
+        ->assertSee('You have already reviewed this service.')
+        ->assertDontSee('Submit review');
 });
 
 test('search rejects unsupported filter and sorting values', function () {

@@ -51,6 +51,8 @@ class ServiceController extends Controller
             'user_id' => Auth::id(),
             'service_id' => $service->id,
         ])->exists();
+        $hasReviewed = Auth::check()
+            && Auth::user()->reviews()->where('service_id', $service->id)->exists();
 
         $similar = Service::with(['category:id,name,slug', 'media'])
             ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
@@ -61,7 +63,7 @@ class ServiceController extends Controller
             ->limit(4)
             ->get();
 
-        return view('pages.services.show', compact('service', 'similar', 'isFavorited'));
+        return view('pages.services.show', compact('service', 'similar', 'isFavorited', 'hasReviewed'));
     }
 
     public function toggleFavorite(Request $request, Service $service)
