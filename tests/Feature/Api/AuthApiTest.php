@@ -3,15 +3,14 @@
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
 
 uses(RefreshDatabase::class);
 
 test('user can register via API', function () {
     $data = [
         'name' => 'Test User',
-        'username' => 'testuser_' . uniqid(),
-        'email' => 'test_' . uniqid() . '@example.com',
+        'username' => 'testuser_'.uniqid(),
+        'email' => 'test_'.uniqid().'@example.com',
         'password' => 'StrongPass1!',
         'password_confirmation' => 'StrongPass1!',
     ];
@@ -91,7 +90,7 @@ test('login fails with invalid credentials', function () {
         'password' => 'wrongpassword',
     ])
         ->assertUnprocessable()
-        ->assertJson(['message' => 'Invalid credentials.']);
+        ->assertJson(['message' => __('auth.failed')]);
 });
 
 test('inactive user cannot login', function () {
@@ -106,7 +105,7 @@ test('inactive user cannot login', function () {
         'password' => 'password123',
     ])
         ->assertForbidden()
-        ->assertJson(['message' => 'Account is inactive.']);
+        ->assertJson(['message' => __('auth.inactive')]);
 });
 
 test('authenticated user can get current user', function () {
@@ -122,8 +121,8 @@ test('authenticated user can logout', function () {
     $user = User::factory()->create();
     $token = $user->createToken('test-token')->plainTextToken;
 
-    $this->withHeader('Authorization', 'Bearer ' . $token)
+    $this->withHeader('Authorization', 'Bearer '.$token)
         ->postJson('/api/auth/logout')
         ->assertOk()
-        ->assertJson(['message' => 'Logged out successfully.']);
+        ->assertJson(['message' => __('auth.logout_success')]);
 });

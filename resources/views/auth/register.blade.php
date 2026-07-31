@@ -5,6 +5,8 @@
 @section('content')
 
     <x-auth-card title="Join Makanyab Today">
+        @include('auth.partials.social-buttons', ['context' => 'register'])
+
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
@@ -31,7 +33,7 @@
                 <span style="color: #6B7280; font-size: 14px;">Already have an account?</span>
                 <a href="{{ route('login') }}"
                     style="color: #10B981; text-decoration: none; font-weight: 600; margin-left: 5px;">
-                    Login here
+                    Sign in
                 </a>
             </div>
         </form>

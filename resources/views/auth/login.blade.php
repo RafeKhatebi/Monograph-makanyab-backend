@@ -5,6 +5,8 @@
 @section('content')
 
     <x-auth-card title="Welcome Back">
+        @include('auth.partials.social-buttons')
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
@@ -22,7 +24,7 @@
             </div>
 
             <x-primary-button class="w-full text-center mb-5">
-                Login
+                Sign in
             </x-primary-button>
 
             <div style="text-align: center; margin-top: 20px;">
@@ -38,7 +40,7 @@
                 <span style="color: #6B7280; font-size: 14px;">Don't have an account?</span>
                 <a href="{{ route('register') }}"
                     style="color: #10B981; text-decoration: none; font-weight: 600; margin-left: 5px;">
-                    Register here
+                    Create one
                 </a>
             </div>
         </form>

@@ -102,6 +102,14 @@
                                     <div class="mk-alert mk-alert--success">
                                         {{ session('success') }}</div>
                                 @endif
+                                @if (session('status'))
+                                    <div class="mk-alert mk-alert--success">
+                                        {{ session('status') }}</div>
+                                @endif
+                                @if ($errors->has('social'))
+                                    <div class="mk-alert flash-error">
+                                        {{ $errors->first('social') }}</div>
+                                @endif
                                 <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
@@ -199,6 +207,20 @@
                                         Save Changes
                                     </button>
                                 </form>
+                                <hr style="margin:24px 0;">
+                                <h4 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 16px;">Connected Accounts</h4>
+                                <div style="display:grid;gap:10px;max-width:360px;">
+                                    @foreach (['google' => 'Google', 'facebook' => 'Facebook'] as $provider => $label)
+                                        @php
+                                            $linked = auth()->user()->socialAccounts()->where('provider', $provider)->exists();
+                                        @endphp
+                                        <a href="{{ route('social.connect.redirect', $provider) }}"
+                                            style="display:flex;align-items:center;justify-content:space-between;border:1px solid #D1D5DB;border-radius:8px;padding:11px 14px;color:#111827;text-decoration:none;font-weight:700;">
+                                            <span><i class="fa fa-{{ $provider }}" aria-hidden="true"></i> {{ $label }}</span>
+                                            <span style="font-size:12px;color:{{ $linked ? '#065F46' : '#6B7280' }};">{{ $linked ? 'Linked' : 'Connect' }}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
 

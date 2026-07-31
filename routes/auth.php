@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,14 @@ Route::middleware('guest')->group(function () {
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    Route::get('auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])
+        ->whereIn('provider', ['google', 'facebook'])
+        ->name('social.redirect');
+
+    Route::get('auth/{provider}/callback', [SocialAuthController::class, 'callback'])
+        ->whereIn('provider', ['google', 'facebook'])
+        ->name('social.callback');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
@@ -53,6 +62,14 @@ Route::middleware('auth')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::get('account/social/{provider}/redirect', [SocialAuthController::class, 'connectRedirect'])
+        ->whereIn('provider', ['google', 'facebook'])
+        ->name('social.connect.redirect');
+
+    Route::get('account/social/{provider}/callback', [SocialAuthController::class, 'connectCallback'])
+        ->whereIn('provider', ['google', 'facebook'])
+        ->name('social.connect.callback');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
