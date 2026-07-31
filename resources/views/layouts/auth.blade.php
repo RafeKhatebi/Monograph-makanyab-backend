@@ -17,17 +17,14 @@
         <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/fontello.css') }}">
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.transitions.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/lightslider.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
 
@@ -37,11 +34,8 @@
     <body>
         <main>@yield('content')</main>
 
-        <script src="{{ asset('assets/js/modernizr-2.6.2.min.js') }}"></script>
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap-hover-dropdown.js') }}"></script>
         <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('assets/js/wow.js') }}"></script>
         <script src="{{ asset('assets/js/icheck.min.js') }}"></script>

@@ -36,7 +36,7 @@
             {{ $service->city }}@if ($service->district), {{ $service->district }}@endif
         </p>
         @if (isset($service->reviews_count) && $service->reviews_count > 0)
-            <div style="margin-bottom:8px;font-size:12px;">
+            <div class="mk-rating-row">
                 @include('components.rating-stars', ['rating' => $service->reviews_avg_rating ?? 0])
                 <span>({{ $service->reviews_count }})</span>
             </div>

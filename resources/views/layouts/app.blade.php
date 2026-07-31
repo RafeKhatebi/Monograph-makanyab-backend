@@ -17,10 +17,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/fontello.css') }}">
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-select.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl.transitions.css') }}">
@@ -46,16 +44,14 @@
         @include('partials.footer')
 
         <!-- Scripts -->
-        <script src="{{ asset('assets/js/modernizr-2.6.2.min.js') }}"></script>
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap-hover-dropdown.js') }}"></script>
         <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('assets/js/wow.js') }}"></script>
         <script src="{{ asset('assets/js/icheck.min.js') }}"></script>
         <script src="{{ asset('assets/js/lightslider.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
+        <script src="{{ asset('assets/js/navbar.js') }}"></script>
         <script src="{{ asset('assets/js/frontend-pages.js') }}"></script>
 
         @stack('scripts')

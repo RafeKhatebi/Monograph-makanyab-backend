@@ -83,7 +83,7 @@
                 @else
                     @if (!auth()->user()->isAdmin())
                         <a href="{{ route('favorites.index') }}"
-                            style="padding:8px 10px;border-radius:8px;color:#374151;text-decoration:none;font-size:18px;transition:color .2s;"
+                            class="mk-nav-favorite"
                             title="Favorites">
                             <i class="fa fa-heart-o"></i>
                         </a>
@@ -92,7 +92,7 @@
                         <div class="mk-user-trigger" id="mk-user-trigger">
                             <div class="mk-user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
                             <span>{{ explode(' ', auth()->user()->name)[0] }}</span>
-                            <i class="fa fa-chevron-down" style="font-size:11px;color:#9CA3AF;"></i>
+                            <i class="fa fa-chevron-down mk-caret"></i>
                         </div>
                         <div class="mk-user-dd">
                             <a href="{{ route('profile.index') }}">
@@ -133,12 +133,11 @@
         <div class="container">
 
             {{-- Mobile Search --}}
-            <div style="padding:10px 20px 14px;">
-                <form action="{{ route('search.index') }}" method="GET" style="display:flex;gap:8px;">
+            <div class="mk-mobile-search">
+                <form action="{{ route('search.index') }}" method="GET">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
-                        style="flex:1;height:42px;padding:0 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;">
-                    <button type="submit"
-                        style="height:42px;padding:0 16px;background:#10B981;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                        >
+                    <button type="submit">
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
@@ -151,8 +150,8 @@
 
             {{-- Discover accordion --}}
             <button class="mk-mobile-group-btn" id="mob-discover-btn">
-                <span style="display:flex;align-items:center;gap:10px;">
-                    <i class="fa fa-compass" style="width:18px;color:#10B981;"></i> Discover
+                <span class="mk-mobile-label">
+                    <i class="fa fa-compass"></i> Discover
                 </span>
                 <i class="fa fa-chevron-down mk-caret"></i>
             </button>
@@ -195,11 +194,9 @@
 
             @guest
                 <div class="mk-mobile-auth">
-                    <a href="{{ route('login') }}"
-                        style="flex:1;text-align:center;padding:10px;border:1.5px solid #D1D5DB;border-radius:8px;font-weight:600;color:#374151;text-decoration:none;">Log
+                    <a href="{{ route('login') }}" class="mk-mobile-auth-link mk-mobile-auth-link--login">Log
                         In</a>
-                    <a href="{{ route('register') }}"
-                        style="flex:1;text-align:center;padding:10px;background:#10B981;border-radius:8px;font-weight:700;color:#fff;text-decoration:none;">Sign
+                    <a href="{{ route('register') }}" class="mk-mobile-auth-link mk-mobile-auth-link--signup">Sign
                         Up</a>
                 </div>
             @else
@@ -218,8 +215,8 @@
                 @endif
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" style="color:#DC2626;">
-                        <i class="fa fa-sign-out" style="color:#DC2626;"></i> Log Out
+                    <button type="submit" class="mk-mobile-logout">
+                        <i class="fa fa-sign-out"></i> Log Out
                     </button>
                 </form>
             @endguest
@@ -227,4 +224,3 @@
         </div>
     </div>
 </nav>
-<script src="{{ asset('assets/js/navbar.js') }}"></script>
