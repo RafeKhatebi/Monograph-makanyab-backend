@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Dev\AuthMailPreviewController;
 use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -56,7 +57,7 @@ Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'
 
 // Services Index
 Route::get('/services', [FrontendServiceController::class, 'index'])->name('services.index');
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/services/{service:slug}/favorite', [FrontendServiceController::class, 'toggleFavorite'])
         ->name('services.favorite');
     Route::post('/services/{service:slug}/reviews', [FrontendServiceController::class, 'storeReview'])
@@ -74,13 +75,13 @@ Route::get('/service-categories/{slug}', [FrontendServiceCategoryController::cla
 
 // Reviews
 Route::post('/places/{place:slug}/reviews', [PlaceController::class, 'storeReview'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('places.reviews.store');
 Route::patch('/places/{place:slug}/reviews/{review}', [PlaceController::class, 'updateReview'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('places.reviews.update');
 Route::delete('/places/{place:slug}/reviews/{review}', [PlaceController::class, 'destroyReview'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('places.reviews.destroy');
 
 //  Categories
@@ -90,7 +91,7 @@ Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('cat
 
 //  Dashboard Redirect
 
-Route::middleware('auth')->get('/dashboard', function () {
+Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
 
     if (Auth::user()->isAdmin()) {
         return redirect()->route('admin.dashboard');
@@ -102,7 +103,7 @@ Route::middleware('auth')->get('/dashboard', function () {
 
 //  Auth Protected Routes
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Profile
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
@@ -119,7 +120,7 @@ Route::middleware('auth')->group(function () {
 
 // Admin Routes
 
-Route::middleware(['auth', 'admin'])
+Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -192,6 +193,17 @@ Route::middleware(['auth', 'admin'])
         */
         Route::resource('posts', AdminPostController::class);
     });
+
+if (app()->environment(['local', 'development', 'testing'])) {
+    Route::middleware('auth')
+        ->prefix('dev/auth-mail-preview')
+        ->name('dev.auth-mail-preview.')
+        ->group(function () {
+            Route::get('/', [AuthMailPreviewController::class, 'index'])->name('index');
+            Route::get('/verification', [AuthMailPreviewController::class, 'verification'])->name('verification');
+            Route::get('/password-reset', [AuthMailPreviewController::class, 'passwordReset'])->name('password-reset');
+        });
+}
 
 // Fall back route for 404
 Route::fallback(function () {

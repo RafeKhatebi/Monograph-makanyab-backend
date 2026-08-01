@@ -191,6 +191,92 @@
     font-size: 15px;
 }
 
+.mk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: var(--mk-radius-sm);
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    min-height: 46px;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.mk-btn:hover,
+.mk-btn:focus {
+    text-decoration: none;
+}
+
+.mk-btn:disabled {
+    cursor: wait;
+    opacity: 0.72;
+}
+
+.mk-btn-primary {
+    background: var(--mk-primary);
+    color: #fff;
+}
+
+.mk-btn-primary:hover,
+.mk-btn-primary:focus {
+    background: var(--mk-primary-dark);
+    color: #fff;
+}
+
+.mk-btn-secondary {
+    background: #fff;
+    border-color: var(--mk-border);
+    color: var(--mk-text);
+}
+
+.mk-btn-secondary:hover,
+.mk-btn-secondary:focus {
+    border-color: var(--mk-primary);
+    color: var(--mk-primary-dark);
+}
+
+.mk-btn-block {
+    width: 100%;
+}
+
+.mk-link {
+    color: var(--mk-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.mk-link:hover,
+.mk-link:focus {
+    color: var(--mk-primary-dark);
+    text-decoration: none;
+}
+
+.mk-link-button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+}
+
+.mk-form {
+    margin-top: 20px;
+}
+
+.mk-auth-footer {
+    border-top: 1px solid var(--mk-border);
+    color: var(--mk-muted);
+    font-size: 14px;
+    margin: 20px 0 0;
+    padding-top: 20px;
+    text-align: center;
+}
+
 .mk-form-group {
     margin-bottom: 16px;
 }
@@ -245,6 +331,12 @@
     background: var(--mk-primary-soft);
     border: 1px solid #A7F3D0;
     color: #065F46;
+}
+
+.mk-alert--warning {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    color: #92400E;
 }
 
 .mk-icon-item {

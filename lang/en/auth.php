@@ -16,7 +16,10 @@ return [
     'social_email_mismatch' => 'The social account email must match your account email.',
     'social_linked' => 'Your social account has been linked.',
     'verification_sent' => 'A verification email has been sent. Please check your inbox to continue.',
+    'email_verified' => 'Your email address has been verified successfully.',
+    'verification_invalid' => 'This verification link is invalid or has expired.',
     'verification_required' => 'Please verify your email address before continuing.',
     'password_reset_sent' => 'Password reset instructions have been sent to your email.',
+    'password_reset_success' => 'Your password has been reset successfully.',
     'session_expired' => 'Your session has expired. Please sign in again.',
 ];

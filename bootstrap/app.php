@@ -2,10 +2,12 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SecurityHeaders;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -53,6 +55,24 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AccessDeniedHttpException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json(['message' => $e->getMessage() ?: 'Forbidden.'], 403);
+            }
+        });
+
+        $exceptions->render(function (AuthorizationException $e, $request) {
+            if ($request->routeIs('verification.verify')) {
+                return redirect()->route('verification.notice')->withErrors([
+                    'email' => __('auth.verification_invalid'),
+                ]);
+            }
+        });
+
+        $exceptions->render(function (InvalidSignatureException $e, $request) {
+            if ($request->routeIs('verification.verify')) {
+                $redirectRoute = $request->user() ? 'verification.notice' : 'login';
+
+                return redirect()->route($redirectRoute)->withErrors([
+                    'email' => __('auth.verification_invalid'),
+                ]);
             }
         });
     })->create();

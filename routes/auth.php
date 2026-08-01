@@ -63,11 +63,11 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::get('account/social/{provider}/redirect', [SocialAuthController::class, 'connectRedirect'])
+    Route::middleware('verified')->get('account/social/{provider}/redirect', [SocialAuthController::class, 'connectRedirect'])
         ->whereIn('provider', ['google', 'facebook'])
         ->name('social.connect.redirect');
 
-    Route::get('account/social/{provider}/callback', [SocialAuthController::class, 'connectCallback'])
+    Route::middleware('verified')->get('account/social/{provider}/callback', [SocialAuthController::class, 'connectCallback'])
         ->whereIn('provider', ['google', 'facebook'])
         ->name('social.connect.callback');
 

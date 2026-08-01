@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Notification;
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');
 
-    $response->assertStatus(200);
+    $response
+        ->assertStatus(200)
+        ->assertSee('Enter your email address and we will send password reset instructions.');
 });
 
 test('reset password link can be requested', function () {
@@ -15,7 +17,11 @@ test('reset password link can be requested', function () {
 
     $user = User::factory()->create();
 
-    $this->post('/forgot-password', ['email' => $user->email]);
+    $response = $this->post('/forgot-password', ['email' => $user->email]);
+
+    $response
+        ->assertRedirect()
+        ->assertSessionHas('status', __('auth.password_reset_sent'));
 
     Notification::assertSentTo($user, ResetPassword::class);
 });
@@ -53,8 +59,24 @@ test('password can be reset with valid token', function () {
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('login'));
+            ->assertRedirect(route('login'))
+            ->assertSessionHas('status', __('auth.password_reset_success'));
 
         return true;
     });
+});
+
+test('password reset fails with invalid token', function () {
+    $user = User::factory()->create();
+
+    $response = $this->post('/reset-password', [
+        'token' => 'invalid-token',
+        'email' => $user->email,
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+    ]);
+
+    $response
+        ->assertSessionHasErrors(['email' => __('passwords.token')])
+        ->assertRedirect();
 });
