@@ -7,23 +7,27 @@
         <div class="container">
             <form action="{{ route('search.index') }}" method="GET" id="search-form">
                 <div class="row search-form-row">
-                    <div class="col-md-5 col-sm-12 search-field-col">
+                    <div class="col-md-4 col-sm-12 search-field-col">
+                        <label for="search-keyword" class="search-field-label">What to search</label>
                         <div class="search-input-wrap">
                             <i class="fa fa-search" aria-hidden="true"></i>
-                            <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="Search businesses, places or services..."
-                                class="search-input search-input--icon">
+                            <input type="text" id="search-keyword" name="search" value="{{ request('search') }}"
+                                placeholder="Place, service, category, or keyword"
+                                class="search-input search-input--icon" maxlength="120" autocomplete="off">
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-6 search-field-col">
+                    <div class="col-md-3 col-sm-6 search-field-col">
+                        <label for="search-location" class="search-field-label">Where</label>
                         <div class="search-input-wrap">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            <input type="text" name="city" value="{{ request('city') }}" placeholder="City"
-                                class="search-input search-input--location">
+                            <input type="text" id="search-location" name="location" value="{{ request('location') }}"
+                                placeholder="City, district, province, or address"
+                                class="search-input search-input--location" maxlength="120" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-6 search-field-col">
-                        <select name="type" class="search-select">
+                        <label for="search-type" class="search-field-label">Search in</label>
+                        <select id="search-type" name="type" class="search-select">
                             <option value="all" {{ request('type', 'all') == 'all' ? 'selected' : '' }}>All Types</option>
                             <option value="places" {{ request('type') == 'places' ? 'selected' : '' }}>Places</option>
                             <option value="services" {{ request('type') == 'services' ? 'selected' : '' }}>Services</option>
@@ -33,7 +37,7 @@
                         <button type="submit" class="mk-button mk-button--primary search-submit">
                             <i class="fa fa-search" aria-hidden="true"></i> Search
                         </button>
-                        @if (request()->hasAny(['search', 'city', 'type', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified', 'province', 'district']))
+                        @if (request()->hasAny(['search', 'location', 'city', 'type', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified', 'province', 'district', 'sort']))
                             <a href="{{ route('search.index') }}" class="search-reset" aria-label="Reset search">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
@@ -41,14 +45,31 @@
                     </div>
                 </div>
 
-                <div class="search-chip-list">
-                    <a href="{{ route('search.index', array_merge(request()->except('place_category'), ['type' => 'places'])) }}"
-                        class="search-chip {{ !request('place_category') && request('type', 'all') != 'services' ? 'is-active' : '' }}">
-                        All Places
+                <div class="search-chip-list" aria-label="Search shortcuts">
+                    <a href="{{ route('search.index', request()->except(['type', 'place_category', 'service_category', 'places_page', 'services_page'])) }}"
+                        class="search-chip {{ request('type', 'all') === 'all' && !request('place_category') && !request('service_category') ? 'is-active' : '' }}">
+                        All Results
+                    </a>
+                    <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['type' => 'places'])) }}"
+                        class="search-chip {{ request('type') === 'places' && !request('place_category') ? 'is-active' : '' }}">
+                        Places
+                    </a>
+                    <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['type' => 'services'])) }}"
+                        class="search-chip {{ request('type') === 'services' && !request('service_category') ? 'is-active' : '' }}">
+                        Services
                     </a>
                     @foreach ($placeCategories as $cat)
-                        <a href="{{ route('search.index', array_merge(request()->except('place_category', 'service_category'), ['place_category' => $cat->slug, 'type' => 'places'])) }}"
+                        <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['place_category' => $cat->slug, 'type' => 'places'])) }}"
                             class="search-chip {{ request('place_category') == $cat->slug ? 'is-active' : '' }}">
+                            @if ($cat->icon_name)
+                                <i class="fa {{ $cat->icon_name }}" aria-hidden="true"></i>
+                            @endif
+                            {{ $cat->name }}
+                        </a>
+                    @endforeach
+                    @foreach ($serviceCategories as $cat)
+                        <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['service_category' => $cat->slug, 'type' => 'services'])) }}"
+                            class="search-chip search-chip--service {{ request('service_category') == $cat->slug ? 'is-active' : '' }}">
                             @if ($cat->icon_name)
                                 <i class="fa {{ $cat->icon_name }}" aria-hidden="true"></i>
                             @endif
@@ -63,9 +84,10 @@
     <div class="mk-page-section mk-page-section--compact">
         <div class="container">
             @php
-                $activeFilterCount = collect(['province', 'district', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified'])
+                $activeFilterCount = collect(['location', 'province', 'district', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified'])
                     ->filter(fn ($key) => request()->filled($key))
-                    ->count();
+                    ->count()
+                    + (request()->filled('sort') && request('sort') !== 'newest' ? 1 : 0);
             @endphp
             <button type="button" class="filter-toggle" aria-controls="search-filter-panel" aria-expanded="false">
                 <i class="fa fa-sliders" aria-hidden="true"></i>
@@ -85,6 +107,9 @@
                             @if (request('search'))
                                 <input type="hidden" name="search" value="{{ request('search') }}">
                             @endif
+                            @if (request('location'))
+                                <input type="hidden" name="location" value="{{ request('location') }}">
+                            @endif
                             @if (request('type'))
                                 <input type="hidden" name="type" value="{{ request('type') }}">
                             @endif
@@ -100,7 +125,8 @@
                             <div class="mk-form-group">
                                 <label class="mk-label">Sort</label>
                                 <select name="sort" class="search-filter-select">
-                                    <option value="newest" @selected(request('sort', 'newest') === 'newest')>Newest first</option>
+                                    <option value="relevance" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'relevance')>Most relevant</option>
+                                    <option value="newest" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'newest')>Newest first</option>
                                     <option value="name_asc" @selected(request('sort') === 'name_asc')>Name A-Z</option>
                                     <option value="name_desc" @selected(request('sort') === 'name_desc')>Name Z-A</option>
                                 </select>
@@ -190,8 +216,8 @@
                                 @if (request('search'))
                                     for "<mark>{{ request('search') }}</mark>"
                                 @endif
-                                @if (request('city'))
-                                    in <mark>{{ request('city') }}</mark>
+                                @if (request('location') || request('city'))
+                                    in <mark>{{ request('location') ?: request('city') }}</mark>
                                 @endif
                             </h3>
                         </div>
@@ -287,7 +313,7 @@
                             <div class="mk-empty-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
                             <h3 class="mk-heading mk-heading--md">No results found</h3>
                             <p class="mk-text mk-text--muted mk-stack-sm">
-                                Try different keywords, a different city, or remove some filters.
+                                Try different keywords, a different location, or remove some filters.
                             </p>
                             <a href="{{ route('search.index') }}" class="mk-button mk-button--primary mk-button--md">
                                 Reset Search

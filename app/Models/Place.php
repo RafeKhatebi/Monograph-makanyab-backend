@@ -93,7 +93,15 @@ class Place extends Model
             $query->where('name', 'like', "%{$search}%")
                 ->orWhere('tagline', 'like', "%{$search}%")
                 ->orWhere('city', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('province', 'like', "%{$search}%")
+                ->orWhere('district', 'like', "%{$search}%")
+                ->orWhere('address', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")
+                ->orWhereHas('category', function (Builder $query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('slug', 'like', "%{$search}%")
+                        ->orWhere('keywords', 'like', "%{$search}%");
+                });
         });
     }
 

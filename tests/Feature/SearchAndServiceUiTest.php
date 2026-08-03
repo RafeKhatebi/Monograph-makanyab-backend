@@ -52,6 +52,19 @@ test('search renders a desktop sidebar and accessible mobile filter toggle', fun
         ->assertSee('class="filter-active-count">2', false);
 });
 
+test('search form uses clearer what where and type fields', function () {
+    $this->get('/search?search=cafe&location=Karte%20Se&type=services&sort=relevance')
+        ->assertOk()
+        ->assertSee('What to search')
+        ->assertSee('Place, service, category, or keyword')
+        ->assertSee('name="location"', false)
+        ->assertSee('City, district, province, or address')
+        ->assertSee('Search in')
+        ->assertSee('Most relevant')
+        ->assertSee('All Results')
+        ->assertSee('Services');
+});
+
 test('combined search keeps place and service pagination independent', function () {
     Place::factory()->count(9)->create([
         'user_id' => $this->user->id,
@@ -89,6 +102,156 @@ test('search combines type location category status price and verified filters',
         ->assertOk()
         ->assertSee('Matching Plumbing')
         ->assertDontSee('Other Plumbing');
+});
+
+test('search matches places and services by category location address dari and special characters', function () {
+    $medicalCategory = PlaceCategory::create([
+        'name' => 'کلینیک صحی',
+        'slug' => 'clinics',
+        'keywords' => 'doctor health clinic',
+        'is_active' => true,
+    ]);
+
+    $maintenanceCategory = ServiceCategory::create([
+        'name' => 'Home Maintenance',
+        'slug' => 'home-maintenance',
+        'keywords' => 'ترمیم plumber electrician',
+        'is_active' => true,
+    ]);
+
+    Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $medicalCategory->id,
+        'name' => 'Nawroz Family Center',
+        'slug' => 'nawroz-family-center',
+        'address' => 'Street 5, Karte Se',
+        'province' => 'Kabul',
+        'city' => 'Kabul',
+        'district' => 'Karte Se',
+        'description' => 'پذیرایی و خدمات صحی برای خانواده ها.',
+        'is_active' => true,
+    ]);
+
+    ($this->createService)([
+        'service_category_id' => $maintenanceCategory->id,
+        'name' => 'Fix & Go Repairs',
+        'slug' => 'fix-go-repairs',
+        'address' => 'Darulaman Road',
+        'province' => 'Kabul',
+        'city' => 'Kabul',
+        'district' => 'Darulaman',
+    ]);
+
+    $this->get('/search?'.http_build_query(['search' => 'کلینیک', 'type' => 'places']))
+        ->assertOk()
+        ->assertSee('Nawroz Family Center');
+
+    $this->get('/search?'.http_build_query(['search' => 'doctor', 'type' => 'places']))
+        ->assertOk()
+        ->assertSee('Nawroz Family Center');
+
+    $this->get('/search?'.http_build_query(['search' => 'Fix & Go', 'type' => 'services']))
+        ->assertOk()
+        ->assertSee('Fix &amp; Go Repairs', false);
+
+    $this->get('/search?'.http_build_query(['location' => 'Darulaman', 'type' => 'services']))
+        ->assertOk()
+        ->assertSee('Fix &amp; Go Repairs', false);
+});
+
+test('search excludes inactive and deleted content from results', function () {
+    Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'name' => 'Visible Atlas Cafe',
+        'slug' => 'visible-atlas-cafe',
+        'is_active' => true,
+    ]);
+
+    Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'name' => 'Hidden Atlas Cafe',
+        'slug' => 'hidden-atlas-cafe',
+        'is_active' => false,
+    ]);
+
+    $deleted = Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'name' => 'Deleted Atlas Cafe',
+        'slug' => 'deleted-atlas-cafe',
+        'is_active' => true,
+    ]);
+    $deleted->delete();
+
+    $this->get('/search?search=Atlas&type=places')
+        ->assertOk()
+        ->assertSee('Visible Atlas Cafe')
+        ->assertDontSee('Hidden Atlas Cafe')
+        ->assertDontSee('Deleted Atlas Cafe');
+});
+
+test('search relevance ranks exact and prefix matches before weaker matches', function () {
+    Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'name' => 'Garden Plaza',
+        'slug' => 'garden-plaza-description',
+        'description' => 'Atlas is mentioned only in the description.',
+        'created_at' => now()->subDay(),
+        'is_active' => true,
+    ]);
+
+    Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'name' => 'Atlas Market',
+        'slug' => 'atlas-market-prefix',
+        'created_at' => now()->subDays(2),
+        'is_active' => true,
+    ]);
+
+    Place::factory()->create([
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->placeCategory->id,
+        'name' => 'Atlas',
+        'slug' => 'atlas-exact',
+        'created_at' => now()->subDays(3),
+        'is_active' => true,
+    ]);
+
+    $this->get('/search?search=Atlas&type=places')
+        ->assertOk()
+        ->assertSeeInOrder(['Atlas', 'Atlas Market', 'Garden Plaza']);
+});
+
+test('search sorting and filters persist through pagination links', function () {
+    foreach (range(1, 9) as $number) {
+        ($this->createService)([
+            'name' => sprintf('Zahir Electric %02d', $number),
+            'slug' => sprintf('zahir-electric-%02d', $number),
+            'province' => 'Herat',
+            'city' => 'Herat',
+            'district' => 'Injil',
+            'is_verified' => true,
+        ]);
+    }
+
+    $this->get('/search?type=services&location=Herat&verified=1&sort=name_desc')
+        ->assertOk()
+        ->assertSee('location=Herat', false)
+        ->assertSee('verified=1', false)
+        ->assertSee('sort=name_desc', false)
+        ->assertSee('services_page=2', false)
+        ->assertSeeInOrder(['Zahir Electric 09', 'Zahir Electric 08']);
+});
+
+test('search rejects overly long free text and location values', function () {
+    $longText = str_repeat('a', 121);
+
+    $this->get('/search?'.http_build_query(['search' => $longText, 'location' => $longText]))
+        ->assertSessionHasErrors(['search', 'location']);
 });
 
 test('service cards are shared by service search listing and category pages', function () {
