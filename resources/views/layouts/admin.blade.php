@@ -14,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <link href="{{ asset('assets/css/variables.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/ui-system.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin-utilities.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin-layout.css') }}" rel="stylesheet">
     @stack('styles')

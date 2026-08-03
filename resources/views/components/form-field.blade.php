@@ -9,11 +9,12 @@
     'autofocus' => false,
 ])
 
-<div class="form-group" style="margin-bottom: 20px;">
-    <x-input-label :for="$for" :value="$label" />
+@php
+    $fieldName = $name ?? $for;
+@endphp
 
-    <x-text-input id="{{ $for }}" name="{{ $name ?? $for }}" type="{{ $type }}" :value="$value"
-        autocomplete="{{ $autocomplete }}" :required="$required" :autofocus="$autofocus" class="form-control mt-2" />
-
-    <x-input-error :messages="$errors->get($name ?? $for)" class="mt-2" />
-</div>
+<x-ui.form-group :for="$for" :label="$label" :messages="$errors->get($fieldName)" :required="$required">
+    <x-ui.text-input id="{{ $for }}" name="{{ $fieldName }}" type="{{ $type }}" :value="$value"
+        autocomplete="{{ $autocomplete }}" :required="$required" :autofocus="$autofocus"
+        :invalid="$errors->has($fieldName)" />
+</x-ui.form-group>

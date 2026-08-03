@@ -26,6 +26,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/ui-system.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/frontend-components.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
 
         @stack('styles')
