@@ -70,8 +70,8 @@ class SearchController extends Controller
         if ($showServices) {
             $servicesQuery = Service::query()
                 ->with(['category:id,name,slug', 'media'])
-                ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-                ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating')
+                ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+                ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
                 ->active()
                 ->filterSearch($request->query('search'))
                 ->filterCategorySlug($request->query('service_category'))

@@ -27,6 +27,23 @@
                         <option value="1" {{ request('rating') === '1' ? 'selected' : '' }}>1 Star</option>
                     </select>
                 </div>
+                <div>
+                    <label for="status" class="sr-only">Filter by status</label>
+                    <select id="status" name="status" class="form-select admin-filter-select">
+                        <option value="">All Statuses</option>
+                        <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved</option>
+                        <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="target" class="sr-only">Filter by target</label>
+                    <select id="target" name="target" class="form-select admin-filter-select">
+                        <option value="">All Targets</option>
+                        <option value="place" {{ request('target') === 'place' ? 'selected' : '' }}>Places</option>
+                        <option value="service" {{ request('target') === 'service' ? 'selected' : '' }}>Services</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fa fa-filter" aria-hidden="true"></i> Filter
                 </button>
@@ -63,8 +80,15 @@
                                 <td>{{ $review->user->name }}</td>
                                 <td>{{ $review->rating }}/5</td>
                                 <td>
-                                    <span class="badge {{ $review->is_approved ? 'badge-success' : 'badge-warning' }}">
-                                        {{ $review->is_approved ? 'Approved' : 'Pending' }}
+                                    @php
+                                        $statusClass = match ($review->moderation_status) {
+                                            'approved' => 'badge-success',
+                                            'rejected' => 'badge-danger',
+                                            default => 'badge-warning',
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $statusClass }}">
+                                        {{ Str::headline($review->moderation_status) }}
                                     </span>
                                 </td>
                                 <td>{{ Str::limit($review->comment, 50) }}</td>
@@ -74,13 +98,14 @@
                                         <a href="{{ route('admin.reviews.show', $review) }}"
                                             class="btn btn-sm btn-outline-primary"
                                             aria-label="View review by {{ $review->user->name }}">View</a>
-                                        @if (! $review->is_approved)
+                                        @if ($review->moderation_status !== 'approved')
                                             <form action="{{ route('admin.reviews.approve', $review) }}" method="POST" class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-success"
                                                     aria-label="Approve review by {{ $review->user->name }}">Approve</button>
                                             </form>
-                                        @else
+                                        @endif
+                                        @if ($review->moderation_status !== 'rejected')
                                             <form action="{{ route('admin.reviews.reject', $review) }}" method="POST" class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-warning"

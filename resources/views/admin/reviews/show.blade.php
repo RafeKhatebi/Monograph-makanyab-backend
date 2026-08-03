@@ -15,8 +15,15 @@
 
                 <div class="space-y-6">
                     <div>
-                        <span class="badge {{ $review->is_approved ? 'bg-success' : 'bg-warning text-dark' }}">
-                            {{ $review->is_approved ? 'Approved' : 'Pending Approval' }}
+                        @php
+                            $statusClass = match ($review->moderation_status) {
+                                'approved' => 'bg-success',
+                                'rejected' => 'bg-danger',
+                                default => 'bg-warning text-dark',
+                            };
+                        @endphp
+                        <span class="badge {{ $statusClass }}">
+                            {{ Str::headline($review->moderation_status) }}
                         </span>
                     </div>
 
@@ -70,12 +77,13 @@
 
                     <div class="pt-4 border-t">
                         <div class="d-flex gap-2 mb-3">
-                            @if (! $review->is_approved)
+                            @if ($review->moderation_status !== 'approved')
                                 <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-success">Approve Review</button>
                                 </form>
-                            @else
+                            @endif
+                            @if ($review->moderation_status !== 'rejected')
                                 <form action="{{ route('admin.reviews.reject', $review) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-warning">Reject Review</button>

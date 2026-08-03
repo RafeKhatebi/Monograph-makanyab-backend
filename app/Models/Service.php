@@ -127,8 +127,8 @@ class Service extends Model
         }
 
         return $query->whereRaw(
-            '(select avg(reviews.rating) from reviews where reviews.service_id = services.id and reviews.is_approved = ?) >= ?',
-            [true, $rating]
+            '(select avg(reviews.rating) from reviews where reviews.service_id = services.id and reviews.is_approved = ? and reviews.moderation_status = ?) >= ?',
+            [true, Review::STATUS_APPROVED, $rating]
         );
     }
 
@@ -151,7 +151,7 @@ class Service extends Model
     public function getAvgRatingAttribute(): float
     {
         return (float) ($this->reviews_avg_rating
-            ?? $this->reviews()->where('is_approved', true)->avg('rating')
+            ?? $this->reviews()->approved()->avg('rating')
             ?? 0);
     }
 }

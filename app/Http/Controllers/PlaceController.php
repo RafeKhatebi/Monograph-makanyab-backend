@@ -61,9 +61,9 @@ class PlaceController extends Controller
             'user:id,name',
             'openingHours:id,place_id,day_of_week,open_time,close_time,is_closed',
             'media:id,mediable_type,mediable_id,file_path,type,is_cover',
-            'reviews' => fn ($q) => $q->where('is_approved', true)
+            'reviews' => fn ($q) => $q->approved()
                 ->with('user:id,name')
-                ->select('id', 'user_id', 'place_id', 'rating', 'comment', 'created_at')
+                ->select('id', 'user_id', 'place_id', 'rating', 'comment', 'created_at', 'is_approved', 'moderation_status')
                 ->latest()
                 ->limit(10),
         ]);

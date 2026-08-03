@@ -24,8 +24,8 @@ class ServiceController extends Controller
 
         $services = Service::query()
             ->with(['category', 'media'])
-            ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating')
+            ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
             ->active()
             ->filterSearch($request->query('search'))
             ->filterCategorySlug($request->query('category'))
@@ -51,7 +51,7 @@ class ServiceController extends Controller
         $service->load([
             'category',
             'media',
-            'reviews' => fn ($query) => $query->where('is_approved', true)
+            'reviews' => fn ($query) => $query->approved()
                 ->with('user:id,name,profile_picture')
                 ->latest(),
         ]);
@@ -63,8 +63,8 @@ class ServiceController extends Controller
             && Auth::user()->reviews()->where('service_id', $service->id)->exists();
 
         $similar = Service::with(['category:id,name,slug', 'media'])
-            ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating')
+            ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
             ->where('service_category_id', $service->service_category_id)
             ->where('id', '!=', $service->id)
             ->active()
@@ -103,7 +103,7 @@ class ServiceController extends Controller
             'user_id' => $request->user()->id,
             'rating' => $request->integer('rating'),
             'comment' => $request->validated('comment'),
-            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
         ]);
 
         return back()->with('success', 'Review submitted and pending approval.');
@@ -114,7 +114,7 @@ class ServiceController extends Controller
         Service $service,
         Review $review
     ) {
-        $review->update([...$request->validated(), 'is_approved' => false]);
+        $review->update([...$request->validated(), 'moderation_status' => Review::STATUS_PENDING]);
 
         return back()->with('success', 'Review updated and returned to the approval queue.');
     }

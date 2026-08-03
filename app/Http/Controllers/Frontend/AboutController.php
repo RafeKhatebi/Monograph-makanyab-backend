@@ -15,7 +15,7 @@ class AboutController extends Controller
         $stats = [
             'places' => Place::where('is_active', true)->count(),
             'categories' => PlaceCategory::where('is_active', true)->count(),
-            'reviews' => Review::where('is_approved', true)->count(),
+            'reviews' => Review::approved()->count(),
             'users' => User::where('is_active', true)->count(),
         ];
 

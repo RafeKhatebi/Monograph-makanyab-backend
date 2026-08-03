@@ -80,6 +80,10 @@ test('user can create edit and delete one service review', function () {
             'comment' => 'Excellent.',
         ])
         ->assertCreated()
+        ->assertJsonFragment([
+            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
+        ])
         ->json('id');
 
     $this->actingAs($this->user)
@@ -93,7 +97,11 @@ test('user can create edit and delete one service review', function () {
             'comment' => 'Updated.',
         ])
         ->assertOk()
-        ->assertJsonFragment(['rating' => 4, 'is_approved' => false]);
+        ->assertJsonFragment([
+            'rating' => 4,
+            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
+        ]);
 
     $this->actingAs($this->user)
         ->deleteJson('/api/services/'.$this->service->slug.'/reviews/'.$reviewId)
@@ -114,18 +122,40 @@ test('non-owner cannot edit a service review', function () {
         ->assertForbidden();
 });
 
-test('service average and rating filter use approved reviews only', function () {
-    Review::create([
+test('service review validates rating and comment text', function () {
+    $this->actingAs($this->user)
+        ->postJson('/api/services/'.$this->service->slug.'/reviews', [
+            'rating' => 0,
+            'comment' => str_repeat('a', 2001),
+        ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['rating', 'comment']);
+});
+
+test('rejected service reviews are hidden from public reviews', function () {
+    Review::factory()->rejected()->forService($this->service)->create([
         'user_id' => $this->user->id,
-        'service_id' => $this->service->id,
-        'rating' => 2,
-        'is_approved' => true,
-    ]);
-    Review::create([
-        'user_id' => User::factory()->create()->id,
-        'service_id' => $this->service->id,
         'rating' => 5,
-        'is_approved' => false,
+    ]);
+
+    $this->getJson('/api/services/'.$this->service->slug.'/reviews')
+        ->assertOk()
+        ->assertJsonCount(0, 'data');
+});
+
+test('service average and rating filter use approved reviews only', function () {
+    Review::factory()->forService($this->service)->create([
+        'user_id' => $this->user->id,
+        'rating' => 2,
+        'moderation_status' => Review::STATUS_APPROVED,
+    ]);
+    Review::factory()->pending()->forService($this->service)->create([
+        'user_id' => User::factory()->create()->id,
+        'rating' => 5,
+    ]);
+    Review::factory()->rejected()->forService($this->service)->create([
+        'user_id' => User::factory()->create()->id,
+        'rating' => 5,
     ]);
 
     expect($this->service->fresh()->avg_rating)->toBe(2.0)

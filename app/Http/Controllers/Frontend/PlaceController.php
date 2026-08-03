@@ -51,9 +51,9 @@ class PlaceController extends Controller
             'user:id,name',
             'openingHours:id,place_id,day_of_week,open_time,close_time,is_closed',
             'media:id,mediable_type,mediable_id,file_path,type,is_cover,sort_order',
-            'reviews' => fn ($q) => $q->where('is_approved', true)
+            'reviews' => fn ($q) => $q->approved()
                 ->with('user:id,name,profile_picture')
-                ->select('id', 'user_id', 'place_id', 'rating', 'comment', 'created_at')
+                ->select('id', 'user_id', 'place_id', 'rating', 'comment', 'created_at', 'is_approved', 'moderation_status')
                 ->latest(),
         ]);
 
@@ -79,7 +79,7 @@ class PlaceController extends Controller
             'user_id' => Auth::id(),
             'rating' => $request->validated('rating'),
             'comment' => $request->validated('comment'),
-            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
         ]);
 
         return back()->with('success', 'Review submitted and pending approval.');
@@ -89,7 +89,7 @@ class PlaceController extends Controller
     {
         $review->update([
             ...$request->validated(),
-            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
         ]);
 
         return back()->with('success', 'Review updated and returned to the approval queue.');

@@ -21,8 +21,8 @@ class PlaceController extends Controller
     {
         $query = Place::query()
             ->with(['category', 'user'])
-            ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating');
+            ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating');
 
         if ($request->query('trashed') === 'with') {
             $query->withTrashed();
@@ -92,8 +92,8 @@ class PlaceController extends Controller
     public function show(Place $place)
     {
         $place->load(['category', 'user', 'media'])
-            ->loadCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-            ->loadAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating');
+            ->loadCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+            ->loadAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating');
 
         return view('admin.places.show', compact('place'));
     }

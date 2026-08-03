@@ -45,8 +45,8 @@ class ServiceCategoryController extends Controller
             ->values();
 
         $services = Service::with(['category', 'media'])
-            ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating')
+            ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+            ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
             ->whereIn('service_category_id', $categoryIds)
             ->where('is_active', true)
             ->orderByDesc('created_at')

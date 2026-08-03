@@ -15,7 +15,7 @@ class ServiceReviewController extends Controller
     {
         return response()->json(
             $service->reviews()
-                ->where('is_approved', true)
+                ->approved()
                 ->with('user:id,name,profile_picture')
                 ->latest()
                 ->paginate(min(max($request->integer('per_page', 10), 1), 50))
@@ -28,7 +28,7 @@ class ServiceReviewController extends Controller
             'user_id' => $request->user()->id,
             'rating' => $request->integer('rating'),
             'comment' => $request->validated('comment'),
-            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
         ]);
 
         return response()->json($review->load('user:id,name'), 201);
@@ -39,7 +39,7 @@ class ServiceReviewController extends Controller
         Service $service,
         Review $review
     ): JsonResponse {
-        $review->update([...$request->validated(), 'is_approved' => false]);
+        $review->update([...$request->validated(), 'moderation_status' => Review::STATUS_PENDING]);
 
         return response()->json($review->load('user:id,name'));
     }

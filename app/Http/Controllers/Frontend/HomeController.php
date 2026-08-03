@@ -26,8 +26,8 @@ class HomeController extends Controller
 
         $featuredServices = Cache::remember('home_featured_services', 600, function () {
             return Service::with(['category:id,name,slug,color_code,icon_name', 'media'])
-                ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
-                ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating')
+                ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+                ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
                 ->where('is_active', true)
                 ->where('is_verified', true)
                 ->orderByDesc('created_at')
