@@ -15,7 +15,7 @@ class ReviewController extends Controller
     public function index(Request $request, Place $place): JsonResponse
     {
         $reviews = $place->reviews()
-            ->where('is_approved', true)
+            ->approved()
             ->with('user:id,name,profile_picture')
             ->when($request->rating, fn ($q, $v) => $q->where('rating', $v))
             ->orderByDesc('created_at')
@@ -33,7 +33,7 @@ class ReviewController extends Controller
             'user_id' => $user->id,
             'rating' => $request->validated('rating'),
             'comment' => $request->validated('comment'),
-            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
         ]);
 
         $review->load('user:id,name');
@@ -48,7 +48,7 @@ class ReviewController extends Controller
         }
 
         $user = request()->user();
-        if (! $review->is_approved
+        if ((! $review->is_approved || $review->moderation_status !== Review::STATUS_APPROVED)
             && $review->user_id !== $user?->id
             && ! ($user?->isAdmin() ?? false)) {
             return response()->json(['message' => 'Review not found for this place.'], 404);
@@ -63,7 +63,7 @@ class ReviewController extends Controller
     {
         $review->update([
             ...$request->validated(),
-            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
         ]);
 
         return response()->json($review->load('user:id,name'));

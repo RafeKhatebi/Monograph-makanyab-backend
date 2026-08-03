@@ -24,15 +24,18 @@ class ServiceFavoriteController extends Controller
     {
         abort_if(! $service->is_active, 404);
 
-        $favorite = Favorite::firstOrCreate([
+        $attributes = [
             'user_id' => $request->user()->id,
             'service_id' => $service->id,
-        ]);
+        ];
 
-        return response()->json(
-            $favorite,
-            $favorite->wasRecentlyCreated ? 201 : 200
-        );
+        if (Favorite::where($attributes)->exists()) {
+            return response()->json(['message' => 'Already in favorites.'], 409);
+        }
+
+        $favorite = Favorite::create($attributes);
+
+        return response()->json($favorite, 201);
     }
 
     public function destroy(Request $request, Service $service): JsonResponse

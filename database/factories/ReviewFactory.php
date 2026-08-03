@@ -25,13 +25,17 @@ class ReviewFactory extends Factory
 
     public function pending(): static
     {
-        return $this->state(fn () => ['is_approved' => false]);
+        return $this->state(fn () => [
+            'is_approved' => false,
+            'moderation_status' => Review::STATUS_PENDING,
+        ]);
     }
 
     public function rejected(): static
     {
         return $this->state(fn () => [
             'is_approved' => false,
+            'moderation_status' => Review::STATUS_REJECTED,
             'comment' => 'Rejected during moderation: '.fake()->sentence(),
         ]);
     }

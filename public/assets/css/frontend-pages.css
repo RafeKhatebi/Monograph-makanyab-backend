@@ -1207,13 +1207,21 @@
 }
 
 .search-form-row {
-    align-items: center;
+    align-items: flex-end;
 }
 
 .search-field-col {
     margin-bottom: 10px;
     padding-left: 6px;
     padding-right: 6px;
+}
+
+.search-field-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #374151;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .search-input-wrap {
@@ -1291,6 +1299,11 @@
     text-decoration: none;
     background: #F3F4F6;
     color: #374151;
+}
+
+.search-chip--service {
+    background: #ECFDF5;
+    color: #047857;
 }
 
 .search-chip:hover,

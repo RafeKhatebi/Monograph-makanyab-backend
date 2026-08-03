@@ -93,7 +93,15 @@ class Place extends Model
             $query->where('name', 'like', "%{$search}%")
                 ->orWhere('tagline', 'like', "%{$search}%")
                 ->orWhere('city', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('province', 'like', "%{$search}%")
+                ->orWhere('district', 'like', "%{$search}%")
+                ->orWhere('address', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")
+                ->orWhereHas('category', function (Builder $query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('slug', 'like', "%{$search}%")
+                        ->orWhere('keywords', 'like', "%{$search}%");
+                });
         });
     }
 
@@ -131,15 +139,15 @@ class Place extends Model
         }
 
         return $query->whereRaw(
-            '(select avg(reviews.rating) from reviews where reviews.place_id = places.id and reviews.is_approved = ?) >= ?',
-            [true, $rating]
+            '(select avg(reviews.rating) from reviews where reviews.place_id = places.id and reviews.is_approved = ? and reviews.moderation_status = ?) >= ?',
+            [true, Review::STATUS_APPROVED, $rating]
         );
     }
 
     public function getAvgRatingAttribute(): float
     {
         return (float) ($this->reviews_avg_rating
-            ?? $this->reviews()->where('is_approved', true)->avg('rating')
+            ?? $this->reviews()->approved()->avg('rating')
             ?? 0);
     }
 

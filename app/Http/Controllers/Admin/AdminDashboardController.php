@@ -26,7 +26,7 @@ class AdminDashboardController extends Controller
                 'total_categories' => PlaceCategory::count(),
                 'active_categories' => PlaceCategory::where('is_active', true)->count(),
                 'total_reviews' => Review::count(),
-                'avg_rating' => round(Review::where('is_approved', true)->avg('rating'), 1),
+                'avg_rating' => round(Review::approved()->avg('rating'), 1),
             ];
         });
 

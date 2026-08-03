@@ -5,15 +5,38 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate([
+            'rating' => ['nullable', 'integer', 'between:1,5'],
+            'status' => ['nullable', Rule::in([
+                Review::STATUS_PENDING,
+                Review::STATUS_APPROVED,
+                Review::STATUS_REJECTED,
+            ])],
+            'target' => ['nullable', Rule::in(['place', 'service'])],
+        ]);
+
         $query = Review::with(['place', 'service', 'user']);
 
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('moderation_status', $request->status);
+        }
+
+        if ($request->query('target') === 'place') {
+            $query->whereNotNull('place_id');
+        }
+
+        if ($request->query('target') === 'service') {
+            $query->whereNotNull('service_id');
         }
 
         if ($request->filled('search')) {
@@ -48,15 +71,15 @@ class ReviewController extends Controller
 
     public function approve(Review $review)
     {
-        $review->update(['is_approved' => true]);
+        $review->markApproved();
 
         return back()->with('success', 'Review approved successfully.');
     }
 
     public function reject(Review $review)
     {
-        $review->update(['is_approved' => false]);
+        $review->markRejected();
 
-        return back()->with('success', 'Review marked as rejected.');
+        return back()->with('success', 'Review rejected successfully.');
     }
 }

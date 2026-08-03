@@ -11,8 +11,8 @@ beforeEach(function () {
     $this->user = User::factory()->create(['role' => 'user', 'is_active' => true]);
     $this->admin = User::factory()->create(['role' => 'admin', 'is_active' => true]);
     $this->category = PlaceCategory::create([
-        'name' => 'Test Category ' . uniqid(),
-        'slug' => 'test-category-' . uniqid(),
+        'name' => 'Test Category '.uniqid(),
+        'slug' => 'test-category-'.uniqid(),
         'is_active' => true,
     ]);
 });
@@ -108,7 +108,17 @@ test('place owner can delete their place', function () {
 test('places can be filtered by search term', function () {
     Place::factory()->create(['name' => 'Kabul Restaurant', 'is_active' => true, 'user_id' => $this->user->id, 'place_category_id' => $this->category->id, 'city' => 'Kabul']);
     Place::factory()->create(['name' => 'Kabul Hotel', 'is_active' => true, 'user_id' => $this->user->id, 'place_category_id' => $this->category->id, 'city' => 'Kabul']);
-    Place::factory()->create(['name' => 'Mazar Shop', 'is_active' => true, 'user_id' => $this->user->id, 'place_category_id' => $this->category->id, 'city' => 'Mazar']);
+    Place::factory()->create([
+        'name' => 'Mazar Shop',
+        'is_active' => true,
+        'user_id' => $this->user->id,
+        'place_category_id' => $this->category->id,
+        'city' => 'Mazar',
+        'province' => 'Balkh',
+        'district' => 'Mazar-e-Sharif',
+        'address' => 'Blue Mosque Road',
+        'description' => 'Local market listing.',
+    ]);
 
     $response = $this->actingAs($this->user)
         ->getJson('/api/places?search=Kabul')
@@ -118,7 +128,7 @@ test('places can be filtered by search term', function () {
 });
 
 test('places can be filtered by category', function () {
-    $otherCategory = PlaceCategory::create(['name' => 'Other ' . uniqid(), 'slug' => 'other-' . uniqid(), 'is_active' => true]);
+    $otherCategory = PlaceCategory::create(['name' => 'Other '.uniqid(), 'slug' => 'other-'.uniqid(), 'is_active' => true]);
     Place::factory()->create(['place_category_id' => $this->category->id, 'is_active' => true, 'user_id' => $this->user->id]);
     Place::factory()->create(['place_category_id' => $otherCategory->id, 'is_active' => true, 'user_id' => $this->user->id]);
 
