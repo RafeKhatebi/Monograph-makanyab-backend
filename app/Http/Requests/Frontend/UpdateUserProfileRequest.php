@@ -4,6 +4,8 @@ namespace App\Http\Requests\Frontend;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class UpdateUserProfileRequest extends FormRequest
 {
@@ -29,6 +31,7 @@ class UpdateUserProfileRequest extends FormRequest
             'email' => 'required|email|unique:users,email,'.Auth::id(),
             'phone' => 'nullable|string|max:20',
             'bio' => 'nullable|string|max:500',
+            'profile_picture' => 'nullable|file|image|mimetypes:image/jpeg,image/png,image/webp|mimes:jpg,jpeg,png,webp|max:2048',
             'current_password' => 'nullable|required_with:password|current_password',
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ];

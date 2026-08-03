@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -53,6 +54,16 @@ class Service extends Model
     public function coverImage(): MorphMany
     {
         return $this->morphMany(Media::class, 'mediable')->where('is_cover', true);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
     }
 
     public function scopeActive(Builder $query): Builder
@@ -101,6 +112,18 @@ class Service extends Model
         return $query->where('status', PlaceStatus::Open);
     }
 
+    public function scopeFilterRatingAtLeast(Builder $query, ?int $rating): Builder
+    {
+        if (! $rating) {
+            return $query;
+        }
+
+        return $query->whereRaw(
+            '(select avg(reviews.rating) from reviews where reviews.service_id = services.id and reviews.is_approved = ?) >= ?',
+            [true, $rating]
+        );
+    }
+
     public function getImagesAttribute(): array
     {
         if ($this->relationLoaded('media')) {
@@ -115,5 +138,12 @@ class Service extends Model
             ->where('type', 'image')
             ->pluck('file_path')
             ->all();
+    }
+
+    public function getAvgRatingAttribute(): float
+    {
+        return (float) ($this->reviews_avg_rating
+            ?? $this->reviews()->where('is_approved', true)->avg('rating')
+            ?? 0);
     }
 }

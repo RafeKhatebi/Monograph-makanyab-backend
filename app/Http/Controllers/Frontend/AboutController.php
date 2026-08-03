@@ -13,10 +13,10 @@ class AboutController extends Controller
     public function index()
     {
         $stats = [
-            'places'     => Place::where('is_active', true)->count(),
+            'places' => Place::where('is_active', true)->count(),
             'categories' => PlaceCategory::where('is_active', true)->count(),
-            'reviews'    => Review::where('is_approved', true)->count(),
-            'users'      => User::where('is_active', true)->count(),
+            'reviews' => Review::where('is_approved', true)->count(),
+            'users' => User::where('is_active', true)->count(),
         ];
 
         return view('pages.about.index', compact('stats'));

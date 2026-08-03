@@ -48,11 +48,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Check if user is admin and redirect accordingly
-        if ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
-
-        return redirect(route('home', absolute: false));
+        return redirect()->route('verification.notice')
+            ->with('status', __('auth.verification_sent'));
     }
 }

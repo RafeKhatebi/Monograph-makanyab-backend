@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Place extends Model
 {
@@ -30,6 +31,12 @@ class Place extends Model
         'is_verified' => 'boolean',
         'is_active' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget('home_featured_places'));
+        static::deleted(fn () => Cache::forget('home_featured_places'));
+    }
 
     public function getRouteKeyName(): string
     {
@@ -123,15 +130,17 @@ class Place extends Model
             return $query;
         }
 
-        return $query->whereHas('reviews', function (Builder $query) use ($rating) {
-            $query->where('is_approved', true)
-                ->where('rating', '>=', $rating);
-        });
+        return $query->whereRaw(
+            '(select avg(reviews.rating) from reviews where reviews.place_id = places.id and reviews.is_approved = ?) >= ?',
+            [true, $rating]
+        );
     }
 
     public function getAvgRatingAttribute(): float
     {
-        return (float) ($this->reviews_avg_rating ?? $this->reviews()->avg('rating') ?? 0);
+        return (float) ($this->reviews_avg_rating
+            ?? $this->reviews()->where('is_approved', true)->avg('rating')
+            ?? 0);
     }
 
     public function getAverageRatingAttribute(): float

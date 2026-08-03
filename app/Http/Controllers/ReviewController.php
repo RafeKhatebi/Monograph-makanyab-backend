@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReviewRequest;
+use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Place;
 use App\Models\Review;
 use App\Models\User;
@@ -46,9 +47,26 @@ class ReviewController extends Controller
             return response()->json(['message' => 'Review not found for this place.'], 404);
         }
 
+        $user = request()->user();
+        if (! $review->is_approved
+            && $review->user_id !== $user?->id
+            && ! ($user?->isAdmin() ?? false)) {
+            return response()->json(['message' => 'Review not found for this place.'], 404);
+        }
+
         $review->load('user:id,name');
 
         return response()->json($review);
+    }
+
+    public function update(UpdateReviewRequest $request, Place $place, Review $review): JsonResponse
+    {
+        $review->update([
+            ...$request->validated(),
+            'is_approved' => false,
+        ]);
+
+        return response()->json($review->load('user:id,name'));
     }
 
     public function destroy(Request $request, Place $place, Review $review): JsonResponse

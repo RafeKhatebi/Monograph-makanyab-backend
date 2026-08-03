@@ -809,48 +809,8 @@ label small {
     background-color: #999999;
 }
 
-.bootstrap-select button.dropdown-toggle {
-    background: rgba(252, 252, 252, 0.35) none repeat scroll 0% 0%;
-    border-radius: 1px;
-    color: #ADADAD;
-    height: 40px;
-    margin-right: 10px;
-    width: 99%;
-    display: block;
-    font-size: 13px;
-    line-height: 1.42857;
-    color: #ADADAD;
-    background-color: #FFF;
-    background-image: none;
-    border: 1px solid #EAE9E9;
-    box-shadow: 0px 1px 1px rgba(179, 179, 179, 0.1) inset;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    font-weight: 300;
-}
-
-.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-    width: 100%;
-}
-
 .btn-group.open .dropdown-toggle {
     box-shadow: none;
-}
-
-.bootstrap-select .dropdown-menu {
-
-    margin: 20px 0px 0px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.176);
-    border-top: none;
-}
-
-.tab-content .bootstrap-select button.dropdown-toggle {
-    width: 100%;
-}
-
-.tab-content .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-    width: 100%;
 }
 
 .input-group-btn .btn {
@@ -1506,7 +1466,7 @@ label small {
 page-header
 ======================================================*/
 .page-head {
-    background: #494C53 url("../../assets/img/page-header.jpg") no-repeat scroll center top / cover;
+    background: #494C53;
     color: #FFF;
     position: relative;
     min-height: 140px;
@@ -1566,11 +1526,6 @@ page-header
 
 fieldset {
     padding-bottom: 10px;
-}
-
-.search-widget fieldset .bootstrap-select button.dropdown-toggle,
-.search-widget fieldset .bootstrap-select {
-    width: 100% !important;
 }
 
 .search-widget .form-inline .form-control,
@@ -2792,7 +2747,7 @@ single property page
 Welcom 
 ======================================*/
 .Welcome-area {
-    background: #F3F3F3 url("../../assets/img/welcome-bg.png") no-repeat scroll left top;
+    background: #F3F3F3;
     position: relative;
 
 
@@ -3252,9 +3207,7 @@ blog
 }
 
 .large-search .search-form .form-inline .form-control,
-.form-inline .form-control,
-.large-search .search-form .bootstrap-select button.dropdown-toggle,
-.large-search .search-form .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+.form-inline .form-control {
     width: 100%;
 }
 
@@ -3472,7 +3425,7 @@ blog
 /*FOOOTER*/
 .footer-area {
     border-top: 1px solid #D1D1D1;
-    background: #555 url("../../assets/img/bg-footer.jpg") repeat scroll 0% 0%;
+    background: #555;
     color: #535353;
 }
 
@@ -3724,32 +3677,6 @@ ul.footer-blog li {
 
 .bottom-menu ul li a:hover {
     color: #FFC600;
-}
-
-/* Preloader */
-
-#preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #fff;
-    /* change if the mask should have another color then white */
-    z-index: 99;
-    /* makes sure it stays on top */
-}
-
-#status {
-    width: 200px;
-    height: 200px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background-image: url(../../assets/img/preloader.gif);
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: -100px 0 0 -100px;
 }
 
 .prop-btm-sheaerch {

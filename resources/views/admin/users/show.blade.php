@@ -4,72 +4,82 @@
 @section('page-title', 'User Details')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
-        <div class="bg-white rounded p-4 shadow-sm">
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
-                <h6 class="mb-0">{{ $user->name }}</h6>
-                <div class="d-flex gap-2">
-                        <a href="{{ route('admin.users.edit', $user) }}"
-                            class="text-emerald-600 hover:text-emerald-700">Edit</a>
-                        <a href="{{ route('admin.users.index') }}" class="text-gray-600 hover:text-gray-700">← Back</a>
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-3">
-                        <span
-                            class="px-3 py-1 {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-800' : ($user->role === 'owner' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800') }} text-sm rounded-full">
-                            {{ ucfirst($user->role) }}
-                        </span>
-                        <span
-                            class="px-3 py-1 {{ $user->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-800' }} text-sm rounded-full">
-                            {{ $user->is_active ? 'Active' : 'Inactive' }}
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Email</h3>
-                            <p class="text-gray-900">{{ $user->email }}</p>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Email Verified</h3>
-                            <p class="text-gray-900">{{ $user->email_verified_at ? 'Yes' : 'No' }}</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Total Reviews</h3>
-                            <p class="text-gray-900 text-2xl font-bold">{{ $user->reviews_count }}</p>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Total Favorites</h3>
-                            <p class="text-gray-900 text-2xl font-bold">{{ $user->favorites_count }}</p>
-                        </div>
-
-                        @if ($user->role === 'owner')
-                            <div>
-                                <h3 class="text-sm font-medium text-gray-500 mb-1">Owned Places</h3>
-                                <p class="text-gray-900 text-2xl font-bold">{{ $user->places_count }}</p>
-                            </div>
-                        @endif
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t">
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Joined</h3>
-                            <p class="text-gray-900">{{ $user->created_at->format('M d, Y H:i') }}</p>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Last Updated</h3>
-                            <p class="text-gray-900">{{ $user->updated_at->format('M d, Y H:i') }}</p>
-                        </div>
-                    </div>
-                </div>
+    <section class="card" aria-label="User Details">
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">{{ $user->name }}</h2>
+            <div class="admin-header-actions">
+                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-primary btn-sm">
+                    <i class="fa fa-edit" aria-hidden="true"></i> Edit
+                </a>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </a>
+            </div>
         </div>
-    </div>
+
+        <div class="card-body">
+            <div class="admin-status-row">
+                <span class="badge {{ $user->role === 'admin' ? 'badge-primary' : ($user->role === 'owner' ? 'badge-info' : 'badge-secondary') }}">
+                    {{ ucfirst($user->role) }}
+                </span>
+                <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-danger' }}">
+                    {{ $user->is_active ? 'Active' : 'Inactive' }}
+                </span>
+            </div>
+
+            <div class="admin-detail-grid">
+                <div class="card admin-detail-card">
+                    <div class="card-body">
+                        <p class="admin-detail-label">Email</p>
+                        <p class="admin-detail-value">{{ $user->email }}</p>
+                    </div>
+                </div>
+
+                <div class="card admin-detail-card">
+                    <div class="card-body">
+                        <p class="admin-detail-label">Email Verified</p>
+                        <p class="admin-detail-value">{{ $user->email_verified_at ? 'Yes' : 'No' }}</p>
+                    </div>
+                </div>
+
+                <div class="card admin-detail-card">
+                    <div class="card-body">
+                        <p class="admin-detail-label">Total Reviews</p>
+                        <p class="admin-detail-value admin-detail-value--metric">{{ $user->reviews_count }}</p>
+                    </div>
+                </div>
+
+                <div class="card admin-detail-card">
+                    <div class="card-body">
+                        <p class="admin-detail-label">Total Favorites</p>
+                        <p class="admin-detail-value admin-detail-value--metric">{{ $user->favorites_count }}</p>
+                    </div>
+                </div>
+
+                @if ($user->role === 'owner')
+                    <div class="card admin-detail-card">
+                        <div class="card-body">
+                            <p class="admin-detail-label">Owned Places</p>
+                            <p class="admin-detail-value admin-detail-value--metric">{{ $user->places_count }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="card admin-detail-card">
+                    <div class="card-body">
+                        <p class="admin-detail-label">Joined</p>
+                        <p class="admin-detail-value">{{ $user->created_at->format('M d, Y H:i') }}</p>
+                    </div>
+                </div>
+
+                <div class="card admin-detail-card">
+                    <div class="card-body">
+                        <p class="admin-detail-label">Last Updated</p>
+                        <p class="admin-detail-value">{{ $user->updated_at->format('M d, Y H:i') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 @endsection

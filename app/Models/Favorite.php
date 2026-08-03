@@ -11,7 +11,7 @@ class Favorite extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'place_id',
+        'user_id', 'place_id', 'service_id',
     ];
 
     public function user(): BelongsTo
@@ -22,5 +22,10 @@ class Favorite extends Model
     public function place(): BelongsTo
     {
         return $this->belongsTo(Place::class);
+    }
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
     }
 }

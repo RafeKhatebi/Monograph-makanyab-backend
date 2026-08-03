@@ -7,6 +7,7 @@ use App\Models\Place;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FavoriteController extends Controller
 {
@@ -28,11 +29,21 @@ class FavoriteController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $validated = $request->validate([
+            'place_id' => [
+                'required',
+                'uuid',
+                Rule::exists('places', 'id')
+                    ->whereNull('deleted_at')
+                    ->where('is_active', true),
+            ],
+        ]);
+
         /** @var User $user */
         $user = $request->user();
 
         $exists = Favorite::where('user_id', $user->id)
-            ->where('place_id', $request->place_id)
+            ->where('place_id', $validated['place_id'])
             ->exists();
 
         if ($exists) {
@@ -41,7 +52,7 @@ class FavoriteController extends Controller
 
         $favorite = Favorite::create([
             'user_id' => $user->id,
-            'place_id' => $request->place_id,
+            'place_id' => $validated['place_id'],
         ]);
 
         return response()->json($favorite, 201);

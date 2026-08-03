@@ -1,8 +1,6 @@
 @props(['id', 'name', 'value' => '', 'rows' => 4, 'placeholder' => ''])
 
-@php
-    $content = trim($slot) !== '' ? $slot : old($name, $value);
-@endphp
-
-<textarea id="{{ $id }}" name="{{ $name }}" rows="{{ $rows }}" placeholder="{{ $placeholder }}"
-    {{ $attributes->merge(['class' => 'form-control']) }}>{{ $content }}</textarea>
+<x-ui.textarea id="{{ $id }}" :name="$name" :value="$value" :rows="$rows" :placeholder="$placeholder"
+    :invalid="$errors->has($name)" {{ $attributes }}>
+    {{ $slot }}
+</x-ui.textarea>

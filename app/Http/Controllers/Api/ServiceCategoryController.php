@@ -25,6 +25,8 @@ class ServiceCategoryController extends Controller
 
     public function show(ServiceCategory $serviceCategory): JsonResponse
     {
+        abort_if(! $serviceCategory->is_active, 404);
+
         $serviceCategory->load('parent:id,name,slug');
 
         return response()->json($serviceCategory);

@@ -1,4 +1,4 @@
-<nav class="mk-nav">
+<nav class="mk-nav" aria-label="Primary navigation">
     <div class="container">
         <div class="mk-inner">
 
@@ -33,11 +33,12 @@
                 {{-- Discover dropdown --}}
                 <li
                     class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
-                    <a
-                        class="{{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}">
+                    <button type="button"
+                        class="mk-nav-dropdown-trigger {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}"
+                        aria-expanded="false" aria-haspopup="true" aria-controls="mk-discover-menu">
                         <i></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
-                    </a>
-                    <div class="mk-dd">
+                    </button>
+                    <div class="mk-dd" id="mk-discover-menu" aria-hidden="true">
                         <a href="{{ route('places.index') }}">
                             <i class="fa fa-map-marker"></i> Places
                         </a>
@@ -83,18 +84,19 @@
                 @else
                     @if (!auth()->user()->isAdmin())
                         <a href="{{ route('favorites.index') }}"
-                            style="padding:8px 10px;border-radius:8px;color:#374151;text-decoration:none;font-size:18px;transition:color .2s;"
+                            class="mk-nav-favorite"
                             title="Favorites">
                             <i class="fa fa-heart-o"></i>
                         </a>
                     @endif
                     <div class="mk-user-menu" id="mk-user-menu">
-                        <div class="mk-user-trigger" id="mk-user-trigger">
+                        <button type="button" class="mk-user-trigger" id="mk-user-trigger" aria-expanded="false"
+                            aria-haspopup="true" aria-controls="mk-user-dropdown">
                             <div class="mk-user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
                             <span>{{ explode(' ', auth()->user()->name)[0] }}</span>
-                            <i class="fa fa-chevron-down" style="font-size:11px;color:#9CA3AF;"></i>
-                        </div>
-                        <div class="mk-user-dd">
+                            <i class="fa fa-chevron-down mk-caret"></i>
+                        </button>
+                        <div class="mk-user-dd" id="mk-user-dropdown" aria-hidden="true">
                             <a href="{{ route('profile.index') }}">
                                 <i class="fa fa-user"></i> My Profile
                             </a>
@@ -121,7 +123,8 @@
             </div>
 
             {{-- Hamburger --}}
-            <button class="mk-hamburger" id="mk-hamburger" aria-label="Menu">
+            <button class="mk-hamburger" id="mk-hamburger" aria-label="Open menu" aria-expanded="false"
+                aria-controls="mk-mobile">
                 <span></span><span></span><span></span>
             </button>
 
@@ -129,16 +132,16 @@
     </div>
 
     {{-- Mobile Drawer --}}
-    <div class="mk-mobile" id="mk-mobile">
+    <div class="mk-mobile" id="mk-mobile" aria-hidden="true">
         <div class="container">
 
             {{-- Mobile Search --}}
-            <div style="padding:10px 20px 14px;">
-                <form action="{{ route('search.index') }}" method="GET" style="display:flex;gap:8px;">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
-                        style="flex:1;height:42px;padding:0 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;">
-                    <button type="submit"
-                        style="height:42px;padding:0 16px;background:#10B981;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+            <div class="mk-mobile-search">
+                <form action="{{ route('search.index') }}" method="GET">
+                    <label for="mk-mobile-search-input" class="sr-only">Search places and services</label>
+                    <input id="mk-mobile-search-input" type="search" name="search" value="{{ request('search') }}"
+                        placeholder="Search places and services">
+                    <button type="submit">
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
@@ -150,13 +153,13 @@
             </a>
 
             {{-- Discover accordion --}}
-            <button class="mk-mobile-group-btn" id="mob-discover-btn">
-                <span style="display:flex;align-items:center;gap:10px;">
-                    <i class="fa fa-compass" style="width:18px;color:#10B981;"></i> Discover
+            <button class="mk-mobile-group-btn" id="mob-discover-btn" aria-expanded="false" aria-controls="mob-discover">
+                <span class="mk-mobile-label">
+                    <i class="fa fa-compass"></i> Discover
                 </span>
                 <i class="fa fa-chevron-down mk-caret"></i>
             </button>
-            <div class="mk-mobile-sub" id="mob-discover">
+            <div class="mk-mobile-sub" id="mob-discover" aria-hidden="true">
                 <a href="{{ route('places.index') }}" class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
                     <i class="fa fa-map-marker"></i> Places
                 </a>
@@ -195,11 +198,9 @@
 
             @guest
                 <div class="mk-mobile-auth">
-                    <a href="{{ route('login') }}"
-                        style="flex:1;text-align:center;padding:10px;border:1.5px solid #D1D5DB;border-radius:8px;font-weight:600;color:#374151;text-decoration:none;">Log
+                    <a href="{{ route('login') }}" class="mk-mobile-auth-link mk-mobile-auth-link--login">Log
                         In</a>
-                    <a href="{{ route('register') }}"
-                        style="flex:1;text-align:center;padding:10px;background:#10B981;border-radius:8px;font-weight:700;color:#fff;text-decoration:none;">Sign
+                    <a href="{{ route('register') }}" class="mk-mobile-auth-link mk-mobile-auth-link--signup">Sign
                         Up</a>
                 </div>
             @else
@@ -218,8 +219,8 @@
                 @endif
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" style="color:#DC2626;">
-                        <i class="fa fa-sign-out" style="color:#DC2626;"></i> Log Out
+                    <button type="submit" class="mk-mobile-logout">
+                        <i class="fa fa-sign-out"></i> Log Out
                     </button>
                 </form>
             @endguest
@@ -227,4 +228,3 @@
         </div>
     </div>
 </nav>
-<script src="./assets/js/navbar.js"></script>

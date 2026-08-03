@@ -37,6 +37,8 @@ class PlaceCategoryController extends Controller
 
     public function show(PlaceCategory $placeCategory): JsonResponse
     {
+        abort_if(! $placeCategory->is_active, 404);
+
         $placeCategory->load('parent:id,name,slug');
 
         return response()->json($placeCategory);

@@ -11,7 +11,7 @@ class StoreOpeningHourRequest extends FormRequest
     public function authorize(): bool
     {
         /** @var Place $place */
-        $place = Place::find($this->input('place_id'));
+        $place = $this->route('place');
 
         // Only the place owner or an admin can set opening hours
         return $place
@@ -61,5 +61,10 @@ class StoreOpeningHourRequest extends FormRequest
             'open_time.date_format' => 'open_time must be in HH:MM format (e.g. 09:00).',
             'close_time.date_format' => 'close_time must be in HH:MM format (e.g. 22:00).',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge(['place_id' => $this->route('place')?->id]);
     }
 }

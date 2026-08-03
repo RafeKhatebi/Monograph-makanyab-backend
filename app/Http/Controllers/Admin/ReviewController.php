@@ -10,15 +10,19 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Review::with(['place', 'user']);
+        $query = Review::with(['place', 'service', 'user']);
 
         if ($request->filled('rating')) {
             $query->where('rating', $request->rating);
         }
 
         if ($request->filled('search')) {
-            $query->whereHas('place', function ($q) use ($request) {
-                $q->where('name', 'like', '%'.$request->search.'%');
+            $query->where(function ($query) use ($request) {
+                $query->whereHas('place', function ($query) use ($request) {
+                    $query->where('name', 'like', '%'.$request->search.'%');
+                })->orWhereHas('service', function ($query) use ($request) {
+                    $query->where('name', 'like', '%'.$request->search.'%');
+                });
             });
         }
 
@@ -29,7 +33,7 @@ class ReviewController extends Controller
 
     public function show(Review $review)
     {
-        $review->load(['place', 'user']);
+        $review->load(['place', 'service', 'user']);
 
         return view('admin.reviews.show', compact('review'));
     }

@@ -4,106 +4,137 @@
 @section('page-title', 'Places')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">All Places ({{ $places->total() }})</h6>
-            <a href="{{ route('admin.places.create') }}" class="btn btn-primary btn-sm">+ Add New Place</a>
+    <section class="card" aria-label="Places Management">
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">All Places ({{ $places->total() }})</h2>
+            <a href="{{ route('admin.places.create') }}" class="btn btn-primary btn-sm">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add New Place
+            </a>
         </div>
 
-        <form method="GET" action="{{ route('admin.places.index') }}" class="row g-2 mb-4">
-            <div class="col-md-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
-                    class="form-control">
-            </div>
-            <div class="col-md-2">
-                <select name="category" class="form-select">
-                    <option value="">All Categories</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select name="is_verified" class="form-select">
-                    <option value="">All Verification</option>
-                    <option value="1" {{ request('is_verified') === '1' ? 'selected' : '' }}>Verified</option>
-                    <option value="0" {{ request('is_verified') === '0' ? 'selected' : '' }}>Not Verified</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select name="is_active" class="form-select">
-                    <option value="">All Status</option>
-                    <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Active</option>
-                    <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
-                </select>
-            </div>
-            <div class="col-md-3 d-flex gap-2">
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
-                <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary w-100">Clear</a>
-            </div>
-        </form>
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.places.index') }}" role="search" aria-label="Filter places" class="admin-filter-form">
+                <div class="admin-filter-field">
+                    <label for="search" class="sr-only">Search places</label>
+                    <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search places..."
+                        class="form-control">
+                </div>
+                <div>
+                    <label for="category" class="sr-only">Filter by category</label>
+                    <select id="category" name="category" class="form-select admin-filter-select">
+                        <option value="">All Categories</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="is_verified" class="sr-only">Filter by verification status</label>
+                    <select id="is_verified" name="is_verified" class="form-select admin-filter-select">
+                        <option value="">All Verification</option>
+                        <option value="1" {{ request('is_verified') === '1' ? 'selected' : '' }}>Verified</option>
+                        <option value="0" {{ request('is_verified') === '0' ? 'selected' : '' }}>Not Verified</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="is_active" class="sr-only">Filter by status</label>
+                    <select id="is_active" name="is_active" class="form-select admin-filter-select admin-filter-select--sm">
+                        <option value="">All Status</option>
+                        <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-filter" aria-hidden="true"></i> Filter
+                </button>
+                <a href="{{ route('admin.places.index') }}" class="btn btn-outline-secondary">
+                    Clear
+                </a>
+            </form>
 
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-dark">
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Address</th>
-                        <th>Reviews</th>
-                        <th>Rating</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($places as $place)
+            <div class="admin-table-wrap">
+                <table class="table" aria-label="Places list">
+                    <thead>
                         <tr>
-                            <td>
-                                {{ $place->name }}
-                                @if ($place->is_verified)
-                                    <span class="badge bg-success ms-1">Verified</span>
-                                @endif
-                            </td>
-                            <td>{{ $place->category->name ?? '-' }}</td>
-                            <td>{{ Str::limit($place->address, 30) }}</td>
-                            <td>{{ $place->reviews_count }}</td>
-                            <td>{{ number_format($place->reviews_avg_rating ?? 0, 1) }}</td>
-                            <td>
-                                <span class="badge {{ $place->is_active ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $place->is_active ? 'Active' : 'Inactive' }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.places.show', $place) }}"
-                                        class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.places.edit', $place) }}"
-                                        class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this place?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th scope="col">Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Reviews</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="admin-table-actions">Actions</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center py-4">No places found</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse($places as $place)
+                            <tr>
+                                <td>
+                                    <div class="admin-table-cell-heading">
+                                        {{ $place->name }}
+                                    </div>
+                                    @if ($place->is_verified)
+                                        <span class="badge badge-success admin-mt-1">Verified</span>
+                                    @endif
+                                </td>
+                                <td>{{ $place->category->name ?? '-' }}</td>
+                                <td class="admin-table-muted">{{ Str::limit($place->address, 30) }}</td>
+                                <td>{{ $place->reviews_count }}</td>
+                                <td>
+                                    <span class="admin-rating">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        {{ number_format($place->reviews_avg_rating ?? 0, 1) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge {{ $place->is_active ? 'badge-success' : 'badge-secondary' }}">
+                                        {{ $place->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td class="admin-table-actions">
+                                    <div class="admin-actions admin-actions--end">
+                                        <a href="{{ route('admin.places.show', $place) }}"
+                                            class="btn btn-sm btn-outline-primary"
+                                            aria-label="View {{ $place->name }}">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{{ route('admin.places.edit', $place) }}"
+                                            class="btn btn-sm btn-outline-success"
+                                            aria-label="Edit {{ $place->name }}">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                        </a>
+                                        <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this place?');"
+                                            class="admin-action-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                aria-label="Delete {{ $place->name }}">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="admin-empty">
+                                    <i class="fa fa-map-marker-alt admin-empty-icon" aria-hidden="true"></i>
+                                    No places found
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            @if ($places->hasPages())
+                <nav class="admin-pagination" aria-label="Places pagination">
+                    {{ $places->links() }}
+                </nav>
+            @endif
         </div>
+    </section>
 
-        @if ($places->hasPages())
-            <div class="pt-4">
-                {{ $places->links() }}
-            </div>
-        @endif
-    </div>
 @endsection

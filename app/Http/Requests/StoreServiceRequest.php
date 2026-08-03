@@ -11,7 +11,7 @@ class StoreServiceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->isAdmin() ?? false;
+        return ($this->user()?->isAdmin() || $this->user()?->isOwner()) ?? false;
     }
 
     public function rules(): array
@@ -42,8 +42,9 @@ class StoreServiceRequest extends FormRequest
             'status' => ['nullable', Rule::enum(PlaceStatus::class)],
             'price_level' => ['nullable', Rule::enum(PriceLevel::class)],
             'is_active' => 'nullable|boolean',
-            'images' => 'sometimes|array',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images' => 'sometimes|array|max:10',
+            'images.*' => 'required|file|image|mimetypes:image/jpeg,image/png,image/webp|mimes:jpg,jpeg,png,webp|max:2048',
+            'cover_image_index' => 'nullable|integer|min:0|max:9',
         ];
     }
 }

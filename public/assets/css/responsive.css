@@ -146,12 +146,6 @@
     .search-form .form-inline .form-group {
         width: 100%; 
     }
-    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-        width: 100%;  
-    }
-    .bootstrap-select button.dropdown-toggle { 
-        width: 100%;
-    }
     .search-form .search-toggle {
         margin-top: 15px;
         overflow: hidden;
@@ -368,12 +362,6 @@
     }
     .search-form .form-inline .form-group {
         width: 100%; 
-    }
-    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-        width: 100%;  
-    }
-    .bootstrap-select button.dropdown-toggle { 
-        width: 100%;
     }
     .search-form .search-toggle {
         margin-top: 15px;

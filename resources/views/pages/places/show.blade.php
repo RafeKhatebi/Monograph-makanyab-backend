@@ -32,7 +32,8 @@
                                             <input type="hidden" name="place_id" value="{{ $place->id }}">
                                             <button type="submit" class="add-to-fav" id="favorite-btn" title="Add to Favorites"
                                                 style="background:none;border:none;cursor:pointer;">
-                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}"></i>
+                                                <span class="sr-only">{{ $isFavorited ? 'Remove from favorites' : 'Add to favorites' }}</span>
                                             </button>
                                         </form>
                                     @endauth
@@ -64,7 +65,7 @@
                         <div class="single-property-header">
                             <h1 class="property-title pull-left">{{ $place->name }}</h1>
                             <span class="property-price pull-right">
-                                @include('components.rating-stars', ['rating' => $place->avg_rating ?? 0])
+                                @include('components.rating-stars', ['rating' => $place->avg_rating])
                                 <small>({{ $place->reviews->count() }} reviews)</small>
                             </span>
                         </div>
@@ -171,26 +172,31 @@
                                 @endforelse
 
                                 @auth
-                                    <div class="section" style="margin-top:30px;">
-                                        <h4 class="s-property-title">Write a Review</h4>
-                                        <form action="{{ route('places.reviews.store', $place) }}" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label>Rating</label>
-                                                <select name="rating" class="form-control" style="width:auto;">
-                                                    @for ($i = 5; $i >= 1; $i--)
-                                                        <option value="{{ $i }}">{{ $i }}
-                                                            Star{{ $i > 1 ? 's' : '' }}</option>
-                                                    @endfor
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Comment</label>
-                                                <textarea name="comment" class="form-control" rows="4" placeholder="Share your experience..."></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit Review</button>
-                                        </form>
-                                    </div>
+                                    @if (! $hasReviewed)
+                                        <div class="section" style="margin-top:30px;">
+                                            <h4 class="s-property-title">Write a Review</h4>
+                                            <form action="{{ route('places.reviews.store', $place) }}" method="POST">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label>Rating</label>
+                                                    <select name="rating" class="form-control" style="width:auto;" required>
+                                                        @for ($i = 5; $i >= 1; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                                Star{{ $i > 1 ? 's' : '' }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Comment</label>
+                                                    <textarea name="comment" class="form-control" rows="4" maxlength="2000"
+                                                        placeholder="Share your experience..."></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <p class="text-muted" style="margin-top:20px;">You have already reviewed this place. Manage it from your profile.</p>
+                                    @endif
                                 @else
                                     <p><a href="{{ route('login') }}">Login</a> to write a review.</p>
                                 @endauth
@@ -271,8 +277,9 @@
                                 <div class="inner-wrapper">
                                     <div class="clear">
                                         <div class="col-xs-4 col-sm-4 dealer-face">
-                                            <img src="{{ asset('assets/img/client-face1.png') }}" class="img-circle"
-                                                alt="Owner">
+                                            <span class="mk-avatar" aria-label="Owner">
+                                                {{ Str::upper(Str::substr($place->user->name ?? 'O', 0, 1)) }}
+                                            </span>
                                         </div>
                                         <div class="col-xs-8 col-sm-8">
                                             <h3 class="dealer-name">
@@ -304,7 +311,9 @@
                                             <li>
                                                 <div class="col-md-3 col-sm-3 col-xs-3 blg-thumb p0">
                                                     <a href="{{ route('places.show', $similar) }}">
-                                                        <img src="{{ asset('assets/img/demo/small-property-1.jpg') }}"
+                                                        <img src="{{ $similar->media->first()
+                                                            ? asset('storage/' . $similar->media->first()->file_path)
+                                                            : asset('assets/img/demo/property-1.jpg') }}"
                                                             alt="{{ $similar->name }}">
                                                     </a>
                                                 </div>
@@ -329,24 +338,3 @@
     </div>
 
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            @if ($place->media->count())
-                $('#image-gallery').lightSlider({
-                    gallery: true,
-                    item: 1,
-                    thumbItem: 4,
-                    slideMargin: 0,
-                    speed: 500,
-                    auto: true,
-                    loop: true,
-                    onSliderLoad: function() {
-                        $('#image-gallery').removeClass('cS-hidden');
-                    }
-                });
-            @endif
-        });
-    </script>
-@endpush

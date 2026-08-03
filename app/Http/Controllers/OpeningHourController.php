@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOpeningHourRequest;
+use App\Http\Requests\UpdateOpeningHourRequest;
 use App\Models\OpeningHour;
 use App\Models\Place;
 use App\Models\User;
@@ -34,20 +35,13 @@ class OpeningHourController extends Controller
         return response()->json($hour, 201);
     }
 
-    public function update(Request $request, Place $place, OpeningHour $openingHour): JsonResponse
+    public function update(UpdateOpeningHourRequest $request, Place $place, OpeningHour $openingHour): JsonResponse
     {
         if ($openingHour->place_id !== $place->id) {
             return response()->json(['message' => 'Not found for this place.'], 404);
         }
 
-        /** @var User $user */
-        $user = $request->user();
-
-        if ($user->id !== $place->user_id && ! $user->isAdmin()) {
-            return response()->json(['message' => 'Forbidden.'], 403);
-        }
-
-        $openingHour->update($request->only(['open_time', 'close_time', 'is_closed']));
+        $openingHour->update($request->validated());
 
         return response()->json($openingHour);
     }

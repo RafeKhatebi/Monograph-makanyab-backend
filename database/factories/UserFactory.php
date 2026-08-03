@@ -26,10 +26,13 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => 'user',
+            'is_active' => true,
         ];
     }
 
@@ -40,6 +43,30 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => ['role' => 'admin']);
+    }
+
+    public function owner(): static
+    {
+        return $this->state(fn () => ['role' => 'owner']);
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn () => ['is_active' => false]);
+    }
+
+    public function dariProfile(): static
+    {
+        return $this->state(fn () => [
+            'name' => 'کاربر آزمایشی',
+            'bio' => 'این حساب برای آزمایش محتوای دری استفاده می‌شود.',
+            'settings' => ['locale' => 'fa'],
         ]);
     }
 }

@@ -17,7 +17,8 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    // Non-admin users redirect to home, admin users redirect to admin dashboard
+    $response->assertRedirect('/');
 });
 
 test('users can not authenticate with invalid password', function () {

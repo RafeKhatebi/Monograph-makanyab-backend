@@ -4,42 +4,37 @@
 @section('content')
 
     {{-- Header --}}
-    <div style="background:linear-gradient(135deg,#1e3a5f 0%,#3B82F6 100%);padding:40px 0;">
+    <div class="listing-hero listing-hero--service">
         <div class="container">
-            <h1 style="font-size:30px;font-weight:800;color:#fff;margin:0 0 6px;">Browse Services</h1>
-            <p style="color:rgba(255,255,255,.8);margin:0;font-size:15px;">Find trusted service providers near you.</p>
+            <h1 class="listing-hero__title">Browse Services</h1>
+            <p class="listing-hero__text">Find trusted service providers near you.</p>
         </div>
     </div>
 
-    <div style="background:#F8FAFC;padding:30px 0 70px;">
+    <div class="listing-layout">
         <div class="container">
             <div class="row">
 
                 {{-- Sidebar --}}
-                <div class="col-md-3" style="margin-bottom:24px;">
-                    <div style="background:#fff;border-radius:14px;padding:24px;border:1px solid #E5E7EB;">
-                        <h4 style="font-size:17px;font-weight:700;color:#111827;margin-bottom:20px;">
-                            <i class="fa fa-sliders" style="color:#3B82F6;margin-right:6px;"></i> Filters
+                <div class="col-md-3 listing-sidebar">
+                    <div class="listing-filter-panel">
+                        <h4 class="listing-filter-title listing-filter-title--service">
+                            <i class="fa fa-sliders" aria-hidden="true"></i> Filters
                         </h4>
                         <form action="{{ route('services.index') }}" method="GET">
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Keywords</label>
+                            <div class="mk-form-group">
+                                <label class="mk-label">Keywords</label>
                                 <input type="text" name="search" value="{{ request('search') }}"
-                                    placeholder="Name, city..."
-                                    style="width:100%;height:42px;padding:0 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;">
+                                    placeholder="Name, city..." class="search-filter-input">
                             </div>
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">City</label>
+                            <div class="mk-form-group">
+                                <label class="mk-label">City</label>
                                 <input type="text" name="city" value="{{ request('city') }}" placeholder="City"
-                                    style="width:100%;height:42px;padding:0 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;outline:none;">
+                                    class="search-filter-input">
                             </div>
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Category</label>
-                                <select name="category"
-                                    style="width:100%;height:42px;padding:0 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;background:#fff;outline:none;">
+                            <div class="mk-form-group">
+                                <label class="mk-label">Category</label>
+                                <select name="category" class="search-filter-select">
                                     <option value="">All Categories</option>
                                     @foreach ($categories as $cat)
                                         <option value="{{ $cat->slug }}"
@@ -48,11 +43,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Status</label>
-                                <select name="status"
-                                    style="width:100%;height:42px;padding:0 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;background:#fff;outline:none;">
+                            <div class="mk-form-group">
+                                <label class="mk-label">Status</label>
+                                <select name="status" class="search-filter-select">
                                     <option value="">Any Status</option>
                                     <option value="open"
                                         {{ request('status') === 'open' ? 'selected' : '' }}>Open</option>
@@ -63,12 +56,9 @@
                                         Closed</option>
                                 </select>
                             </div>
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;display:block;">Price
-                                    Level</label>
-                                <select name="price_level"
-                                    style="width:100%;height:42px;padding:0 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:14px;background:#fff;outline:none;">
+                            <div class="mk-form-group">
+                                <label class="mk-label">Price Level</label>
+                                <select name="price_level" class="search-filter-select">
                                     <option value="">Any Price</option>
                                     <option value="low" {{ request('price_level') === 'low' ? 'selected' : '' }}>Low
                                     </option>
@@ -80,22 +70,18 @@
                                         Luxury</option>
                                 </select>
                             </div>
-                            <div style="margin-bottom:20px;">
-                                <label
-                                    style="font-size:13px;font-weight:600;color:#374151;display:flex;align-items:center;gap:8px;cursor:pointer;">
+                            <div class="mk-form-group">
+                                <label class="search-check">
                                     <input type="checkbox" name="verified" value="1"
-                                        {{ request('verified') ? 'checked' : '' }}
-                                        style="width:16px;height:16px;accent-color:#3B82F6;">
+                                        {{ request('verified') ? 'checked' : '' }}>
                                     Verified Only
                                 </label>
                             </div>
-                            <button type="submit"
-                                style="width:100%;height:44px;background:#3B82F6;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">
+                            <button type="submit" class="mk-button mk-button--primary search-filter-submit">
                                 Apply Filters
                             </button>
                             @if (request()->anyFilled(['search', 'city', 'category', 'status', 'price_level', 'verified']))
-                                <a href="{{ route('services.index') }}"
-                                    style="display:block;text-align:center;margin-top:10px;color:#6B7280;font-size:13px;text-decoration:none;">Reset
+                                <a href="{{ route('services.index') }}" class="search-filter-reset">Reset
                                     All</a>
                             @endif
                         </form>
@@ -103,16 +89,13 @@
 
                     {{-- Service Categories quick links --}}
                     @if ($categories->count())
-                        <div
-                            style="background:#fff;border-radius:14px;padding:20px;border:1px solid #E5E7EB;margin-top:16px;">
-                            <h5 style="font-size:14px;font-weight:700;color:#111827;margin-bottom:14px;">Service Categories
+                        <div class="listing-filter-panel listing-quick-links">
+                            <h5 class="listing-quick-links__title">Service Categories
                             </h5>
                             @foreach ($categories as $cat)
-                                <a href="{{ route('service-categories.show', $cat->slug) }}"
-                                    style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F3F4F6;text-decoration:none;color:#374151;font-size:13px;font-weight:500;">
+                                <a href="{{ route('service-categories.show', $cat->slug) }}" class="listing-quick-link">
                                     <span>{{ $cat->name }}</span>
-                                    <span
-                                        style="background:#EFF6FF;color:#3B82F6;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;">{{ $cat->services_count ?? 0 }}</span>
+                                    <span class="listing-quick-link__count">{{ $cat->services_count ?? 0 }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -121,99 +104,34 @@
 
                 {{-- Results --}}
                 <div class="col-md-9">
-                    <div
-                        style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
-                        <h3 style="font-size:18px;font-weight:700;color:#111827;margin:0;">
+                    <div class="search-summary">
+                        <h3>
                             {{ $services->total() }} Service{{ $services->total() !== 1 ? 's' : '' }}
                             @if (request('search'))
-                                for "<span style="color:#3B82F6;">{{ request('search') }}</span>"
+                                for "<mark>{{ request('search') }}</mark>"
                             @endif
                         </h3>
                     </div>
 
                     <div class="row">
                         @forelse($services as $service)
-                            <div class="col-sm-6 col-md-4" style="margin-bottom:20px;">
-                                <div class="svc-card"
-                                    style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #E5E7EB;height:100%;display:flex;flex-direction:column;transition:box-shadow .2s;">
-                                    <div style="position:relative;overflow:hidden;height:180px;">
-                                        <a href="{{ route('services.show', $service) }}">
-                                            @if ($service->media->first())
-                                                <img src="{{ asset('storage/' . $service->media->first()->file_path) }}"
-                                                    alt="{{ $service->name }}"
-                                                    style="width:100%;height:180px;object-fit:cover;transition:transform .3s;">
-                                            @else
-                                                <img src="{{ asset('assets/img/demo/property-1.jpg') }}"
-                                                    alt="{{ $service->name }}"
-                                                    style="width:100%;height:180px;object-fit:cover;">
-                                            @endif
-                                        </a>
-                                        @if ($service->is_verified)
-                                            <span
-                                                style="position:absolute;top:10px;left:10px;background:rgba(16,185,129,.9);color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">
-                                                <i class="fa fa-check-circle"></i> Verified
-                                            </span>
-                                        @endif
-                                        @if ($service->status === 'open')
-                                            <span
-                                                style="position:absolute;top:10px;right:10px;background:rgba(16,185,129,.9);color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">Open</span>
-                                        @elseif($service->status === 'closed')
-                                            <span
-                                                style="position:absolute;top:10px;right:10px;background:rgba(239,68,68,.85);color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">Closed</span>
-                                        @else
-                                            <span
-                                                style="position:absolute;top:10px;right:10px;background:rgba(245,158,11,.85);color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;">Temp.
-                                                Closed</span>
-                                        @endif
-                                    </div>
-                                    <div style="padding:14px 16px;flex:1;display:flex;flex-direction:column;">
-                                        <div
-                                            style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
-                                            <h5
-                                                style="margin:0;font-size:15px;font-weight:700;color:#111827;line-height:1.3;">
-                                                <a href="{{ route('services.show', $service) }}"
-                                                    style="color:inherit;text-decoration:none;">{{ $service->name }}</a>
-                                            </h5>
-                                            @if ($service->category)
-                                                <span
-                                                    style="background:#EFF6FF;color:#3B82F6;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;margin-left:6px;">{{ $service->category->name }}</span>
-                                            @endif
-                                        </div>
-                                        <p style="margin:0 0 8px;font-size:13px;color:#6B7280;">
-                                            <i class="fa fa-map-marker" style="color:#EF4444;margin-right:4px;"></i>
-                                            {{ $service->city }}@if ($service->district)
-                                                , {{ $service->district }}
-                                            @endif
-                                        </p>
-                                        @if ($service->tagline)
-                                            <p style="margin:0 0 10px;font-size:13px;color:#6B7280;line-height:1.5;flex:1;">
-                                                {{ Str::limit($service->tagline, 70) }}</p>
-                                        @endif
-                                        <div
-                                            style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid #F3F4F6;">
-                                            <span
-                                                style="font-size:12px;color:#9CA3AF;">{{ ucfirst($service->price_level) }}</span>
-                                            <a href="{{ route('services.show', $service) }}"
-                                                style="background:#3B82F6;color:#fff;padding:5px 14px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">View</a>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-sm-6 col-md-4 listing-result-col">
+                                <x-service-card :service="$service" />
                             </div>
                             @empty
-                                <div class="col-md-12 text-center" style="padding:80px 0;">
-                                    <div style="font-size:56px;margin-bottom:16px;">🔧</div>
-                                    <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No services
+                                <div class="col-md-12 listing-empty">
+                                    <div class="mk-empty-icon">🔧</div>
+                                    <h3 class="mk-heading mk-heading--md">No services
                                         found</h3>
-                                    <p style="color:#6B7280;margin-bottom:24px;">Try adjusting your filters.</p>
-                                    <a href="{{ route('services.index') }}"
-                                        style="background:#3B82F6;color:#fff;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;">Reset
+                                    <p class="mk-text--muted mk-stack-sm">Try adjusting your filters.</p>
+                                    <a href="{{ route('services.index') }}" class="mk-button mk-button--primary mk-button--md">Reset
                                         Filters</a>
                                 </div>
                             @endforelse
                         </div>
 
                         @if ($services->hasPages())
-                            <div style="margin-top:20px;text-align:center;">
+                            <div class="mk-pagination">
                                 {{ $services->appends(request()->query())->links() }}
                             </div>
                         @endif
@@ -221,17 +139,5 @@
                 </div>
             </div>
         </div>
-
-        @push('styles')
-            <style>
-                .svc-card:hover {
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
-                }
-
-                .svc-card:hover img {
-                    transform: scale(1.03);
-                }
-            </style>
-        @endpush
 
     @endsection

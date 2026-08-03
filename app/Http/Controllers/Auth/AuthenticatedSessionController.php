@@ -30,10 +30,10 @@ class AuthenticatedSessionController extends Controller
 
         // Check if user is admin and redirect accordingly
         if ($request->user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('status', __('auth.login_success'));
         }
 
-        return redirect()->intended(route('home', absolute: false));
+        return redirect()->intended(route('home', absolute: false))->with('status', __('auth.login_success'));
     }
 
     /**
@@ -47,6 +47,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('status', __('auth.logout_success'));
     }
 }

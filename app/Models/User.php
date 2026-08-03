@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes;
@@ -30,12 +31,16 @@ class User extends Authenticatable
         'lastname',
         'username',
         'phone',
+        'gender',
+        'date_of_birth',
+        'address',
         'bio',
         'profile_picture',
         'email',
         'password',
         'role',
         'is_active',
+        'settings',
     ];
 
     /**
@@ -59,9 +64,44 @@ class User extends Authenticatable
         return $this->belongsToMany(Place::class, 'favorites');
     }
 
+    public function favoriteServices(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'favorites');
+    }
+
     public function places(): HasMany
     {
         return $this->hasMany(Place::class);
+    }
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    public function placeSuggestions(): HasMany
+    {
+        return $this->hasMany(PlaceSuggestion::class);
+    }
+
+    public function serviceSuggestions(): HasMany
+    {
+        return $this->hasMany(ServiceSuggestion::class);
+    }
+
+    public function contactMessages(): HasMany
+    {
+        return $this->hasMany(ContactMessage::class);
+    }
+
+    public function socialAccounts(): HasMany
+    {
+        return $this->hasMany(SocialAccount::class);
     }
 
     // Role helper methods
@@ -89,12 +129,10 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'date_of_birth' => 'date',
+            'is_active' => 'boolean',
             'password' => 'hashed',
+            'settings' => 'array',
         ];
-    }
-
-    public function posts(): HasMany
-    {
-        return $this->hasMany(Post::class, 'user_id', 'id');
     }
 }

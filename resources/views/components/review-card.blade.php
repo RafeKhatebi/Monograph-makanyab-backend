@@ -1,27 +1,65 @@
-<div class="testimonial" style="border-bottom: 1px solid #eee; padding: 15px 0;">
+<div class="testimonial mk-review">
     <div class="row">
         <div class="col-xs-2 col-sm-1">
-            <img src="{{ asset('assets/img/client-face1.png') }}" class="img-circle" style="width:40px; height:40px;"
-                alt="{{ $review->user->name ?? 'User' }}">
+            <span class="mk-avatar" aria-label="{{ $review->user->name ?? 'User' }}">
+                {{ Str::upper(Str::substr($review->user->name ?? 'U', 0, 1)) }}
+            </span>
         </div>
         <div class="col-xs-10 col-sm-11">
             <strong>{{ $review->user->name ?? 'Anonymous' }}</strong>
-            <span class="text-muted" style="margin-left:10px; font-size:12px;">
+            <span class="text-muted mk-review__meta">
                 {{ $review->created_at->diffForHumans() }}
             </span>
             <div>
                 @include('components.rating-stars', ['rating' => $review->rating])
             </div>
-            @if (isset($showPlace) && $showPlace && $review->place)
-                <p style="margin:5px 0 0;">
-                    <a href="{{ route('places.show', $review->place) }}">
-                        <i class="fa fa-map-marker"></i> {{ $review->place->name }}
+            @if (isset($showPlace) && $showPlace && ($review->place || $review->service))
+                <p class="mk-review__target">
+                    <a href="{{ $review->service
+                        ? route('services.show', $review->service)
+                        : route('places.show', $review->place) }}">
+                        <i class="fa {{ $review->service ? 'fa-briefcase' : 'fa-map-marker' }}"></i>
+                        {{ $review->service?->name ?? $review->place?->name }}
                     </a>
                 </p>
             @endif
             @if ($review->comment)
-                <p style="margin-top: 8px;">{{ $review->comment }}</p>
+                <p class="mk-review__comment">{{ $review->comment }}</p>
             @endif
+            @auth
+                @if (auth()->id() === $review->user_id)
+                    @php
+                        $isServiceReview = filled($review->service_id);
+                        $reviewTarget = $isServiceReview ? $review->service : $review->place;
+                        $updateRoute = $isServiceReview ? 'services.reviews.update' : 'places.reviews.update';
+                        $destroyRoute = $isServiceReview ? 'services.reviews.destroy' : 'places.reviews.destroy';
+                    @endphp
+                    <details class="mk-review__editor">
+                        <summary class="mk-review__summary">Edit review</summary>
+                        <form method="POST" action="{{ route($updateRoute, [$reviewTarget, $review]) }}"
+                            class="mk-review__editor">
+                            @csrf
+                            @method('PATCH')
+                            <label>
+                                Rating
+                                <select name="rating" required>
+                                    @for ($rating = 5; $rating >= 1; $rating--)
+                                        <option value="{{ $rating }}" @selected($review->rating === $rating)>{{ $rating }}</option>
+                                    @endfor
+                                </select>
+                            </label>
+                            <textarea name="comment" maxlength="2000" rows="3" class="form-control">{{ $review->comment }}</textarea>
+                            <button type="submit" class="btn btn-primary btn-sm mt-2">Save review</button>
+                        </form>
+                        <form method="POST" action="{{ route($destroyRoute, [$reviewTarget, $review]) }}"
+                            onsubmit="return confirm('Delete this review?')" class="mt-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete review</button>
+                        </form>
+                    </details>
+                @endif
+            @endauth
         </div>
     </div>
 </div>

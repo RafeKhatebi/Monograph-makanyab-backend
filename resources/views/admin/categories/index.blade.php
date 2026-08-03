@@ -4,64 +4,74 @@
 @section('page-title', 'Categories')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">All Categories ({{ $categories->total() }})</h6>
-            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm">+ Add New Category</a>
+    <section class="card" aria-label="Categories Management">
+        <div class="card-header admin-card-header">
+            <h2 class="admin-card-title">All Categories ({{ $categories->total() }})</h2>
+            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add New Category
+            </a>
         </div>
 
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-dark">
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Parent</th>
-                        <th>Places</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($categories as $category)
+        <div class="card-body">
+            <div class="admin-table-wrap">
+                <table class="table" aria-label="Categories list">
+                    <thead>
                         <tr>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $category->slug }}</td>
-                            <td>{{ $category->parent->name ?? '-' }}</td>
-                            <td>{{ $category->places_count }}</td>
-                            <td>
-                                <span class="badge {{ $category->is_active ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $category->is_active ? 'Active' : 'Inactive' }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.categories.show', $category) }}"
-                                        class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('admin.categories.edit', $category) }}"
-                                        class="btn btn-sm btn-outline-success">Edit</a>
-                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this category?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th scope="col">Name</th>
+                            <th scope="col">Slug</th>
+                            <th scope="col">Parent</th>
+                            <th scope="col">Places</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center py-4">No categories found</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if ($categories->hasPages())
-            <div class="pt-4">
-                {{ $categories->links() }}
+                    </thead>
+                    <tbody>
+                        @forelse($categories as $category)
+                            <tr>
+                                <td>{{ $category->name }}</td>
+                                <td>{{ $category->slug }}</td>
+                                <td>{{ $category->parent->name ?? '-' }}</td>
+                                <td>{{ $category->places_count }}</td>
+                                <td>
+                                    <span class="badge {{ $category->is_active ? 'badge-success' : 'badge-secondary' }}">
+                                        {{ $category->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="admin-actions">
+                                        <a href="{{ route('admin.categories.show', $category) }}"
+                                            class="btn btn-sm btn-outline-primary"
+                                            aria-label="View {{ $category->name }}">View</a>
+                                        <a href="{{ route('admin.categories.edit', $category) }}"
+                                            class="btn btn-sm btn-outline-success"
+                                            aria-label="Edit {{ $category->name }}">Edit</a>
+                                        <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this category?');"
+                                            class="admin-action-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                aria-label="Delete {{ $category->name }}">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="admin-empty">
+                                    No categories found
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-        @endif
-    </div>
+
+            @if ($categories->hasPages())
+                <nav class="admin-pagination" aria-label="Categories pagination">
+                    {{ $categories->links() }}
+                </nav>
+            @endif
+        </div>
+    </section>
 @endsection

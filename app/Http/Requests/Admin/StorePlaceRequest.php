@@ -4,11 +4,14 @@ namespace App\Http\Requests\Admin;
 
 use App\Enums\PlaceStatus;
 use App\Enums\PriceLevel;
+use App\Http\Requests\Admin\Concerns\ValidatesPlaceLocationAndImages;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class StorePlaceRequest extends FormRequest
 {
+    use ValidatesPlaceLocationAndImages;
+
     public function authorize(): bool
     {
         return $this->user()?->isAdmin() ?? false;
@@ -31,15 +34,15 @@ class StorePlaceRequest extends FormRequest
             'website' => ['nullable', 'url', 'max:255'],
             'status' => ['nullable', Rule::enum(PlaceStatus::class)],
             'price_level' => ['nullable', Rule::enum(PriceLevel::class)],
-            'images' => ['sometimes', 'array'],
-            'images.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'neighborhood' => ['nullable', 'string', 'max:100'],
+            'images' => ['sometimes', 'array', 'max:10'],
+            'images.*' => ['required', 'file', 'image', 'mimetypes:image/jpeg,image/png,image/webp', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'cover_image_index' => ['nullable', 'integer', 'min:0', 'max:9'],
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        if (! $this->filled('city') && $this->filled('province')) {
-            $this->merge(['city' => $this->input('province')]);
-        }
+        $this->preparePlaceLocation();
     }
 }

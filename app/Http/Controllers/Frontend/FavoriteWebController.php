@@ -5,26 +5,39 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class FavoriteWebController extends Controller
 {
     public function index()
     {
-        $favorites = FacadesAuth::user()->favorites()
+        $favorites = Auth::user()->favorites()
             ->with(['category:id,name,slug,color_code', 'media'])
             ->where('is_active', true)
             ->latest()
             ->paginate(12);
+        $favoriteServices = Auth::user()->favoriteServices()
+            ->with(['category:id,name,slug', 'media'])
+            ->where('is_active', true)
+            ->latest()
+            ->paginate(12, ['*'], 'services_page');
 
-        return view('pages.favorites.index', compact('favorites'));
+        return view('pages.favorites.index', compact('favorites', 'favoriteServices'));
     }
 
     public function toggle(Request $request)
     {
-        $request->validate(['place_id' => 'required|exists:places,id']);
+        $request->validate([
+            'place_id' => [
+                'required',
+                Rule::exists('places', 'id')
+                    ->whereNull('deleted_at')
+                    ->where('is_active', true),
+            ],
+        ]);
 
-        $existing = Favorite::where('user_id', FacadesAuth::id())
+        $existing = Favorite::where('user_id', Auth::id())
             ->where('place_id', $request->place_id)
             ->first();
 
@@ -32,7 +45,7 @@ class FavoriteWebController extends Controller
             $existing->delete();
             $isFavorited = false;
         } else {
-            Favorite::create(['user_id' => FacadesAuth::id(), 'place_id' => $request->place_id]);
+            Favorite::create(['user_id' => Auth::id(), 'place_id' => $request->place_id]);
             $isFavorited = true;
         }
 
@@ -40,6 +53,9 @@ class FavoriteWebController extends Controller
             return response()->json(['is_favorited' => $isFavorited]);
         }
 
-        return back();
+        return back()->with(
+            'success',
+            $isFavorited ? 'Added to favorites.' : 'Removed from favorites.'
+        );
     }
 }

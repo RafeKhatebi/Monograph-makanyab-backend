@@ -4,7 +4,7 @@
 @section('page-title', 'Edit Service Category')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
+    <div class="card">
         <div class="bg-white rounded p-4 shadow-sm">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
                 <h6 class="mb-0">Edit Service Category</h6>

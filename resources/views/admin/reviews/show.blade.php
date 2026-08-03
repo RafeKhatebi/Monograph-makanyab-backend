@@ -4,7 +4,7 @@
 @section('page-title', 'Review Details')
 
 @section('content')
-    <div class="bg-light rounded h-100 p-4">
+    <div class="card">
         <div class="bg-white rounded p-4 shadow-sm">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
                 <h6 class="mb-0">Review Details</h6>
@@ -30,11 +30,14 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Place</h3>
-                            <a href="{{ route('admin.places.show', $review->place) }}"
-                                class="text-emerald-600 hover:underline">
-                                {{ $review->place->name }}
-                            </a>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Place / Service</h3>
+                            @if ($review->place)
+                                <a href="{{ route('admin.places.show', $review->place) }}"
+                                    class="text-emerald-600 hover:underline">{{ $review->place->name }}</a>
+                            @elseif ($review->service)
+                                <a href="{{ route('admin.services.show', $review->service) }}"
+                                    class="text-emerald-600 hover:underline">{{ $review->service->name }}</a>
+                            @endif
                         </div>
 
                         <div>

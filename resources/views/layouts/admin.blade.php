@@ -1,169 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@yield('title', 'Admin') - Makanyab</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="@yield('meta-description', 'Makanyab Admin Panel')">
+    <title>@yield('title', 'Admin') - Makanyab</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-        <link href="{{ asset('dashmin/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('dashmin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/variables.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/ui-system.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/admin-utilities.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/admin-layout.css') }}" rel="stylesheet">
+    @stack('styles')
+</head>
 
-        <link href="{{ asset('assets/css/admin.css') }}" rel="stylesheet">
-        <link href="{{ asset('dashmin/css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('dashmin/css/style.css') }}" rel="stylesheet">
-        @stack('styles')
-    </head>
+<body>
+    <!-- Skip to content link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <body>
-        <div class="container-xxl position-relative bg-white d-flex p-0">
-            <div id="spinner"
-                class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="visually-hidden">Loading...</span>
+    <div class="admin-shell">
+        <!-- Sidebar Overlay (Mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()" aria-hidden="true"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar" role="complementary" aria-label="Admin navigation">
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand" aria-label="Makanyab Admin Dashboard">
+                <div class="sidebar-brand-icon" aria-hidden="true">
+                    <i class="fa fa-map-marked-alt"></i>
                 </div>
-            </div>
+                <div class="sidebar-brand-text">Makanyab</div>
+            </a>
 
-            <div class="sidebar pe-4 pb-3">
-                <nav class="navbar bg-light navbar-light">
-                    <a href="{{ route('admin.dashboard') }}" class="navbar-brand mx-4 mb-3">
-                        <h3 class="text-primary"><i class="fa fa-map-marked-alt me-2"></i>Makanyab</h3>
-                    </a>
-                    <div class="navbar-nav w-100">
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                            <i class="fa fa-tachometer-alt me-2"></i>Dashboard
-                        </a>
-                        <a href="{{ route('admin.places.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.places.*') ? 'active' : '' }}">
-                            <i class="fa fa-map-marker-alt me-2"></i>Places
-                        </a>
-                        <a href="{{ route('admin.categories.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                            <i class="fa fa-tags me-2"></i>Place Ca
-                        </a>
-                        <a href="{{ route('admin.services.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
-                            <i class="fa fa-briefcase me-2"></i>Services
-                        </a>
-                        <a href="{{ route('admin.service-categories.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.service-categories.*') ? 'active' : '' }}">
-                            <i class="fa fa-layer-group me-2"></i>Service Ca
-                        </a>
-                        <a href="{{ route('admin.users.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                            <i class="fa fa-users me-2"></i>Users
-                        </a>
-                        <a href="{{ route('admin.reviews.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
-                            <i class="fa fa-star me-2"></i>Reviews
-                        </a>
-                        <a href="{{ route('admin.place-suggestions.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.place-suggestions.*') ? 'active' : '' }}">
-                            <i class="fa fa-lightbulb me-2"></i>Place Sug
-                        </a>
-                        <a href="{{ route('admin.service-suggestions.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.service-suggestions.*') ? 'active' : '' }}">
-                            <i class="fa fa-comment-dots me-2"></i>Service Sug
-                        </a>
-                        <a href="{{ route('admin.posts.index') }}"
-                            class="nav-item nav-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
-                            <i class="fa fa-newspaper me-2"></i>Posts
-                        </a>
+            <nav class="sidebar-nav" aria-label="Admin menu">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.dashboard') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-tachometer-alt" aria-hidden="true"></i>
+                    Dashboard
+                </a>
+                <a href="{{ route('admin.places.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.places.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.places.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
+                    Places
+                </a>
+                <a href="{{ route('admin.categories.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.categories.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-tags" aria-hidden="true"></i>
+                    Place Categories
+                </a>
+                <a href="{{ route('admin.services.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.services.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.services.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-briefcase" aria-hidden="true"></i>
+                    Services
+                </a>
+                <a href="{{ route('admin.service-categories.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.service-categories.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.service-categories.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-layer-group" aria-hidden="true"></i>
+                    Service Categories
+                </a>
+                <a href="{{ route('admin.users.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.users.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    Users
+                </a>
+                <a href="{{ route('admin.reviews.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.reviews.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    Reviews
+                </a>
+                <a href="{{ route('admin.place-suggestions.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.place-suggestions.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.place-suggestions.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-lightbulb" aria-hidden="true"></i>
+                    Place Suggestions
+                </a>
+                <a href="{{ route('admin.service-suggestions.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.service-suggestions.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.service-suggestions.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-comment-dots" aria-hidden="true"></i>
+                    Service Suggestions
+                </a>
+                <a href="{{ route('admin.posts.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.posts.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-newspaper" aria-hidden="true"></i>
+                    Posts
+                </a>
 
-                        <hr class="my-2">
+                <div class="sidebar-nav-divider" role="separator"></div>
 
-                        <a href="{{ route('home') }}" class="nav-item nav-link">
-                            <i class="fa fa-globe me-2"></i>Back to Site
-                        </a>
+                <a href="{{ route('home') }}" class="sidebar-nav-item">
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    Back to Site
+                </a>
 
-                        <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" aria-label="Logout">
+                    @csrf
+                    <button type="submit" class="sidebar-nav-item sidebar-logout">
+                        <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
+                        Logout
+                    </button>
+                </form>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <!-- Header -->
+            <header class="admin-header" role="banner">
+                <div class="admin-header-inner">
+                    <button class="sidebar-toggler" onclick="toggleSidebar()" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="sidebar">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                        <span class="sr-only">Toggle menu</span>
+                    </button>
+                    <h1 class="admin-header-title" id="page-title">@yield('page-title', 'Dashboard')</h1>
+                </div>
+
+                <div class="user-dropdown">
+                    <button type="button" class="user-dropdown-toggle" onclick="toggleUserDropdown()" aria-expanded="false" aria-haspopup="true" aria-label="User menu">
+                        <span>{{ auth()->user()->name }}</span>
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="user-dropdown-menu" id="userDropdown" role="menu">
+                        <form method="POST" action="{{ route('logout') }}" role="none">
                             @csrf
-                            <button type="submit" class="nav-item nav-link w-100 text-start border-0 bg-transparent">
-                                <i class="fa fa-sign-out-alt me-2"></i>Logout
+                            <button type="submit" class="user-dropdown-item" role="menuitem">
+                                <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Logout
                             </button>
                         </form>
                     </div>
-                </nav>
+                </div>
+            </header>
+
+            <!-- Flash Messages -->
+            <div class="admin-alert-region" aria-live="polite">
+                @if (session('success'))
+                    <div class="flash-message flash-success" role="status">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="flash-message flash-error" role="alert">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        {{ session('error') }}
+                    </div>
+                @endif
             </div>
 
-            <div class="content">
-                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                    <a href="{{ route('admin.dashboard') }}" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-map-marked-alt"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <div class="ms-4">
-                        <h5 class="mb-0">@yield('page-title', 'Dashboard')</h5>
-                    </div>
-                    <div class="navbar-nav align-items-center ms-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <span class="d-none d-lg-inline-flex">{{ auth()->user()->name }}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Log Out</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
-                <div class="container-fluid pt-4 px-4">
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
-                </div>
-
-                <div class="container-fluid px-4 pb-4">
-                    @yield('content')
-                </div>
-
-                <div class="container-fluid pt-4 px-4">
-                    <div class="bg-light rounded-top p-4">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 text-center text-sm-start">
-                                &copy; {{ now()->year }} <a href="{{ route('home') }}">Makanyab</a>. All rights
-                                reserved.
-                            </div>
-                            <div class="col-12 col-sm-6 text-center text-sm-end">
-                                Admin panel styled with Dashmin template palette
-                            </div>
+            <!-- Validation Errors -->
+            @if ($errors->any())
+                <div class="admin-alert-region" role="alert" aria-live="assertive">
+                    <div class="flash-message flash-error">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        <div>
+                            <strong>Please fix the following errors:</strong>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-                    class="bi bi-arrow-up"></i></a>
+            <!-- Page Content -->
+            <main class="admin-content" id="main-content" role="main" aria-labelledby="page-title">
+                @yield('content')
+            </main>
+
+            <!-- Footer -->
+            <footer class="admin-footer" role="contentinfo">
+                <span>&copy; {{ now()->year }} <a href="{{ route('home') }}">Makanyab</a>. All rights reserved.</span>
+                <span>Admin Panel</span>
+            </footer>
         </div>
+    </div>
 
-        <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{{ asset('dashmin/lib/chart/chart.min.js') }}"></script>
-        <script src="{{ asset('dashmin/lib/easing/easing.min.js') }}"></script>
-        <script src="{{ asset('dashmin/lib/waypoints/waypoints.min.js') }}"></script>
-        <script src="{{ asset('dashmin/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('dashmin/lib/tempusdominus/js/moment.min.js') }}"></script>
-        <script src="{{ asset('dashmin/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-        <script src="{{ asset('dashmin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-        <script src="{{ asset('dashmin/js/main.js') }}"></script>
-        @stack('scripts')
-    </body>
+    <script src="{{ asset('assets/js/admin-layout.js') }}"></script>
+    @stack('scripts')
+</body>
 
 </html>

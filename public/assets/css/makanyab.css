@@ -436,7 +436,6 @@ button,
     border-radius: 8px !important;
 }
 
-select.form-control,
-.bootstrap-select button.dropdown-toggle {
+select.form-control {
     border-radius: 8px !important;
 }

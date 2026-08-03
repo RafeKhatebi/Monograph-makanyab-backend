@@ -45,14 +45,4 @@
         </div>
     </div>
 
-    @push('styles')
-        <style>
-            .scat-card:hover {
-                box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
-                border-color: #3B82F6 !important;
-                transform: translateY(-2px);
-            }
-        </style>
-    @endpush
-
 @endsection
