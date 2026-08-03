@@ -4,7 +4,7 @@
 @section('content')
 
     {{-- Header --}}
-    <div class="listing-hero listing-hero--service">
+    <div class="listing-hero">
         <div class="container">
             <h1 class="listing-hero__title">Browse Services</h1>
             <p class="listing-hero__text">Find trusted service providers near you.</p>

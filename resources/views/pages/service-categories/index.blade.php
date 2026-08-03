@@ -2,7 +2,7 @@
 @section('title', 'Service Categories')
 @section('content')
 
-    <div style="background:linear-gradient(135deg,#1e3a5f,#3B82F6);padding:50px 0;">
+    <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:50px 0;">
         <div class="container text-center">
             <h1 style="font-size:32px;font-weight:800;color:#fff;margin-bottom:10px;">Service Categories</h1>
             <p style="color:rgba(255,255,255,.85);font-size:16px;margin-bottom:28px;">Find the right service provider by category.</p>
@@ -13,7 +13,7 @@
                         placeholder="Search service categories..."
                         style="flex:1;height:48px;padding:0 16px;border:none;outline:none;font-size:15px;">
                     <button type="submit"
-                        style="height:48px;padding:0 22px;background:#3B82F6;color:#fff;border:none;font-weight:700;cursor:pointer;">
+                        style="height:48px;padding:0 22px;background:#10B981;color:#fff;border:none;font-weight:700;cursor:pointer;">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -30,7 +30,7 @@
                             <div class="scat-card"
                                 style="background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:28px 20px;text-align:center;transition:all .2s;">
                                 <div
-                                    style="width:64px;height:64px;background:#EFF6FF;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:{{ $category->color_code ?? '#3B82F6' }};">
+                                    style="width:64px;height:64px;background:#ECFDF5;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:{{ $category->color_code ?? '#10B981' }};">
                                     <i class="fa {{ $category->icon_name ?? 'fa-briefcase' }}"></i>
                                 </div>
                                 <h5 style="font-size:16px;font-weight:700;color:#111827;margin-bottom:6px;">
@@ -40,7 +40,7 @@
                                         {{ $category->parent->name }}</p>
                                 @endif
                                 <span
-                                    style="display:inline-block;background:#EFF6FF;color:#3B82F6;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;">
+                                    style="display:inline-block;background:#F0FDF4;color:#10B981;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;">
                                     {{ $category->services_count ?? 0 }} services
                                 </span>
                             </div>

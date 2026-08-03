@@ -1075,10 +1075,6 @@
     padding: 40px 0;
 }
 
-.listing-hero--service {
-    background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%);
-}
-
 .listing-hero__title {
     color: #fff;
     font-size: 30px;
@@ -1126,7 +1122,7 @@
 }
 
 .listing-filter-title--service .fa {
-    color: #3b82f6;
+    color: var(--mk-primary);
 }
 
 .listing-quick-links {
@@ -1154,14 +1150,14 @@
 }
 
 .listing-quick-link:hover {
-    color: #2563eb;
+    color: var(--mk-primary-dark);
     text-decoration: none;
 }
 
 .listing-quick-link__count {
-    background: #eff6ff;
+    background: var(--mk-primary-soft);
     border-radius: 999px;
-    color: #3b82f6;
+    color: var(--mk-primary);
     font-size: 11px;
     font-weight: 700;
     padding: 2px 8px;
@@ -1196,7 +1192,7 @@
 
 .scat-card:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border-color: #3B82F6;
+    border-color: var(--mk-primary);
     transform: translateY(-2px);
 }
 
