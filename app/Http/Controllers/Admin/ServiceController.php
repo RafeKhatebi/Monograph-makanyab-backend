@@ -21,6 +21,14 @@ class ServiceController extends Controller
     {
         $query = Service::query()->with(['category', 'user']);
 
+        if ($request->query('trashed') === 'with') {
+            $query->withTrashed();
+        }
+
+        if ($request->query('trashed') === 'only') {
+            $query->onlyTrashed();
+        }
+
         if ($request->filled('service_category')) {
             $query->where('service_category_id', $request->integer('service_category'));
         }
@@ -131,6 +139,23 @@ class ServiceController extends Controller
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully.');
+    }
+
+    public function restore(string $service)
+    {
+        $service = Service::withTrashed()
+            ->where('slug', $service)
+            ->firstOrFail();
+
+        if (! $service->trashed()) {
+            return redirect()->route('admin.services.index')
+                ->with('info', 'Service is already active.');
+        }
+
+        $service->restore();
+
+        return redirect()->route('admin.services.index', ['trashed' => 'with'])
+            ->with('success', 'Service restored successfully.');
     }
 
     public function toggleVerification(Service $service)

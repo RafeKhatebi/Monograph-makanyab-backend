@@ -47,6 +47,14 @@
                         <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
                     </select>
                 </div>
+                <div>
+                    <label for="trashed" class="sr-only">Filter deleted services</label>
+                    <select id="trashed" name="trashed" class="form-select admin-filter-select admin-filter-select--sm">
+                        <option value="">Current</option>
+                        <option value="with" {{ request('trashed') === 'with' ? 'selected' : '' }}>With Deleted</option>
+                        <option value="only" {{ request('trashed') === 'only' ? 'selected' : '' }}>Deleted Only</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fa fa-filter" aria-hidden="true"></i> Filter
                 </button>
@@ -73,6 +81,9 @@
                                     @if ($service->is_verified)
                                         <span class="badge badge-success admin-ml-1">Verified</span>
                                     @endif
+                                    @if ($service->trashed())
+                                        <span class="badge badge-danger admin-ml-1">Deleted</span>
+                                    @endif
                                 </td>
                                 <td>{{ $service->category->name ?? '-' }}</td>
                                 <td>{{ Str::limit($service->address, 35) }}</td>
@@ -84,20 +95,29 @@
                                 </td>
                                 <td>
                                     <div class="admin-actions">
-                                        <a href="{{ route('admin.services.show', $service) }}"
-                                            class="btn btn-sm btn-outline-primary"
-                                            aria-label="View {{ $service->name }}">View</a>
-                                        <a href="{{ route('admin.services.edit', $service) }}"
-                                            class="btn btn-sm btn-outline-success"
-                                            aria-label="Edit {{ $service->name }}">Edit</a>
-                                        <form action="{{ route('admin.services.destroy', $service) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this service?');"
-                                            class="admin-action-form">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="Delete {{ $service->name }}">Delete</button>
-                                        </form>
+                                        @if ($service->trashed())
+                                            <form action="{{ route('admin.services.restore', $service->slug) }}" method="POST"
+                                                class="admin-action-form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-success"
+                                                    aria-label="Restore {{ $service->name }}">Restore</button>
+                                            </form>
+                                        @else
+                                            <a href="{{ route('admin.services.show', $service) }}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                aria-label="View {{ $service->name }}">View</a>
+                                            <a href="{{ route('admin.services.edit', $service) }}"
+                                                class="btn btn-sm btn-outline-success"
+                                                aria-label="Edit {{ $service->name }}">Edit</a>
+                                            <form action="{{ route('admin.services.destroy', $service) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this service?');"
+                                                class="admin-action-form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    aria-label="Delete {{ $service->name }}">Delete</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

@@ -13,7 +13,7 @@ class ServiceCategoryController extends Controller
     public function index()
     {
         $categories = ServiceCategory::with('parent')
-            ->withCount('services')
+            ->withCount(['services', 'children'])
             ->latest()
             ->paginate(20);
 
@@ -23,7 +23,6 @@ class ServiceCategoryController extends Controller
     public function create()
     {
         $categories = ServiceCategory::whereNull('parent_id')
-            ->active()
             ->orderBy('name')
             ->get();
 
@@ -35,6 +34,9 @@ class ServiceCategoryController extends Controller
         $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['has_menu'] = $request->boolean('has_menu');
+        $validated['has_booking'] = $request->boolean('has_booking');
+        $validated['has_delivery'] = $request->boolean('has_delivery');
 
         ServiceCategory::create($validated);
 
@@ -53,7 +55,6 @@ class ServiceCategoryController extends Controller
     {
         $categories = ServiceCategory::whereNull('parent_id')
             ->where('id', '!=', $serviceCategory->id)
-            ->active()
             ->orderBy('name')
             ->get();
 
@@ -65,6 +66,9 @@ class ServiceCategoryController extends Controller
         $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['has_menu'] = $request->boolean('has_menu');
+        $validated['has_booking'] = $request->boolean('has_booking');
+        $validated['has_delivery'] = $request->boolean('has_delivery');
 
         $serviceCategory->update($validated);
 

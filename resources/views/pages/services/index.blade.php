@@ -71,6 +71,24 @@
                                 </select>
                             </div>
                             <div class="mk-form-group">
+                                <label class="mk-label">Rating</label>
+                                <select name="rating" class="search-filter-select">
+                                    <option value="">Any Rating</option>
+                                    @for ($i = 5; $i >= 1; $i--)
+                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
+                                            {{ $i }} star{{ $i > 1 ? 's' : '' }}+
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="mk-form-group">
+                                <label class="search-check">
+                                    <input type="checkbox" name="open_now" value="1"
+                                        {{ request('open_now') ? 'checked' : '' }}>
+                                    Open Now
+                                </label>
+                            </div>
+                            <div class="mk-form-group">
                                 <label class="search-check">
                                     <input type="checkbox" name="verified" value="1"
                                         {{ request('verified') ? 'checked' : '' }}>
@@ -80,7 +98,7 @@
                             <button type="submit" class="mk-button mk-button--primary search-filter-submit">
                                 Apply Filters
                             </button>
-                            @if (request()->anyFilled(['search', 'city', 'category', 'status', 'price_level', 'verified']))
+                            @if (request()->anyFilled(['search', 'city', 'category', 'status', 'price_level', 'rating', 'open_now', 'verified']))
                                 <a href="{{ route('services.index') }}" class="search-filter-reset">Reset
                                     All</a>
                             @endif

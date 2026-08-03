@@ -152,6 +152,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         //  Services Management
 
         Route::resource('services', ServiceController::class);
+        Route::post('services/{service}/restore', [ServiceController::class, 'restore'])
+            ->name('services.restore');
 
         //    Search Management
 
