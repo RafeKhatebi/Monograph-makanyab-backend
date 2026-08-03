@@ -1,4 +1,4 @@
-<nav class="mk-nav">
+<nav class="mk-nav" aria-label="Primary navigation">
     <div class="container">
         <div class="mk-inner">
 
@@ -33,11 +33,12 @@
                 {{-- Discover dropdown --}}
                 <li
                     class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
-                    <a
-                        class="{{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}">
+                    <button type="button"
+                        class="mk-nav-dropdown-trigger {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}"
+                        aria-expanded="false" aria-haspopup="true" aria-controls="mk-discover-menu">
                         <i></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
-                    </a>
-                    <div class="mk-dd">
+                    </button>
+                    <div class="mk-dd" id="mk-discover-menu" aria-hidden="true">
                         <a href="{{ route('places.index') }}">
                             <i class="fa fa-map-marker"></i> Places
                         </a>
@@ -89,12 +90,13 @@
                         </a>
                     @endif
                     <div class="mk-user-menu" id="mk-user-menu">
-                        <div class="mk-user-trigger" id="mk-user-trigger">
+                        <button type="button" class="mk-user-trigger" id="mk-user-trigger" aria-expanded="false"
+                            aria-haspopup="true" aria-controls="mk-user-dropdown">
                             <div class="mk-user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
                             <span>{{ explode(' ', auth()->user()->name)[0] }}</span>
                             <i class="fa fa-chevron-down mk-caret"></i>
-                        </div>
-                        <div class="mk-user-dd">
+                        </button>
+                        <div class="mk-user-dd" id="mk-user-dropdown" aria-hidden="true">
                             <a href="{{ route('profile.index') }}">
                                 <i class="fa fa-user"></i> My Profile
                             </a>
@@ -121,7 +123,8 @@
             </div>
 
             {{-- Hamburger --}}
-            <button class="mk-hamburger" id="mk-hamburger" aria-label="Menu">
+            <button class="mk-hamburger" id="mk-hamburger" aria-label="Open menu" aria-expanded="false"
+                aria-controls="mk-mobile">
                 <span></span><span></span><span></span>
             </button>
 
@@ -129,14 +132,15 @@
     </div>
 
     {{-- Mobile Drawer --}}
-    <div class="mk-mobile" id="mk-mobile">
+    <div class="mk-mobile" id="mk-mobile" aria-hidden="true">
         <div class="container">
 
             {{-- Mobile Search --}}
             <div class="mk-mobile-search">
                 <form action="{{ route('search.index') }}" method="GET">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search places..."
-                        >
+                    <label for="mk-mobile-search-input" class="sr-only">Search places and services</label>
+                    <input id="mk-mobile-search-input" type="search" name="search" value="{{ request('search') }}"
+                        placeholder="Search places and services">
                     <button type="submit">
                         <i class="fa fa-search"></i>
                     </button>
@@ -149,13 +153,13 @@
             </a>
 
             {{-- Discover accordion --}}
-            <button class="mk-mobile-group-btn" id="mob-discover-btn">
+            <button class="mk-mobile-group-btn" id="mob-discover-btn" aria-expanded="false" aria-controls="mob-discover">
                 <span class="mk-mobile-label">
                     <i class="fa fa-compass"></i> Discover
                 </span>
                 <i class="fa fa-chevron-down mk-caret"></i>
             </button>
-            <div class="mk-mobile-sub" id="mob-discover">
+            <div class="mk-mobile-sub" id="mob-discover" aria-hidden="true">
                 <a href="{{ route('places.index') }}" class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
                     <i class="fa fa-map-marker"></i> Places
                 </a>

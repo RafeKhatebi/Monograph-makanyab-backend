@@ -20,6 +20,10 @@
     color: #9CA3AF;
 }
 
+.mk-footer-column {
+    margin-bottom: 32px;
+}
+
 .mk-footer-logo {
     display: flex;
     align-items: center;
@@ -79,7 +83,7 @@
 .mk-footer-contact {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 20px 0 0;
 }
 
 .mk-footer-contact li {
@@ -177,6 +181,49 @@
 
 .mk-footer-newsletter button:hover {
     background: #059669;
+}
+
+.mk-footer-update-text {
+    margin-bottom: 16px;
+}
+
+.mk-footer-update-link,
+.mk-footer-business-link {
+    background: #10B981;
+    border-radius: 8px;
+    color: #fff;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 18px;
+    text-decoration: none;
+}
+
+.mk-footer-update-link:hover,
+.mk-footer-business-link:hover {
+    background: #059669;
+    color: #fff;
+    text-decoration: none;
+}
+
+.mk-footer-business {
+    background: #1F2937;
+    border-radius: 12px;
+    margin-top: 24px;
+    padding: 16px;
+}
+
+.mk-footer-business-title {
+    color: #D1D5DB !important;
+    font-size: 13px !important;
+    font-weight: 600;
+    margin: 0 0 10px !important;
+}
+
+.mk-footer-business-text {
+    color: #9CA3AF !important;
+    font-size: 13px !important;
+    margin: 0 0 12px !important;
 }
 
 .mk-footer-bottom {

@@ -32,6 +32,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // About
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::view('/privacy-policy', 'pages.legal.privacy')->name('privacy');
+Route::view('/terms-of-service', 'pages.legal.terms')->name('terms');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

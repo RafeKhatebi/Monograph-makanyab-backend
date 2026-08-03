@@ -18,6 +18,8 @@ const publicPaths = [
     '/categories',
     '/service-categories',
     '/posts',
+    '/privacy-policy',
+    '/terms-of-service',
     '/login',
 ];
 
