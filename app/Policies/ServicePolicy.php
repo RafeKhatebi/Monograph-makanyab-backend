@@ -19,7 +19,7 @@ class ServicePolicy
 
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isOwner();
     }
 
     public function update(User $user, Service $service): bool

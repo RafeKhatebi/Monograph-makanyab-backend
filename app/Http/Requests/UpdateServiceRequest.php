@@ -13,7 +13,11 @@ class UpdateServiceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->isAdmin() ?? false;
+        /** @var Service|null $service */
+        $service = $this->route('service');
+
+        return $service !== null
+            && ($this->user()?->isAdmin() || $service->user_id === $this->user()?->id);
     }
 
     public function rules(): array

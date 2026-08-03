@@ -53,6 +53,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('places/{place}', [PlaceController::class, 'update']);
     Route::delete('places/{place}', [PlaceController::class, 'destroy']);
 
+    // Services
+    Route::post('services', [ServiceController::class, 'store'])->middleware('throttle:10,1');
+    Route::put('services/{service}', [ServiceController::class, 'update']);
+    Route::patch('services/{service}', [ServiceController::class, 'update']);
+    Route::delete('services/{service}', [ServiceController::class, 'destroy']);
+
     // Reviews
     Route::post('places/{place}/reviews', [ReviewController::class, 'store'])->middleware('throttle:5,1');
     Route::put('places/{place}/reviews/{review}', [ReviewController::class, 'update']);

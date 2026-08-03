@@ -37,6 +37,10 @@ class OpeningHourController extends Controller
 
     public function update(UpdateOpeningHourRequest $request, Place $place, OpeningHour $openingHour): JsonResponse
     {
+        if ($openingHour->place_id !== $place->id) {
+            return response()->json(['message' => 'Not found for this place.'], 404);
+        }
+
         $openingHour->update($request->validated());
 
         return response()->json($openingHour);

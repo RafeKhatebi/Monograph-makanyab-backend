@@ -2,13 +2,14 @@
 
 use App\Models\Place;
 use App\Models\PlaceCategory;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->category = PlaceCategory::create(['name' => 'Test ' . uniqid(), 'slug' => 'test-' . uniqid(), 'is_active' => true]);
+    $this->category = PlaceCategory::create(['name' => 'Test '.uniqid(), 'slug' => 'test-'.uniqid(), 'is_active' => true]);
 });
 
 test('admin can create places', function () {
@@ -73,4 +74,32 @@ test('anyone can view places', function () {
     $place = Place::factory()->create(['place_category_id' => $this->category->id]);
 
     $this->assertTrue($user->can('view', $place));
+});
+
+test('owner can create services', function () {
+    $owner = User::factory()->create(['role' => 'owner']);
+
+    $this->assertTrue($owner->can('create', Service::class));
+});
+
+test('regular user cannot create services', function () {
+    $user = User::factory()->create(['role' => 'user']);
+
+    $this->assertFalse($user->can('create', Service::class));
+});
+
+test('service owner can update and delete their service', function () {
+    $owner = User::factory()->create(['role' => 'owner']);
+    $service = Service::factory()->create(['user_id' => $owner->id]);
+
+    $this->assertTrue($owner->can('update', $service));
+    $this->assertTrue($owner->can('delete', $service));
+});
+
+test('non-owner cannot update or delete service', function () {
+    $service = Service::factory()->create();
+    $user = User::factory()->create(['role' => 'owner']);
+
+    $this->assertFalse($user->can('update', $service));
+    $this->assertFalse($user->can('delete', $service));
 });

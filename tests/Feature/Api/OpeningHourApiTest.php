@@ -62,3 +62,18 @@ test('non-owner cannot update opening hours', function () {
         ])
         ->assertForbidden();
 });
+
+test('opening hour cannot be updated through a different place route', function () {
+    $hour = OpeningHour::create([
+        'place_id' => $this->place->id,
+        'day_of_week' => 1,
+        'is_closed' => true,
+    ]);
+    $otherPlace = Place::factory()->create(['user_id' => $this->owner->id]);
+
+    $this->actingAs($this->owner)
+        ->putJson('/api/places/'.$otherPlace->slug.'/opening-hours/'.$hour->id, [
+            'is_closed' => true,
+        ])
+        ->assertForbidden();
+});

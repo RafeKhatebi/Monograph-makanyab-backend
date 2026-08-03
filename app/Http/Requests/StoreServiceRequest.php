@@ -11,7 +11,7 @@ class StoreServiceRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->isAdmin() ?? false;
+        return ($this->user()?->isAdmin() || $this->user()?->isOwner()) ?? false;
     }
 
     public function rules(): array

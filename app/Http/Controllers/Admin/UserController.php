@@ -90,6 +90,16 @@ class UserController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
+        if ($user->id === auth()->id()) {
+            if ($validated['role'] !== 'admin') {
+                return back()->withInput()->with('error', 'You cannot change your own administrator role.');
+            }
+
+            if (! $validated['is_active']) {
+                return back()->withInput()->with('error', 'You cannot deactivate your own account.');
+            }
+        }
+
         $user->update($validated);
 
         return redirect()->route('admin.users.index')
