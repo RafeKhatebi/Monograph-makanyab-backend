@@ -16,6 +16,12 @@ class ServiceController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate([
+            'status' => ['nullable', 'in:open,closed,temporarily_closed'],
+            'price_level' => ['nullable', 'in:low,medium,high,luxury'],
+            'rating' => ['nullable', 'integer', 'between:1,5'],
+        ]);
+
         $services = Service::query()
             ->with(['category', 'media'])
             ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
@@ -23,9 +29,11 @@ class ServiceController extends Controller
             ->active()
             ->filterSearch($request->query('search'))
             ->filterCategorySlug($request->query('category'))
-            ->when($request->city, fn ($q, $v) => $q->where('city', 'like', "%{$v}%"))
-            ->when($request->status, fn ($q, $v) => $q->where('status', $v))
-            ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
+            ->when($request->filled('city'), fn ($q) => $q->where('city', 'like', '%'.$request->city.'%'))
+            ->when($request->filled('status'), fn ($q) => $q->where('status', $request->status))
+            ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->price_level))
+            ->filterRatingAtLeast($request->integer('rating'))
+            ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))
             ->orderByDesc('created_at')
             ->paginate(12)

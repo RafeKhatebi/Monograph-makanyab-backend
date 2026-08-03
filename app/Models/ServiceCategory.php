@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class ServiceCategory extends Model
@@ -42,6 +43,19 @@ class ServiceCategory extends Model
         return $this->hasMany(ServiceCategory::class, 'parent_id');
     }
 
+    public function descendantIds(bool $activeOnly = false): Collection
+    {
+        $children = static::query()
+            ->select('id')
+            ->where('parent_id', $this->id)
+            ->when($activeOnly, fn (Builder $query) => $query->active())
+            ->get();
+
+        return $children->flatMap(
+            fn (self $child) => collect([$child->id])->merge($child->descendantIds($activeOnly))
+        );
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
@@ -64,6 +78,7 @@ class ServiceCategory extends Model
     {
         Cache::forget('active_service_categories_list');
         Cache::forget('active_service_categories');
+        Cache::forget('home_service_categories');
     }
 
     protected static function booted(): void

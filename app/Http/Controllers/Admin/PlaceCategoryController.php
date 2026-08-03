@@ -13,7 +13,7 @@ class PlaceCategoryController extends Controller
     public function index()
     {
         $categories = PlaceCategory::with('parent')
-            ->withCount('places')
+            ->withCount(['places', 'children'])
             ->latest()
             ->paginate(20);
 
@@ -23,7 +23,6 @@ class PlaceCategoryController extends Controller
     public function create()
     {
         $categories = PlaceCategory::whereNull('parent_id')
-            ->active()
             ->orderBy('name')
             ->get();
         // will route to create a category in admin section
@@ -36,6 +35,9 @@ class PlaceCategoryController extends Controller
         $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['has_menu'] = $request->boolean('has_menu');
+        $validated['has_booking'] = $request->boolean('has_booking');
+        $validated['has_delivery'] = $request->boolean('has_delivery');
 
         PlaceCategory::create($validated);
 
@@ -54,7 +56,6 @@ class PlaceCategoryController extends Controller
     {
         $categories = PlaceCategory::whereNull('parent_id')
             ->where('id', '!=', $category->id)
-            ->active()
             ->orderBy('name')
             ->get();
 
@@ -66,6 +67,9 @@ class PlaceCategoryController extends Controller
         $validated = $request->validated();
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['name']);
         $validated['is_active'] = $request->boolean('is_active');
+        $validated['has_menu'] = $request->boolean('has_menu');
+        $validated['has_booking'] = $request->boolean('has_booking');
+        $validated['has_delivery'] = $request->boolean('has_delivery');
 
         $category->update($validated);
 

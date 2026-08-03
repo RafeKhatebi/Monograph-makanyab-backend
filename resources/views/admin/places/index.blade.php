@@ -46,6 +46,14 @@
                         <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
                     </select>
                 </div>
+                <div>
+                    <label for="trashed" class="sr-only">Filter deleted places</label>
+                    <select id="trashed" name="trashed" class="form-select admin-filter-select admin-filter-select--sm">
+                        <option value="">Current</option>
+                        <option value="with" {{ request('trashed') === 'with' ? 'selected' : '' }}>With Deleted</option>
+                        <option value="only" {{ request('trashed') === 'only' ? 'selected' : '' }}>Deleted Only</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fa fa-filter" aria-hidden="true"></i> Filter
                 </button>
@@ -77,6 +85,9 @@
                                     @if ($place->is_verified)
                                         <span class="badge badge-success admin-mt-1">Verified</span>
                                     @endif
+                                    @if ($place->trashed())
+                                        <span class="badge badge-danger admin-mt-1">Deleted</span>
+                                    @endif
                                 </td>
                                 <td>{{ $place->category->name ?? '-' }}</td>
                                 <td class="admin-table-muted">{{ Str::limit($place->address, 30) }}</td>
@@ -94,26 +105,37 @@
                                 </td>
                                 <td class="admin-table-actions">
                                     <div class="admin-actions admin-actions--end">
-                                        <a href="{{ route('admin.places.show', $place) }}"
-                                            class="btn btn-sm btn-outline-primary"
-                                            aria-label="View {{ $place->name }}">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="{{ route('admin.places.edit', $place) }}"
-                                            class="btn btn-sm btn-outline-success"
-                                            aria-label="Edit {{ $place->name }}">
-                                            <i class="fa fa-edit" aria-hidden="true"></i>
-                                        </a>
-                                        <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this place?');"
-                                            class="admin-action-form">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="Delete {{ $place->name }}">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </form>
+                                        @if ($place->trashed())
+                                            <form action="{{ route('admin.places.restore', $place->slug) }}" method="POST"
+                                                class="admin-action-form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-success"
+                                                    aria-label="Restore {{ $place->name }}">
+                                                    <i class="fa fa-undo" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <a href="{{ route('admin.places.show', $place) }}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                aria-label="View {{ $place->name }}">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="{{ route('admin.places.edit', $place) }}"
+                                                class="btn btn-sm btn-outline-success"
+                                                aria-label="Edit {{ $place->name }}">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>
+                                            </a>
+                                            <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this place?');"
+                                                class="admin-action-form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    aria-label="Delete {{ $place->name }}">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

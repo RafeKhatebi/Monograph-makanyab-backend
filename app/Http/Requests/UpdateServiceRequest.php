@@ -24,7 +24,10 @@ class UpdateServiceRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'service_category_id' => 'required|exists:service_categories,id',
+            'service_category_id' => [
+                'required',
+                Rule::exists('service_categories', 'id')->where('is_active', true),
+            ],
             'description' => 'required|string',
             'tagline' => 'nullable|string|max:255',
             'phone_1' => 'required|string|max:20',
@@ -43,8 +46,8 @@ class UpdateServiceRequest extends FormRequest
             'rt_rw' => 'nullable|string|max:20',
             'neighborhood' => 'nullable|string|max:100',
             'postal_code' => 'nullable|string|max:10',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
             'status' => ['nullable', Rule::enum(PlaceStatus::class)],
             'price_level' => ['nullable', Rule::enum(PriceLevel::class)],
             'is_active' => 'nullable|boolean',

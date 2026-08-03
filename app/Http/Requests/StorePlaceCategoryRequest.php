@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PlaceCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class StorePlaceCategoryRequest extends FormRequest
 {
@@ -39,6 +41,23 @@ class StorePlaceCategoryRequest extends FormRequest
             'name.unique' => 'A category with this name already exists.',
             'slug.unique' => 'A category with this slug already exists.',
             'slug.alpha_dash' => 'The slug may only contain letters, numbers, dashes, and underscores.',
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                if (! $this->filled('parent_id')) {
+                    return;
+                }
+
+                $parent = PlaceCategory::find($this->integer('parent_id'));
+
+                if ($parent?->parent_id !== null) {
+                    $validator->errors()->add('parent_id', 'Select a top-level category as the parent.');
+                }
+            },
         ];
     }
 

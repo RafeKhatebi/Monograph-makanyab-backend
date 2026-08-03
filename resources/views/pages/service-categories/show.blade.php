@@ -3,7 +3,7 @@
 @php use Illuminate\Support\Str; @endphp
 @section('content')
 
-    <div style="background:linear-gradient(135deg,#1e3a5f,#3B82F6);padding:40px 0;">
+    <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
         <div class="container">
             <div style="display:flex;align-items:center;gap:14px;">
                 <div
@@ -32,26 +32,26 @@
 
             {{-- Subcategories toggle --}}
             @if ($subcategories->count())
-                <div
+                <details open
                     style="background:#fff;border-radius:14px;border:1px solid #E5E7EB;margin-bottom:24px;overflow:hidden;">
-                    <button onclick="document.getElementById('subcats').classList.toggle('hidden')"
-                        style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:none;border:none;cursor:pointer;font-size:15px;font-weight:700;color:#111827;">
-                        <span><i class="fa fa-th-large" style="color:#3B82F6;margin-right:8px;"></i> Sub-categories
+                    <summary
+                        style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;font-size:15px;font-weight:700;color:#111827;">
+                        <span><i class="fa fa-th-large" style="color:#10B981;margin-right:8px;"></i> Subcategories
                             ({{ $subcategories->count() }})</span>
                         <i class="fa fa-chevron-down" style="color:#9CA3AF;font-size:12px;"></i>
-                    </button>
-                    <div id="subcats" style="padding:0 20px 16px;display:flex;flex-wrap:wrap;gap:10px;">
+                    </summary>
+                    <div style="padding:0 20px 16px;display:flex;flex-wrap:wrap;gap:10px;">
                         @foreach ($subcategories as $sub)
                             <a href="{{ route('service-categories.show', $sub->slug) }}"
-                                style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#EFF6FF;border-radius:10px;text-decoration:none;color:#1D4ED8;font-size:13px;font-weight:600;">
+                                style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#F0FDF4;border-radius:10px;text-decoration:none;color:#065F46;font-size:13px;font-weight:600;">
                                 <i class="fa {{ $sub->icon_name ?? 'fa-briefcase' }}"></i>
                                 {{ $sub->name }}
                                 <span
-                                    style="background:#DBEAFE;padding:1px 7px;border-radius:20px;font-size:11px;">{{ $sub->services_count }}</span>
+                                    style="background:#D1FAE5;padding:1px 7px;border-radius:20px;font-size:11px;">{{ $sub->services_count }}</span>
                             </a>
                         @endforeach
                     </div>
-                </div>
+                </details>
             @endif
 
             {{-- Services grid --}}
@@ -59,7 +59,7 @@
                 <h3 style="font-size:18px;font-weight:700;color:#111827;margin:0;">{{ $services->total() }}
                     Service{{ $services->total() !== 1 ? 's' : '' }}</h3>
                 <a href="{{ route('services.index', ['category' => $category->slug]) }}"
-                    style="font-size:13px;color:#3B82F6;text-decoration:none;">View with filters →</a>
+                    style="font-size:13px;color:#10B981;text-decoration:none;">View with filters →</a>
             </div>
 
             <div class="row">
@@ -69,7 +69,8 @@
                     </div>
                 @empty
                     <div class="col-md-12 text-center" style="padding:60px 0;">
-                        <p style="color:#6B7280;">No services in this category yet.</p>
+                        <h3 style="font-size:20px;font-weight:700;color:#111827;margin-bottom:10px;">No services in this category yet</h3>
+                        <p style="color:#6B7280;">Active services will appear here once they are added.</p>
                     </div>
                 @endforelse
             </div>

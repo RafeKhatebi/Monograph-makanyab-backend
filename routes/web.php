@@ -132,6 +132,9 @@ Route::middleware(['auth', 'verified', 'admin'])
         //  Places Management
         Route::resource('places', App\Http\Controllers\Admin\PlaceController::class);
 
+        Route::post('places/{place}/restore', [App\Http\Controllers\Admin\PlaceController::class, 'restore'])
+            ->name('places.restore');
+
         Route::post(
             'places/{place}/toggle-verification',
             [App\Http\Controllers\Admin\PlaceController::class, 'toggleVerification']
@@ -149,6 +152,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         //  Services Management
 
         Route::resource('services', ServiceController::class);
+        Route::post('services/{service}/restore', [ServiceController::class, 'restore'])
+            ->name('services.restore');
 
         //    Search Management
 

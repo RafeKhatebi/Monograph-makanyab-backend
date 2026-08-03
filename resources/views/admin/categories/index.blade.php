@@ -20,6 +20,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Slug</th>
                             <th scope="col">Parent</th>
+                            <th scope="col">Children</th>
                             <th scope="col">Places</th>
                             <th scope="col">Status</th>
                             <th scope="col">Actions</th>
@@ -31,6 +32,7 @@
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->slug }}</td>
                                 <td>{{ $category->parent->name ?? '-' }}</td>
+                                <td>{{ $category->children_count }}</td>
                                 <td>{{ $category->places_count }}</td>
                                 <td>
                                     <span class="badge {{ $category->is_active ? 'badge-success' : 'badge-secondary' }}">
@@ -58,7 +60,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="admin-empty">
+                                <td colspan="7" class="admin-empty">
                                     No categories found
                                 </td>
                             </tr>
