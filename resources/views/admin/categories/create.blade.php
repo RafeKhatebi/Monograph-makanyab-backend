@@ -37,15 +37,6 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea name="description" rows="3"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">{{ old('description') }}</textarea>
-                            @error('description')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Parent Category</label>
                             <select name="parent_id"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
@@ -63,12 +54,73 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
-                            <input type="file" name="icon" accept="image/*"
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon CSS Class</label>
+                            <input type="text" name="icon_name" value="{{ old('icon_name') }}"
+                                placeholder="fa-cutlery"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            @error('icon')
+                            @error('icon_name')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                            <input type="text" name="color_code" value="{{ old('color_code', '#10B981') }}"
+                                placeholder="#10B981"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('color_code')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Keywords</label>
+                            <input type="text" name="keywords" value="{{ old('keywords') }}"
+                                placeholder="restaurants, food, dining"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('keywords')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Schema Type</label>
+                            <input type="text" name="schema_type" value="{{ old('schema_type', 'LocalBusiness') }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('schema_type')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Sort Order</label>
+                            <input type="number" name="sort_order" value="{{ old('sort_order', 0) }}" min="0"
+                                max="65535"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            @error('sort_order')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="has_menu" value="1"
+                                    {{ old('has_menu') ? 'checked' : '' }}
+                                    class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
+                                <span class="ml-2 text-sm text-gray-700">Menu</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="has_booking" value="1"
+                                    {{ old('has_booking') ? 'checked' : '' }}
+                                    class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
+                                <span class="ml-2 text-sm text-gray-700">Booking</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="has_delivery" value="1"
+                                    {{ old('has_delivery') ? 'checked' : '' }}
+                                    class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
+                                <span class="ml-2 text-sm text-gray-700">Delivery</span>
+                            </label>
                         </div>
 
                         <div>

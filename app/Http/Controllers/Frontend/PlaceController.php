@@ -15,13 +15,19 @@ class PlaceController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate([
+            'status' => ['nullable', 'in:open,closed,temporarily_closed'],
+            'price_level' => ['nullable', 'in:low,medium,high,luxury'],
+            'rating' => ['nullable', 'integer', 'between:1,5'],
+        ]);
+
         $places = Place::query()
             ->with(['category:id,name,slug,color_code,icon_name', 'media'])
             ->active()
             ->filterSearch($request->query('search'))
-            ->when($request->city, fn ($q, $v) => $q->where('city', $v))
-            ->when($request->status, fn ($q, $v) => $q->where('status', $v))
-            ->when($request->price_level, fn ($q, $v) => $q->where('price_level', $v))
+            ->when($request->filled('city'), fn ($q) => $q->where('city', 'like', '%'.$request->city.'%'))
+            ->when($request->filled('status'), fn ($q) => $q->where('status', $request->status))
+            ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->price_level))
             ->filterRatingAtLeast($request->integer('rating'))
             ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))

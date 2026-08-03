@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PlaceCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdatePlaceCategoryRequest extends FormRequest
 {
@@ -43,6 +45,31 @@ class UpdatePlaceCategoryRequest extends FormRequest
             'name.unique' => 'A category with this name already exists.',
             'slug.unique' => 'A category with this slug already exists.',
             'slug.alpha_dash' => 'The slug may only contain letters, numbers, dashes, and underscores.',
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                if (! $this->filled('parent_id')) {
+                    return;
+                }
+
+                $category = $this->route('category') instanceof PlaceCategory
+                    ? $this->route('category')
+                    : PlaceCategory::find($this->route('category'));
+
+                $parent = PlaceCategory::find($this->integer('parent_id'));
+
+                if ($parent?->parent_id !== null) {
+                    $validator->errors()->add('parent_id', 'Select a top-level category as the parent.');
+                }
+
+                if ($category && $parent && $category->descendantIds()->contains($parent->id)) {
+                    $validator->errors()->add('parent_id', 'A category cannot use one of its subcategories as a parent.');
+                }
+            },
         ];
     }
 }

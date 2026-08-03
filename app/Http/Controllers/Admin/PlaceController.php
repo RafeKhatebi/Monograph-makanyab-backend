@@ -24,6 +24,14 @@ class PlaceController extends Controller
             ->withCount(['reviews as reviews_count' => fn ($query) => $query->where('is_approved', true)])
             ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->where('is_approved', true)], 'rating');
 
+        if ($request->query('trashed') === 'with') {
+            $query->withTrashed();
+        }
+
+        if ($request->query('trashed') === 'only') {
+            $query->onlyTrashed();
+        }
+
         if ($request->filled('is_verified')) {
             $query->where('is_verified', $request->boolean('is_verified'));
         }
@@ -140,6 +148,23 @@ class PlaceController extends Controller
 
         return redirect()->route('admin.places.index')
             ->with('success', 'Place deleted successfully.');
+    }
+
+    public function restore(string $place)
+    {
+        $place = Place::withTrashed()
+            ->where('slug', $place)
+            ->firstOrFail();
+
+        if (! $place->trashed()) {
+            return redirect()->route('admin.places.index')
+                ->with('info', 'Place is already active.');
+        }
+
+        $place->restore();
+
+        return redirect()->route('admin.places.index', ['trashed' => 'with'])
+            ->with('success', 'Place restored successfully.');
     }
 
     public function toggleVerification(Place $place)

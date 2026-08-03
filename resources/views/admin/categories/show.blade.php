@@ -23,14 +23,6 @@
                         </span>
                     </div>
 
-                    @if ($category->icon)
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-2">Icon</h3>
-                            <img src="{{ asset('storage/' . $category->icon) }}" alt="{{ $category->name }}"
-                                class="w-20 h-20 object-cover rounded-lg">
-                        </div>
-                    @endif
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Slug</h3>
@@ -44,12 +36,32 @@
                         </div>
                     </div>
 
-                    @if ($category->description)
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <h3 class="text-sm font-medium text-gray-500 mb-1">Description</h3>
-                            <p class="text-gray-900">{{ $category->description }}</p>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Icon Class</h3>
+                            <p class="text-gray-900">{{ $category->icon_name ?: 'Not set' }}</p>
                         </div>
-                    @endif
+
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Color</h3>
+                            <p class="text-gray-900">{{ $category->color_code }}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Sort Order</h3>
+                            <p class="text-gray-900">{{ $category->sort_order }}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">Keywords</h3>
+                        <p class="text-gray-900">{{ $category->keywords ?: 'Not set' }}</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-1">Schema Type</h3>
+                        <p class="text-gray-900">{{ $category->schema_type ?: 'Not set' }}</p>
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -60,6 +72,23 @@
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Subcategories</h3>
                             <p class="text-gray-900">{{ $category->children_count }}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Menu</h3>
+                            <p class="text-gray-900">{{ $category->has_menu ? 'Enabled' : 'Disabled' }}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Booking</h3>
+                            <p class="text-gray-900">{{ $category->has_booking ? 'Enabled' : 'Disabled' }}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500 mb-1">Delivery</h3>
+                            <p class="text-gray-900">{{ $category->has_delivery ? 'Enabled' : 'Disabled' }}</p>
                         </div>
                     </div>
 

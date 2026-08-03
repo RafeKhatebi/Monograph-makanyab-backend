@@ -31,15 +31,15 @@
 
             {{-- Subcategories toggle --}}
             @if ($subcategories->count())
-                <div
+                <details open
                     style="background:#fff;border-radius:14px;border:1px solid #E5E7EB;margin-bottom:24px;overflow:hidden;">
-                    <button onclick="document.getElementById('subcats').classList.toggle('hidden')"
-                        style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:none;border:none;cursor:pointer;font-size:15px;font-weight:700;color:#111827;">
-                        <span><i class="fa fa-th-large" style="color:#10B981;margin-right:8px;"></i> Sub-categories
+                    <summary
+                        style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;font-size:15px;font-weight:700;color:#111827;">
+                        <span><i class="fa fa-th-large" style="color:#10B981;margin-right:8px;"></i> Subcategories
                             ({{ $subcategories->count() }})</span>
                         <i class="fa fa-chevron-down" style="color:#9CA3AF;font-size:12px;"></i>
-                    </button>
-                    <div id="subcats" style="padding:0 20px 16px;display:flex;flex-wrap:wrap;gap:10px;">
+                    </summary>
+                    <div style="padding:0 20px 16px;display:flex;flex-wrap:wrap;gap:10px;">
                         @foreach ($subcategories as $sub)
                             <a href="{{ route('categories.show', $sub->slug) }}"
                                 style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#F0FDF4;border-radius:10px;text-decoration:none;color:#065F46;font-size:13px;font-weight:600;">
@@ -50,7 +50,7 @@
                             </a>
                         @endforeach
                     </div>
-                </div>
+                </details>
             @endif
 
             {{-- Places grid --}}
@@ -66,7 +66,8 @@
                     @include('components.place-card', ['place' => $place])
                 @empty
                     <div class="col-md-12 text-center" style="padding:60px 0;">
-                        <p style="color:#6B7280;">No places in this category yet.</p>
+                        <h3 style="font-size:20px;font-weight:700;color:#111827;margin-bottom:10px;">No places in this category yet</h3>
+                        <p style="color:#6B7280;">Active places will appear here once they are added.</p>
                     </div>
                 @endforelse
             </div>

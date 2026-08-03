@@ -27,7 +27,7 @@
             <div class="row">
                 @forelse($categories as $category)
                     <div class="col-sm-6 col-md-3" style="margin-bottom:20px;">
-                        <a href="{{ route('places.index', ['category' => $category->slug]) }}"
+                        <a href="{{ route('categories.show', $category->slug) }}"
                             style="text-decoration:none;">
                             <div class="cat-card"
                                 style="background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:28px 20px;text-align:center;transition:all .2s;">
@@ -51,8 +51,15 @@
                 @empty
                     <div class="col-xs-12 text-center" style="padding:80px 0;">
                         <div style="font-size:56px;margin-bottom:16px;">📂</div>
-                        <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No categories yet</h3>
-                        <p style="color:#6B7280;">Categories will appear here once added.</p>
+                        @if (request('search'))
+                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No matching categories</h3>
+                            <p style="color:#6B7280;">Try a different category name or keyword.</p>
+                            <a href="{{ route('categories.index') }}" class="mk-button mk-button--primary mk-button--md"
+                                style="margin-top:16px;">Clear Search</a>
+                        @else
+                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No categories yet</h3>
+                            <p style="color:#6B7280;">Categories will appear here once added.</p>
+                        @endif
                     </div>
                 @endforelse
             </div>
