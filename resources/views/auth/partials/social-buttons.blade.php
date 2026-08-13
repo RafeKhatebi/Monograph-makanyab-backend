@@ -10,12 +10,6 @@
         <i class="fa fa-google" aria-hidden="true"></i>
         <span>{{ $action }} with Google</span>
     </a>
-    <a href="{{ route('social.redirect', 'facebook') }}"
-        class="mk-social-auth__button mk-social-auth__button--facebook" data-loading-text="Redirecting to Facebook..."
-        aria-label="{{ $action }} with Facebook">
-        <i class="fa fa-facebook" aria-hidden="true"></i>
-        <span>{{ $action }} with Facebook</span>
-    </a>
 </div>
 
 <div class="mk-auth-divider" role="separator">
@@ -54,10 +48,6 @@
                 outline: 2px solid rgba(16, 185, 129, .18);
                 outline-offset: 2px;
                 text-decoration: none;
-            }
-
-            .mk-social-auth__button--facebook i {
-                color: #1877F2;
             }
 
             .mk-social-auth__button--google i {
