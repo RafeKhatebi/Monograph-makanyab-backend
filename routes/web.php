@@ -42,9 +42,13 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 // Search Section
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/suggest-place', [PlaceSuggestionController::class, 'create'])->name('place-suggestions.create');
-Route::post('/suggest-place', [PlaceSuggestionController::class, 'store'])->name('place-suggestions.store');
+Route::post('/suggest-place', [PlaceSuggestionController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('place-suggestions.store');
 Route::get('/suggest-service', [ServiceSuggestionController::class, 'create'])->name('service-suggestions.create');
-Route::post('/suggest-service', [ServiceSuggestionController::class, 'store'])->name('service-suggestions.store');
+Route::post('/suggest-service', [ServiceSuggestionController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('service-suggestions.store');
 
 //  Posts Section
 
