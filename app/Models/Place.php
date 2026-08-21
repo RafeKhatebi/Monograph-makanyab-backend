@@ -129,7 +129,32 @@ class Place extends Model
             return $query;
         }
 
-        return $query->where('status', PlaceStatus::Open);
+        $moment = now(config('app.timezone'));
+        $day = $moment->dayOfWeek;
+        $previousDay = ($day + 6) % 7;
+        $time = $moment->format('H:i:s');
+
+        return $query->where(function (Builder $query) use ($day, $previousDay, $time) {
+            $query->whereHas('openingHours', function (Builder $hours) use ($day, $time) {
+                $hours->where('day_of_week', $day)
+                    ->where('is_closed', false)
+                    ->where(function (Builder $hours) use ($time) {
+                        $hours->where(function (Builder $hours) use ($time) {
+                            $hours->whereColumn('open_time', '<', 'close_time')
+                                ->where('open_time', '<=', $time)
+                                ->where('close_time', '>', $time);
+                        })->orWhere(function (Builder $hours) use ($time) {
+                            $hours->whereColumn('open_time', '>', 'close_time')
+                                ->where('open_time', '<=', $time);
+                        });
+                    });
+            })->orWhereHas('openingHours', function (Builder $hours) use ($previousDay, $time) {
+                $hours->where('day_of_week', $previousDay)
+                    ->where('is_closed', false)
+                    ->whereColumn('open_time', '>', 'close_time')
+                    ->where('close_time', '>', $time);
+            });
+        });
     }
 
     public function scopeFilterRatingAtLeast(Builder $query, ?int $rating): Builder

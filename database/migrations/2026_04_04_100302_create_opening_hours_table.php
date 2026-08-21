@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('opening_hours', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('place_id')->constrained()->cascadeOnDelete();
-            $table->unsignedTinyInteger('day_of_week')->comment('0=Saturday, 1=Sunday,2=Monday,3=Tuesday,4=Wednesday,5=Thursday,6=Friday');
+            $table->unsignedTinyInteger('day_of_week')->comment('0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday');
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
             $table->boolean('is_closed')->default(false);

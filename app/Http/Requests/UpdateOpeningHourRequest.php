@@ -34,8 +34,39 @@ class UpdateOpeningHourRequest extends FormRequest
                 Rule::requiredIf(fn () => ! $this->boolean('is_closed')),
                 'nullable',
                 'date_format:H:i',
-                'after:open_time',
             ],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        /** @var OpeningHour|null $openingHour */
+        $openingHour = $this->route('openingHour');
+
+        if (! $openingHour) {
+            return;
+        }
+
+        $this->merge([
+            'is_closed' => $this->has('is_closed') ? $this->boolean('is_closed') : $openingHour->is_closed,
+            'open_time' => $this->input('open_time', $openingHour->open_time),
+            'close_time' => $this->input('close_time', $openingHour->close_time),
+        ]);
+
+        if ($this->boolean('is_closed')) {
+            $this->merge(['open_time' => null, 'close_time' => null]);
+        }
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            if (! $this->boolean('is_closed')
+                && $this->input('open_time')
+                && $this->input('close_time')
+                && $this->input('open_time') === $this->input('close_time')) {
+                $validator->errors()->add('close_time', 'Opening and closing times cannot be identical.');
+            }
+        });
     }
 }

@@ -44,7 +44,6 @@ class StoreOpeningHourRequest extends FormRequest
                 Rule::requiredIf(fn () => ! $this->boolean('is_closed')),
                 'nullable',
                 'date_format:H:i',
-                'after:open_time',
             ],
         ];
     }
@@ -57,7 +56,6 @@ class StoreOpeningHourRequest extends FormRequest
             'day_of_week.unique' => 'Opening hours for this day already exist for this place.',
             'open_time.required_if' => 'open_time is required when the place is not closed.',
             'close_time.required_if' => 'close_time is required when the place is not closed.',
-            'close_time.after' => 'close_time must be after open_time.',
             'open_time.date_format' => 'open_time must be in HH:MM format (e.g. 09:00).',
             'close_time.date_format' => 'close_time must be in HH:MM format (e.g. 22:00).',
         ];
@@ -66,5 +64,21 @@ class StoreOpeningHourRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge(['place_id' => $this->route('place')?->id]);
+
+        if ($this->boolean('is_closed')) {
+            $this->merge(['open_time' => null, 'close_time' => null]);
+        }
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            if (! $this->boolean('is_closed')
+                && $this->input('open_time')
+                && $this->input('close_time')
+                && $this->input('open_time') === $this->input('close_time')) {
+                $validator->errors()->add('close_time', 'Opening and closing times cannot be identical.');
+            }
+        });
     }
 }
