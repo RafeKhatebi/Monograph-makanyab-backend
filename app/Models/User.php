@@ -61,12 +61,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function favorites(): BelongsToMany
     {
-        return $this->belongsToMany(Place::class, 'favorites');
+        return $this->belongsToMany(Place::class, 'favorites')
+            ->wherePivotNotNull('place_id')
+            ->withTimestamps();
     }
 
     public function favoriteServices(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'favorites');
+        return $this->belongsToMany(Service::class, 'favorites')
+            ->wherePivotNotNull('service_id')
+            ->withTimestamps();
     }
 
     public function places(): HasMany
