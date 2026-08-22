@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\PlaceCategoryController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ReviewController;
@@ -37,7 +38,9 @@ Route::view('/terms-of-service', 'pages.legal.terms')->name('terms');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('contact.store');
 
 // Search Section
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
@@ -198,6 +201,15 @@ Route::middleware(['auth', 'verified', 'admin'])
             ->only(['index', 'show', 'destroy']);
         Route::post('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
         Route::post('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
+
+        Route::resource('contact-messages', AdminContactMessageController::class)
+            ->only(['index', 'show', 'destroy']);
+        Route::post('contact-messages/{contactMessage}/mark-unread', [AdminContactMessageController::class, 'markUnread'])
+            ->name('contact-messages.mark-unread');
+        Route::post('contact-messages/{contactMessage}/archive', [AdminContactMessageController::class, 'archive'])
+            ->name('contact-messages.archive');
+        Route::post('contact-messages/{contactMessage}/restore', [AdminContactMessageController::class, 'restore'])
+            ->name('contact-messages.restore');
 
         /*
         Posts Management

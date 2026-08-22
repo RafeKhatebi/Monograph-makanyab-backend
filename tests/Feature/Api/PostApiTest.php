@@ -34,6 +34,21 @@ test('unpublished post returns 404', function () {
         ->assertNotFound();
 });
 
+test('future published post is hidden from API until published_at', function () {
+    $post = Post::factory()->create([
+        'is_published' => true,
+        'published_at' => now()->addDay(),
+        'user_id' => $this->user->id,
+    ]);
+
+    $this->getJson('/api/posts')
+        ->assertOk()
+        ->assertJsonMissing(['id' => $post->id]);
+
+    $this->getJson("/api/posts/{$post->slug}")
+        ->assertNotFound();
+});
+
 test('posts can be searched by title', function () {
     Post::factory()->create(['title' => 'Laravel Tips', 'is_published' => true, 'user_id' => $this->user->id]);
     Post::factory()->create(['title' => 'PHP Best Practices', 'is_published' => true, 'user_id' => $this->user->id]);

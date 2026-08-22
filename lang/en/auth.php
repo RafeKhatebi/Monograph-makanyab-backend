@@ -17,6 +17,7 @@ return [
     'social_linked' => 'Your social account has been linked.',
     'social_unlinked' => 'Your social account has been disconnected.',
     'social_last_login_method' => 'Set a password or connect another provider before disconnecting this account.',
+    'password_required' => 'Set a password before using email and password authentication.',
     'verification_sent' => 'A verification email has been sent. Please check your inbox to continue.',
     'email_verified' => 'Your email address has been verified successfully.',
     'verification_invalid' => 'This verification link is invalid or has expired.',

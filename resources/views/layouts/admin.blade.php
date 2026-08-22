@@ -80,6 +80,12 @@
                     <i class="fa fa-star" aria-hidden="true"></i>
                     Reviews
                 </a>
+                <a href="{{ route('admin.contact-messages.index') }}"
+                    class="sidebar-nav-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.contact-messages.*') ? 'aria-current="page"' : '' }}>
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    Contact Messages
+                </a>
                 <a href="{{ route('admin.place-suggestions.index') }}"
                     class="sidebar-nav-item {{ request()->routeIs('admin.place-suggestions.*') ? 'active' : '' }}"
                     {{ request()->routeIs('admin.place-suggestions.*') ? 'aria-current="page"' : '' }}>

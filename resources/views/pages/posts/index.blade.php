@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Blog & Posts')
+@section('meta-description', 'Read published Makanyab articles, announcements, and local guides.')
 @section('content')
 
     {{-- Header --}}
@@ -30,7 +31,7 @@
                                             {{ $post->category->name ?? 'News' }}
                                         </span>
                                         <span
-                                            style="color:#9CA3AF;font-size:13px;">{{ $post->created_at->format('M d, Y') }}</span>
+                                            style="color:#9CA3AF;font-size:13px;">{{ $post->published_at?->format('M d, Y') }}</span>
                                     </div>
                                     <h3
                                         style="font-size:17px;font-weight:700;color:#111827;margin-bottom:10px;line-height:1.4;flex:1;">
@@ -38,7 +39,7 @@
                                             style="color:inherit;text-decoration:none;">{{ $post->title }}</a>
                                     </h3>
                                     <p style="font-size:14px;color:#6B7280;line-height:1.7;margin-bottom:16px;">
-                                        {{ Str::limit(strip_tags($post->content), 120) }}
+                                        {{ Str::limit($post->excerpt ?: strip_tags($post->content), 120) }}
                                     </p>
                                     <a href="{{ route('posts.show', $post->slug) }}"
                                         style="display:inline-block;background:#10B981;color:#fff;padding:9px 20px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;align-self:flex-start;">

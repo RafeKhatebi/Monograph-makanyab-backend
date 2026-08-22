@@ -142,8 +142,25 @@ test('admin can toggle place active status', function () {
 });
 
 test('admin can filter places by search', function () {
-    Place::factory()->create(['name' => 'Kabul Restaurant', 'user_id' => $this->admin->id, 'place_category_id' => $this->category->id, 'city' => 'Kabul']);
-    Place::factory()->create(['name' => 'Mazar Shop', 'user_id' => $this->admin->id, 'place_category_id' => $this->category->id, 'city' => 'Mazar']);
+    Place::factory()->create([
+        'name' => 'Kabul Restaurant',
+        'user_id' => $this->admin->id,
+        'place_category_id' => $this->category->id,
+        'city' => 'Kabul',
+        'province' => 'Kabul',
+        'district' => 'Bagrami',
+    ]);
+    Place::factory()->create([
+        'name' => 'Mazar Shop',
+        'tagline' => 'Northern marketplace',
+        'description' => 'Retail goods and daily supplies.',
+        'address' => 'Blue Mosque Road',
+        'user_id' => $this->admin->id,
+        'place_category_id' => $this->category->id,
+        'city' => 'Mazar',
+        'province' => 'Balkh',
+        'district' => 'Mazar-e-Sharif',
+    ]);
 
     $this->actingAs($this->admin)
         ->get('/admin/places?search=Kabul')

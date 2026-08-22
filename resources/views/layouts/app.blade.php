@@ -5,7 +5,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@yield('title', 'Makanyab') Discover Places</title>
+        <meta name="description" content="@yield('meta-description', 'Discover places, services, guides, and local updates with Makanyab.')">
+        <title>@yield('title', 'Makanyab') - Discover Places</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

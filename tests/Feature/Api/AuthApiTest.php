@@ -108,6 +108,22 @@ test('inactive user cannot login', function () {
         ->assertJson(['message' => __('auth.inactive')]);
 });
 
+test('social only user must set a password before API login', function () {
+    User::factory()->create([
+        'email' => 'social-only@example.com',
+        'password' => Hash::make('password123'),
+        'password_set_at' => null,
+        'is_active' => true,
+    ]);
+
+    $this->postJson('/api/auth/login', [
+        'email' => 'social-only@example.com',
+        'password' => 'password123',
+    ])
+        ->assertForbidden()
+        ->assertJson(['message' => __('auth.password_required')]);
+});
+
 test('authenticated user can get current user', function () {
     $user = User::factory()->create();
 

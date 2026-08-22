@@ -17,6 +17,13 @@ class ContactMessageController extends Controller
             'user_id' => $request->user()?->id,
         ]);
 
-        return response()->json($message, 201);
+        return response()->json([
+            'message' => 'Contact message received.',
+            'data' => [
+                'id' => $message->id,
+                'subject' => $message->subject,
+                'created_at' => $message->created_at,
+            ],
+        ], 201);
     }
 }

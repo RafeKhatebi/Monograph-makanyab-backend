@@ -9,12 +9,13 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('is_published', true)
-            ->latest()
+        $posts = Post::published()
+            ->with('user:id,name')
+            ->latest('published_at')
             ->paginate(6);
 
-        $recentPosts = Post::where('is_published', true)
-            ->latest()
+        $recentPosts = Post::published()
+            ->latest('published_at')
             ->take(5)
             ->get();
 
@@ -23,11 +24,13 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        abort_if(! $post->is_published, 404);
+        abort_if(! $post->is_published || ! $post->published_at || $post->published_at->isFuture(), 404);
+
+        $post->load('user:id,name');
 
         $recentPosts = Post::where('id', '!=', $post->id)
-            ->where('is_published', true)
-            ->latest()
+            ->published()
+            ->latest('published_at')
             ->take(5)
             ->get();
 

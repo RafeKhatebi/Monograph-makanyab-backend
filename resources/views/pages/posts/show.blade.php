@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $post->title)
+@section('meta-description', $post->excerpt ?: Str::limit(strip_tags($post->content), 155))
 
 @section('content')
     <div class="content-area" style="background:#F8FAFC; padding:50px 0;">
@@ -10,8 +11,12 @@
                     <div class="box-two" style="padding:35px 30px; border-radius:16px; text-align:center;">
                         <h1 style="font-size:34px; font-weight:700; color:#111827; margin-bottom:10px;">{{ $post->title }}
                         </h1>
-                        <p style="color:#6B7280; font-size:15px; margin:0;">Published
-                            {{ $post->created_at->format('F d, Y') }}</p>
+                        <p style="color:#6B7280; font-size:15px; margin:0;">
+                            Published {{ $post->published_at?->format('F d, Y') }}
+                            @if ($post->user)
+                                by {{ $post->user->name }}
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>
@@ -46,7 +51,7 @@
                                     style="display:block; color:#111827; text-decoration:none; margin-bottom:18px;">
                                     <strong>{{ Str::limit($recent->title, 55) }}</strong>
                                     <div style="font-size:14px; color:#6B7280; margin-top:4px;">
-                                        {{ $recent->created_at->format('M d, Y') }}</div>
+                                        {{ $recent->published_at?->format('M d, Y') }}</div>
                                 </a>
                             @endforeach
                         @else
