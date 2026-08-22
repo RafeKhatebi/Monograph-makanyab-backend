@@ -17,6 +17,7 @@
     <link href="{{ asset('assets/css/ui-system.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin-utilities.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin-layout.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/responsive-overrides.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 

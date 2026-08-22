@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/ui-system.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-components.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
 
         @stack('styles')
     </head>

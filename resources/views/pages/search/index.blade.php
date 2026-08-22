@@ -231,15 +231,17 @@
                             </h4>
                             <div class="row search-results-row">
                                 @foreach ($places as $place)
+                                    @php
+                                        $placeMedia = $place->media->firstWhere('is_cover', true) ?? $place->media->sortBy('sort_order')->first();
+                                        $placeImage = $placeMedia && Storage::disk($placeMedia->disk ?: 'public')->exists($placeMedia->file_path)
+                                            ? asset('storage/' . $placeMedia->file_path)
+                                            : asset('assets/img/demo/property-1.jpg');
+                                    @endphp
                                     <div class="col-sm-6 col-md-4 search-result-col">
                                         <div class="search-card">
                                             <div class="search-card__media">
                                                 <a href="{{ route('places.show', $place) }}">
-                                                    @if ($place->media->first())
-                                                        <img src="{{ asset('storage/' . $place->media->first()->file_path) }}" alt="{{ $place->name }}">
-                                                    @else
-                                                        <img src="{{ asset('assets/img/demo/property-1.jpg') }}" alt="{{ $place->name }}">
-                                                    @endif
+                                                    <img src="{{ $placeImage }}" alt="{{ $place->name }}">
                                                 </a>
                                                 @if ($place->is_verified)
                                                     <span class="search-card__badge search-card__badge--verified">

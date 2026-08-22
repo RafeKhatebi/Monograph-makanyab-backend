@@ -2,6 +2,9 @@
 
 @php
     $cover = $service->media->firstWhere('is_cover', true) ?? $service->media->sortBy('sort_order')->first();
+    $coverImage = $cover && Storage::disk($cover->disk ?: 'public')->exists($cover->file_path)
+        ? asset('storage/' . $cover->file_path)
+        : asset('assets/img/demo/property-1.jpg');
     $statusLabels = [
         'open' => 'Open',
         'closed' => 'Closed',
@@ -11,7 +14,7 @@
 
 <article class="service-card">
     <a class="service-card__media" href="{{ route('services.show', $service) }}">
-        <img src="{{ $cover ? asset('storage/' . $cover->file_path) : asset('assets/img/demo/property-1.jpg') }}"
+        <img src="{{ $coverImage }}"
             alt="{{ $service->name }}" loading="lazy">
         @if ($service->is_verified)
             <span class="service-card__badge service-card__badge--verified">
