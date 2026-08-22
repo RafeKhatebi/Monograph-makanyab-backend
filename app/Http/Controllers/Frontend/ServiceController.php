@@ -85,13 +85,13 @@ class ServiceController extends Controller
 
         if ($favorite) {
             $favorite->delete();
-            $message = 'Removed from favorites.';
+            $message = __('messages.favorite_removed');
         } else {
             Favorite::create([
                 'user_id' => $request->user()->id,
                 'service_id' => $service->id,
             ]);
-            $message = 'Added to favorites.';
+            $message = __('messages.favorite_added');
         }
 
         return back()->with('success', $message);
@@ -106,7 +106,7 @@ class ServiceController extends Controller
             'moderation_status' => Review::STATUS_PENDING,
         ]);
 
-        return back()->with('success', 'Review submitted and pending approval.');
+        return back()->with('success', __('messages.review_submitted'));
     }
 
     public function updateReview(
@@ -116,7 +116,7 @@ class ServiceController extends Controller
     ) {
         $review->update([...$request->validated(), 'moderation_status' => Review::STATUS_PENDING]);
 
-        return back()->with('success', 'Review updated and returned to the approval queue.');
+        return back()->with('success', __('messages.review_updated'));
     }
 
     public function destroyReview(Service $service, Review $review)
@@ -129,6 +129,6 @@ class ServiceController extends Controller
 
         $review->delete();
 
-        return back()->with('success', 'Review deleted.');
+        return back()->with('success', __('messages.review_deleted'));
     }
 }

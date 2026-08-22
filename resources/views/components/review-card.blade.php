@@ -1,12 +1,12 @@
 <div class="testimonial mk-review">
     <div class="row">
         <div class="col-xs-2 col-sm-1">
-            <span class="mk-avatar" aria-label="{{ $review->user->name ?? 'User' }}">
+            <span class="mk-avatar" aria-label="{{ $review->user->name ?? __('common.user') }}">
                 {{ Str::upper(Str::substr($review->user->name ?? 'U', 0, 1)) }}
             </span>
         </div>
         <div class="col-xs-10 col-sm-11">
-            <strong>{{ $review->user->name ?? 'Anonymous' }}</strong>
+            <strong>{{ $review->user->name ?? __('common.anonymous') }}</strong>
             <span class="text-muted mk-review__meta">
                 {{ $review->created_at->diffForHumans() }}
             </span>
@@ -35,13 +35,13 @@
                         $destroyRoute = $isServiceReview ? 'services.reviews.destroy' : 'places.reviews.destroy';
                     @endphp
                     <details class="mk-review__editor">
-                        <summary class="mk-review__summary">Edit review</summary>
+                        <summary class="mk-review__summary">{{ __('common.actions.edit') }} {{ __('places.reviews') }}</summary>
                         <form method="POST" action="{{ route($updateRoute, [$reviewTarget, $review]) }}"
                             class="mk-review__editor">
                             @csrf
                             @method('PATCH')
                             <label>
-                                Rating
+                                {{ __('places.rating') }}
                                 <select name="rating" required>
                                     @for ($rating = 5; $rating >= 1; $rating--)
                                         <option value="{{ $rating }}" @selected($review->rating === $rating)>{{ $rating }}</option>
@@ -49,13 +49,13 @@
                                 </select>
                             </label>
                             <textarea name="comment" maxlength="2000" rows="3" class="form-control">{{ $review->comment }}</textarea>
-                            <button type="submit" class="btn btn-primary btn-sm mt-2">Save review</button>
+                            <button type="submit" class="btn btn-primary btn-sm mt-2">{{ __('common.actions.save') }} {{ __('places.reviews') }}</button>
                         </form>
                         <form method="POST" action="{{ route($destroyRoute, [$reviewTarget, $review]) }}"
-                            onsubmit="return confirm('Delete this review?')" class="mt-2">
+                            onsubmit="return confirm('{{ __('common.actions.delete') }} {{ __('places.reviews') }}?')" class="mt-2">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete review</button>
+                            <button type="submit" class="btn btn-danger btn-sm">{{ __('common.actions.delete') }} {{ __('places.reviews') }}</button>
                         </form>
                     </details>
                 @endif

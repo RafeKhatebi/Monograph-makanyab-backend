@@ -35,7 +35,7 @@ class PlaceController extends Controller
         $user = $request->user();
 
         if (! $user->isAdmin() && ! $user->isOwner()) {
-            return response()->json(['message' => 'Only admins and owners can create places.'], 403);
+            return response()->json(['message' => __('messages.api.owner_required')], 403);
         }
 
         $place = Place::create(array_merge(
@@ -77,7 +77,7 @@ class PlaceController extends Controller
         $user = $request->user();
 
         if ($user->id !== $place->user_id && ! $user->isAdmin()) {
-            return response()->json(['message' => 'Forbidden.'], 403);
+            return response()->json(['message' => __('messages.api.forbidden')], 403);
         }
 
         $place->update($request->validated());
@@ -92,7 +92,7 @@ class PlaceController extends Controller
         $user = $request->user();
 
         if ($user->id !== $place->user_id && ! $user->isAdmin()) {
-            return response()->json(['message' => 'Forbidden.'], 403);
+            return response()->json(['message' => __('messages.api.forbidden')], 403);
         }
 
         $place->delete();

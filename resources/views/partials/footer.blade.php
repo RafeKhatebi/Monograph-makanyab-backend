@@ -8,12 +8,11 @@
                     <div class="mk-footer-logo-icon">M</div>
                     <span class="mk-footer-logo-text">Makan<span>yab</span></span>
                 </a>
-                <p>Your local discovery platform for the best restaurants, cafes, shops, hotels and services in
-                    Afghanistan.</p>
+                <p>{{ __('footer.description') }}</p>
                 <ul class="mk-footer-contact">
                     <li>
                         <i class="fa fa-map-marker"></i>
-                        <span>Herat, Afghanistan</span>
+                        <span>{{ __('footer.location') }}</span>
                     </li>
                     <li>
                         <i class="fa fa-phone"></i>
@@ -25,59 +24,58 @@
                         <a href="mailto:info@makanyab.com" class="mk-footer-contact-link">info@makanyab.com</a>
                     </li>
                 </ul>
-                <div class="mk-footer-social" aria-label="Social links">
-                    <a href="{{ route('contact') }}" aria-label="Contact Makanyab about Facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="Contact Makanyab about Instagram"><i class="fa fa-instagram"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="Contact Makanyab about Twitter"><i class="fa fa-twitter"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="Contact Makanyab about LinkedIn"><i class="fa fa-linkedin"></i></a>
+                <div class="mk-footer-social" aria-label="{{ __('footer.social_links') }}">
+                    <a href="{{ route('contact') }}" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>
                 </div>
             </div>
 
             {{-- Col 2: Quick Links --}}
             <div class="col-md-2 col-sm-6 mk-footer-column">
-                <h5>Explore</h5>
+                <h5>{{ __('navigation.explore') }}</h5>
                 <ul class="mk-footer-links">
-                    <li><a href="{{ route('home') }}"><i class="fa fa-angle-right"></i> Home</a></li>
-                    <li><a href="{{ route('places.index') }}"><i class="fa fa-angle-right"></i>Places</a></li>
-                    <li><a href="{{ route('categories.index') }}"><i class="fa fa-angle-right"></i> Categories</a></li>
-                    <li><a href="{{ route('search.index') }}"><i class="fa fa-angle-right"></i> Search</a></li>
-                    <li><a href="{{ route('posts.index') }}"><i class="fa fa-angle-right"></i> Blog</a></li>
-                    <li><a href="{{ route('about') }}"><i class="fa fa-angle-right"></i> About</a></li>
-                    <li><a href="{{ route('contact') }}"><i class="fa fa-angle-right"></i> Contact</a></li>
+                    <li><a href="{{ route('home') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.home') }}</a></li>
+                    <li><a href="{{ route('places.index') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.places') }}</a></li>
+                    <li><a href="{{ route('categories.index') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.categories') }}</a></li>
+                    <li><a href="{{ route('search.index') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.search') }}</a></li>
+                    <li><a href="{{ route('posts.index') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.blog') }}</a></li>
+                    <li><a href="{{ route('about') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.about') }}</a></li>
+                    <li><a href="{{ route('contact') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.contact') }}</a></li>
                 </ul>
             </div>
 
             {{-- Col 3: Top Categories --}}
             <div class="col-md-2 col-sm-6 mk-footer-column">
-                <h5>Categories</h5>
+                <h5>{{ __('navigation.categories') }}</h5>
                 <ul class="mk-footer-links">
                     <li><a href="{{ route('places.index', ['category' => 'restaurants']) }}"><i
-                                class="fa fa-angle-right"></i> Restaurants</a></li>
+                                class="fa fa-angle-right"></i> {{ __('footer.categories.restaurants') }}</a></li>
                     <li><a href="{{ route('places.index', ['category' => 'cafes']) }}"><i class="fa fa-angle-right"></i>
-                            Cafes</a></li>
+                            {{ __('footer.categories.cafes') }}</a></li>
                     <li><a href="{{ route('places.index', ['category' => 'shopping']) }}"><i
-                                class="fa fa-angle-right"></i> Shopping</a></li>
+                                class="fa fa-angle-right"></i> {{ __('footer.categories.shopping') }}</a></li>
                     <li><a href="{{ route('places.index', ['category' => 'hotels']) }}"><i
-                                class="fa fa-angle-right"></i> Hotels</a></li>
-                    <li><a href="{{ route('services.index') }}"><i class="fa fa-angle-right"></i> Services</a></li>
-                    <li><a href="{{ route('categories.index') }}"><i class="fa fa-angle-right"></i> All Categories</a>
+                                class="fa fa-angle-right"></i> {{ __('footer.categories.hotels') }}</a></li>
+                    <li><a href="{{ route('services.index') }}"><i class="fa fa-angle-right"></i> {{ __('navigation.services') }}</a></li>
+                    <li><a href="{{ route('categories.index') }}"><i class="fa fa-angle-right"></i> {{ __('footer.all_categories') }}</a>
                     </li>
                 </ul>
             </div>
 
             {{-- Col 4: Newsletter --}}
             <div class="col-md-4 col-sm-6 mk-footer-column">
-                <h5>Stay Updated</h5>
-                <p class="mk-footer-update-text">Contact us to get the latest places, deals, and updates.</p>
+                <h5>{{ __('navigation.stay_updated') }}</h5>
+                <p class="mk-footer-update-text">{{ __('footer.updates') }}</p>
                 <a class="mk-footer-update-link" href="{{ route('contact') }}">
-                    Contact Makanyab
+                    {{ __('footer.contact_makanyab') }}
                 </a>
                 <div class="mk-footer-business">
-                    <p class="mk-footer-business-title">Own a business?</p>
-                    <p class="mk-footer-business-text">List your place and reach thousands of
-                        customers.</p>
+                    <p class="mk-footer-business-title">{{ __('footer.own_business') }}</p>
+                    <p class="mk-footer-business-text">{{ __('footer.list_business') }}</p>
                     <a href="{{ route('register') }}" class="mk-footer-business-link">
-                        Get Listed Free
+                        {{ __('footer.get_listed') }}
                     </a>
                 </div>
             </div>
@@ -86,11 +84,11 @@
 
         {{-- Bottom Bar --}}
         <div class="mk-footer-bottom">
-            <p>© {{ date('Y') }} Makanyab. All rights reserved.</p>
+            <p>© {{ date('Y') }} Makanyab. {{ __('footer.rights') }}</p>
             <div class="mk-footer-bottom-links">
-                <a href="{{ route('privacy') }}">Privacy Policy</a>
-                <a href="{{ route('terms') }}">Terms of Service</a>
-                <a href="{{ route('contact') }}">Support</a>
+                <a href="{{ route('privacy') }}">{{ __('footer.privacy') }}</a>
+                <a href="{{ route('terms') }}">{{ __('footer.terms') }}</a>
+                <a href="{{ route('contact') }}">{{ __('navigation.support') }}</a>
             </div>
         </div>
     </div>

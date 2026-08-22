@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}">
 
     <head>
         <meta charset="utf-8">
@@ -24,12 +24,14 @@
         <link rel="stylesheet" href="{{ asset('assets/css/ui-system.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-components.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
 
         @stack('styles')
     </head>
 
     <body>
+        @include('partials.language-switcher')
         <main>@yield('content')</main>
 
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>

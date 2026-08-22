@@ -49,21 +49,21 @@ class ContactMessageController extends Controller
     {
         $contactMessage->forceFill(['read_at' => null])->save();
 
-        return back()->with('success', 'Contact message marked as unread.');
+        return back()->with('success', __('messages.admin.contact_messages.unread'));
     }
 
     public function archive(ContactMessage $contactMessage): RedirectResponse
     {
         $contactMessage->archive();
 
-        return back()->with('success', 'Contact message archived.');
+        return back()->with('success', __('messages.admin.contact_messages.archived'));
     }
 
     public function restore(ContactMessage $contactMessage): RedirectResponse
     {
         $contactMessage->restoreFromArchive();
 
-        return back()->with('success', 'Contact message restored.');
+        return back()->with('success', __('messages.admin.contact_messages.restored'));
     }
 
     public function destroy(ContactMessage $contactMessage): RedirectResponse
@@ -72,6 +72,6 @@ class ContactMessageController extends Controller
 
         return redirect()
             ->route('admin.contact-messages.index')
-            ->with('success', 'Contact message deleted.');
+            ->with('success', __('messages.admin.contact_messages.deleted'));
     }
 }

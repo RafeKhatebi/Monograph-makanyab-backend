@@ -87,6 +87,6 @@ class UserProfileController extends Controller
             $user->sendEmailVerificationNotification();
         }
 
-        return back()->with('success', 'Profile updated successfully.');
+        return back()->with('success', __('messages.profile_updated'));
     }
 }

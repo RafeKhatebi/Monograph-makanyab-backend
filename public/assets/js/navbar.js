@@ -1,4 +1,5 @@
 (function () {
+    var translations = document.documentElement.dataset;
     var dom = {
         hamburger: document.getElementById('mk-hamburger'),
         mobilePanel: document.getElementById('mk-mobile'),
@@ -16,7 +17,7 @@
         dom.mobilePanel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
         if (dom.hamburger) {
             dom.hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            dom.hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+            dom.hamburger.setAttribute('aria-label', isOpen ? translations.closeMenu : translations.openMenu);
         }
     }
 

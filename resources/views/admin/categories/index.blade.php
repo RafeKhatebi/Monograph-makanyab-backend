@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Categories')
-@section('page-title', 'Categories')
+@section('title', __('admin.crud.manage', ['item' => __('admin.dashboard.categories')]))
+@section('page-title', __('admin.dashboard.categories'))
 
 @section('content')
-    <section class="card" aria-label="Categories Management">
+    <section class="card" aria-label="{{ __('admin.crud.manage', ['item' => __('admin.dashboard.categories')]) }}">
         <div class="card-header admin-card-header">
-            <h2 class="admin-card-title">All Categories ({{ $categories->total() }})</h2>
+            <h2 class="admin-card-title">{{ __('admin.crud.all', ['item' => __('admin.dashboard.categories')]) }} ({{ $categories->total() }})</h2>
             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add New Category
+                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('admin.crud.add', ['item' => __('admin.dashboard.categories')]) }}
             </a>
         </div>
 
@@ -17,13 +17,13 @@
                 <table class="table" aria-label="Categories list">
                     <thead>
                         <tr>
-                            <th scope="col">Name</th>
+                            <th scope="col">{{ __('admin.dashboard.name') }}</th>
                             <th scope="col">Slug</th>
                             <th scope="col">Parent</th>
                             <th scope="col">Children</th>
-                            <th scope="col">Places</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">{{ __('admin.dashboard.places') }}</th>
+                            <th scope="col">{{ __('admin.dashboard.status') }}</th>
+                            <th scope="col">{{ __('admin.crud.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,24 +36,24 @@
                                 <td>{{ $category->places_count }}</td>
                                 <td>
                                     <span class="badge {{ $category->is_active ? 'badge-success' : 'badge-secondary' }}">
-                                        {{ $category->is_active ? 'Active' : 'Inactive' }}
+                                        {{ $category->is_active ? __('admin.dashboard.active') : __('admin.dashboard.inactive') }}
                                     </span>
                                 </td>
                                 <td>
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.categories.show', $category) }}"
                                             class="btn btn-sm btn-outline-primary"
-                                            aria-label="View {{ $category->name }}">View</a>
+                                            aria-label="{{ __('admin.crud.view') }} {{ $category->name }}">{{ __('admin.crud.view') }}</a>
                                         <a href="{{ route('admin.categories.edit', $category) }}"
                                             class="btn btn-sm btn-outline-success"
-                                            aria-label="Edit {{ $category->name }}">Edit</a>
+                                            aria-label="{{ __('admin.crud.edit') }} {{ $category->name }}">{{ __('admin.crud.edit') }}</a>
                                         <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this category?');"
+                                            onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.categories')]) }}');"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="Delete {{ $category->name }}">Delete</button>
+                                                aria-label="{{ __('admin.crud.delete') }} {{ $category->name }}">{{ __('admin.crud.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -61,7 +61,7 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="admin-empty">
-                                    No categories found
+                                    {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.categories')]) }}
                                 </td>
                             </tr>
                         @endforelse

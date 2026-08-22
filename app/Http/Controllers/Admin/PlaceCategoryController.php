@@ -42,7 +42,7 @@ class PlaceCategoryController extends Controller
         PlaceCategory::create($validated);
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category created successfully.');
+            ->with('success', __('messages.admin.categories.created'));
     }
 
     public function show(PlaceCategory $category)
@@ -74,22 +74,22 @@ class PlaceCategoryController extends Controller
         $category->update($validated);
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category updated successfully.');
+            ->with('success', __('messages.admin.categories.updated'));
     }
 
     public function destroy(PlaceCategory $category)
     {
         if ($category->places()->count() > 0) {
-            return back()->with('error', 'Cannot delete category with associated places.');
+            return back()->with('error', __('messages.admin.categories.has_places'));
         }
 
         if ($category->children()->count() > 0) {
-            return back()->with('error', 'Cannot delete category with subcategories.');
+            return back()->with('error', __('messages.admin.categories.has_children'));
         }
 
         $category->delete();
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category deleted successfully.');
+            ->with('success', __('messages.admin.categories.deleted'));
     }
 }

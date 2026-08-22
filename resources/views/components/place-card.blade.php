@@ -14,7 +14,7 @@
 
             @if ($place->is_verified)
                 <span class="place-card__badge">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i> Verified
+                    <i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('common.verified') }}
                 </span>
             @endif
 
@@ -23,7 +23,7 @@
                     <form method="POST" action="{{ route('favorites.toggle') }}">
                         @csrf
                         <input type="hidden" name="place_id" value="{{ $place->id }}">
-                        <button type="submit" class="place-card__favorite-button" aria-label="Toggle favorite">
+                        <button type="submit" class="place-card__favorite-button" aria-label="{{ __('common.toggle_favorite') }}">
                             <i class="fa {{ $place->is_favorited ? 'fa-heart text-danger' : 'fa-heart-o' }}"></i>
                         </button>
                     </form>
@@ -57,7 +57,7 @@
                 <span class="place-card__price">
                     {{ ucfirst(str_replace('_', ' ', $place->price_level)) }}
                 </span>
-                <a href="{{ route('places.show', $place) }}" class="place-card__button">View</a>
+                <a href="{{ route('places.show', $place) }}" class="place-card__button">{{ __('common.actions.view') }}</a>
             </div>
         </div>
     </div>

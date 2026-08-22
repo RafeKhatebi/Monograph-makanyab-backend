@@ -48,7 +48,7 @@ class FavoriteController extends Controller
             ->exists();
 
         if ($exists) {
-            return response()->json(['message' => 'Already in favorites.'], 409);
+            return response()->json(['message' => __('messages.api.favorite_exists')], 409);
         }
 
         try {
@@ -58,7 +58,7 @@ class FavoriteController extends Controller
             ]);
         } catch (QueryException $exception) {
             if ($this->isUniqueConstraintViolation($exception)) {
-                return response()->json(['message' => 'Already in favorites.'], 409);
+                return response()->json(['message' => __('messages.api.favorite_exists')], 409);
             }
 
             throw $exception;
@@ -77,7 +77,7 @@ class FavoriteController extends Controller
             ->delete();
 
         if (! $deleted) {
-            return response()->json(['message' => 'Not found in favorites.'], 404);
+            return response()->json(['message' => __('messages.api.favorite_missing')], 404);
         }
 
         return response()->json(null, 204);

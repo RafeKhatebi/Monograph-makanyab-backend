@@ -29,7 +29,7 @@ class PostController extends Controller
     public function show(Post $post): JsonResponse
     {
         if (! $post->is_published || ! $post->published_at || $post->published_at->isFuture()) {
-            return response()->json(['message' => 'Post not found.'], 404);
+            return response()->json(['message' => __('messages.api.post_not_found')], 404);
         }
 
         return response()->json($post->load('user:id,name'));

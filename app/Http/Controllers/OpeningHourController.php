@@ -27,7 +27,7 @@ class OpeningHourController extends Controller
         $user = $request->user();
 
         if ($user->id !== $place->user_id && ! $user->isAdmin()) {
-            return response()->json(['message' => 'Forbidden.'], 403);
+            return response()->json(['message' => __('messages.api.forbidden')], 403);
         }
 
         $hour = $place->openingHours()->create($request->validated());
@@ -38,7 +38,7 @@ class OpeningHourController extends Controller
     public function update(UpdateOpeningHourRequest $request, Place $place, OpeningHour $openingHour): JsonResponse
     {
         if ($openingHour->place_id !== $place->id) {
-            return response()->json(['message' => 'Not found for this place.'], 404);
+            return response()->json(['message' => __('messages.api.opening_hour_missing')], 404);
         }
 
         $openingHour->update($request->validated());
@@ -49,14 +49,14 @@ class OpeningHourController extends Controller
     public function destroy(Request $request, Place $place, OpeningHour $openingHour): JsonResponse
     {
         if ($openingHour->place_id !== $place->id) {
-            return response()->json(['message' => 'Not found for this place.'], 404);
+            return response()->json(['message' => __('messages.api.opening_hour_missing')], 404);
         }
 
         /** @var User $user */
         $user = $request->user();
 
         if ($user->id !== $place->user_id && ! $user->isAdmin()) {
-            return response()->json(['message' => 'Forbidden.'], 403);
+            return response()->json(['message' => __('messages.api.forbidden')], 403);
         }
 
         $openingHour->delete();

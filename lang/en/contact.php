@@ -1,0 +1,2 @@
+<?php
+return ['title' => 'Contact Us', 'intro' => 'Have a question about listings, support, or partnerships? Reach out and our team will respond quickly.', 'get_in_touch' => 'Get in Touch', 'help' => "We're here to help business owners and users get the best local experience.", 'office' => 'Office Address', 'working_hours' => 'Working Hours', 'follow' => 'Follow Us', 'send_message' => 'Send Us a Message', 'full_name' => 'Full Name', 'subject' => 'Subject', 'message' => 'Message', 'send' => 'Send Message'];

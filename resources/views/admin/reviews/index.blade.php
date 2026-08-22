@@ -1,19 +1,19 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Reviews')
-@section('page-title', 'Reviews')
+@section('title', __('admin.crud.manage', ['item' => __('admin.dashboard.reviews')]))
+@section('page-title', __('admin.dashboard.reviews'))
 
 @section('content')
-    <section class="card" aria-label="Reviews Management">
+    <section class="card" aria-label="{{ __('admin.crud.manage', ['item' => __('admin.dashboard.reviews')]) }}">
         <div class="card-header admin-card-header">
-            <h2 class="admin-card-title">All Reviews ({{ $reviews->total() }})</h2>
+            <h2 class="admin-card-title">{{ __('admin.crud.all', ['item' => __('admin.dashboard.reviews')]) }} ({{ $reviews->total() }})</h2>
         </div>
 
         <div class="card-body">
             <form method="GET" action="{{ route('admin.reviews.index') }}" role="search" aria-label="Filter reviews" class="admin-filter-form">
                 <div class="admin-filter-field">
-                    <label for="search" class="sr-only">Search reviews</label>
-                    <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="Search reviews..."
+                    <label for="search" class="sr-only">{{ __('admin.crud.search', ['item' => __('admin.dashboard.reviews')]) }}</label>
+                    <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.crud.search', ['item' => __('admin.dashboard.reviews')]) }}"
                         class="form-control">
                 </div>
                 <div>
@@ -45,9 +45,9 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-filter" aria-hidden="true"></i> Filter
+                    <i class="fa fa-filter" aria-hidden="true"></i> {{ __('admin.crud.filter') }}
                 </button>
-                <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary">Clear</a>
+                <a href="{{ route('admin.reviews.index') }}" class="btn btn-outline-secondary">{{ __('admin.crud.clear') }}</a>
             </form>
 
             <div class="admin-table-wrap">
@@ -55,9 +55,9 @@
                     <thead>
                         <tr>
                             <th scope="col">Place / Service</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Rating</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">{{ __('admin.dashboard.name') }}</th>
+                            <th scope="col">{{ __('admin.dashboard.rating') }}</th>
+                            <th scope="col">{{ __('admin.dashboard.status') }}</th>
                             <th scope="col">Comment</th>
                             <th scope="col">Date</th>
                             <th scope="col">Actions</th>
@@ -97,28 +97,28 @@
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.reviews.show', $review) }}"
                                             class="btn btn-sm btn-outline-primary"
-                                            aria-label="View review by {{ $review->user->name }}">View</a>
+                                            aria-label="{{ __('admin.crud.view') }} review">{{ __('admin.crud.view') }}</a>
                                         @if ($review->moderation_status !== 'approved')
                                             <form action="{{ route('admin.reviews.approve', $review) }}" method="POST" class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-success"
-                                                    aria-label="Approve review by {{ $review->user->name }}">Approve</button>
+                                                    aria-label="{{ __('common.actions.approve') }} review">{{ __('common.actions.approve') }}</button>
                                             </form>
                                         @endif
                                         @if ($review->moderation_status !== 'rejected')
                                             <form action="{{ route('admin.reviews.reject', $review) }}" method="POST" class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-warning"
-                                                    aria-label="Reject review by {{ $review->user->name }}">Reject</button>
+                                                    aria-label="{{ __('common.actions.reject') }} review">{{ __('common.actions.reject') }}</button>
                                             </form>
                                         @endif
                                         <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this review?');"
+                                            onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.reviews')]) }}');"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="Delete review by {{ $review->user->name }}">Delete</button>
+                                                aria-label="{{ __('admin.crud.delete') }} review">{{ __('admin.crud.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -126,7 +126,7 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="admin-empty">
-                                    No reviews found
+                                    {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.reviews')]) }}
                                 </td>
                             </tr>
                         @endforelse

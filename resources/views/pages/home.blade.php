@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', __('home.title'))
 
 @section('content')
 
@@ -9,27 +9,27 @@
         $heroSlides = [
             [
                 'image' => asset('assets/img/slide1/slider-image-1.jpg'),
-                'label' => 'Curated city guide',
-                'title' => 'Find trusted places across Afghanistan',
-                'text' => 'Makanyab helps you search restaurants, shops, hotels, offices, and local destinations with clear details and verified records.',
+                'label' => __('home.hero_label'),
+                'title' => __('home.hero_title'),
+                'text' => __('home.hero_text'),
             ],
             [
                 'image' => asset('assets/img/demo/property-1.jpg'),
-                'label' => 'Local services',
-                'title' => 'Discover services that are ready to help',
-                'text' => 'Compare service providers by location, category, status, and verification before you decide where to go next.',
+                'label' => __('home.hero_label'),
+                'title' => __('home.services_title'),
+                'text' => __('home.services_text'),
             ],
             [
                 'image' => asset('assets/img/slide1/slider-image-1.jpg'),
-                'label' => 'Community suggestions',
-                'title' => 'Explore, suggest, and keep Makanyab useful',
-                'text' => 'Browse active listings, discover useful categories, and suggest places or services that should be easier to find.',
+                'label' => __('home.community_label'),
+                'title' => __('home.community_title'),
+                'text' => __('home.community_text'),
             ],
         ];
     @endphp
 
-    <section class="home-hero" aria-label="Makanyab place search" data-home-hero data-autoplay="true">
-        <div class="home-hero__slides" aria-roledescription="carousel" aria-label="Makanyab highlights">
+    <section class="home-hero" aria-label="{{ __('home.search_label') }}" data-home-hero data-autoplay="true">
+        <div class="home-hero__slides" aria-roledescription="carousel" aria-label="{{ __('home.highlights') }}">
             @foreach ($heroSlides as $index => $slide)
                 <article class="home-hero__slide{{ $index === 0 ? ' is-active' : '' }}" data-hero-slide
                     aria-hidden="{{ $index === 0 ? 'false' : 'true' }}">
@@ -53,19 +53,19 @@
 
                 <div class="home-search__grid">
                     <div class="home-search__field home-search__field--keyword">
-                        <label for="home-search-keyword" class="sr-only">Keyword</label>
+                        <label for="home-search-keyword" class="sr-only">{{ __('home.keyword') }}</label>
                         <i class="fa fa-search" aria-hidden="true"></i>
                         <input id="home-search-keyword" type="search" name="search"
-                            placeholder="Search places, services, or keywords" class="home-search__input"
+                            placeholder="{{ __('home.search_placeholder') }}" class="home-search__input"
                             autocomplete="off">
                     </div>
 
                     <div class="home-search__field">
-                        <label for="home-search-province" class="sr-only">Location</label>
+                        <label for="home-search-province" class="sr-only">{{ __('home.choose_location') }}</label>
                         <i class="fa fa-map-marker" aria-hidden="true"></i>
                         <select id="home-search-province" name="province" class="home-search__select"
-                            aria-label="Choose a location">
-                            <option value="">Any location</option>
+                            aria-label="{{ __('home.choose_location') }}">
+                            <option value="">{{ __('home.any_location') }}</option>
                             @foreach ($searchProvinces as $province)
                                 <option value="{{ $province }}">{{ $province }}</option>
                             @endforeach
@@ -73,20 +73,20 @@
                     </div>
 
                     <div class="home-search__field">
-                        <label for="home-search-category" class="sr-only">Category</label>
+                        <label for="home-search-category" class="sr-only">{{ __('home.category') }}</label>
                         <i class="fa fa-folder-open" aria-hidden="true"></i>
                         <select id="home-search-category" class="home-search__select" data-category-picker
-                            aria-label="Choose a category">
-                            <option value="">Any category</option>
+                            aria-label="{{ __('home.category') }}">
+                            <option value="">{{ __('home.any_category') }}</option>
                             @if ($categories->isNotEmpty())
-                                <optgroup label="Places">
+                                <optgroup label="{{ __('home.places') }}">
                                     @foreach ($categories as $category)
                                         <option value="place:{{ $category->slug }}">{{ $category->name }}</option>
                                     @endforeach
                                 </optgroup>
                             @endif
                             @if ($serviceCategories->isNotEmpty())
-                                <optgroup label="Services">
+                                <optgroup label="{{ __('home.services') }}">
                                     @foreach ($serviceCategories as $category)
                                         <option value="service:{{ $category->slug }}">{{ $category->name }}</option>
                                     @endforeach
@@ -96,24 +96,24 @@
                     </div>
 
                     <div class="home-search__field">
-                        <label for="home-search-type" class="sr-only">Result type</label>
+                        <label for="home-search-type" class="sr-only">{{ __('home.result_type') }}</label>
                         <i class="fa fa-list-ul" aria-hidden="true"></i>
                         <select id="home-search-type" name="type" class="home-search__select"
-                            aria-label="Choose result type">
-                            <option value="all">Places and services</option>
-                            <option value="places">Places only</option>
-                            <option value="services">Services only</option>
+                            aria-label="{{ __('home.result_type') }}">
+                            <option value="all">{{ __('home.places_services') }}</option>
+                            <option value="places">{{ __('home.places_only') }}</option>
+                            <option value="services">{{ __('home.services_only') }}</option>
                         </select>
                     </div>
 
                     <button type="submit" class="home-search__button">
                         <i class="fa fa-search" aria-hidden="true"></i>
-                        Search
+                        {{ __('common.actions.search') }}
                     </button>
                 </div>
             </form>
 
-            <div class="home-hero__quick-links" aria-label="Popular searches">
+            <div class="home-hero__quick-links" aria-label="{{ __('home.popular') }}">
                 @foreach ($categories->take(4) as $cat)
                     <a href="{{ route('search.index', ['place_category' => $cat->slug, 'type' => 'places']) }}"
                         class="home-hero__chip">
@@ -124,18 +124,18 @@
                 @endforeach
             </div>
 
-            <dl class="home-hero__stats" aria-label="Makanyab listing summary">
+            <dl class="home-hero__stats" aria-label="{{ __('home.summary') }}">
                 <div>
                     <dt>{{ number_format($homeStats['places']) }}</dt>
-                    <dd>Places</dd>
+                    <dd>{{ __('home.places') }}</dd>
                 </div>
                 <div>
                     <dt>{{ number_format($homeStats['services']) }}</dt>
-                    <dd>Services</dd>
+                    <dd>{{ __('home.services') }}</dd>
                 </div>
                 <div>
                     <dt>{{ number_format($homeStats['verified']) }}</dt>
-                    <dd>Verified</dd>
+                    <dd>{{ __('home.verified') }}</dd>
                 </div>
             </dl>
         </div>

@@ -1,0 +1,2 @@
+<?php
+return ['title' => 'Browse Services', 'subtitle' => 'Find trusted service providers near you.', 'no_results' => 'No services found', 'save' => 'Save service', 'saved' => 'Saved', 'professional' => 'Professional service available in your city.', 'related' => 'Related services', 'location_details' => 'Location Details', 'coordinates' => 'Coordinates', 'province' => 'Province', 'country' => 'Country'];

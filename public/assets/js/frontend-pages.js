@@ -1,4 +1,5 @@
 (function () {
+    var translations = document.documentElement.dataset;
     document.addEventListener('DOMContentLoaded', function () {
         const toggle = document.querySelector('.filter-toggle');
         const panel = document.getElementById('search-filter-panel');
@@ -10,7 +11,7 @@
 
                 toggle.childNodes.forEach(function (node) {
                     if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-                        node.textContent = open ? ' Hide filters ' : ' Show filters ';
+                        node.textContent = open ? ' ' + translations.hideFilters + ' ' : ' ' + translations.showFilters + ' ';
                     }
                 });
             });

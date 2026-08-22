@@ -57,7 +57,7 @@ class UserController extends Controller
         User::create($validated);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User created successfully.');
+            ->with('success', __('messages.admin.users.created'));
     }
 
     public function show(User $user)
@@ -93,41 +93,41 @@ class UserController extends Controller
 
         if ($user->id === auth()->id()) {
             if ($validated['role'] !== 'admin') {
-                return back()->withInput()->with('error', 'You cannot change your own administrator role.');
+                return back()->withInput()->with('error', __('messages.admin.users.self_role'));
             }
 
             if (! $validated['is_active']) {
-                return back()->withInput()->with('error', 'You cannot deactivate your own account.');
+                return back()->withInput()->with('error', __('messages.admin.users.self_deactivate'));
             }
         }
 
         $user->update($validated);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User updated successfully.');
+            ->with('success', __('messages.admin.users.updated'));
     }
 
     public function destroy(User $user)
     {
 
         if ($user->id === auth()->id()) {
-            return back()->with('error', 'You cannot delete your own account.');
+            return back()->with('error', __('messages.admin.users.self_delete'));
         }
 
         $user->delete();
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User deleted successfully.');
+            ->with('success', __('messages.admin.users.deleted'));
     }
 
     public function toggleActive(User $user)
     {
         if ($user->id === auth()->id()) {
-            return back()->with('error', 'You cannot deactivate your own account.');
+            return back()->with('error', __('messages.admin.users.self_deactivate'));
         }
 
         $user->update(['is_active' => ! $user->is_active]);
 
-        return back()->with('success', 'User status updated.');
+        return back()->with('success', __('messages.admin.users.status_updated'));
     }
 }

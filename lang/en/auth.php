@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'ui' => [
+        'login' => 'Login', 'welcome' => 'Welcome Back', 'register' => 'Register', 'join' => 'Join Makanyab Today',
+        'email' => 'Email', 'password' => 'Password', 'confirm_password' => 'Confirm Password',
+        'remember' => 'Remember me', 'sign_in' => 'Sign in', 'create_account' => 'Create Account',
+        'forgot_password' => 'Forgot your password?', 'no_account' => "Don't have an account?",
+        'has_account' => 'Already have an account?', 'create_one' => 'Create one',
+    ],
     'failed' => 'The provided credentials are incorrect.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many sign-in attempts. Please try again in :seconds seconds.',

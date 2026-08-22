@@ -34,22 +34,22 @@ class PlaceSuggestionController extends Controller
     public function approve(ProcessSuggestionRequest $request, PlaceSuggestion $placeSuggestion, SuggestionAdminService $adminService)
     {
         if ($placeSuggestion->suggestion_status !== SuggestionStatus::Pending) {
-            return back()->with('error', 'This suggestion has already been processed.');
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
         }
 
         $adminService->approve($placeSuggestion, Place::class, $request->admin_note);
 
-        return back()->with('success', 'Suggestion approved and place added to the catalogue.');
+        return back()->with('success', __('messages.admin.suggestions.place_approved'));
     }
 
     public function reject(ProcessSuggestionRequest $request, PlaceSuggestion $placeSuggestion, SuggestionAdminService $adminService)
     {
         if ($placeSuggestion->suggestion_status !== SuggestionStatus::Pending) {
-            return back()->with('error', 'This suggestion has already been processed.');
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
         }
 
         $adminService->reject($placeSuggestion, $request->admin_note);
 
-        return back()->with('success', 'Suggestion rejected successfully.');
+        return back()->with('success', __('messages.admin.suggestions.rejected'));
     }
 }

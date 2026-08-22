@@ -1,13 +1,13 @@
 @extends('layouts.app')
-@section('title', 'Blog & Posts')
+@section('title', __('content.posts.title'))
 @section('meta-description', 'Read published Makanyab articles, announcements, and local guides.')
 @section('content')
 
     {{-- Header --}}
     <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
         <div class="container">
-            <h1 style="font-size:30px;font-weight:800;color:#fff;margin:0 0 6px;">Blog & Articles</h1>
-            <p style="color:rgba(255,255,255,.8);margin:0;font-size:15px;">Latest news, updates and stories from Makanyab.
+            <h1 style="font-size:30px;font-weight:800;color:#fff;margin:0 0 6px;">{{ __('content.posts.title') }}</h1>
+            <p style="color:rgba(255,255,255,.8);margin:0;font-size:15px;">{{ __('content.posts.intro') }}
             </p>
         </div>
     </div>
@@ -43,7 +43,7 @@
                                     </p>
                                     <a href="{{ route('posts.show', $post->slug) }}"
                                         style="display:inline-block;background:#10B981;color:#fff;padding:9px 20px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;align-self:flex-start;">
-                                        Read More
+                                        {{ __('content.posts.read_more') }}
                                     </a>
                                 </div>
                             </div>
@@ -54,8 +54,8 @@
             @else
                 <div style="text-align:center;padding:80px 0;">
                     <div style="font-size:56px;margin-bottom:16px;">📝</div>
-                    <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No Posts Yet</h3>
-                    <p style="color:#6B7280;">New articles and updates will be published soon.</p>
+                    <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('content.posts.empty') }}</h3>
+                    <p style="color:#6B7280;">{{ __('content.posts.empty_text') }}</p>
                 </div>
             @endif
         </div>

@@ -82,7 +82,7 @@ class PlaceController extends Controller
             'moderation_status' => Review::STATUS_PENDING,
         ]);
 
-        return back()->with('success', 'Review submitted and pending approval.');
+        return back()->with('success', __('messages.review_submitted'));
     }
 
     public function updateReview(UpdateReviewRequest $request, Place $place, Review $review)
@@ -92,7 +92,7 @@ class PlaceController extends Controller
             'moderation_status' => Review::STATUS_PENDING,
         ]);
 
-        return back()->with('success', 'Review updated and returned to the approval queue.');
+        return back()->with('success', __('messages.review_updated'));
     }
 
     public function destroyReview(Place $place, Review $review)
@@ -105,6 +105,6 @@ class PlaceController extends Controller
 
         $review->delete();
 
-        return back()->with('success', 'Review deleted.');
+        return back()->with('success', __('messages.review_deleted'));
     }
 }

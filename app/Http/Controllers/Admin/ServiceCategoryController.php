@@ -41,7 +41,7 @@ class ServiceCategoryController extends Controller
         ServiceCategory::create($validated);
 
         return redirect()->route('admin.service-categories.index')
-            ->with('success', 'Service category created successfully.');
+            ->with('success', __('messages.admin.service_categories.created'));
     }
 
     public function show(ServiceCategory $serviceCategory)
@@ -73,22 +73,22 @@ class ServiceCategoryController extends Controller
         $serviceCategory->update($validated);
 
         return redirect()->route('admin.service-categories.index')
-            ->with('success', 'Service category updated successfully.');
+            ->with('success', __('messages.admin.service_categories.updated'));
     }
 
     public function destroy(ServiceCategory $serviceCategory)
     {
         if ($serviceCategory->services()->count() > 0) {
-            return back()->with('error', 'Cannot delete category with associated services.');
+            return back()->with('error', __('messages.admin.categories.has_services'));
         }
 
         if ($serviceCategory->children()->count() > 0) {
-            return back()->with('error', 'Cannot delete category with subcategories.');
+            return back()->with('error', __('messages.admin.categories.has_children'));
         }
 
         $serviceCategory->delete();
 
         return redirect()->route('admin.service-categories.index')
-            ->with('success', 'Service category deleted successfully.');
+            ->with('success', __('messages.admin.service_categories.deleted'));
     }
 }

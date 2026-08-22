@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Search')
+@section('title', __('search.title'))
 @php use Illuminate\Support\Str; @endphp
 @section('content')
 
@@ -8,55 +8,55 @@
             <form action="{{ route('search.index') }}" method="GET" id="search-form">
                 <div class="row search-form-row">
                     <div class="col-md-4 col-sm-12 search-field-col">
-                        <label for="search-keyword" class="search-field-label">What to search</label>
+                        <label for="search-keyword" class="search-field-label">{{ __('search.what') }}</label>
                         <div class="search-input-wrap">
                             <i class="fa fa-search" aria-hidden="true"></i>
                             <input type="text" id="search-keyword" name="search" value="{{ request('search') }}"
-                                placeholder="Place, service, category, or keyword"
+                                placeholder="{{ __('search.keyword_placeholder') }}"
                                 class="search-input search-input--icon" maxlength="120" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 search-field-col">
-                        <label for="search-location" class="search-field-label">Where</label>
+                        <label for="search-location" class="search-field-label">{{ __('search.where') }}</label>
                         <div class="search-input-wrap">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                             <input type="text" id="search-location" name="location" value="{{ request('location') }}"
-                                placeholder="City, district, province, or address"
+                                placeholder="{{ __('search.location_placeholder') }}"
                                 class="search-input search-input--location" maxlength="120" autocomplete="off">
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-6 search-field-col">
-                        <label for="search-type" class="search-field-label">Search in</label>
+                        <label for="search-type" class="search-field-label">{{ __('search.search_in') }}</label>
                         <select id="search-type" name="type" class="search-select">
-                            <option value="all" {{ request('type', 'all') == 'all' ? 'selected' : '' }}>All Types</option>
-                            <option value="places" {{ request('type') == 'places' ? 'selected' : '' }}>Places</option>
-                            <option value="services" {{ request('type') == 'services' ? 'selected' : '' }}>Services</option>
+                            <option value="all" {{ request('type', 'all') == 'all' ? 'selected' : '' }}>{{ __('search.all_types') }}</option>
+                            <option value="places" {{ request('type') == 'places' ? 'selected' : '' }}>{{ __('search.places') }}</option>
+                            <option value="services" {{ request('type') == 'services' ? 'selected' : '' }}>{{ __('search.services') }}</option>
                         </select>
                     </div>
                     <div class="col-md-3 col-sm-12 search-field-col search-actions">
                         <button type="submit" class="mk-button mk-button--primary search-submit">
-                            <i class="fa fa-search" aria-hidden="true"></i> Search
+                            <i class="fa fa-search" aria-hidden="true"></i> {{ __('common.actions.search') }}
                         </button>
                         @if (request()->hasAny(['search', 'location', 'city', 'type', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified', 'province', 'district', 'sort']))
-                            <a href="{{ route('search.index') }}" class="search-reset" aria-label="Reset search">
+                            <a href="{{ route('search.index') }}" class="search-reset" aria-label="{{ __('search.reset') }}">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                         @endif
                     </div>
                 </div>
 
-                <div class="search-chip-list" aria-label="Search shortcuts">
+                <div class="search-chip-list" aria-label="{{ __('search.shortcuts') }}">
                     <a href="{{ route('search.index', request()->except(['type', 'place_category', 'service_category', 'places_page', 'services_page'])) }}"
                         class="search-chip {{ request('type', 'all') === 'all' && !request('place_category') && !request('service_category') ? 'is-active' : '' }}">
-                        All Results
+                        {{ __('search.all_results') }}
                     </a>
                     <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['type' => 'places'])) }}"
                         class="search-chip {{ request('type') === 'places' && !request('place_category') ? 'is-active' : '' }}">
-                        Places
+                        {{ __('search.places') }}
                     </a>
                     <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['type' => 'services'])) }}"
                         class="search-chip {{ request('type') === 'services' && !request('service_category') ? 'is-active' : '' }}">
-                        Services
+                        {{ __('search.services') }}
                     </a>
                     @foreach ($placeCategories as $cat)
                         <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['place_category' => $cat->slug, 'type' => 'places'])) }}"
@@ -91,7 +91,7 @@
             @endphp
             <button type="button" class="filter-toggle" aria-controls="search-filter-panel" aria-expanded="false">
                 <i class="fa fa-sliders" aria-hidden="true"></i>
-                Show filters
+                {{ __('search.show_filters') }}
                 @if ($activeFilterCount)
                     <span class="filter-active-count">{{ $activeFilterCount }}</span>
                 @endif
@@ -101,7 +101,7 @@
                 <aside class="col-md-3 search-sidebar">
                     <div id="search-filter-panel" class="responsive-filter-panel search-filter-panel mk-card">
                         <h4 class="search-filter-title">
-                            <i class="fa fa-sliders" aria-hidden="true"></i> Filters
+                            <i class="fa fa-sliders" aria-hidden="true"></i> {{ __('search.filters') }}
                         </h4>
                         <form action="{{ route('search.index') }}" method="GET">
                             @if (request('search'))
@@ -118,28 +118,28 @@
                             @endif
 
                             <div class="mk-form-group">
-                                <label class="mk-label">Province</label>
-                                <input type="text" name="province" value="{{ request('province') }}" placeholder="e.g. Herat"
+                                <label class="mk-label">{{ __('search.province') }}</label>
+                                <input type="text" name="province" value="{{ request('province') }}" placeholder="{{ __('search.province') }}"
                                     class="search-filter-input">
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">Sort</label>
+                                <label class="mk-label">{{ __('search.sort') }}</label>
                                 <select name="sort" class="search-filter-select">
-                                    <option value="relevance" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'relevance')>Most relevant</option>
-                                    <option value="newest" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'newest')>Newest first</option>
-                                    <option value="name_asc" @selected(request('sort') === 'name_asc')>Name A-Z</option>
-                                    <option value="name_desc" @selected(request('sort') === 'name_desc')>Name Z-A</option>
+                                    <option value="relevance" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'relevance')>{{ __('search.most_relevant') }}</option>
+                                    <option value="newest" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'newest')>{{ __('search.newest') }}</option>
+                                    <option value="name_asc" @selected(request('sort') === 'name_asc')>{{ __('search.name_az') }}</option>
+                                    <option value="name_desc" @selected(request('sort') === 'name_desc')>{{ __('search.name_za') }}</option>
                                 </select>
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">District</label>
-                                <input type="text" name="district" value="{{ request('district') }}" placeholder="District"
+                                <label class="mk-label">{{ __('search.district') }}</label>
+                                <input type="text" name="district" value="{{ request('district') }}" placeholder="{{ __('search.district') }}"
                                     class="search-filter-input">
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">Place Category</label>
+                                <label class="mk-label">{{ __('search.place_category') }}</label>
                                 <select name="place_category" class="search-filter-select">
-                                    <option value="">All Categories</option>
+                                    <option value="">{{ __('search.category_all') }}</option>
                                     @foreach ($placeCategories as $cat)
                                         <option value="{{ $cat->slug }}" {{ request('place_category') == $cat->slug ? 'selected' : '' }}>
                                             {{ $cat->name }}</option>
@@ -147,9 +147,9 @@
                                 </select>
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">Service Category</label>
+                                <label class="mk-label">{{ __('search.service_category') }}</label>
                                 <select name="service_category" class="search-filter-select">
-                                    <option value="">All Categories</option>
+                                    <option value="">{{ __('search.category_all') }}</option>
                                     @foreach ($serviceCategories as $cat)
                                         <option value="{{ $cat->slug }}" {{ request('service_category') == $cat->slug ? 'selected' : '' }}>
                                             {{ $cat->name }}</option>
@@ -157,47 +157,47 @@
                                 </select>
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">Status</label>
+                                <label class="mk-label">{{ __('search.status') }}</label>
                                 <select name="status" class="search-filter-select">
-                                    <option value="">Any Status</option>
-                                    <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Open</option>
-                                    <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>Closed</option>
-                                    <option value="temporarily_closed" {{ request('status') == 'temporarily_closed' ? 'selected' : '' }}>Temporarily Closed</option>
+                                    <option value="">{{ __('search.any_status') }}</option>
+                                    <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>{{ __('common.status.open') }}</option>
+                                    <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>{{ __('common.status.closed') }}</option>
+                                    <option value="temporarily_closed" {{ request('status') == 'temporarily_closed' ? 'selected' : '' }}>{{ __('common.status.temporarily_closed') }}</option>
                                 </select>
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">Price Level</label>
+                                <label class="mk-label">{{ __('search.price_level') }}</label>
                                 <select name="price_level" class="search-filter-select">
-                                    <option value="">Any Price</option>
-                                    <option value="low" {{ request('price_level') == 'low' ? 'selected' : '' }}>Low</option>
-                                    <option value="medium" {{ request('price_level') == 'medium' ? 'selected' : '' }}>Medium</option>
-                                    <option value="high" {{ request('price_level') == 'high' ? 'selected' : '' }}>High</option>
-                                    <option value="luxury" {{ request('price_level') == 'luxury' ? 'selected' : '' }}>Luxury</option>
+                                    <option value="">{{ __('search.any_price') }}</option>
+                                    <option value="low" {{ request('price_level') == 'low' ? 'selected' : '' }}>{{ __('common.price.low') }}</option>
+                                    <option value="medium" {{ request('price_level') == 'medium' ? 'selected' : '' }}>{{ __('common.price.medium') }}</option>
+                                    <option value="high" {{ request('price_level') == 'high' ? 'selected' : '' }}>{{ __('common.price.high') }}</option>
+                                    <option value="luxury" {{ request('price_level') == 'luxury' ? 'selected' : '' }}>{{ __('common.price.luxury') }}</option>
                                 </select>
                             </div>
                             <div class="mk-form-group">
-                                <label class="mk-label">Rating</label>
+                                <label class="mk-label">{{ __('search.rating') }}</label>
                                 <select name="rating" class="search-filter-select">
-                                    <option value="">Any Rating</option>
+                                    <option value="">{{ __('search.any_rating') }}</option>
                                     @for ($i = 5; $i >= 1; $i--)
-                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>{{ $i }} star{{ $i > 1 ? 's' : '' }}+</option>
+                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>{{ __('search.rating_min', ['count' => $i]) }}</option>
                                     @endfor
                                 </select>
                             </div>
                             <div class="mk-form-group">
                                 <label class="search-check">
                                     <input type="checkbox" name="open_now" value="1" {{ request('open_now') ? 'checked' : '' }}>
-                                    Open Now
+                                    {{ __('search.open_now') }}
                                 </label>
                             </div>
                             <div class="mk-form-group">
                                 <label class="search-check">
                                     <input type="checkbox" name="verified" value="1" {{ request('verified') ? 'checked' : '' }}>
-                                    Verified Only
+                                    {{ __('search.verified') }}
                                 </label>
                             </div>
-                            <button type="submit" class="mk-button mk-button--primary search-filter-submit">Apply Filters</button>
-                            <a href="{{ route('search.index') }}" class="search-filter-reset">Reset All</a>
+                            <button type="submit" class="mk-button mk-button--primary search-filter-submit">{{ __('search.apply') }}</button>
+                            <a href="{{ route('search.index') }}" class="search-filter-reset">{{ __('search.clear') }}</a>
                         </form>
                     </div>
                 </aside>
@@ -212,12 +212,12 @@
                     <div class="search-summary">
                         <div>
                             <h3>
-                                {{ $totalResults }} Result{{ $totalResults !== 1 ? 's' : '' }}
+                                {{ $totalResults }} {{ $totalResults === 1 ? __('search.result') : __('search.results') }}
                                 @if (request('search'))
-                                    for "<mark>{{ request('search') }}</mark>"
+                                    {{ __('search.for_keyword') }} "<mark>{{ request('search') }}</mark>"
                                 @endif
                                 @if (request('location') || request('city'))
-                                    in <mark>{{ request('location') ?: request('city') }}</mark>
+                                    {{ __('search.in_location') }} <mark>{{ request('location') ?: request('city') }}</mark>
                                 @endif
                             </h3>
                         </div>
@@ -226,7 +226,7 @@
                     @if ($totalResults > 0)
                         @if ($showPlaces && $places && $places->count())
                             <h4 class="search-section-title">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i> Places
+                                <i class="fa fa-map-marker" aria-hidden="true"></i> {{ __('search.places') }}
                                 <span>({{ $placeCount }})</span>
                             </h4>
                             <div class="row search-results-row">
@@ -245,15 +245,15 @@
                                                 </a>
                                                 @if ($place->is_verified)
                                                     <span class="search-card__badge search-card__badge--verified">
-                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> Verified
+                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('search.verified') }}
                                                     </span>
                                                 @endif
                                                 @if ($place->status === 'open')
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--open">Open</span>
+                                                    <span class="search-card__badge search-card__badge--status search-card__badge--open">{{ __('common.status.open') }}</span>
                                                 @elseif($place->status === 'closed')
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--closed">Closed</span>
+                                                    <span class="search-card__badge search-card__badge--status search-card__badge--closed">{{ __('common.status.closed') }}</span>
                                                 @else
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--warning">Temp. Closed</span>
+                                                    <span class="search-card__badge search-card__badge--status search-card__badge--warning">{{ __('common.status.temporarily_closed') }}</span>
                                                 @endif
                                             </div>
                                             <div class="search-card__body">
@@ -273,8 +273,10 @@
                                                     <p class="search-card__tagline">{{ Str::limit($place->tagline, 70) }}</p>
                                                 @endif
                                                 <div class="search-card__footer">
-                                                    <span class="search-card__price">{{ ucfirst($place->price_level) }}</span>
-                                                    <a href="{{ route('places.show', $place) }}" class="search-card__link">View</a>
+                                                    <span class="search-card__price">
+                                                        {{ $place->price_level && \Illuminate\Support\Facades\Lang::has('common.price.' . $place->price_level) ? __('common.price.' . $place->price_level) : ucfirst((string) $place->price_level) }}
+                                                    </span>
+                                                    <a href="{{ route('places.show', $place) }}" class="search-card__link">{{ __('search.view') }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -286,13 +288,13 @@
                             @endif
                         @elseif($showPlaces && $placeCount === 0 && request('type') !== 'services')
                             <div class="mk-card mk-card--center mk-stack-sm">
-                                <p class="mk-text mk-text--muted">No places found for these filters.</p>
+                                <p class="mk-text mk-text--muted">{{ __('search.no_places') }}</p>
                             </div>
                         @endif
 
                         @if ($showServices && $services && $services->count())
                             <h4 class="search-section-title">
-                                <i class="fa fa-briefcase" aria-hidden="true"></i> Services
+                                <i class="fa fa-briefcase" aria-hidden="true"></i> {{ __('search.services') }}
                                 <span>({{ $serviceCount }})</span>
                             </h4>
                             <div class="row">
@@ -307,18 +309,18 @@
                             @endif
                         @elseif($showServices && $serviceCount === 0 && request('type') !== 'places')
                             <div class="mk-card mk-card--center">
-                                <p class="mk-text mk-text--muted">No services found for these filters.</p>
+                                <p class="mk-text mk-text--muted">{{ __('search.no_services') }}</p>
                             </div>
                         @endif
                     @else
                         <div class="mk-card mk-card--empty">
                             <div class="mk-empty-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
-                            <h3 class="mk-heading mk-heading--md">No results found</h3>
+                            <h3 class="mk-heading mk-heading--md">{{ __('search.no_results') }}</h3>
                             <p class="mk-text mk-text--muted mk-stack-sm">
-                                Try different keywords, a different location, or remove some filters.
+                                {{ __('search.no_results_help') }}
                             </p>
                             <a href="{{ route('search.index') }}" class="mk-button mk-button--primary mk-button--md">
-                                Reset Search
+                                {{ __('search.reset_search') }}
                             </a>
                         </div>
                     @endif

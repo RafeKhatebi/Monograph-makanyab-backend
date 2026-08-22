@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Terms of Service')
+@section('title', __('content.legal.terms'))
 
 @section('content')
     <section class="mk-hero">
         <div class="container">
-            <h1 class="mk-hero__title">Terms of Service</h1>
-            <p class="mk-hero__text">Guidelines for using Makanyab responsibly.</p>
+            <h1 class="mk-hero__title">{{ __('content.legal.terms') }}</h1>
+            <p class="mk-hero__text">{{ __('content.legal.terms_intro') }}</p>
         </div>
     </section>
 
@@ -21,9 +21,9 @@
                 <p class="mk-text">Listings, suggestions, and reviews may be moderated for quality, safety, and relevance.
                     Makanyab may remove content that violates platform standards.</p>
 
-                <h2 class="mk-heading mk-heading--md">Support</h2>
+                <h2 class="mk-heading mk-heading--md">{{ __('content.legal.support') }}</h2>
                 <p class="mk-text">Questions about these terms can be sent through the contact page.</p>
-                <x-ui.button :href="route('contact')" variant="primary">Contact Support</x-ui.button>
+                <x-ui.button :href="route('contact')" variant="primary">{{ __('content.posts.contact_support') }}</x-ui.button>
             </div>
         </div>
     </section>

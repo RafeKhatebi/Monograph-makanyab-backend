@@ -12,9 +12,9 @@
                         <h1 style="font-size:34px; font-weight:700; color:#111827; margin-bottom:10px;">{{ $post->title }}
                         </h1>
                         <p style="color:#6B7280; font-size:15px; margin:0;">
-                            Published {{ $post->published_at?->format('F d, Y') }}
+                            {{ __('content.posts.published') }} {{ $post->published_at?->format('F d, Y') }}
                             @if ($post->user)
-                                by {{ $post->user->name }}
+                                {{ __('content.posts.by') }} {{ $post->user->name }}
                             @endif
                         </p>
                     </div>
@@ -38,13 +38,13 @@
 
                     <a href="{{ route('posts.index') }}"
                         style="display:inline-block; background:#F3F4F6; color:#111827; border-radius:10px; padding:12px 24px; text-decoration:none; font-weight:600;">
-                        ← Back to Articles
+                        ← {{ __('content.posts.back') }}
                     </a>
                 </div>
 
                 <div class="col-md-4">
                     <div class="box-two" style="padding:30px; border-radius:16px; margin-bottom:30px;">
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:18px;">Recent Articles</h3>
+                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:18px;">{{ __('content.posts.recent') }}</h3>
                         @if (isset($recentPosts) && $recentPosts->count())
                             @foreach ($recentPosts as $recent)
                                 <a href="{{ route('posts.show', $recent->slug) }}"
@@ -55,17 +55,15 @@
                                 </a>
                             @endforeach
                         @else
-                            <p style="color:#6B7280; margin:0;">No recent articles available.</p>
+                            <p style="color:#6B7280; margin:0;">{{ __('content.posts.no_recent') }}</p>
                         @endif
                     </div>
                     <div class="box-two" style="padding:30px; border-radius:16px;">
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:18px;">Need assistance?
+                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:18px;">{{ __('content.posts.assistance') }}
                         </h3>
-                        <p style="color:#6B7280; line-height:1.8; margin-bottom:20px;">Have a question about our content or
-                            want to submit a story? Contact our team and we will help you.</p>
+                        <p style="color:#6B7280; line-height:1.8; margin-bottom:20px;">{{ __('content.posts.assistance_text') }}</p>
                         <a href="{{ route('contact') }}"
-                            style="display:inline-block; background:#10B981; color:#fff; text-decoration:none; padding:12px 26px; border-radius:10px; font-weight:600;">Contact
-                            Support</a>
+                            style="display:inline-block; background:#10B981; color:#fff; text-decoration:none; padding:12px 26px; border-radius:10px; font-weight:600;">{{ __('content.posts.contact_support') }}</a>
                     </div>
                 </div>
             </div>

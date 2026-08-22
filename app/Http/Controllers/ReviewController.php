@@ -44,14 +44,14 @@ class ReviewController extends Controller
     public function show(Place $place, Review $review): JsonResponse
     {
         if ($review->place_id !== $place->id) {
-            return response()->json(['message' => 'Review not found for this place.'], 404);
+            return response()->json(['message' => __('messages.api.review_not_found')], 404);
         }
 
         $user = request()->user();
         if ((! $review->is_approved || $review->moderation_status !== Review::STATUS_APPROVED)
             && $review->user_id !== $user?->id
             && ! ($user?->isAdmin() ?? false)) {
-            return response()->json(['message' => 'Review not found for this place.'], 404);
+            return response()->json(['message' => __('messages.api.review_not_found')], 404);
         }
 
         $review->load('user:id,name');
@@ -72,14 +72,14 @@ class ReviewController extends Controller
     public function destroy(Request $request, Place $place, Review $review): JsonResponse
     {
         if ($review->place_id !== $place->id) {
-            return response()->json(['message' => 'Review not found for this place.'], 404);
+            return response()->json(['message' => __('messages.api.review_not_found')], 404);
         }
 
         /** @var User $user */
         $user = $request->user();
 
         if ($user->id !== $review->user_id && ! $user->isAdmin()) {
-            return response()->json(['message' => 'Forbidden.'], 403);
+            return response()->json(['message' => __('messages.api.forbidden')], 403);
         }
 
         $review->delete();

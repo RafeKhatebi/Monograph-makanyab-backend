@@ -30,10 +30,10 @@
                                         <form method="POST" action="{{ route('favorites.toggle') }}" id="favorite-form">
                                             @csrf
                                             <input type="hidden" name="place_id" value="{{ $place->id }}">
-                                            <button type="submit" class="add-to-fav" id="favorite-btn" title="Add to Favorites"
+                                            <button type="submit" class="add-to-fav" id="favorite-btn" title="{{ $isFavorited ? __('places.favorite_remove') : __('places.favorite_add') }}"
                                                 style="background:none;border:none;cursor:pointer;">
                                                 <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}"></i>
-                                                <span class="sr-only">{{ $isFavorited ? 'Remove from favorites' : 'Add to favorites' }}</span>
+                                                <span class="sr-only">{{ $isFavorited ? __('places.favorite_remove') : __('places.favorite_add') }}</span>
                                             </button>
                                         </form>
                                     @endauth
@@ -66,7 +66,7 @@
                             <h1 class="property-title pull-left">{{ $place->name }}</h1>
                             <span class="property-price pull-right">
                                 @include('components.rating-stars', ['rating' => $place->avg_rating])
-                                <small>({{ $place->reviews->count() }} reviews)</small>
+                                <small>({{ $place->reviews->count() }} {{ __('places.reviews') }})</small>
                             </span>
                         </div>
 
@@ -76,7 +76,7 @@
                                 <span class="property-info-icon"><i class="pe-7s-map-marker"
                                         style="font-size:30px; color:#FFA500;"></i></span>
                                 <span class="property-info-entry">
-                                    <span class="property-info-label">City</span>
+                                    <span class="property-info-label">{{ __('places.city_label') }}</span>
                                     <span class="property-info-value">{{ $place->city }}</span>
                                 </span>
                             </div>
@@ -84,7 +84,7 @@
                                 <span class="property-info-icon"><i class="pe-7s-albums"
                                         style="font-size:30px; color:#FFA500;"></i></span>
                                 <span class="property-info-entry">
-                                    <span class="property-info-label">Category</span>
+                                    <span class="property-info-label">{{ __('places.category_label') }}</span>
                                     <span class="property-info-value">{{ $place->category->name ?? '—' }}</span>
                                 </span>
                             </div>
@@ -92,7 +92,7 @@
                                 <span class="property-info-icon"><i class="pe-7s-clock"
                                         style="font-size:30px; color:#FFA500;"></i></span>
                                 <span class="property-info-entry">
-                                    <span class="property-info-label">Status</span>
+                                    <span class="property-info-label">{{ __('places.status_label') }}</span>
                                     <span class="property-info-value">
                                         @include('components.status-badge', ['status' => $place->status])
                                     </span>
@@ -102,7 +102,7 @@
                                 <span class="property-info-icon"><i class="pe-7s-cash"
                                         style="font-size:30px; color:#FFA500;"></i></span>
                                 <span class="property-info-entry">
-                                    <span class="property-info-label">Price Level</span>
+                                    <span class="property-info-label">{{ __('places.price_label') }}</span>
                                     <span class="property-info-value">{{ ucfirst($place->price_level) }}</span>
                                 </span>
                             </div>
@@ -110,10 +110,10 @@
 
                         {{-- Tabs --}}
                         <ul class="nav nav-tabs" style="margin-top:20px;">
-                            <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
-                            <li><a data-toggle="tab" href="#reviews-tab">Reviews</a></li>
-                            <li><a data-toggle="tab" href="#hours-tab">Opening Hours</a></li>
-                            <li><a data-toggle="tab" href="#contact-tab">Contact</a></li>
+                            <li class="active"><a data-toggle="tab" href="#overview">{{ __('places.overview') }}</a></li>
+                            <li><a data-toggle="tab" href="#reviews-tab">{{ __('places.reviews') }}</a></li>
+                            <li><a data-toggle="tab" href="#hours-tab">{{ __('places.opening_hours') }}</a></li>
+                            <li><a data-toggle="tab" href="#contact-tab">{{ __('places.contact') }}</a></li>
                         </ul>
 
                         <div class="tab-content" style="padding-top:20px;">
@@ -121,37 +121,37 @@
                             {{-- Overview Tab --}}
                             <div id="overview" class="tab-pane fade in active">
                                 <div class="section">
-                                    <h4 class="s-property-title">Description</h4>
+                                    <h4 class="s-property-title">{{ __('places.description') }}</h4>
                                     <div class="s-property-content">
-                                        <p>{{ $place->description ?? 'No description available.' }}</p>
+                                        <p>{{ $place->description ?? __('places.no_description') }}</p>
                                     </div>
                                 </div>
                                 <div class="section additional-details">
-                                    <h4 class="s-property-title">Details</h4>
+                                    <h4 class="s-property-title">{{ __('places.details') }}</h4>
                                     <ul class="additional-details-list clearfix">
                                         <li>
-                                            <span class="col-xs-4 add-d-title">Address</span>
+                                            <span class="col-xs-4 add-d-title">{{ __('places.address') }}</span>
                                             <span class="col-xs-8 add-d-entry">{{ $place->address }},
                                                 {{ $place->district }}, {{ $place->city }}</span>
                                         </li>
                                         @if ($place->postal_code)
                                             <li>
-                                                <span class="col-xs-4 add-d-title">Postal Code</span>
+                                                <span class="col-xs-4 add-d-title">{{ __('places.postal_code') }}</span>
                                                 <span class="col-xs-8 add-d-entry">{{ $place->postal_code }}</span>
                                             </li>
                                         @endif
                                         @if ($place->tagline)
                                             <li>
-                                                <span class="col-xs-4 add-d-title">Tagline</span>
+                                                <span class="col-xs-4 add-d-title">{{ __('places.tagline') }}</span>
                                                 <span class="col-xs-8 add-d-entry">{{ $place->tagline }}</span>
                                             </li>
                                         @endif
                                         <li>
-                                            <span class="col-xs-4 add-d-title">Verified</span>
+                                            <span class="col-xs-4 add-d-title">{{ __('common.verified') }}</span>
                                             <span class="col-xs-8 add-d-entry">
                                                 {!! $place->is_verified
-                                                    ? '<i class="fa fa-check-circle" style="color:green;"></i> Yes'
-                                                    : '<i class="fa fa-times-circle" style="color:gray;"></i> No' !!}
+                                                    ? '<i class="fa fa-check-circle" style="color:green;"></i> ' . __('places.yes')
+                                                    : '<i class="fa fa-times-circle" style="color:gray;"></i> ' . __('places.no') !!}
                                             </span>
                                         </li>
                                     </ul>
@@ -161,24 +161,24 @@
                             {{-- Reviews Tab --}}
                             <div id="reviews-tab" class="tab-pane fade">
                                 <h4 class="s-property-title">
-                                    Reviews
+                                    {{ __('places.reviews') }}
                                     <small class="text-muted">({{ $place->reviews->count() }})</small>
                                 </h4>
 
                                 @forelse($place->reviews as $review)
                                     @include('components.review-card', ['review' => $review])
                                 @empty
-                                    <p class="text-muted">No reviews yet. Be the first!</p>
+                                    <p class="text-muted">{{ __('places.no_reviews') }}</p>
                                 @endforelse
 
                                 @auth
                                     @if (! $hasReviewed)
                                         <div class="section" style="margin-top:30px;">
-                                            <h4 class="s-property-title">Write a Review</h4>
+                                            <h4 class="s-property-title">{{ __('places.write_review') }}</h4>
                                             <form action="{{ route('places.reviews.store', $place) }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <label>Rating</label>
+                                                    <label>{{ __('places.rating') }}</label>
                                                     <select name="rating" class="form-control" style="width:auto;" required>
                                                         @for ($i = 5; $i >= 1; $i--)
                                                             <option value="{{ $i }}">{{ $i }}
@@ -187,24 +187,24 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Comment</label>
+                                                    <label>{{ __('places.comment') }}</label>
                                                     <textarea name="comment" class="form-control" rows="4" maxlength="2000"
-                                                        placeholder="Share your experience..."></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                                                        placeholder="{{ __('places.comment_placeholder') }}"></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">{{ __('places.submit_review') }}</button>
                                             </form>
                                         </div>
                                     @else
-                                        <p class="text-muted" style="margin-top:20px;">You have already reviewed this place. Manage it from your profile.</p>
+                                        <p class="text-muted" style="margin-top:20px;">{{ __('places.already_reviewed') }}</p>
                                     @endif
                                 @else
-                                    <p><a href="{{ route('login') }}">Login</a> to write a review.</p>
+                                    <p><a href="{{ route('login') }}">{{ __('auth.ui.login') }}</a> {{ __('places.login_review') }}</p>
                                 @endauth
                             </div>
 
                             {{-- Opening Hours Tab --}}
                             <div id="hours-tab" class="tab-pane fade">
-                                <h4 class="s-property-title">Opening Hours</h4>
+                                <h4 class="s-property-title">{{ __('places.opening_hours') }}</h4>
                                 @php $days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; @endphp
                                 <table class="table table-striped">
                                     <tbody>
@@ -226,7 +226,7 @@
 
                             {{-- Contact Tab --}}
                             <div id="contact-tab" class="tab-pane fade">
-                                <h4 class="s-property-title">Contact</h4>
+                                <h4 class="s-property-title">{{ __('places.contact') }}</h4>
                                 <ul class="additional-details-list clearfix">
                                     <li>
                                         <span class="col-xs-4 add-d-title"><i class="fa fa-phone"></i> Phone</span>

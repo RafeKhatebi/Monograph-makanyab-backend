@@ -22,6 +22,6 @@ class PlaceSuggestionController extends Controller
         $suggestionService->createSuggestion(PlaceSuggestion::class, $request->validated());
 
         return redirect()->route('place-suggestions.create')
-            ->with('success', 'Thank you! Your place suggestion has been submitted for review.');
+            ->with('success', __('messages.place_suggestion_sent'));
     }
 }

@@ -12,7 +12,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (! Auth::check() || ! Auth::user()->isAdmin()) {
-            abort(403, 'Unauthorized access.');
+            abort(403, __('messages.api.forbidden'));
         }
 
         return $next($request);

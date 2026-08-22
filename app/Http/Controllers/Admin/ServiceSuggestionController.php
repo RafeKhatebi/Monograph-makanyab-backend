@@ -34,22 +34,22 @@ class ServiceSuggestionController extends Controller
     public function approve(ProcessSuggestionRequest $request, ServiceSuggestion $serviceSuggestion, SuggestionAdminService $adminService)
     {
         if ($serviceSuggestion->suggestion_status !== SuggestionStatus::Pending) {
-            return back()->with('error', 'This suggestion has already been processed.');
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
         }
 
         $adminService->approve($serviceSuggestion, Service::class, $request->admin_note);
 
-        return back()->with('success', 'Suggestion approved and service added to the catalogue.');
+        return back()->with('success', __('messages.admin.suggestions.service_approved'));
     }
 
     public function reject(ProcessSuggestionRequest $request, ServiceSuggestion $serviceSuggestion, SuggestionAdminService $adminService)
     {
         if ($serviceSuggestion->suggestion_status !== SuggestionStatus::Pending) {
-            return back()->with('error', 'This suggestion has already been processed.');
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
         }
 
         $adminService->reject($serviceSuggestion, $request->admin_note);
 
-        return back()->with('success', 'Suggestion rejected successfully.');
+        return back()->with('success', __('messages.admin.suggestions.rejected'));
     }
 }

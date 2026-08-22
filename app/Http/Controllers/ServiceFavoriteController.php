@@ -31,14 +31,14 @@ class ServiceFavoriteController extends Controller
         ];
 
         if (Favorite::where($attributes)->exists()) {
-            return response()->json(['message' => 'Already in favorites.'], 409);
+            return response()->json(['message' => __('messages.api.favorite_exists')], 409);
         }
 
         try {
             $favorite = Favorite::create($attributes);
         } catch (QueryException $exception) {
             if ($this->isUniqueConstraintViolation($exception)) {
-                return response()->json(['message' => 'Already in favorites.'], 409);
+                return response()->json(['message' => __('messages.api.favorite_exists')], 409);
             }
 
             throw $exception;
@@ -55,7 +55,7 @@ class ServiceFavoriteController extends Controller
 
         return $deleted
             ? response()->json(null, 204)
-            : response()->json(['message' => 'Not found in favorites.'], 404);
+            : response()->json(['message' => __('messages.api.favorite_missing')], 404);
     }
 
     public function check(Request $request, Service $service): JsonResponse

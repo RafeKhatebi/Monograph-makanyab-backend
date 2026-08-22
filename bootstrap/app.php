@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -32,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->web(append: [
+            SetLocale::class,
             SecurityHeaders::class,
         ]);
 
@@ -42,7 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
-                return response()->json(['message' => 'Resource not found.'], 404);
+                return response()->json(['message' => __('messages.api.not_found')], 404);
             }
         });
 
@@ -54,7 +56,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (AccessDeniedHttpException $e, $request) {
             if ($request->is('api/*')) {
-                return response()->json(['message' => $e->getMessage() ?: 'Forbidden.'], 403);
+                return response()->json(['message' => $e->getMessage() ?: __('messages.api.forbidden')], 403);
             }
         });
 

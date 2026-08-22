@@ -18,7 +18,7 @@ class ContactMessageController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Contact message received.',
+            'message' => __('messages.api.contact_received'),
             'data' => [
                 'id' => $message->id,
                 'subject' => $message->subject,

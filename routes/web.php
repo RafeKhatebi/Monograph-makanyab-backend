@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCa
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\ServiceSuggestionController;
 use App\Http\Controllers\Frontend\UserProfileController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ use Illuminate\Support\Facades\Route;
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
 
 // About
 Route::get('/about', [AboutController::class, 'index'])->name('about');

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}"
+    data-open-menu="{{ __('navigation.open_menu') }}" data-close-menu="{{ __('navigation.close_menu') }}"
+    data-show-filters="{{ __('search.show_filters') }}" data-hide-filters="{{ __('search.hide_filters') }}">
 
     <head>
         <meta charset="utf-8">
@@ -33,6 +35,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/ui-system.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-components.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
 
         @stack('styles')
@@ -47,6 +50,20 @@
         @include('partials.footer')
 
         <!-- Scripts -->
+        @php
+            $appTranslations = [
+                'mediaCover' => __('common.media.cover'),
+                'mediaSetCover' => __('common.media.set_cover'),
+                'mediaMoveEarlier' => __('common.media.move_earlier'),
+                'mediaMoveLater' => __('common.media.move_later'),
+                'mediaRemoveFile' => __('common.media.remove_file'),
+                'remove' => __('common.actions.remove'),
+                'saving' => __('common.media.saving'),
+            ];
+        @endphp
+        <script>
+            window.AppTranslations = Object.assign(window.AppTranslations || {}, @json($appTranslations));
+        </script>
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>

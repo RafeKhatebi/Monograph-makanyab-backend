@@ -21,6 +21,6 @@ class ContactController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return back()->with('success', 'Thank you for contacting us! We will get back to you soon.');
+        return back()->with('success', __('messages.contact_thanks'));
     }
 }

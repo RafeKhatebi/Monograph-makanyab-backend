@@ -51,7 +51,7 @@ class PostController extends Controller
 
         return redirect()
             ->route('admin.posts.index')
-            ->with('success', 'Post created successfully.');
+            ->with('success', __('messages.admin.posts.created'));
     }
 
     public function edit(Post $post)
@@ -90,7 +90,7 @@ class PostController extends Controller
 
         return redirect()
             ->route('admin.posts.index')
-            ->with('success', 'Post updated successfully.');
+            ->with('success', __('messages.admin.posts.updated'));
     }
 
     public function destroy(Post $post)
@@ -101,6 +101,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return back()->with('success', 'Post deleted successfully.');
+        return back()->with('success', __('messages.admin.posts.deleted'));
     }
 }

@@ -41,14 +41,14 @@
                                 </span>
                             @endif
                             @if ($service->is_verified)
-                                <span style="margin-left:10px; color:#10B981; font-weight:700;">✓ Verified</span>
+                                <span style="margin-left:10px; color:#10B981; font-weight:700;">✓ {{ __('common.verified') }}</span>
                             @endif
                             @auth
                                 <form method="POST" action="{{ route('services.favorite', $service) }}" style="display:inline-block;margin-left:10px;">
                                     @csrf
                                     <button type="submit" class="btn btn-default btn-sm">
                                         <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}"></i>
-                                        {{ $isFavorited ? 'Saved' : 'Save service' }}
+                                        {{ $isFavorited ? __('services.saved') : __('services.save') }}
                                     </button>
                                 </form>
                             @endauth
@@ -57,21 +57,21 @@
                         <h2 style="font-size:32px; font-weight:700; margin-bottom:18px;">{{ $service->name }}</h2>
                         <div style="margin-bottom:14px;">
                             @include('components.rating-stars', ['rating' => $service->avg_rating])
-                            <small>({{ $service->reviews->count() }} reviews)</small>
+                            <small>({{ $service->reviews->count() }} {{ __('places.reviews') }})</small>
                         </div>
                         <p style="font-size:16px; color:#6B7280; line-height:1.8; margin-bottom:25px;">
-                            {{ $service->tagline ?? 'Professional service available in your city.' }}
+                            {{ $service->tagline ?? __('services.professional') }}
                         </p>
 
                         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:25px;">
                             <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>City:</strong> {{ $service->city }}
+                                <strong>{{ __('places.city_label') }}:</strong> {{ $service->city }}
                             </div>
                             <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>Status:</strong> {{ ucfirst($service->status) }}
+                                <strong>{{ __('places.status_label') }}:</strong> {{ ucfirst($service->status) }}
                             </div>
                             <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>Price:</strong> {{ ucfirst($service->price_level) }}
+                                <strong>{{ __('places.price_label') }}:</strong> {{ ucfirst($service->price_level) }}
                             </div>
                         </div>
 
@@ -81,11 +81,11 @@
 
                         <div style="display:grid; gap:12px;">
                             <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
-                                <strong>Phone 1:</strong> {{ $service->phone_1 }}
+                                <strong>{{ __('places.phone') }} 1:</strong> {{ $service->phone_1 }}
                             </div>
                             @if ($service->phone_2)
                                 <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
-                                    <strong>Phone 2:</strong> {{ $service->phone_2 }}
+                                    <strong>{{ __('places.phone') }} 2:</strong> {{ $service->phone_2 }}
                                 </div>
                             @endif
                             @if ($service->whatsapp)
@@ -107,26 +107,26 @@
                     </div>
 
                     <section class="box-two" style="padding:30px;border-radius:16px;margin-bottom:30px;" aria-labelledby="service-reviews-heading">
-                        <h2 id="service-reviews-heading" style="font-size:22px;font-weight:700;">Reviews</h2>
+                        <h2 id="service-reviews-heading" style="font-size:22px;font-weight:700;">{{ __('places.reviews') }}</h2>
                         @forelse ($service->reviews as $review)
                             @include('components.review-card', ['review' => $review])
                         @empty
-                            <p class="text-muted">No reviews yet. Be the first.</p>
+                            <p class="text-muted">{{ __('places.no_reviews') }}</p>
                         @endforelse
 
                         @auth
                             @if (! $hasReviewed)
                                 <form method="POST" action="{{ route('services.reviews.store', $service) }}" style="margin-top:20px;">
                                     @csrf
-                                    <label for="service-rating">Rating</label>
+                                    <label for="service-rating">{{ __('places.rating') }}</label>
                                     <select id="service-rating" name="rating" class="form-control" required>
                                         @for ($rating = 5; $rating >= 1; $rating--)
                                             <option value="{{ $rating }}">{{ $rating }} star{{ $rating === 1 ? '' : 's' }}</option>
                                         @endfor
                                     </select>
-                                    <label for="service-review-comment" style="margin-top:10px;">Comment</label>
+                                    <label for="service-review-comment" style="margin-top:10px;">{{ __('places.comment') }}</label>
                                     <textarea id="service-review-comment" name="comment" class="form-control" rows="4" maxlength="2000"></textarea>
-                                    <button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit review</button>
+                                    <button type="submit" class="btn btn-primary" style="margin-top:10px;">{{ __('places.submit_review') }}</button>
                                 </form>
                             @else
                                 <p class="text-muted" style="margin-top:15px;">You have already reviewed this service. Edit it from your profile after approval.</p>
@@ -139,25 +139,25 @@
 
                 <div class="col-md-4">
                     <div class="box-two" style="padding:30px; border-radius:16px;">
-                        <h3 style="font-size:24px; font-weight:700; margin-bottom:18px;">Location Details</h3>
+                        <h3 style="font-size:24px; font-weight:700; margin-bottom:18px;">{{ __('services.location_details') }}</h3>
                         <p style="color:#6B7280; margin-bottom:10px;">
-                            <strong>Address:</strong> {{ $service->address }}, {{ $service->city }},
+                            <strong>{{ __('places.address') }}:</strong> {{ $service->address }}, {{ $service->city }},
                             {{ $service->district }}
                         </p>
                         @if ($service->latitude && $service->longitude)
-                            <p style="color:#6B7280; margin-bottom:10px;"><strong>Coordinates:</strong>
+                            <p style="color:#6B7280; margin-bottom:10px;"><strong>{{ __('services.coordinates') }}:</strong>
                                 {{ $service->latitude }}, {{ $service->longitude }}</p>
                         @endif
-                        <p style="color:#6B7280; margin-bottom:10px;"><strong>Province:</strong> {{ $service->province }}
+                        <p style="color:#6B7280; margin-bottom:10px;"><strong>{{ __('services.province') }}:</strong> {{ $service->province }}
                         </p>
-                        <p style="color:#6B7280; margin-bottom:0;"><strong>Country:</strong> {{ $service->country }}</p>
+                        <p style="color:#6B7280; margin-bottom:0;"><strong>{{ __('services.country') }}:</strong> {{ $service->country }}</p>
                     </div>
                 </div>
             </div>
 
             @if ($similar->isNotEmpty())
                 <section style="margin-top:30px;" aria-labelledby="related-services-heading">
-                    <h2 id="related-services-heading" style="font-size:22px;font-weight:700;margin-bottom:18px;">Related services</h2>
+                    <h2 id="related-services-heading" style="font-size:22px;font-weight:700;margin-bottom:18px;">{{ __('services.related') }}</h2>
                     <div class="row">
                         @foreach ($similar as $relatedService)
                             <div class="col-sm-6 col-md-3" style="margin-bottom:20px;">

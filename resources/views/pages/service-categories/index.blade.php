@@ -1,16 +1,16 @@
 @extends('layouts.app')
-@section('title', 'Service Categories')
+@section('title', __('categories.service_browse'))
 @section('content')
 
     <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:50px 0;">
         <div class="container text-center">
-            <h1 style="font-size:32px;font-weight:800;color:#fff;margin-bottom:10px;">Service Categories</h1>
+            <h1 style="font-size:32px;font-weight:800;color:#fff;margin-bottom:10px;">{{ __('categories.service_browse') }}</h1>
             <p style="color:rgba(255,255,255,.85);font-size:16px;margin-bottom:28px;">Find the right service provider by category.</p>
             <form action="{{ route('service-categories.index') }}" method="GET" style="max-width:480px;margin:0 auto;">
                 <div
                     style="display:flex;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15);">
                     <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Search service categories..."
+                        placeholder="{{ __('categories.service_search_placeholder') }}"
                         style="flex:1;height:48px;padding:0 16px;border:none;outline:none;font-size:15px;">
                     <button type="submit"
                         style="height:48px;padding:0 22px;background:#10B981;color:#fff;border:none;font-weight:700;cursor:pointer;">
@@ -36,12 +36,12 @@
                                 <h5 style="font-size:16px;font-weight:700;color:#111827;margin-bottom:6px;">
                                     {{ $category->name }}</h5>
                                 @if ($category->parent)
-                                    <p style="font-size:12px;color:#9CA3AF;margin-bottom:6px;">in
+                                    <p style="font-size:12px;color:#9CA3AF;margin-bottom:6px;">{{ __('categories.in') }}
                                         {{ $category->parent->name }}</p>
                                 @endif
                                 <span
                                     style="display:inline-block;background:#F0FDF4;color:#10B981;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;">
-                                    {{ $category->services_count ?? 0 }} services
+                                    {{ __('categories.services', ['count' => $category->services_count ?? 0]) }}
                                 </span>
                             </div>
                         </a>
@@ -50,13 +50,13 @@
                     <div class="col-xs-12 text-center" style="padding:80px 0;">
                         <div style="font-size:56px;margin-bottom:16px;">📂</div>
                         @if (request('search'))
-                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No matching service categories</h3>
-                            <p style="color:#6B7280;">Try a different service name or keyword.</p>
+                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('categories.no_matching_services') }}</h3>
+                            <p style="color:#6B7280;">{{ __('categories.try_service_keyword') }}</p>
                             <a href="{{ route('service-categories.index') }}"
-                                class="mk-button mk-button--primary mk-button--md" style="margin-top:16px;">Clear Search</a>
+                                class="mk-button mk-button--primary mk-button--md" style="margin-top:16px;">{{ __('categories.clear_search') }}</a>
                         @else
-                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">No service categories yet</h3>
-                            <p style="color:#6B7280;">Service categories will appear here once added.</p>
+                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('categories.empty_services') }}</h3>
+                            <p style="color:#6B7280;">{{ __('categories.services_added_later') }}</p>
                         @endif
                     </div>
                 @endforelse

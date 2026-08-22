@@ -18,7 +18,7 @@
             alt="{{ $service->name }}" loading="lazy">
         @if ($service->is_verified)
             <span class="service-card__badge service-card__badge--verified">
-                <i class="fa fa-check-circle" aria-hidden="true"></i> Verified
+                <i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('common.verified') }}
             </span>
         @endif
         <span class="service-card__badge service-card__badge--status service-card__badge--{{ $service->status }}">
@@ -49,7 +49,7 @@
         </p>
         <footer class="service-card__footer">
             <span>{{ ucfirst($service->price_level ?? 'medium') }}</span>
-            <a class="service-card__button" href="{{ route('services.show', $service) }}">View service</a>
+            <a class="service-card__button" href="{{ route('services.show', $service) }}">{{ __('common.view_service') }}</a>
         </footer>
     </div>
 </article>
