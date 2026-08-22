@@ -336,3 +336,22 @@ test('admin can remove an existing place image while editing', function () {
     $this->assertDatabaseMissing('media', ['id' => $media->id]);
     Storage::disk('public')->assertMissing('places/remove.jpg');
 });
+
+test('force deleting a place removes its media records and files', function () {
+    Storage::fake('public');
+    $place = Place::factory()->create([
+        'user_id' => $this->admin->id,
+        'place_category_id' => $this->category->id,
+    ]);
+    Storage::disk('public')->put('places/force-delete.jpg', 'image');
+    $media = $place->media()->create([
+        'file_path' => 'places/force-delete.jpg',
+        'disk' => 'public',
+        'type' => 'image',
+    ]);
+
+    $place->forceDelete();
+
+    $this->assertDatabaseMissing('media', ['id' => $media->id]);
+    Storage::disk('public')->assertMissing('places/force-delete.jpg');
+});

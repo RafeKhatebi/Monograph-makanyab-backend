@@ -112,10 +112,11 @@ class ServiceController extends Controller
 
         DB::transaction(function () use ($request, $validated, $service, $mediaUploadService): void {
             $service->update($validated);
-            $mediaUploadService->removeImages($service, $request->input('remove_media', []));
+            $removedMediaIds = array_map('intval', $request->input('remove_media', []));
+            $mediaUploadService->removeImages($service, $removedMediaIds);
 
             if ($request->filled('cover_media_id')
-                && ! in_array($request->integer('cover_media_id'), $request->input('remove_media', []), true)) {
+                && ! in_array($request->integer('cover_media_id'), $removedMediaIds, true)) {
                 $mediaUploadService->setCoverImage($service, $request->integer('cover_media_id'));
             }
 

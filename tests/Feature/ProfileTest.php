@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Str;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -53,6 +56,22 @@ test('email verification status is unchanged when the email address is unchanged
         ->assertRedirect();
 
     $this->assertNotNull($user->refresh()->email_verified_at);
+});
+
+test('changing email resets verification and sends a new notification', function () {
+    Notification::fake();
+    $user = User::factory()->create(['email_verified_at' => now()]);
+
+    $this->actingAs($user)
+        ->patch('/profile', [
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => Str::uuid().'@example.com',
+        ])
+        ->assertRedirect();
+
+    expect($user->refresh()->email_verified_at)->toBeNull();
+    Notification::assertSentTo($user, VerifyEmail::class);
 });
 
 test('user can delete their account', function () {

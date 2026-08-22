@@ -233,3 +233,33 @@ test('authenticated user cannot link a social account with a different email', f
         'provider_user_id' => 'google-mismatch',
     ]);
 });
+
+test('social-only users cannot disconnect their only login method', function () {
+    $user = User::factory()->create(['password_set_at' => null]);
+    $account = SocialAccount::factory()->create([
+        'user_id' => $user->id,
+        'provider' => 'google',
+    ]);
+
+    $this->actingAs($user)
+        ->delete(route('social.disconnect', 'google'))
+        ->assertRedirect(route('profile.index'))
+        ->assertSessionHasErrors(['social' => __('auth.social_last_login_method')]);
+
+    expect($account->fresh())->not->toBeNull();
+});
+
+test('users with a password can disconnect a social account', function () {
+    $user = User::factory()->create(['password_set_at' => now()]);
+    $account = SocialAccount::factory()->create([
+        'user_id' => $user->id,
+        'provider' => 'facebook',
+    ]);
+
+    $this->actingAs($user)
+        ->delete(route('social.disconnect', 'facebook'))
+        ->assertRedirect(route('profile.index'))
+        ->assertSessionHas('status', __('auth.social_unlinked'));
+
+    $this->assertDatabaseMissing('social_accounts', ['id' => $account->id]);
+});

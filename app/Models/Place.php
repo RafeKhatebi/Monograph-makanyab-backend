@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Place extends Model
 {
@@ -36,6 +38,16 @@ class Place extends Model
     {
         static::saved(fn () => Cache::forget('home_featured_places'));
         static::deleted(fn () => Cache::forget('home_featured_places'));
+        static::forceDeleted(function (Place $place): void {
+            $media = $place->media()->get(['disk', 'file_path']);
+            $place->media()->delete();
+
+            DB::afterCommit(function () use ($media): void {
+                foreach ($media as $item) {
+                    Storage::disk($item->disk ?: 'public')->delete($item->file_path);
+                }
+            });
+        });
     }
 
     public function getRouteKeyName(): string

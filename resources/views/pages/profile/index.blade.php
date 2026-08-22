@@ -219,6 +219,13 @@
                                             <span><i class="fa fa-{{ $provider }}" aria-hidden="true"></i> {{ $label }}</span>
                                             <span style="font-size:12px;color:{{ $linked ? '#065F46' : '#6B7280' }};">{{ $linked ? 'Linked' : 'Connect' }}</span>
                                         </a>
+                                        @if ($linked)
+                                            <form method="POST" action="{{ route('social.disconnect', $provider) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" style="border:0;background:transparent;color:#B91C1C;font-size:12px;padding:0 14px;">Disconnect {{ $label }}</button>
+                                            </form>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
