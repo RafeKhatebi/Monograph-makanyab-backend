@@ -9,7 +9,7 @@
     'categoryField',
     'categoryLabel',
     'categories' => [],
-    'submitText' => 'Submit',
+    'submitText' => __('suggestions.submit'),
 ])
 
 <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:50px 0;">

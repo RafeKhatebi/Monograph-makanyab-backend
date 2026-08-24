@@ -3,8 +3,6 @@
 @section('title', __('home.title'))
 
 @section('content')
-
-    {{-- Hero --}}
     @php
         $heroSlides = [
             [
@@ -141,30 +139,29 @@
         </div>
 
         <button class="home-hero__control home-hero__control--prev" type="button" data-hero-prev
-            aria-label="Show previous Makanyab highlight">
+            aria-label="{{ __('home.previous_slide') }}">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
         </button>
         <button class="home-hero__control home-hero__control--next" type="button" data-hero-next
-            aria-label="Show next Makanyab highlight">
+            aria-label="{{ __('home.next_slide') }}">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </button>
 
-        <div class="home-hero__pagination" role="tablist" aria-label="Makanyab highlight slides">
+        <div class="home-hero__pagination" role="tablist" aria-label="{{ __('home.highlight_slides') }}">
             @foreach ($heroSlides as $index => $slide)
                 <button class="home-hero__dot{{ $index === 0 ? ' is-active' : '' }}" type="button"
-                    data-hero-dot="{{ $index }}" aria-label="Show slide {{ $index + 1 }}"
+                    data-hero-dot="{{ $index }}" aria-label="{{ __('home.show_slide', ['number' => $index + 1]) }}"
                     aria-current="{{ $index === 0 ? 'true' : 'false' }}"></button>
             @endforeach
         </div>
     </section>
 
-    {{-- Featured Places --}}
     <div class="home-section home-section--muted">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 home-section__header">
-                    <h2 class="home-section__title">Featured Places</h2>
-                    <p class="home-section__text">Handpicked top-rated places loved by our community.</p>
+                    <h2 class="home-section__title">{{ __('home.featured_places_title') }}</h2>
+                    <p class="home-section__text">{{ __('home.featured_places_text') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -172,74 +169,72 @@
                     @include('components.place-card', ['place' => $place])
                 @empty
                     <div class="col-md-12 home-empty">
-                        <p class="mk-text--muted">No featured places yet.</p>
+                        <p class="mk-text--muted">{{ __('home.empty_featured_places') }}</p>
                     </div>
                 @endforelse
             </div>
             <div class="row">
                 <div class="col-md-12 home-actions">
                     <a href="{{ route('places.index') }}" class="mk-button mk-button--primary mk-button--lg">
-                        Browse All Places
+                        {{ __('home.browse_all_places') }}
                     </a>
                     <a href="{{ route('place-suggestions.create') }}"
                         class="mk-button mk-button--secondary mk-button--lg">
-                        Suggest a Place
+                        {{ __('home.suggest_place') }}
                     </a>
                     <a href="{{ route('service-suggestions.create') }}"
                         class="mk-button mk-button--secondary mk-button--lg">
-                        Suggest a Service
+                        {{ __('home.suggest_service') }}
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Featured Services --}}
     <div class="home-section home-section--plain">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 home-section__header">
-                    <h2 class="home-section__title">Featured Services</h2>
-                    <p class="home-section__text">Verified local services ready for everyday needs.</p>
+                    <h2 class="home-section__title">{{ __('home.featured_services_title') }}</h2>
+                    <p class="home-section__text">{{ __('home.featured_services_text') }}</p>
                 </div>
             </div>
             <div class="row">
                 @forelse($featuredServices ?? [] as $service)
-                    <div class="col-sm-6 col-md-4 p-2">
+                    <div class="col-sm-6 col-md-4 p-2 home-card-col">
                         @include('components.service-card', ['service' => $service])
                     </div>
                 @empty
                     <div class="col-md-12 home-empty">
-                        <p class="mk-text--muted">No featured services yet.</p>
+                        <p class="mk-text--muted">{{ __('home.empty_featured_services') }}</p>
                     </div>
                 @endforelse
             </div>
             <div class="row">
                 <div class="col-md-12 home-actions">
                     <a href="{{ route('services.index') }}" class="mk-button mk-button--primary mk-button--lg">
-                        Browse All Services
+                        {{ __('home.browse_all_services') }}
                     </a>
                     <a href="{{ route('service-suggestions.create') }}"
                         class="mk-button mk-button--secondary mk-button--lg">
-                        Suggest a Service
+                        {{ __('home.suggest_service') }}
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Categories --}}
     <div class="home-section home-section--muted">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 home-section__header">
-                    <h2 class="home-section__title">Browse by Category</h2>
-                    <p class="home-section__text">Explore popular categories and find what you need.</p>
+                    <h2 class="home-section__title">{{ __('home.categories_title') }}</h2>
+                    <p class="home-section__text">{{ __('home.categories_text') }}</p>
                 </div>
             </div>
             <div class="row">
                 @forelse($categories ?? [] as $category)
-                    <div class="col-sm-6 col-md-4 mk-stack-sm">
+                    <div class="col-sm-6 col-md-4 mk-stack-sm home-card-col">
                         <a href="{{ route('search.index', ['place_category' => $category->slug, 'type' => 'places']) }}"
                             class="home-category-link">
                             <div class="home-category-card">
@@ -249,33 +244,34 @@
                                 </div>
                                 <h5 class="home-category-card__title">
                                     {{ $category->name }}</h5>
-                                <p class="home-category-card__text">{{ $category->places_count }} places</p>
+                                <p class="home-category-card__text">
+                                    {{ __('home.places_count', ['count' => number_format($category->places_count)]) }}
+                                </p>
                             </div>
                         </a>
                     </div>
                 @empty
                     <div class="col-sm-12 text-center">
-                        <p class="mk-text--muted">No categories available yet.</p>
+                        <p class="mk-text--muted">{{ __('home.empty_categories') }}</p>
                     </div>
                 @endforelse
             </div>
             <div class="row mk-stack-sm">
                 <div class="col-md-12 text-center">
                     <a href="{{ route('categories.index') }}" class="mk-button mk-button--secondary mk-button--lg">
-                        View All Categories
+                        {{ __('home.view_all_categories') }}
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Verified Records --}}
     <div class="home-section home-section--plain">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 home-section__header">
-                    <h2 class="home-section__title">Recently Verified</h2>
-                    <p class="home-section__text">Active places reviewed for a more reliable discovery experience.</p>
+                    <h2 class="home-section__title">{{ __('home.recently_verified_title') }}</h2>
+                    <p class="home-section__text">{{ __('home.recently_verified_text') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -283,25 +279,24 @@
                     @include('components.place-card', ['place' => $place])
                 @empty
                     <div class="col-md-12 home-empty">
-                        <p class="mk-text--muted">Verified places will appear here soon.</p>
+                        <p class="mk-text--muted">{{ __('home.empty_verified_places') }}</p>
                     </div>
                 @endforelse
             </div>
         </div>
     </div>
 
-    {{-- Latest Content --}}
     <div class="home-section home-section--muted">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 home-section__header">
-                    <h2 class="home-section__title">Latest from Makanyab</h2>
-                    <p class="home-section__text">Updates, guides, and stories for discovering better places.</p>
+                    <h2 class="home-section__title">{{ __('home.latest_title') }}</h2>
+                    <p class="home-section__text">{{ __('home.latest_text') }}</p>
                 </div>
             </div>
             <div class="row">
                 @forelse($latestPosts ?? [] as $post)
-                    <div class="col-sm-6 col-md-4 mk-stack-sm">
+                    <div class="col-sm-6 col-md-4 mk-stack-sm home-card-col">
                         <article class="home-post-card">
                             <a href="{{ route('posts.show', $post->slug) }}" class="home-post-card__media">
                                 <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/img/demo/property-1.jpg') }}"
@@ -309,7 +304,7 @@
                             </a>
                             <div class="home-post-card__body">
                                 <p class="home-post-card__date">
-                                    {{ optional($post->published_at ?? $post->created_at)->format('M d, Y') }}
+                                    {{ optional($post->published_at ?? $post->created_at)->translatedFormat(__('home.date_format')) }}
                                 </p>
                                 <h3 class="home-post-card__title">
                                     <a href="{{ route('posts.show', $post->slug) }}">{{ $post->title }}</a>
@@ -318,51 +313,49 @@
                                     {{ Str::limit($post->excerpt ?: strip_tags($post->content), 110) }}
                                 </p>
                                 <a href="{{ route('posts.show', $post->slug) }}" class="home-post-card__link">
-                                    Read article
+                                    {{ __('home.read_article') }}
                                 </a>
                             </div>
                         </article>
                     </div>
                 @empty
                     <div class="col-md-12 home-empty">
-                        <p class="mk-text--muted">New articles and updates will be published soon.</p>
+                        <p class="mk-text--muted">{{ __('home.empty_latest') }}</p>
                     </div>
                 @endforelse
             </div>
             <div class="row mk-stack-sm">
                 <div class="col-md-12 text-center">
                     <a href="{{ route('posts.index') }}" class="mk-button mk-button--secondary mk-button--lg">
-                        View All Articles
+                        {{ __('home.view_all_articles') }}
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- CTA  --}}
     <div class="home-section home-section--cta">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="home-cta-card">
                         <div class="home-cta-card__body">
-                            <h3 class="home-cta-card__title">Looking for a Place?
-                            </h3>
-                            <p class="home-cta-card__text">Search thousands of
-                                places by category, location, and rating.</p>
-                            <a href="{{ route('search.index') }}" class="mk-button mk-button--secondary mk-button--md">Search
-                                Now</a>
+                            <h3 class="home-cta-card__title">{{ __('home.cta_search_title') }}</h3>
+                            <p class="home-cta-card__text">{{ __('home.cta_search_text') }}</p>
+                            <a href="{{ route('search.index') }}" class="mk-button mk-button--secondary mk-button--md">
+                                {{ __('home.search_now') }}
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="home-cta-card">
                         <div class="home-cta-card__body">
-                            <h3 class="home-cta-card__title">Own a Business?</h3>
-                            <p class="home-cta-card__text">List your place and
-                                reach thousands of potential customers.</p>
-                            <a href="{{ route('register') }}" class="mk-button mk-button--secondary mk-button--md">Get
-                                Listed</a>
+                            <h3 class="home-cta-card__title">{{ __('home.cta_business_title') }}</h3>
+                            <p class="home-cta-card__text">{{ __('home.cta_business_text') }}</p>
+                            <a href="{{ route('register') }}" class="mk-button mk-button--secondary mk-button--md">
+                                {{ __('home.get_listed') }}
+                            </a>
                         </div>
                     </div>
                 </div>

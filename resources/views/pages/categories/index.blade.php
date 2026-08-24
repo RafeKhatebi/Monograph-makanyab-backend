@@ -50,7 +50,7 @@
                     </div>
                 @empty
                     <div class="col-xs-12 text-center" style="padding:80px 0;">
-                        <div style="font-size:56px;margin-bottom:16px;">📂</div>
+                        <div class="mk-empty-icon"><i class="fa fa-folder-open" aria-hidden="true"></i></div>
                         @if (request('search'))
                             <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('categories.no_matching') }}</h3>
                             <p style="color:#6B7280;">{{ __('categories.try_keyword') }}</p>

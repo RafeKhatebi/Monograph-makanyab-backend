@@ -9,10 +9,10 @@
     ];
 
     $priceOptions = [
-        PriceLevel::Low->value => 'Low',
-        PriceLevel::Medium->value => 'Medium',
-        PriceLevel::High->value => 'High',
-        PriceLevel::Luxury->value => 'Luxury',
+        PriceLevel::Low->value => __('common.price.low'),
+        PriceLevel::Medium->value => __('common.price.medium'),
+        PriceLevel::High->value => __('common.price.high'),
+        PriceLevel::Luxury->value => __('common.price.luxury'),
     ];
 @endphp
 
@@ -98,8 +98,8 @@
     </div>
 
     <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-        <x-form-field for="latitude" label="Latitude" :value="old('latitude')" />
-        <x-form-field for="longitude" label="Longitude" :value="old('longitude')" />
+        <x-form-field for="latitude" :label="__('suggestions.latitude')" :value="old('latitude')" />
+        <x-form-field for="longitude" :label="__('suggestions.longitude')" :value="old('longitude')" />
     </div>
 
     @guest

@@ -2,22 +2,20 @@
     <div class="container">
         <div class="mk-inner">
 
-            {{-- Logo --}}
             <a href="{{ route('home') }}" class="mk-logo">
-                <div class="mk-logo-icon">M</div>
-                <span class="mk-logo-text">Makan<span>yab</span></span>
+                <span class="mk-logo-icon">
+                    <img src="{{ asset('assets/img/map-logo.svg') }}" alt="" aria-hidden="true">
+                </span>
+                <!-- <span class="mk-logo-text">Makan<span>yab</span></span> -->
             </a>
 
-            {{-- Desktop Nav --}}
             <ul class="mk-links">
 
-                {{-- Home --}}
                 <li>
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
                         <i></i> {{ __('navigation.home') }}
                     </a>
                 </li>
-                {{-- search --}}
                 <li>
                     <a href="{{ route('search.index') }}"
                         class="{{ request()->routeIs('search.index') ? 'active' : '' }}">
@@ -30,7 +28,6 @@
                         <i></i> {{ __('navigation.suggest') }}
                     </a>
                 </li>
-                {{-- Discover dropdown --}}
                 <li
                     class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
                     <button type="button"
@@ -56,11 +53,9 @@
                 </li>
 
 
-                {{-- Company links --}}
-
                 <li>
-                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                        <i></i> {{ __('navigation.about') }}
+                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
+                        <i></i> {{ __('navigation.blog') }}
                     </a>
                 </li>
                 <li>
@@ -68,15 +63,9 @@
                         <i></i> {{ __('navigation.contact') }}
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
-                        <i></i> {{ __('navigation.blog') }}
-                    </a>
-                </li>
 
             </ul>
 
-            {{-- Auth --}}
             <div class="mk-auth">
                 @include('partials.language-switcher')
                 @guest
@@ -123,7 +112,6 @@
                 @endguest
             </div>
 
-            {{-- Hamburger --}}
             <button class="mk-hamburger" id="mk-hamburger" aria-label="{{ __('navigation.open_menu') }}" aria-expanded="false"
                 aria-controls="mk-mobile">
                 <span></span><span></span><span></span>
@@ -132,11 +120,9 @@
         </div>
     </div>
 
-    {{-- Mobile Drawer --}}
     <div class="mk-mobile" id="mk-mobile" aria-hidden="true">
         <div class="container">
 
-            {{-- Mobile Search --}}
             <div class="mk-mobile-search">
                 <form action="{{ route('search.index') }}" method="GET">
                     <label for="mk-mobile-search-input" class="sr-only">{{ __('navigation.search_placeholder') }}</label>
@@ -153,7 +139,6 @@
                 <i class="fa fa-home"></i> {{ __('navigation.home') }}
             </a>
 
-            {{-- Discover accordion --}}
             <button class="mk-mobile-group-btn" id="mob-discover-btn" aria-expanded="false" aria-controls="mob-discover">
                 <span class="mk-mobile-label">
                     <i class="fa fa-compass"></i> {{ __('navigation.discover') }}
@@ -196,6 +181,10 @@
             </a>
 
             <div class="mk-mobile-divider"></div>
+
+            <div class="mk-mobile-language">
+                @include('partials.language-switcher')
+            </div>
 
             @guest
                 <div class="mk-mobile-auth">

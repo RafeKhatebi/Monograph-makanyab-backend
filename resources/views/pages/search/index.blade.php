@@ -231,56 +231,7 @@
                             </h4>
                             <div class="row search-results-row">
                                 @foreach ($places as $place)
-                                    @php
-                                        $placeMedia = $place->media->firstWhere('is_cover', true) ?? $place->media->sortBy('sort_order')->first();
-                                        $placeImage = $placeMedia && Storage::disk($placeMedia->disk ?: 'public')->exists($placeMedia->file_path)
-                                            ? asset('storage/' . $placeMedia->file_path)
-                                            : asset('assets/img/demo/property-1.jpg');
-                                    @endphp
-                                    <div class="col-sm-6 col-md-4 search-result-col">
-                                        <div class="search-card">
-                                            <div class="search-card__media">
-                                                <a href="{{ route('places.show', $place) }}">
-                                                    <img src="{{ $placeImage }}" alt="{{ $place->name }}">
-                                                </a>
-                                                @if ($place->is_verified)
-                                                    <span class="search-card__badge search-card__badge--verified">
-                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('search.verified') }}
-                                                    </span>
-                                                @endif
-                                                @if ($place->status === 'open')
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--open">{{ __('common.status.open') }}</span>
-                                                @elseif($place->status === 'closed')
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--closed">{{ __('common.status.closed') }}</span>
-                                                @else
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--warning">{{ __('common.status.temporarily_closed') }}</span>
-                                                @endif
-                                            </div>
-                                            <div class="search-card__body">
-                                                <div class="search-card__header">
-                                                    <h5 class="search-card__title">
-                                                        <a href="{{ route('places.show', $place) }}">{{ $place->name }}</a>
-                                                    </h5>
-                                                    @if ($place->category)
-                                                        <span class="search-card__category">{{ $place->category->name }}</span>
-                                                    @endif
-                                                </div>
-                                                <p class="search-card__location">
-                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                    {{ $place->city }}@if ($place->district), {{ $place->district }}@endif
-                                                </p>
-                                                @if ($place->tagline)
-                                                    <p class="search-card__tagline">{{ Str::limit($place->tagline, 70) }}</p>
-                                                @endif
-                                                <div class="search-card__footer">
-                                                    <span class="search-card__price">
-                                                        {{ $place->price_level && \Illuminate\Support\Facades\Lang::has('common.price.' . $place->price_level) ? __('common.price.' . $place->price_level) : ucfirst((string) $place->price_level) }}
-                                                    </span>
-                                                    <a href="{{ route('places.show', $place) }}" class="search-card__link">{{ __('search.view') }}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @include('components.place-card', ['place' => $place])
                                 @endforeach
                             </div>
                             @if ($places->hasPages())

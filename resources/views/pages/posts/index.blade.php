@@ -1,9 +1,8 @@
 @extends('layouts.app')
 @section('title', __('content.posts.title'))
-@section('meta-description', 'Read published Makanyab articles, announcements, and local guides.')
+@section('meta-description', __('content.posts.meta'))
 @section('content')
 
-    {{-- Header --}}
     <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
         <div class="container">
             <h1 style="font-size:30px;font-weight:800;color:#fff;margin:0 0 6px;">{{ __('content.posts.title') }}</h1>
@@ -17,43 +16,39 @@
             @if (isset($posts) && $posts->count())
                 <div class="row">
                     @foreach ($posts as $post)
-                        <div class="col-md-4 col-sm-6" style="margin-bottom:28px;">
-                            <div class="post-card"
-                                style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #E5E7EB;height:100%;display:flex;flex-direction:column;transition:box-shadow .2s;">
-                                <a href="{{ route('posts.show', $post->slug) }}">
+                        <div class="col-md-4 col-sm-6 home-card-col">
+                            <article class="home-post-card">
+                                <a href="{{ route('posts.show', $post->slug) }}" class="home-post-card__media">
                                     <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/img/demo/property-1.jpg') }}"
-                                        alt="{{ $post->title }}" style="width:100%;height:200px;object-fit:cover;">
+                                        alt="{{ $post->title }}" loading="lazy">
                                 </a>
-                                <div style="padding:20px;flex:1;display:flex;flex-direction:column;">
-                                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-                                        <span
-                                            style="background:#ECFDF5;color:#10B981;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;">
-                                            {{ $post->category->name ?? 'News' }}
+                                <div class="home-post-card__body">
+                                    <div class="home-post-card__meta">
+                                        <span class="home-post-card__date">
+                                            {{ $post->category->name ?? __('content.posts.default_category') }}
                                         </span>
-                                        <span
-                                            style="color:#9CA3AF;font-size:13px;">{{ $post->published_at?->format('M d, Y') }}</span>
+                                        <span class="home-post-card__date">
+                                            {{ optional($post->published_at ?? $post->created_at)->translatedFormat(__('home.date_format')) }}
+                                        </span>
                                     </div>
-                                    <h3
-                                        style="font-size:17px;font-weight:700;color:#111827;margin-bottom:10px;line-height:1.4;flex:1;">
-                                        <a href="{{ route('posts.show', $post->slug) }}"
-                                            style="color:inherit;text-decoration:none;">{{ $post->title }}</a>
+                                    <h3 class="home-post-card__title">
+                                        <a href="{{ route('posts.show', $post->slug) }}">{{ $post->title }}</a>
                                     </h3>
-                                    <p style="font-size:14px;color:#6B7280;line-height:1.7;margin-bottom:16px;">
+                                    <p class="home-post-card__text">
                                         {{ Str::limit($post->excerpt ?: strip_tags($post->content), 120) }}
                                     </p>
-                                    <a href="{{ route('posts.show', $post->slug) }}"
-                                        style="display:inline-block;background:#10B981;color:#fff;padding:9px 20px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;align-self:flex-start;">
+                                    <a href="{{ route('posts.show', $post->slug) }}" class="home-post-card__link">
                                         {{ __('content.posts.read_more') }}
                                     </a>
                                 </div>
-                            </div>
+                            </article>
                         </div>
                     @endforeach
                 </div>
                 <div style="text-align:center;margin-top:20px;">{{ $posts->links() }}</div>
             @else
                 <div style="text-align:center;padding:80px 0;">
-                    <div style="font-size:56px;margin-bottom:16px;">📝</div>
+                    <div class="mk-empty-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></div>
                     <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('content.posts.empty') }}</h3>
                     <p style="color:#6B7280;">{{ __('content.posts.empty_text') }}</p>
                 </div>

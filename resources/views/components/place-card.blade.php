@@ -5,7 +5,7 @@
         : asset('assets/img/demo/property-1.jpg');
 @endphp
 
-<div class="col-sm-6 col-md-4 p-2">
+<div class="col-sm-6 col-md-4 p-2 place-card-col">
     <div class="place-card">
         <div class="place-card__media">
             <a href="{{ route('places.show', $place) }}">
@@ -33,12 +33,12 @@
 
         <div class="place-card__body">
             <div class="place-card__header">
-                <h5 class="place-card__title">
-                    <a href="{{ route('places.show', $place) }}">{{ $place->name }}</a>
-                </h5>
                 @if ($place->category)
                     <span class="place-card__category">{{ $place->category->name }}</span>
                 @endif
+                <h5 class="place-card__title">
+                    <a href="{{ route('places.show', $place) }}">{{ $place->name }}</a>
+                </h5>
             </div>
 
             <p class="place-card__location">
@@ -48,16 +48,18 @@
                 @endif
             </p>
 
-            @if ($place->tagline)
-                <p class="place-card__description">
-                    {{ Str::limit($place->tagline, 70) }}</p>
-            @endif
+            <p class="place-card__description">
+                {{ Str::limit($place->tagline ?: $place->description ?: __('places.no_description'), 120) }}
+            </p>
 
             <div class="place-card__footer">
                 <span class="place-card__price">
-                    {{ ucfirst(str_replace('_', ' ', $place->price_level)) }}
+                    {{ __("common.price.{$place->price_level}") }}
                 </span>
-                <a href="{{ route('places.show', $place) }}" class="place-card__button">{{ __('common.actions.view') }}</a>
+                <a href="{{ route('places.show', $place) }}" class="place-card__button">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    {{ __('common.actions.view') }}
+                </a>
             </div>
         </div>
     </div>
