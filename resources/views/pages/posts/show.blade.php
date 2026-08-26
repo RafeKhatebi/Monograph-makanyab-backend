@@ -4,14 +4,14 @@
 @section('meta-description', $post->excerpt ?: Str::limit(strip_tags($post->content), 155))
 
 @section('content')
-    <div class="content-area" style="background:#F8FAFC; padding:50px 0;">
+    <div class="content-area mk-page-section">
         <div class="container">
-            <div class="row" style="margin-bottom:40px;">
+            <div class="row content-article-header">
                 <div class="col-md-12">
-                    <div class="box-two" style="padding:35px 30px; border-radius:16px; text-align:center;">
-                        <h1 style="font-size:34px; font-weight:700; color:#111827; margin-bottom:10px;">{{ $post->title }}
+                    <div class="mk-card">
+                        <h1 class="content-article-title">{{ $post->title }}
                         </h1>
-                        <p style="color:#6B7280; font-size:15px; margin:0;">
+                        <p class="content-article-meta">
                             {{ __('content.posts.published') }} {{ $post->published_at?->format('F d, Y') }}
                             @if ($post->user)
                                 {{ __('content.posts.by') }} {{ $post->user->name }}
@@ -23,47 +23,44 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="box-two" style="padding:0; border-radius:16px; overflow:hidden; margin-bottom:30px;">
+                    <div class="mk-card content-article-card service-media-card">
                         @if ($post->image)
                             <img src="{{ asset('storage/' . $post->image) }}"
-                                style="width:100%; max-height:500px; object-fit:cover;">
+                                class="content-article-image" alt="{{ $post->title }}">
                         @endif
                     </div>
 
-                    <div class="box-two" style="padding:35px; border-radius:16px; margin-bottom:30px;">
-                        <div style="color:#4B5563; line-height:1.9; font-size:16px;">
+                    <div class="mk-card content-article-card">
+                        <div class="content-article-body">
                             {!! nl2br(e($post->content)) !!}
                         </div>
                     </div>
 
-                    <a href="{{ route('posts.index') }}"
-                        style="display:inline-block; background:#F3F4F6; color:#111827; border-radius:10px; padding:12px 24px; text-decoration:none; font-weight:600;">
+                    <a href="{{ route('posts.index') }}" class="mk-btn mk-btn-secondary">
                         ← {{ __('content.posts.back') }}
                     </a>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="box-two" style="padding:30px; border-radius:16px; margin-bottom:30px;">
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:18px;">{{ __('content.posts.recent') }}</h3>
+                    <div class="mk-card content-sidebar-card">
+                        <h3 class="content-sidebar-title">{{ __('content.posts.recent') }}</h3>
                         @if (isset($recentPosts) && $recentPosts->count())
                             @foreach ($recentPosts as $recent)
-                                <a href="{{ route('posts.show', $recent->slug) }}"
-                                    style="display:block; color:#111827; text-decoration:none; margin-bottom:18px;">
+                                <a href="{{ route('posts.show', $recent->slug) }}" class="content-sidebar-link">
                                     <strong>{{ Str::limit($recent->title, 55) }}</strong>
-                                    <div style="font-size:14px; color:#6B7280; margin-top:4px;">
+                                    <div class="content-sidebar-date">
                                         {{ $recent->published_at?->format('M d, Y') }}</div>
                                 </a>
                             @endforeach
                         @else
-                            <p style="color:#6B7280; margin:0;">{{ __('content.posts.no_recent') }}</p>
+                            <p class="mk-text mk-text--muted">{{ __('content.posts.no_recent') }}</p>
                         @endif
                     </div>
-                    <div class="box-two" style="padding:30px; border-radius:16px;">
-                        <h3 style="font-size:24px; font-weight:700; color:#111827; margin-bottom:18px;">{{ __('content.posts.assistance') }}
+                    <div class="mk-card content-sidebar-card">
+                        <h3 class="content-sidebar-title">{{ __('content.posts.assistance') }}
                         </h3>
-                        <p style="color:#6B7280; line-height:1.8; margin-bottom:20px;">{{ __('content.posts.assistance_text') }}</p>
-                        <a href="{{ route('contact') }}"
-                            style="display:inline-block; background:#10B981; color:#fff; text-decoration:none; padding:12px 26px; border-radius:10px; font-weight:600;">{{ __('content.posts.contact_support') }}</a>
+                        <p class="mk-text mk-text--muted">{{ __('content.posts.assistance_text') }}</p>
+                        <a href="{{ route('contact') }}" class="mk-btn mk-btn-primary">{{ __('content.posts.contact_support') }}</a>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,7 @@ test.describe('home hero', () => {
             }
         });
 
+        await setLocale(page, 'en');
         await page.goto('/', { waitUntil: 'networkidle' });
 
         const hero = page.locator('[data-home-hero]');
@@ -31,3 +32,13 @@ test.describe('home hero', () => {
         expect(issues).toEqual([]);
     });
 });
+
+async function setLocale(page, locale) {
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    const localeSelect = page.locator('select[name="locale"]').first();
+
+    if (await localeSelect.count()) {
+        await localeSelect.selectOption(locale);
+        await page.waitForLoadState('networkidle');
+    }
+}

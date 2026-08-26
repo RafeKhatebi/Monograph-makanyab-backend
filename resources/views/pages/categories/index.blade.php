@@ -3,18 +3,16 @@
 @section('content')
 
     {{-- Header --}}
-    <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:50px 0;">
+    <div class="mk-hero mk-hero--search">
         <div class="container text-center">
-            <h1 style="font-size:32px;font-weight:800;color:#fff;margin-bottom:10px;">{{ __('categories.browse') }}</h1>
-            <p style="color:rgba(255,255,255,.85);font-size:16px;margin-bottom:28px;">Discover places by category and find
+            <h1 class="mk-hero__title">{{ __('categories.browse') }}</h1>
+            <p class="mk-hero__text">Discover places by category and find
                 your next favorite spot.</p>
-            <form action="{{ route('categories.index') }}" method="GET" style="max-width:480px;margin:0 auto;">
-                <div
-                    style="display:flex;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15);">
+            <form action="{{ route('categories.index') }}" method="GET" class="mk-search-strip">
+                <div class="mk-search-strip__inner">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('categories.search_placeholder') }}"
-                        style="flex:1;height:48px;padding:0 16px;border:none;outline:none;font-size:15px;">
-                    <button type="submit"
-                        style="height:48px;padding:0 22px;background:#10B981;color:#fff;border:none;font-weight:700;cursor:pointer;">
+                        class="mk-search-strip__input">
+                    <button type="submit" class="mk-search-strip__button" aria-label="{{ __('categories.search_placeholder') }}">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
@@ -22,43 +20,39 @@
         </div>
     </div>
 
-    <div style="background:#F8FAFC;padding:50px 0 70px;">
+    <div class="mk-page-section">
         <div class="container">
             <div class="row">
                 @forelse($categories as $category)
-                    <div class="col-sm-6 col-md-3" style="margin-bottom:20px;">
-                        <a href="{{ route('categories.show', $category->slug) }}"
-                            style="text-decoration:none;">
-                            <div class="cat-card"
-                                style="background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:28px 20px;text-align:center;transition:all .2s;">
-                                <div
-                                    style="width:64px;height:64px;background:#ECFDF5;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:{{ $category->color_code ?? '#10B981' }};">
+                    <div class="col-sm-6 col-md-3 category-grid-col">
+                        <a href="{{ route('categories.show', $category->slug) }}" class="category-link">
+                            <div class="category-card">
+                                <div class="category-card__icon"
+                                    style="color:{{ $category->color_code ?? '#10B981' }};">
                                     <i class="fa {{ $category->icon_name ?? 'fa-folder' }}"></i>
                                 </div>
-                                <h5 style="font-size:16px;font-weight:700;color:#111827;margin-bottom:6px;">
+                                <h5 class="category-card__title">
                                     {{ $category->name }}</h5>
                                 @if ($category->parent)
-                                    <p style="font-size:12px;color:#9CA3AF;margin-bottom:6px;">{{ __('categories.in') }}
+                                    <p class="category-card__parent">{{ __('categories.in') }}
                                         {{ $category->parent->name }}</p>
                                 @endif
-                                <span
-                                    style="display:inline-block;background:#F0FDF4;color:#10B981;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;">
+                                <span class="category-card__count">
                                     {{ __('categories.places', ['count' => $category->places_count ?? 0]) }}
                                 </span>
                             </div>
                         </a>
                     </div>
                 @empty
-                    <div class="col-xs-12 text-center" style="padding:80px 0;">
+                    <div class="col-xs-12 mk-ui-empty">
                         <div class="mk-empty-icon"><i class="fa fa-folder-open" aria-hidden="true"></i></div>
                         @if (request('search'))
-                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('categories.no_matching') }}</h3>
-                            <p style="color:#6B7280;">{{ __('categories.try_keyword') }}</p>
-                            <a href="{{ route('categories.index') }}" class="mk-button mk-button--primary mk-button--md"
-                                style="margin-top:16px;">{{ __('categories.clear_search') }}</a>
+                            <h3 class="mk-heading mk-heading--md">{{ __('categories.no_matching') }}</h3>
+                            <p class="mk-text mk-text--muted">{{ __('categories.try_keyword') }}</p>
+                            <a href="{{ route('categories.index') }}" class="mk-button mk-button--primary mk-button--md mk-ui-empty__action">{{ __('categories.clear_search') }}</a>
                         @else
-                            <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('categories.empty') }}</h3>
-                            <p style="color:#6B7280;">{{ __('categories.added_later') }}</p>
+                            <h3 class="mk-heading mk-heading--md">{{ __('categories.empty') }}</h3>
+                            <p class="mk-text mk-text--muted">{{ __('categories.added_later') }}</p>
                         @endif
                     </div>
                 @endforelse

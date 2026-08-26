@@ -8,7 +8,7 @@
             Preview authentication emails for local development.
         </p>
 
-        <div class="mk-stack-sm" style="margin-top: 20px;">
+        <div class="auth-preview-actions">
             <a class="mk-btn mk-btn-primary mk-btn-block" href="{{ route('dev.auth-mail-preview.verification') }}">
                 Preview Verification Email
             </a>

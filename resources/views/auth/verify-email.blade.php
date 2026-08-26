@@ -1,26 +1,26 @@
 @extends('layouts.auth')
 
-@section('title', 'Verify Email')
+@section('title', __('auth.ui.verify_email_title'))
 
 @section('content')
-    <x-auth-card title="Verify Your Email">
+    <x-auth-card :title="__('auth.ui.verify_email_title')">
         <p class="mk-text mk-text--muted">
-            A verification email has been sent. Please check your inbox to continue.
+            {{ __('auth.ui.verify_email_intro') }}
         </p>
 
         <form method="POST" action="{{ route('verification.send') }}" class="mk-form" data-auth-form>
             @csrf
 
-            <button type="submit" class="mk-btn mk-btn-primary mk-btn-block" data-loading-text="Sending...">
-                Resend Verification Email
+            <button type="submit" class="mk-btn mk-btn-primary mk-btn-block" data-loading-text="{{ __('auth.ui.sending') }}">
+                {{ __('auth.ui.resend_verification') }}
             </button>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}" style="margin-top: 16px;">
+        <form method="POST" action="{{ route('logout') }}" class="auth-card__link-row">
             @csrf
 
             <button type="submit" class="mk-link mk-link-button">
-                Sign out
+                {{ __('auth.ui.sign_out') }}
             </button>
         </form>
     </x-auth-card>

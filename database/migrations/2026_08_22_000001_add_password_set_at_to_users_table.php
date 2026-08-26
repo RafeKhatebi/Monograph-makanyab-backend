@@ -9,9 +9,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
-            $table->timestamp('password_set_at')->nullable()->after('password');
-        });
+        if (! Schema::hasColumn('users', 'password_set_at')) {
+            Schema::table('users', function (Blueprint $table): void {
+                $table->timestamp('password_set_at')->nullable()->after('password');
+            });
+        }
 
         DB::table('users')
             ->whereNotNull('password')
@@ -25,8 +27,10 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
-            $table->dropColumn('password_set_at');
-        });
+        if (Schema::hasColumn('users', 'password_set_at')) {
+            Schema::table('users', function (Blueprint $table): void {
+                $table->dropColumn('password_set_at');
+            });
+        }
     }
 };

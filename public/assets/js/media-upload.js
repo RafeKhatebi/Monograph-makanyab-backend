@@ -31,20 +31,20 @@ document.addEventListener('DOMContentLoaded', function () {
             preview.innerHTML = '';
             files.forEach(function (file, index) {
                 var card = document.createElement('div');
-                card.style.cssText = 'border:1px solid #E5E7EB;border-radius:8px;padding:8px;background:#fff;';
+                card.className = 'media-preview-card';
 
                 var image = document.createElement('img');
                 image.alt = file.name;
-                image.style.cssText = 'width:100%;height:95px;object-fit:cover;border-radius:6px;';
+                image.className = 'media-preview-card__image';
                 image.src = URL.createObjectURL(file);
                 image.onload = function () { URL.revokeObjectURL(image.src); };
 
                 var title = document.createElement('small');
                 title.textContent = file.name + ' · ' + Math.ceil(file.size / 1024) + ' KB';
-                title.style.cssText = 'display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:6px 0;';
+                title.className = 'media-preview-card__title';
 
                 var actions = document.createElement('div');
-                actions.style.cssText = 'display:flex;gap:5px;flex-wrap:wrap;';
+                actions.className = 'media-preview-card__actions';
 
                 var cover = document.createElement('button');
                 cover.type = 'button';
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
 
                 [cover, previous, next, remove].forEach(function (button) {
-                    button.style.cssText = 'border:1px solid #D1D5DB;background:#fff;border-radius:5px;padding:3px 6px;font-size:11px;';
+                    button.className = 'media-preview-card__button';
                     actions.appendChild(button);
                 });
                 card.append(image, title, actions);

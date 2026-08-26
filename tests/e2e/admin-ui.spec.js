@@ -31,12 +31,15 @@ const adminPaths = [
     '/admin/users',
     '/admin/users/create',
     '/admin/reviews',
+    '/admin/contact-messages',
     '/admin/services',
     '/admin/services/create',
     '/admin/categories',
     '/admin/service-categories',
     '/admin/place-suggestions',
     '/admin/service-suggestions',
+    '/admin/posts',
+    '/admin/posts/create',
 ];
 
 test.describe('frontend browser audit', () => {
@@ -67,6 +70,8 @@ test.describe('frontend browser audit', () => {
                 issues.failedResponses.push(`${status} ${response.url()}`);
             }
         });
+
+        await setLocale(page, 'en');
     });
 
     for (const viewport of viewports) {
@@ -107,10 +112,20 @@ test.describe('frontend browser audit', () => {
 
 async function loginAsAdmin(page) {
     await page.goto('/login', { waitUntil: 'networkidle' });
-    await page.getByLabel('Email').fill(adminEmail);
-    await page.getByLabel('Password').fill(adminPassword);
-    await page.getByRole('button', { name: 'Login' }).click();
+    await page.locator('input[name="email"]').fill(adminEmail);
+    await page.locator('input[name="password"]').fill(adminPassword);
+    await page.locator('button[type="submit"]').click();
     await page.waitForURL(/\/admin|\/dashboard/, { timeout: 15_000 });
+}
+
+async function setLocale(page, locale) {
+    await page.goto('/login', { waitUntil: 'domcontentloaded' });
+    const localeSelect = page.locator('select[name="locale"]').first();
+
+    if (await localeSelect.count()) {
+        await localeSelect.selectOption(locale);
+        await page.waitForLoadState('networkidle');
+    }
 }
 
 function isSameOrigin(url) {

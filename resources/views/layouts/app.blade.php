@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
 
         <!-- Makanyab Green Theme Override -->
+        <link rel="stylesheet" href="{{ asset('assets/css/variables.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/ui-system.css') }}">
@@ -37,6 +38,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
 
         @stack('styles')
     </head>

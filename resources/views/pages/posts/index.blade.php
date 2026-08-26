@@ -3,15 +3,15 @@
 @section('meta-description', __('content.posts.meta'))
 @section('content')
 
-    <div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:40px 0;">
+    <div class="mk-hero mk-hero--compact">
         <div class="container">
-            <h1 style="font-size:30px;font-weight:800;color:#fff;margin:0 0 6px;">{{ __('content.posts.title') }}</h1>
-            <p style="color:rgba(255,255,255,.8);margin:0;font-size:15px;">{{ __('content.posts.intro') }}
+            <h1 class="mk-hero__title">{{ __('content.posts.title') }}</h1>
+            <p class="mk-hero__text">{{ __('content.posts.intro') }}
             </p>
         </div>
     </div>
 
-    <div style="background:#F8FAFC;padding:50px 0 70px;">
+    <div class="mk-page-section">
         <div class="container">
             @if (isset($posts) && $posts->count())
                 <div class="row">
@@ -45,12 +45,12 @@
                         </div>
                     @endforeach
                 </div>
-                <div style="text-align:center;margin-top:20px;">{{ $posts->links() }}</div>
+                <div class="mk-pagination-wrap">{{ $posts->links() }}</div>
             @else
-                <div style="text-align:center;padding:80px 0;">
+                <div class="mk-ui-empty">
                     <div class="mk-empty-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></div>
-                    <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:12px;">{{ __('content.posts.empty') }}</h3>
-                    <p style="color:#6B7280;">{{ __('content.posts.empty_text') }}</p>
+                    <h3 class="mk-heading mk-heading--md">{{ __('content.posts.empty') }}</h3>
+                    <p class="mk-text mk-text--muted">{{ __('content.posts.empty_text') }}</p>
                 </div>
             @endif
         </div>

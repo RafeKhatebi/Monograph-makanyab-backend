@@ -20,6 +20,7 @@
     <link href="{{ asset('assets/css/admin-layout.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/rtl.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/responsive-overrides.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/design-system.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 

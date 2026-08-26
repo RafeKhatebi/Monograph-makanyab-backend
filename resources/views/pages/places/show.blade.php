@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div class="content-area single-property" style="background-color: #FCFCFC;">
+    <div class="content-area single-property place-detail-body">
         <div class="container">
             <div class="clearfix padding-top-40">
 
@@ -31,7 +31,7 @@
                                             @csrf
                                             <input type="hidden" name="place_id" value="{{ $place->id }}">
                                             <button type="submit" class="add-to-fav" id="favorite-btn" title="{{ $isFavorited ? __('places.favorite_remove') : __('places.favorite_add') }}"
-                                                style="background:none;border:none;cursor:pointer;">
+                                                >
                                                 <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}"></i>
                                                 <span class="sr-only">{{ $isFavorited ? __('places.favorite_remove') : __('places.favorite_add') }}</span>
                                             </button>
@@ -73,24 +73,21 @@
                         {{-- Meta --}}
                         <div class="property-meta entry-meta clearfix">
                             <div class="col-xs-3 col-sm-3 col-md-3 p-b-15">
-                                <span class="property-info-icon"><i class="pe-7s-map-marker"
-                                        style="font-size:30px; color:#FFA500;"></i></span>
+                                <span class="property-info-icon"><i class="pe-7s-map-marker place-meta-icon"></i></span>
                                 <span class="property-info-entry">
                                     <span class="property-info-label">{{ __('places.city_label') }}</span>
                                     <span class="property-info-value">{{ $place->city }}</span>
                                 </span>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 p-b-15">
-                                <span class="property-info-icon"><i class="pe-7s-albums"
-                                        style="font-size:30px; color:#FFA500;"></i></span>
+                                <span class="property-info-icon"><i class="pe-7s-albums place-meta-icon"></i></span>
                                 <span class="property-info-entry">
                                     <span class="property-info-label">{{ __('places.category_label') }}</span>
                                     <span class="property-info-value">{{ $place->category->name ?? '—' }}</span>
                                 </span>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 p-b-15">
-                                <span class="property-info-icon"><i class="pe-7s-clock"
-                                        style="font-size:30px; color:#FFA500;"></i></span>
+                                <span class="property-info-icon"><i class="pe-7s-clock place-meta-icon"></i></span>
                                 <span class="property-info-entry">
                                     <span class="property-info-label">{{ __('places.status_label') }}</span>
                                     <span class="property-info-value">
@@ -99,8 +96,7 @@
                                 </span>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 p-b-15">
-                                <span class="property-info-icon"><i class="pe-7s-cash"
-                                        style="font-size:30px; color:#FFA500;"></i></span>
+                                <span class="property-info-icon"><i class="pe-7s-cash place-meta-icon"></i></span>
                                 <span class="property-info-entry">
                                     <span class="property-info-label">{{ __('places.price_label') }}</span>
                                     <span class="property-info-value">{{ ucfirst($place->price_level) }}</span>
@@ -109,14 +105,14 @@
                         </div>
 
                         {{-- Tabs --}}
-                        <ul class="nav nav-tabs" style="margin-top:20px;">
+                        <ul class="nav nav-tabs place-tabs">
                             <li class="active"><a data-toggle="tab" href="#overview">{{ __('places.overview') }}</a></li>
                             <li><a data-toggle="tab" href="#reviews-tab">{{ __('places.reviews') }}</a></li>
                             <li><a data-toggle="tab" href="#hours-tab">{{ __('places.opening_hours') }}</a></li>
                             <li><a data-toggle="tab" href="#contact-tab">{{ __('places.contact') }}</a></li>
                         </ul>
 
-                        <div class="tab-content" style="padding-top:20px;">
+                        <div class="tab-content place-tab-content">
 
                             {{-- Overview Tab --}}
                             <div id="overview" class="tab-pane fade in active">
@@ -149,9 +145,11 @@
                                         <li>
                                             <span class="col-xs-4 add-d-title">{{ __('common.verified') }}</span>
                                             <span class="col-xs-8 add-d-entry">
-                                                {!! $place->is_verified
-                                                    ? '<i class="fa fa-check-circle" style="color:green;"></i> ' . __('places.yes')
-                                                    : '<i class="fa fa-times-circle" style="color:gray;"></i> ' . __('places.no') !!}
+                                                @if ($place->is_verified)
+                                                    <i class="fa fa-check-circle place-verified-icon" aria-hidden="true"></i> {{ __('places.yes') }}
+                                                @else
+                                                    <i class="fa fa-times-circle place-unverified-icon" aria-hidden="true"></i> {{ __('places.no') }}
+                                                @endif
                                             </span>
                                         </li>
                                     </ul>
@@ -173,13 +171,13 @@
 
                                 @auth
                                     @if (! $hasReviewed)
-                                        <div class="section" style="margin-top:30px;">
+                                        <div class="section place-review-section">
                                             <h4 class="s-property-title">{{ __('places.write_review') }}</h4>
                                             <form action="{{ route('places.reviews.store', $place) }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label>{{ __('places.rating') }}</label>
-                                                    <select name="rating" class="form-control" style="width:auto;" required>
+                                                    <select name="rating" class="form-control place-review-select" required>
                                                         @for ($i = 5; $i >= 1; $i--)
                                                             <option value="{{ $i }}">{{ $i }}
                                                                 Star{{ $i > 1 ? 's' : '' }}</option>
@@ -195,7 +193,7 @@
                                             </form>
                                         </div>
                                     @else
-                                        <p class="text-muted" style="margin-top:20px;">{{ __('places.already_reviewed') }}</p>
+                                        <p class="text-muted place-reviewed-note">{{ __('places.already_reviewed') }}</p>
                                     @endif
                                 @else
                                     <p><a href="{{ route('login') }}">{{ __('auth.ui.login') }}</a> {{ __('places.login_review') }}</p>

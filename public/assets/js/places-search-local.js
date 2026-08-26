@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
     } else {
-        mapElement.innerHTML = '<p style="padding:16px">The map is unavailable. Enter coordinates in the fields below.</p>';
+        mapElement.innerHTML = '<p class="map-unavailable-message">The map is unavailable. Enter coordinates in the fields below.</p>';
         latInput.readOnly = false;
         lngInput.readOnly = false;
     }

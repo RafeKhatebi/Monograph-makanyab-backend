@@ -8,7 +8,7 @@
     @endif
 
     @if ($action ?? false)
-        <div style="margin-top: 20px;">
+        <div class="mk-ui-empty__action">
             {{ $action }}
         </div>
     @endif

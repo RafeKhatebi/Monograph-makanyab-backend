@@ -29,10 +29,9 @@
                 {{ __('auth.ui.create_account') }}
             </x-primary-button>
 
-            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                <span style="color: #6B7280; font-size: 14px;">{{ __('auth.ui.has_account') }}</span>
-                <a href="{{ route('login') }}"
-                    style="color: #10B981; text-decoration: none; font-weight: 600; margin-left: 5px;">
+            <div class="auth-card__footer">
+                <span>{{ __('auth.ui.has_account') }}</span>
+                <a href="{{ route('login') }}">
                     {{ __('auth.ui.sign_in') }}
                 </a>
             </div>

@@ -1,25 +1,25 @@
 @extends('layouts.auth')
 
-@section('title', 'Reset Password')
+@section('title', __('auth.ui.reset_password_title'))
 
 @section('content')
-    <x-auth-card title="Reset Password">
+    <x-auth-card :title="__('auth.ui.reset_password_title')">
         <form method="POST" action="{{ route('password.store') }}" class="mk-form" data-auth-form>
             @csrf
 
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <x-form-field label="{{ __('Email') }}" for="email" type="email" name="email" :value="old('email', $request->email)"
+            <x-form-field :label="__('auth.ui.email')" for="email" type="email" name="email" :value="old('email', $request->email)"
                 autocomplete="username" required autofocus />
 
-            <x-form-field label="{{ __('Password') }}" for="password" type="password" name="password"
+            <x-form-field :label="__('auth.ui.password')" for="password" type="password" name="password"
                 autocomplete="new-password" required />
 
-            <x-form-field label="{{ __('Confirm Password') }}" for="password_confirmation" type="password"
+            <x-form-field :label="__('auth.ui.confirm_password')" for="password_confirmation" type="password"
                 name="password_confirmation" autocomplete="new-password" required />
 
-            <button type="submit" class="mk-btn mk-btn-primary mk-btn-block" data-loading-text="Resetting...">
-                Reset Password
+            <button type="submit" class="mk-btn mk-btn-primary mk-btn-block" data-loading-text="{{ __('auth.ui.resetting') }}">
+                {{ __('auth.ui.reset_password') }}
             </button>
         </form>
     </x-auth-card>
