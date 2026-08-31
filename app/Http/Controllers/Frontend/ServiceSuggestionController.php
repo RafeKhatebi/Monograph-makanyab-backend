@@ -22,6 +22,6 @@ class ServiceSuggestionController extends Controller
         $suggestionService->createSuggestion(ServiceSuggestion::class, $request->validated());
 
         return redirect()->route('service-suggestions.create')
-            ->with('success', 'Thank you! Your service suggestion has been submitted for review.');
+            ->with('success', __('messages.service_suggestion_sent'));
     }
 }

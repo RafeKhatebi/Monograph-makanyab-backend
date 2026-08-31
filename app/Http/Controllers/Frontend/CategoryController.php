@@ -26,7 +26,8 @@ class CategoryController extends Controller
             })
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->get();
+            ->paginate(24)
+            ->withQueryString();
 
         return view('pages.categories.index', compact('categories'));
     }

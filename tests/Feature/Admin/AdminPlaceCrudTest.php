@@ -142,8 +142,25 @@ test('admin can toggle place active status', function () {
 });
 
 test('admin can filter places by search', function () {
-    Place::factory()->create(['name' => 'Kabul Restaurant', 'user_id' => $this->admin->id, 'place_category_id' => $this->category->id, 'city' => 'Kabul']);
-    Place::factory()->create(['name' => 'Mazar Shop', 'user_id' => $this->admin->id, 'place_category_id' => $this->category->id, 'city' => 'Mazar']);
+    Place::factory()->create([
+        'name' => 'Kabul Restaurant',
+        'user_id' => $this->admin->id,
+        'place_category_id' => $this->category->id,
+        'city' => 'Kabul',
+        'province' => 'Kabul',
+        'district' => 'Bagrami',
+    ]);
+    Place::factory()->create([
+        'name' => 'Mazar Shop',
+        'tagline' => 'Northern marketplace',
+        'description' => 'Retail goods and daily supplies.',
+        'address' => 'Blue Mosque Road',
+        'user_id' => $this->admin->id,
+        'place_category_id' => $this->category->id,
+        'city' => 'Mazar',
+        'province' => 'Balkh',
+        'district' => 'Mazar-e-Sharif',
+    ]);
 
     $this->actingAs($this->admin)
         ->get('/admin/places?search=Kabul')
@@ -335,4 +352,23 @@ test('admin can remove an existing place image while editing', function () {
 
     $this->assertDatabaseMissing('media', ['id' => $media->id]);
     Storage::disk('public')->assertMissing('places/remove.jpg');
+});
+
+test('force deleting a place removes its media records and files', function () {
+    Storage::fake('public');
+    $place = Place::factory()->create([
+        'user_id' => $this->admin->id,
+        'place_category_id' => $this->category->id,
+    ]);
+    Storage::disk('public')->put('places/force-delete.jpg', 'image');
+    $media = $place->media()->create([
+        'file_path' => 'places/force-delete.jpg',
+        'disk' => 'public',
+        'type' => 'image',
+    ]);
+
+    $place->forceDelete();
+
+    $this->assertDatabaseMissing('media', ['id' => $media->id]);
+    Storage::disk('public')->assertMissing('places/force-delete.jpg');
 });

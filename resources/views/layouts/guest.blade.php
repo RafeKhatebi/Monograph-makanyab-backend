@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}">
 
     <head>
         <meta charset="utf-8">

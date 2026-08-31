@@ -45,6 +45,7 @@ class SocialAuthenticationService
                 'email' => $email,
                 'email_verified_at' => $this->providerVerifiedEmail($provider, $socialUser) ? now() : null,
                 'password' => Str::password(48),
+                'password_set_at' => null,
                 'profile_picture' => $socialUser->getAvatar(),
                 'role' => 'user',
                 'is_active' => true,

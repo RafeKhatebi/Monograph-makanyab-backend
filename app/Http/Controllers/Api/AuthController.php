@@ -51,6 +51,12 @@ class AuthController extends Controller
             ], 422);
         }
 
+        if (! $user->hasUsablePassword()) {
+            return response()->json([
+                'message' => __('auth.password_required'),
+            ], 403);
+        }
+
         if (! $user->is_active) {
             return response()->json([
                 'message' => __('auth.inactive'),

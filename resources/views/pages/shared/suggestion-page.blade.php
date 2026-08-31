@@ -9,31 +9,31 @@
     'categoryField',
     'categoryLabel',
     'categories' => [],
-    'submitText' => 'Submit',
+    'submitText' => __('suggestions.submit'),
 ])
 
-<div style="background:linear-gradient(135deg,#064e3b,#10B981);padding:50px 0;">
+<div class="mk-hero suggestion-hero">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <h1 style="font-size:36px;font-weight:800;color:#fff;margin-bottom:10px;">{{ $title }}</h1>
-                <p style="color:rgba(255,255,255,.85);font-size:16px;">{{ $description }}</p>
-                <p style="color:rgba(255,255,255,.75);font-size:14px;">
+                <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="suggestion-branding__logo">
+                <h1 class="suggestion-hero__title">{{ $title }}</h1>
+                <p class="suggestion-hero__text">{{ $description }}</p>
+                <p class="suggestion-hero__switch">
                     {{ $switchText }}
-                    <a href="{{ route($switchRoute) }}"
-                        style="color:#D1FAE5;text-decoration:underline;">{{ $switchLinkText }}</a>.
+                    <a href="{{ route($switchRoute) }}">{{ $switchLinkText }}</a>.
                 </p>
             </div>
         </div>
     </div>
 </div>
 
-<div style="background:#F8FAFC;padding:60px 0;">
+<div class="suggestion-form-shell">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div style="background:#fff;border-radius:18px;padding:32px;border:1px solid #E5E7EB;">
-                    <h3 style="font-size:22px;font-weight:700;color:#111827;margin-bottom:18px;">{{ $formTitle }}
+                <div class="suggestion-form-card">
+                    <h3 class="suggestion-form-title">{{ $formTitle }}
                     </h3>
 
                     @include('pages.shared.suggestion-form', [

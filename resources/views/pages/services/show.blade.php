@@ -3,164 +3,142 @@
 @section('title', $service->name)
 
 @section('content')
-    <div class="page-head">
+    @php
+        $serviceImages = $service->media->where('type', 'image')->sortBy('sort_order');
+        $serviceCover = $serviceImages->firstWhere('is_cover', true) ?? $serviceImages->first();
+    @endphp
+
+    <div class="detail-hero">
         <div class="container">
-            <h1 class="page-title">{{ $service->name }}</h1>
+            <div class="detail-hero__content">
+                @if ($service->category)
+                    <span class="detail-pill">{{ $service->category->name }}</span>
+                @endif
+                <h1 class="detail-hero__title">{{ $service->name }}</h1>
+                <p class="detail-hero__text">{{ $service->tagline ?: __('services.professional') }}</p>
+                <div class="detail-hero__meta">
+                    @include('components.rating-stars', ['rating' => $service->avg_rating])
+                    <span>{{ $service->reviews->count() }} {{ __('places.reviews') }}</span>
+                    @if ($service->is_verified)
+                        <span><i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('common.verified') }}</span>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="content-area" style="padding:60px 0; background:#F8FAFC;">
+    <div class="detail-page">
         <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="box-two" style="padding:0; border-radius:16px; overflow:hidden; margin-bottom:30px;">
-                        @php
-                            $serviceImages = $service->media->where('type', 'image')->sortBy('sort_order');
-                            $serviceCover = $serviceImages->firstWhere('is_cover', true) ?? $serviceImages->first();
-                        @endphp
+            <div class="detail-grid">
+                <main class="detail-main">
+                    <section class="detail-card detail-media-card">
                         <img src="{{ $serviceCover ? asset('storage/' . $serviceCover->file_path) : asset('assets/img/demo/property-1.jpg') }}"
-                            alt="{{ $service->name }}" style="width:100%; height:420px; object-fit:cover;">
+                            alt="{{ $service->name }}" class="detail-cover-image">
                         @if ($serviceImages->count() > 1)
-                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;padding:10px;background:#fff;">
+                            <div class="detail-thumb-grid">
                                 @foreach ($serviceImages as $image)
                                     <a href="{{ asset('storage/' . $image->file_path) }}" target="_blank" rel="noopener">
-                                        <img src="{{ asset('storage/' . $image->file_path) }}" alt="{{ $service->name }} image {{ $loop->iteration }}"
-                                            loading="lazy" style="width:100%;height:76px;object-fit:cover;border-radius:8px;">
+                                        <img src="{{ asset('storage/' . $image->file_path) }}" alt="{{ $service->name }}" loading="lazy">
                                     </a>
                                 @endforeach
                             </div>
                         @endif
-                    </div>
+                    </section>
 
-                    <div class="box-two" style="padding:35px; border-radius:16px; margin-bottom:30px;">
-                        <div style="margin-bottom:20px;">
-                            @if ($service->category)
-                                <span
-                                    style="background:#ECFDF5; color:#10B981; padding:8px 16px; border-radius:50px; font-size:13px; font-weight:600;">
-                                    {{ $service->category->name }}
-                                </span>
+                    <section class="detail-card">
+                        <h2 class="detail-section-title">{{ __('places.overview') }}</h2>
+                        <p class="detail-copy">{{ $service->description ?: __('places.no_description') }}</p>
+                    </section>
+
+                    <section class="detail-card">
+                        <h2 class="detail-section-title">{{ __('places.details') }}</h2>
+                        <dl class="detail-facts">
+                            <div><dt>{{ __('places.city_label') }}</dt><dd>{{ $service->city }}</dd></div>
+                            <div><dt>{{ __('places.category_label') }}</dt><dd>{{ $service->category->name ?? __('common.none') }}</dd></div>
+                            <div><dt>{{ __('places.status_label') }}</dt><dd>{{ __('common.status.' . $service->status) }}</dd></div>
+                            <div><dt>{{ __('places.price_label') }}</dt><dd>{{ __('common.price.' . ($service->price_level ?? 'medium')) }}</dd></div>
+                            <div><dt>{{ __('common.dates.added_on') }}</dt><dd>{{ \App\Support\LocalizedDate::date($service->created_at) }}</dd></div>
+                            <div><dt>{{ __('common.dates.updated_on') }}</dt><dd>{{ \App\Support\LocalizedDate::date($service->updated_at) }}</dd></div>
+                            <div><dt>{{ __('places.address') }}</dt><dd>{{ collect([$service->address, $service->district, $service->city])->filter()->join(', ') }}</dd></div>
+                            <div><dt>{{ __('services.province') }}</dt><dd>{{ $service->province ?: __('common.none') }}</dd></div>
+                            <div><dt>{{ __('services.country') }}</dt><dd>{{ $service->country ?: __('common.none') }}</dd></div>
+                            @if ($service->latitude && $service->longitude)
+                                <div><dt>{{ __('services.coordinates') }}</dt><dd>{{ $service->latitude }}, {{ $service->longitude }}</dd></div>
                             @endif
-                            @if ($service->is_verified)
-                                <span style="margin-left:10px; color:#10B981; font-weight:700;">✓ Verified</span>
-                            @endif
-                            @auth
-                                <form method="POST" action="{{ route('services.favorite', $service) }}" style="display:inline-block;margin-left:10px;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-default btn-sm">
-                                        <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}"></i>
-                                        {{ $isFavorited ? 'Saved' : 'Save service' }}
-                                    </button>
-                                </form>
-                            @endauth
-                        </div>
+                        </dl>
+                    </section>
 
-                        <h2 style="font-size:32px; font-weight:700; margin-bottom:18px;">{{ $service->name }}</h2>
-                        <div style="margin-bottom:14px;">
-                            @include('components.rating-stars', ['rating' => $service->avg_rating])
-                            <small>({{ $service->reviews->count() }} reviews)</small>
-                        </div>
-                        <p style="font-size:16px; color:#6B7280; line-height:1.8; margin-bottom:25px;">
-                            {{ $service->tagline ?? 'Professional service available in your city.' }}
-                        </p>
-
-                        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:25px;">
-                            <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>City:</strong> {{ $service->city }}
-                            </div>
-                            <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>Status:</strong> {{ ucfirst($service->status) }}
-                            </div>
-                            <div style="background:#F3F4F6; padding:12px 18px; border-radius:12px; font-size:14px;">
-                                <strong>Price:</strong> {{ ucfirst($service->price_level) }}
-                            </div>
-                        </div>
-
-                        <div style="margin-bottom:30px;">
-                            {!! nl2br(e($service->description)) !!}
-                        </div>
-
-                        <div style="display:grid; gap:12px;">
-                            <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
-                                <strong>Phone 1:</strong> {{ $service->phone_1 }}
-                            </div>
-                            @if ($service->phone_2)
-                                <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
-                                    <strong>Phone 2:</strong> {{ $service->phone_2 }}
-                                </div>
-                            @endif
-                            @if ($service->whatsapp)
-                                <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
-                                    <strong>WhatsApp:</strong> {{ $service->whatsapp }}
-                                </div>
-                            @endif
-                            @if ($service->website)
-                                <div style="padding:20px; background:#F8FAFC; border-radius:16px;">
-                                    <strong>Website:</strong>
-                                    <a href="{{ $service->website }}" target="_blank"
-                                        rel="noopener noreferrer"
-                                        style="color:#10B981; text-decoration:none;">
-                                        {{ $service->website }}
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <section class="box-two" style="padding:30px;border-radius:16px;margin-bottom:30px;" aria-labelledby="service-reviews-heading">
-                        <h2 id="service-reviews-heading" style="font-size:22px;font-weight:700;">Reviews</h2>
-                        @forelse ($service->reviews as $review)
+                    <section class="detail-card">
+                        <h2 class="detail-section-title">{{ __('places.reviews') }}</h2>
+                        @forelse($service->reviews as $review)
                             @include('components.review-card', ['review' => $review])
                         @empty
-                            <p class="text-muted">No reviews yet. Be the first.</p>
+                            <p class="detail-copy detail-copy--muted">{{ __('places.no_reviews') }}</p>
                         @endforelse
 
                         @auth
                             @if (! $hasReviewed)
-                                <form method="POST" action="{{ route('services.reviews.store', $service) }}" style="margin-top:20px;">
+                                <form method="POST" action="{{ route('services.reviews.store', $service) }}" class="detail-review-form">
                                     @csrf
-                                    <label for="service-rating">Rating</label>
+                                    <label for="service-rating">{{ __('places.rating') }}</label>
                                     <select id="service-rating" name="rating" class="form-control" required>
                                         @for ($rating = 5; $rating >= 1; $rating--)
-                                            <option value="{{ $rating }}">{{ $rating }} star{{ $rating === 1 ? '' : 's' }}</option>
+                                            <option value="{{ $rating }}">{{ __('places.stars', ['count' => $rating]) }}</option>
                                         @endfor
                                     </select>
-                                    <label for="service-review-comment" style="margin-top:10px;">Comment</label>
-                                    <textarea id="service-review-comment" name="comment" class="form-control" rows="4" maxlength="2000"></textarea>
-                                    <button type="submit" class="btn btn-primary" style="margin-top:10px;">Submit review</button>
+                                    <label for="service-review-comment">{{ __('places.comment') }}</label>
+                                    <textarea id="service-review-comment" name="comment" class="form-control" rows="4" maxlength="2000"
+                                        placeholder="{{ __('places.comment_placeholder') }}"></textarea>
+                                    <button type="submit" class="mk-button mk-button--primary mk-button--md">{{ __('places.submit_review') }}</button>
                                 </form>
                             @else
-                                <p class="text-muted" style="margin-top:15px;">You have already reviewed this service. Edit it from your profile after approval.</p>
+                                <p class="detail-copy detail-copy--muted">{{ __('services.already_reviewed') }}</p>
                             @endif
                         @else
-                            <p><a href="{{ route('login') }}">Log in</a> to review this service.</p>
+                            <p class="detail-copy"><a href="{{ route('login') }}">{{ __('auth.ui.login') }}</a> {{ __('services.login_review') }}</p>
                         @endauth
                     </section>
-                </div>
+                </main>
 
-                <div class="col-md-4">
-                    <div class="box-two" style="padding:30px; border-radius:16px;">
-                        <h3 style="font-size:24px; font-weight:700; margin-bottom:18px;">Location Details</h3>
-                        <p style="color:#6B7280; margin-bottom:10px;">
-                            <strong>Address:</strong> {{ $service->address }}, {{ $service->city }},
-                            {{ $service->district }}
-                        </p>
-                        @if ($service->latitude && $service->longitude)
-                            <p style="color:#6B7280; margin-bottom:10px;"><strong>Coordinates:</strong>
-                                {{ $service->latitude }}, {{ $service->longitude }}</p>
-                        @endif
-                        <p style="color:#6B7280; margin-bottom:10px;"><strong>Province:</strong> {{ $service->province }}
-                        </p>
-                        <p style="color:#6B7280; margin-bottom:0;"><strong>Country:</strong> {{ $service->country }}</p>
-                    </div>
-                </div>
+                <aside class="detail-sidebar">
+                    <section class="detail-card">
+                        <h2 class="detail-section-title">{{ __('places.contact') }}</h2>
+                        <div class="detail-contact-list">
+                            @if ($service->phone_1)
+                                <a href="tel:{{ $service->phone_1 }}"><i class="fa fa-phone" aria-hidden="true"></i> {{ $service->phone_1 }}</a>
+                            @endif
+                            @if ($service->phone_2)
+                                <a href="tel:{{ $service->phone_2 }}"><i class="fa fa-phone" aria-hidden="true"></i> {{ $service->phone_2 }}</a>
+                            @endif
+                            @if ($service->whatsapp)
+                                <a href="https://wa.me/{{ $service->whatsapp }}" target="_blank" rel="noopener"><i class="fa fa-whatsapp" aria-hidden="true"></i> {{ $service->whatsapp }}</a>
+                            @endif
+                            @if ($service->website)
+                                <a href="{{ $service->website }}" target="_blank" rel="noopener"><i class="fa fa-globe" aria-hidden="true"></i> {{ $service->website }}</a>
+                            @endif
+                        </div>
+                    </section>
+
+                    @auth
+                        <section class="detail-card">
+                            <form method="POST" action="{{ route('services.favorite', $service) }}" class="detail-favorite-form">
+                                @csrf
+                                <button type="submit" class="mk-button mk-button--secondary mk-button--md">
+                                    <i class="fa {{ $isFavorited ? 'fa-star' : 'fa-star-o' }}" aria-hidden="true"></i>
+                                    {{ $isFavorited ? __('services.saved') : __('services.save') }}
+                                </button>
+                            </form>
+                        </section>
+                    @endauth
+                </aside>
             </div>
 
             @if ($similar->isNotEmpty())
-                <section style="margin-top:30px;" aria-labelledby="related-services-heading">
-                    <h2 id="related-services-heading" style="font-size:22px;font-weight:700;margin-bottom:18px;">Related services</h2>
+                <section class="related-section">
+                    <h2 class="related-section__title">{{ __('services.related') }}</h2>
                     <div class="row">
                         @foreach ($similar as $relatedService)
-                            <div class="col-sm-6 col-md-3" style="margin-bottom:20px;">
+                            <div class="col-sm-6 col-md-3 service-grid-col">
                                 <x-service-card :service="$relatedService" />
                             </div>
                         @endforeach

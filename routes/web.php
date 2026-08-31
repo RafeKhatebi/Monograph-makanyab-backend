@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\PlaceCategoryController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ReviewController;
@@ -14,13 +15,13 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\FavoriteWebController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
-use App\Http\Controllers\Frontend\PlaceSuggestionController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
-use App\Http\Controllers\Frontend\ServiceSuggestionController;
+use App\Http\Controllers\Frontend\SuggestionHubController;
 use App\Http\Controllers\Frontend\UserProfileController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,21 +31,38 @@ use Illuminate\Support\Facades\Route;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
+
 // About
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::view('/privacy-policy', 'pages.legal.privacy')->name('privacy');
 Route::view('/terms-of-service', 'pages.legal.terms')->name('terms');
+Route::view('/how-to-share', 'pages.legal.guide', ['guide' => 'share'])->name('guides.share');
+Route::view('/how-to-send-posts', 'pages.legal.guide', ['guide' => 'send_posts'])->name('guides.send-posts');
+Route::view('/how-to-send-places', 'pages.legal.guide', ['guide' => 'send_places'])->name('guides.send-places');
+Route::view('/how-to-send-services', 'pages.legal.guide', ['guide' => 'send_services'])->name('guides.send-services');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('contact.store');
 
 // Search Section
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
-Route::get('/suggest-place', [PlaceSuggestionController::class, 'create'])->name('place-suggestions.create');
-Route::post('/suggest-place', [PlaceSuggestionController::class, 'store'])->name('place-suggestions.store');
-Route::get('/suggest-service', [ServiceSuggestionController::class, 'create'])->name('service-suggestions.create');
-Route::post('/suggest-service', [ServiceSuggestionController::class, 'store'])->name('service-suggestions.store');
+Route::redirect('/suggest-place', '/add?type=place')->name('place-suggestions.create');
+Route::post('/suggest-place', fn () => redirect()->route('add.create', ['type' => 'place']))
+    ->name('place-suggestions.store');
+Route::redirect('/suggest-service', '/add?type=service')->name('service-suggestions.create');
+Route::post('/suggest-service', fn () => redirect()->route('add.create', ['type' => 'service']))
+    ->name('service-suggestions.store');
+Route::redirect('/suggest', '/add')->name('suggest.create');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/add', [SuggestionHubController::class, 'create'])->name('add.create');
+    Route::post('/add', [SuggestionHubController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('add.store');
+});
 
 //  Posts Section
 
@@ -194,6 +212,15 @@ Route::middleware(['auth', 'verified', 'admin'])
             ->only(['index', 'show', 'destroy']);
         Route::post('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
         Route::post('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
+
+        Route::resource('contact-messages', AdminContactMessageController::class)
+            ->only(['index', 'show', 'destroy']);
+        Route::post('contact-messages/{contactMessage}/mark-unread', [AdminContactMessageController::class, 'markUnread'])
+            ->name('contact-messages.mark-unread');
+        Route::post('contact-messages/{contactMessage}/archive', [AdminContactMessageController::class, 'archive'])
+            ->name('contact-messages.archive');
+        Route::post('contact-messages/{contactMessage}/restore', [AdminContactMessageController::class, 'restore'])
+            ->name('contact-messages.restore');
 
         /*
         Posts Management

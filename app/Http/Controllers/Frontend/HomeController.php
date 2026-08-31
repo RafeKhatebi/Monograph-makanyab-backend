@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Place;
-use App\Models\PlaceCategory;
 use App\Models\Post;
 use App\Models\Service;
-use App\Models\ServiceCategory;
 use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
@@ -20,7 +18,7 @@ class HomeController extends Controller
                 ->where('is_active', true)
                 ->where('is_verified', true)
                 ->orderByDesc('created_at')
-                ->limit(7)
+                ->limit(3)
                 ->get();
         });
 
@@ -31,26 +29,8 @@ class HomeController extends Controller
                 ->where('is_active', true)
                 ->where('is_verified', true)
                 ->orderByDesc('created_at')
-                ->limit(6)
+                ->limit(3)
                 ->get();
-        });
-
-        // Cache categories for 10 minutes
-        $categories = Cache::remember('home_categories', 600, function () {
-            return PlaceCategory::withCount('places')
-                ->where('is_active', true)
-                ->whereNull('parent_id')
-                ->orderBy('sort_order')
-                ->limit(6)
-                ->get();
-        });
-
-        $serviceCategories = Cache::remember('home_service_categories', 600, function () {
-            return ServiceCategory::active()
-                ->orderBy('sort_order')
-                ->orderBy('name')
-                ->limit(6)
-                ->get(['id', 'name', 'slug', 'icon_name', 'color_code']);
         });
 
         $latestPosts = Cache::remember('home_latest_posts', 600, function () {
@@ -75,23 +55,6 @@ class HomeController extends Controller
                 ->get();
         });
 
-        $searchProvinces = Cache::remember('home_search_provinces', 600, function () {
-            return collect()
-                ->merge(Place::active()->whereNotNull('province')->distinct()->pluck('province'))
-                ->merge(Service::active()->whereNotNull('province')->distinct()->pluck('province'))
-                ->filter()
-                ->map(fn ($province) => trim($province))
-                ->filter()
-                ->unique()
-                ->sort()
-                ->take(12)
-                ->values();
-        });
-
-        if ($searchProvinces->isEmpty()) {
-            $searchProvinces = collect(['Kabul', 'Herat', 'Balkh', 'Nangarhar']);
-        }
-
         $homeStats = [
             'places' => Place::active()->count(),
             'services' => Service::active()->count(),
@@ -102,11 +65,8 @@ class HomeController extends Controller
         return view('pages.home', compact(
             'featuredPlaces',
             'featuredServices',
-            'categories',
-            'serviceCategories',
             'latestPosts',
             'verifiedPlaces',
-            'searchProvinces',
             'homeStats'
         ));
     }

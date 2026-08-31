@@ -34,6 +34,13 @@ test('authenticated user can add a place to favorites', function () {
         ->assertJsonFragment(['place_id' => $this->place->id]);
 });
 
+test('authenticated user can add a service to favorites', function () {
+    $this->actingAs($this->user)
+        ->postJson('/api/service-favorites/'.$this->service->slug)
+        ->assertCreated()
+        ->assertJsonFragment(['service_id' => $this->service->id]);
+});
+
 test('cannot add same place to favorites twice', function () {
     Favorite::factory()->create([
         'user_id' => $this->user->id,
@@ -97,9 +104,17 @@ test('authenticated user can list their favorites', function () {
         'user_id' => $this->user->id,
         'place_id' => $this->place->id,
     ]);
+    Favorite::factory()->forService($this->service)->create([
+        'user_id' => $this->user->id,
+    ]);
 
     $this->actingAs($this->user)
         ->getJson('/api/favorites')
+        ->assertOk()
+        ->assertJsonCount(1, 'data');
+
+    $this->actingAs($this->user)
+        ->getJson('/api/service-favorites')
         ->assertOk()
         ->assertJsonCount(1, 'data');
 });
@@ -175,6 +190,15 @@ test('logged out users cannot manage favorites', function () {
     $this->postJson('/api/favorites', ['place_id' => $this->place->id])
         ->assertUnauthorized();
 
+    $this->postJson('/api/service-favorites/'.$this->service->slug)
+        ->assertUnauthorized();
+
+    $this->getJson('/api/favorites')
+        ->assertUnauthorized();
+
+    $this->getJson('/api/service-favorites')
+        ->assertUnauthorized();
+
     $this->get('/favorites')
         ->assertRedirect('/login');
 });
@@ -225,6 +249,21 @@ test('authenticated user can remove a favorite', function () {
     $this->assertDatabaseMissing('favorites', [
         'user_id' => $this->user->id,
         'place_id' => $this->place->id,
+    ]);
+});
+
+test('authenticated user can remove a service favorite', function () {
+    Favorite::factory()->forService($this->service)->create([
+        'user_id' => $this->user->id,
+    ]);
+
+    $this->actingAs($this->user)
+        ->deleteJson('/api/service-favorites/'.$this->service->slug)
+        ->assertNoContent();
+
+    $this->assertDatabaseMissing('favorites', [
+        'user_id' => $this->user->id,
+        'service_id' => $this->service->id,
     ]);
 });
 

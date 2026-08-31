@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Enums\PlaceStatus;
 use App\Models\Place;
 use App\Models\PlaceCategory;
 use App\Models\Service;
 use App\Models\ServiceCategory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -16,112 +16,111 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $searchTerm = trim((string) $request->query('search', ''));
-        $locationTerm = trim((string) $request->query('location', ''));
-        $request->merge([
-            'search' => $searchTerm,
-            'location' => $locationTerm,
-        ]);
+        $selectedType = $this->normalizeType($request->query('type'));
+        $category = trim((string) $request->query('category', ''));
+        $province = trim((string) $request->query('province', ''));
+        $sort = $request->query('sort') ?: ($searchTerm !== '' ? 'relevance' : 'newest');
 
         $request->validate([
             'search' => ['nullable', 'string', 'max:120'],
-            'location' => ['nullable', 'string', 'max:120'],
-            'city' => ['nullable', 'string', 'max:100'],
             'province' => ['nullable', 'string', 'max:100'],
-            'district' => ['nullable', 'string', 'max:100'],
-            'place_category' => ['nullable', 'string', 'max:255'],
-            'service_category' => ['nullable', 'string', 'max:255'],
-            'type' => ['nullable', 'in:all,places,services'],
-            'status' => ['nullable', 'in:open,closed,temporarily_closed'],
-            'price_level' => ['nullable', 'in:low,medium,high,luxury'],
+            'category' => ['nullable', 'string', 'max:255'],
+            'type' => ['nullable', 'in:place,service,places,services,all'],
+            'status' => ['nullable', 'in:'.implode(',', PlaceStatus::values())],
             'rating' => ['nullable', 'integer', 'between:1,5'],
             'sort' => ['nullable', 'in:relevance,newest,name_asc,name_desc'],
         ]);
 
-        $sort = $request->query('sort') ?: ($searchTerm !== '' ? 'relevance' : 'newest');
-        $showPlaces = $request->type !== 'services';
-        $showServices = $request->type !== 'places';
+        $rating = $request->filled('rating') ? $request->integer('rating') : null;
+        $status = $request->query('status');
+        $verified = $request->boolean('verified');
 
-        $places = null;
-        $services = null;
-
-        if ($showPlaces) {
-            $placesQuery = Place::query()
-                ->with(['category:id,name,slug', 'media'])
-                ->active()
-                ->filterSearch($request->query('search'))
-                ->filterCategorySlug($request->query('place_category'))
-                ->when($request->filled('location'), fn ($q) => $this->applyLocationFilter($q, $request->query('location')))
-                ->when($request->filled('city'), fn ($q) => $q->where('city', 'like', '%'.$request->city.'%'))
-                ->when($request->filled('province'), fn ($q) => $q->where('province', 'like', '%'.$request->province.'%'))
-                ->when($request->filled('district'), fn ($q) => $q->where('district', 'like', '%'.$request->district.'%'))
-                ->when($request->filled('status'), fn ($q) => $q->where('status', $request->status))
-                ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->price_level))
-                ->filterRatingAtLeast($request->integer('rating'))
-                ->filterOpenNow($request->boolean('open_now'))
-                ->filterVerified($request->boolean('verified'));
-
-            $this->applySort($placesQuery, $sort, $searchTerm, 'places');
-
-            $places = $placesQuery
-                ->paginate(8, ['*'], 'places_page')
-                ->withQueryString();
-        }
-
-        if ($showServices) {
-            $servicesQuery = Service::query()
+        if ($selectedType === 'service') {
+            $resultsQuery = Service::query()
                 ->with(['category:id,name,slug', 'media'])
                 ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
                 ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
                 ->active()
-                ->filterSearch($request->query('search'))
-                ->filterCategorySlug($request->query('service_category'))
-                ->when($request->filled('location'), fn ($q) => $this->applyLocationFilter($q, $request->query('location')))
-                ->when($request->filled('city'), fn ($q) => $q->where('city', 'like', '%'.$request->city.'%'))
-                ->when($request->filled('province'), fn ($q) => $q->where('province', 'like', '%'.$request->province.'%'))
-                ->when($request->filled('district'), fn ($q) => $q->where('district', 'like', '%'.$request->district.'%'))
-                ->when($request->filled('status'), fn ($q) => $q->where('status', $request->status))
-                ->when($request->filled('price_level'), fn ($q) => $q->where('price_level', $request->price_level))
-                ->filterRatingAtLeast($request->integer('rating'))
-                ->filterOpenNow($request->boolean('open_now'))
-                ->filterVerified($request->boolean('verified'));
-
-            $this->applySort($servicesQuery, $sort, $searchTerm, 'services');
-
-            $services = $servicesQuery
-                ->paginate(8, ['*'], 'services_page')
-                ->withQueryString();
+                ->filterSearch($searchTerm)
+                ->filterCategorySlug($category)
+                ->when($province !== '', fn ($query) => $query->where('province', $province))
+                ->when(filled($status), fn ($query) => $query->where('status', $status))
+                ->filterRatingAtLeast($rating)
+                ->filterVerified($verified);
+            $table = 'services';
+        } else {
+            $resultsQuery = Place::query()
+                ->with(['category:id,name,slug', 'media'])
+                ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
+                ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
+                ->active()
+                ->filterSearch($searchTerm)
+                ->filterCategorySlug($category)
+                ->when($province !== '', fn ($query) => $query->where('province', $province))
+                ->when(filled($status), fn ($query) => $query->where('status', $status))
+                ->filterRatingAtLeast($rating)
+                ->filterVerified($verified);
+            $table = 'places';
         }
 
-        // Cache categories for 30 minutes (rarely change)
+        $this->applySort($resultsQuery, $sort, $searchTerm, $table);
+
+        $queryParams = array_filter([
+            'category' => $category,
+            'province' => $province,
+            'search' => $searchTerm,
+            'status' => $status,
+            'rating' => $rating,
+            'verified' => $verified ? 1 : null,
+            'sort' => $sort !== ($searchTerm !== '' ? 'relevance' : 'newest') ? $sort : null,
+        ], fn ($value) => filled($value));
+        $queryParams['type'] = $selectedType;
+
+        $results = $resultsQuery
+            ->paginate(18)
+            ->appends($queryParams);
+
         $placeCategories = Cache::remember('active_place_categories', 1800, function () {
-            return PlaceCategory::active()->orderBy('name')->get();
+            return PlaceCategory::active()->orderBy('name')->get(['id', 'name', 'slug', 'icon_name']);
         });
 
         $serviceCategories = Cache::remember('active_service_categories', 1800, function () {
-            return ServiceCategory::active()->orderBy('name')->get();
+            return ServiceCategory::active()->orderBy('name')->get(['id', 'name', 'slug', 'icon_name']);
+        });
+
+        $provinces = Cache::remember('discover_provinces', 1800, function () {
+            return collect()
+                ->merge(Place::active()->whereNotNull('province')->distinct()->pluck('province'))
+                ->merge(Service::active()->whereNotNull('province')->distinct()->pluck('province'))
+                ->map(fn ($province) => trim((string) $province))
+                ->filter()
+                ->unique()
+                ->sort()
+                ->values();
         });
 
         return view('pages.search.index', compact(
-            'places',
-            'services',
+            'results',
             'placeCategories',
             'serviceCategories',
-            'showPlaces',
-            'showServices'
+            'provinces',
+            'selectedType',
+            'category',
+            'province',
+            'searchTerm',
+            'status',
+            'rating',
+            'verified',
+            'sort'
         ));
     }
 
-    private function applyLocationFilter(Builder $query, string $location): void
+    private function normalizeType(mixed $type): string
     {
-        $query->where(function (Builder $query) use ($location) {
-            $query->where('city', 'like', '%'.$location.'%')
-                ->orWhere('province', 'like', '%'.$location.'%')
-                ->orWhere('district', 'like', '%'.$location.'%')
-                ->orWhere('address', 'like', '%'.$location.'%');
-        });
+        return in_array($type, ['service', 'services'], true) ? 'service' : 'place';
     }
 
-    private function applySort(Builder $query, string $sort, string $searchTerm, string $table): void
+    private function applySort($query, string $sort, string $searchTerm, string $table): void
     {
         if ($sort === 'name_asc') {
             $query->orderBy("{$table}.name");

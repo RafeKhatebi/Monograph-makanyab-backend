@@ -82,7 +82,7 @@ class ServiceController extends Controller
         });
 
         return redirect()->route('admin.services.index')
-            ->with('success', 'Service created successfully.');
+            ->with('success', __('messages.admin.services.created'));
     }
 
     public function show(Service $service)
@@ -112,10 +112,11 @@ class ServiceController extends Controller
 
         DB::transaction(function () use ($request, $validated, $service, $mediaUploadService): void {
             $service->update($validated);
-            $mediaUploadService->removeImages($service, $request->input('remove_media', []));
+            $removedMediaIds = array_map('intval', $request->input('remove_media', []));
+            $mediaUploadService->removeImages($service, $removedMediaIds);
 
             if ($request->filled('cover_media_id')
-                && ! in_array($request->integer('cover_media_id'), $request->input('remove_media', []), true)) {
+                && ! in_array($request->integer('cover_media_id'), $removedMediaIds, true)) {
                 $mediaUploadService->setCoverImage($service, $request->integer('cover_media_id'));
             }
 
@@ -130,7 +131,7 @@ class ServiceController extends Controller
         });
 
         return redirect()->route('admin.services.index')
-            ->with('success', 'Service updated successfully.');
+            ->with('success', __('messages.admin.services.updated'));
     }
 
     public function destroy(Service $service)
@@ -138,7 +139,7 @@ class ServiceController extends Controller
         $service->delete();
 
         return redirect()->route('admin.services.index')
-            ->with('success', 'Service deleted successfully.');
+            ->with('success', __('messages.admin.services.deleted'));
     }
 
     public function restore(string $service)
@@ -149,26 +150,26 @@ class ServiceController extends Controller
 
         if (! $service->trashed()) {
             return redirect()->route('admin.services.index')
-                ->with('info', 'Service is already active.');
+                ->with('info', __('messages.admin.services.already_active'));
         }
 
         $service->restore();
 
         return redirect()->route('admin.services.index', ['trashed' => 'with'])
-            ->with('success', 'Service restored successfully.');
+            ->with('success', __('messages.admin.services.restored'));
     }
 
     public function toggleVerification(Service $service)
     {
         $service->update(['is_verified' => ! $service->is_verified]);
 
-        return back()->with('success', 'Verification status updated.');
+        return back()->with('success', __('messages.admin.services.verification_updated'));
     }
 
     public function toggleActive(Service $service)
     {
         $service->update(['is_active' => ! $service->is_active]);
 
-        return back()->with('success', 'Active status updated.');
+        return back()->with('success', __('messages.admin.services.active_updated'));
     }
 }

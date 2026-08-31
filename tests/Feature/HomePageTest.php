@@ -57,7 +57,6 @@ it('renders the phase nine home sections and searchable hero', function () {
         ->assertSee('Search places, services, or keywords')
         ->assertSee('Any location')
         ->assertSee('Restaurants')
-        ->assertSee('Repairs')
         ->assertSee('Featured Places')
         ->assertSee('Featured Services')
         ->assertSee('Recently Verified')
@@ -65,7 +64,9 @@ it('renders the phase nine home sections and searchable hero', function () {
         ->assertSee('Kabul Garden Cafe')
         ->assertSee('City Repair Service')
         ->assertSee('Makanyab City Guide')
-        ->assertSee('Show next Makanyab highlight');
+        ->assertSee('Suggest a Place')
+        ->assertSee('Suggest a Service')
+        ->assertDontSee('Show next Makanyab highlight');
 });
 
 it('shows professional empty states when home records are unavailable', function () {

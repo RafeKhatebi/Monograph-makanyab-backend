@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateServiceReviewRequest;
 use App\Models\Favorite;
 use App\Models\Review;
 use App\Models\Service;
-use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,12 +35,10 @@ class ServiceController extends Controller
             ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))
             ->orderByDesc('created_at')
-            ->paginate(12)
+            ->paginate(18)
             ->withQueryString();
 
-        $categories = ServiceCategory::active()->orderBy('name')->get();
-
-        return view('pages.services.index', compact('services', 'categories'));
+        return view('pages.services.index', compact('services'));
     }
 
     public function show(Service $service)
@@ -53,7 +50,8 @@ class ServiceController extends Controller
             'media',
             'reviews' => fn ($query) => $query->approved()
                 ->with('user:id,name,profile_picture')
-                ->latest(),
+                ->latest()
+                ->limit(10),
         ]);
         $isFavorited = Auth::check() && Favorite::where([
             'user_id' => Auth::id(),
@@ -85,13 +83,13 @@ class ServiceController extends Controller
 
         if ($favorite) {
             $favorite->delete();
-            $message = 'Removed from favorites.';
+            $message = __('messages.favorite_removed');
         } else {
             Favorite::create([
                 'user_id' => $request->user()->id,
                 'service_id' => $service->id,
             ]);
-            $message = 'Added to favorites.';
+            $message = __('messages.favorite_added');
         }
 
         return back()->with('success', $message);
@@ -106,7 +104,7 @@ class ServiceController extends Controller
             'moderation_status' => Review::STATUS_PENDING,
         ]);
 
-        return back()->with('success', 'Review submitted and pending approval.');
+        return back()->with('success', __('messages.review_submitted'));
     }
 
     public function updateReview(
@@ -116,7 +114,7 @@ class ServiceController extends Controller
     ) {
         $review->update([...$request->validated(), 'moderation_status' => Review::STATUS_PENDING]);
 
-        return back()->with('success', 'Review updated and returned to the approval queue.');
+        return back()->with('success', __('messages.review_updated'));
     }
 
     public function destroyReview(Service $service, Review $review)
@@ -129,6 +127,6 @@ class ServiceController extends Controller
 
         $review->delete();
 
-        return back()->with('success', 'Review deleted.');
+        return back()->with('success', __('messages.review_deleted'));
     }
 }

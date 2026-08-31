@@ -12,23 +12,26 @@ class PostController extends Controller
     public function index(Request $request): JsonResponse
     {
         $posts = Post::query()
-            ->where('is_published', true)
+            ->published()
+            ->with('user:id,name')
             ->when($request->query('search'), function ($query, $search) {
-                $query->where('title', 'like', '%'.$search.'%')
-                    ->orWhere('excerpt', 'like', '%'.$search.'%');
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('excerpt', 'like', '%'.$search.'%');
+                });
             })
             ->latest('published_at')
-            ->paginate($request->integer('per_page', 12));
+            ->paginate(min($request->integer('per_page', 12), 50));
 
         return response()->json($posts);
     }
 
     public function show(Post $post): JsonResponse
     {
-        if (! $post->is_published) {
-            return response()->json(['message' => 'Post not found.'], 404);
+        if (! $post->is_published || ! $post->published_at || $post->published_at->isFuture()) {
+            return response()->json(['message' => __('messages.api.post_not_found')], 404);
         }
 
-        return response()->json($post);
+        return response()->json($post->load('user:id,name'));
     }
 }

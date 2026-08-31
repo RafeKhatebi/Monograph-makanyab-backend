@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Favorite;
 use App\Models\Service;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class ServiceFavoriteController extends Controller
             $request->user()->favoriteServices()
                 ->with(['category:id,name,slug', 'media'])
                 ->where('is_active', true)
-                ->latest()
+                ->orderByDesc('favorites.created_at')
                 ->paginate(min(max($request->integer('per_page', 15), 1), 50))
         );
     }
@@ -30,10 +31,18 @@ class ServiceFavoriteController extends Controller
         ];
 
         if (Favorite::where($attributes)->exists()) {
-            return response()->json(['message' => 'Already in favorites.'], 409);
+            return response()->json(['message' => __('messages.api.favorite_exists')], 409);
         }
 
-        $favorite = Favorite::create($attributes);
+        try {
+            $favorite = Favorite::create($attributes);
+        } catch (QueryException $exception) {
+            if ($this->isUniqueConstraintViolation($exception)) {
+                return response()->json(['message' => __('messages.api.favorite_exists')], 409);
+            }
+
+            throw $exception;
+        }
 
         return response()->json($favorite, 201);
     }
@@ -46,7 +55,7 @@ class ServiceFavoriteController extends Controller
 
         return $deleted
             ? response()->json(null, 204)
-            : response()->json(['message' => 'Not found in favorites.'], 404);
+            : response()->json(['message' => __('messages.api.favorite_missing')], 404);
     }
 
     public function check(Request $request, Service $service): JsonResponse
@@ -56,5 +65,10 @@ class ServiceFavoriteController extends Controller
                 ->where('service_id', $service->id)
                 ->exists(),
         ]);
+    }
+
+    private function isUniqueConstraintViolation(QueryException $exception): bool
+    {
+        return in_array($exception->errorInfo[0] ?? null, ['23000', '23505'], true);
     }
 }

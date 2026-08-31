@@ -126,6 +126,33 @@ class SocialAuthController extends Controller
         }
     }
 
+    public function disconnect(Request $request, string $provider): RedirectResponse
+    {
+        try {
+            $this->socialAuthenticationService->ensureSupportedProvider($provider);
+            $user = $request->user();
+            $account = $user->socialAccounts()->where('provider', $provider)->first();
+
+            if (! $account) {
+                return redirect()->route('profile.index')->withErrors([
+                    'social' => __('auth.social_failed'),
+                ]);
+            }
+
+            if (! $user->hasUsablePassword() && $user->socialAccounts()->count() === 1) {
+                return redirect()->route('profile.index')->withErrors([
+                    'social' => __('auth.social_last_login_method'),
+                ]);
+            }
+
+            $account->delete();
+
+            return redirect()->route('profile.index')->with('status', __('auth.social_unlinked'));
+        } catch (RuntimeException $exception) {
+            return redirect()->route('profile.index')->withErrors(['social' => $exception->getMessage()]);
+        }
+    }
+
     private function ensureProviderConfigured(string $provider): void
     {
         $config = config("services.{$provider}");

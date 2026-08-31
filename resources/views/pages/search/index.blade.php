@@ -1,328 +1,194 @@
 @extends('layouts.app')
-@section('title', 'Search')
-@php use Illuminate\Support\Str; @endphp
-@section('content')
 
-    <div class="search-bar">
+@section('title', __('search.title'))
+
+@section('content')
+    @php
+        $activeCategories = $selectedType === 'service' ? $serviceCategories : $placeCategories;
+        $resultLabel = $selectedType === 'service' ? __('search.services') : __('search.places');
+        $hasAdvancedFilters = filled($status) || filled($rating) || $verified || ! in_array($sort, ['relevance', 'newest'], true);
+        $hasFilters = filled($searchTerm) || filled($category) || filled($province) || $selectedType !== 'place' || $hasAdvancedFilters;
+        $statusOptions = ['open', 'closed', 'temporarily_closed'];
+        $sortOptions = [
+            'relevance' => __('search.most_relevant'),
+            'newest' => __('search.newest'),
+            'name_asc' => __('search.name_az'),
+            'name_desc' => __('search.name_za'),
+        ];
+    @endphp
+
+    <section class="discover-hero">
         <div class="container">
-            <form action="{{ route('search.index') }}" method="GET" id="search-form">
-                <div class="row search-form-row">
-                    <div class="col-md-4 col-sm-12 search-field-col">
-                        <label for="search-keyword" class="search-field-label">What to search</label>
+            <div class="discover-hero__content">
+                <h1 class="discover-hero__title">{{ __('search.title') }}</h1>
+                <p class="discover-hero__text">{{ __('search.discover_intro') }}</p>
+            </div>
+
+            <nav class="discover-type" aria-label="{{ __('search.search_in') }}">
+                @foreach (['place' => __('search.places'), 'service' => __('search.services')] as $typeValue => $typeLabel)
+                    @php
+                        $typeUrlParams = request()->except(['category', 'page']);
+                        $typeUrlParams['type'] = $typeValue;
+                    @endphp
+                    <a href="{{ route('search.index', $typeUrlParams) }}"
+                        class="discover-type__link {{ $selectedType === $typeValue ? 'is-active' : '' }}"
+                        aria-current="{{ $selectedType === $typeValue ? 'true' : 'false' }}">
+                        {{ $typeLabel }}
+                    </a>
+                @endforeach
+            </nav>
+
+            <form action="{{ route('search.index') }}" method="GET" class="discover-panel" data-discover-form>
+                <input type="hidden" name="type" value="{{ $selectedType }}">
+                <div class="discover-grid discover-grid--primary">
+                    <div class="discover-field discover-field--keyword">
+                        <label for="discover-keyword" class="search-field-label">{{ __('search.what') }}</label>
                         <div class="search-input-wrap">
                             <i class="fa fa-search" aria-hidden="true"></i>
-                            <input type="text" id="search-keyword" name="search" value="{{ request('search') }}"
-                                placeholder="Place, service, category, or keyword"
+                            <input id="discover-keyword" type="search" name="search" value="{{ $searchTerm }}"
+                                placeholder="{{ __('search.keyword_placeholder') }}"
                                 class="search-input search-input--icon" maxlength="120" autocomplete="off">
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-6 search-field-col">
-                        <label for="search-location" class="search-field-label">Where</label>
-                        <div class="search-input-wrap">
-                            <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            <input type="text" id="search-location" name="location" value="{{ request('location') }}"
-                                placeholder="City, district, province, or address"
-                                class="search-input search-input--location" maxlength="120" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-sm-6 search-field-col">
-                        <label for="search-type" class="search-field-label">Search in</label>
-                        <select id="search-type" name="type" class="search-select">
-                            <option value="all" {{ request('type', 'all') == 'all' ? 'selected' : '' }}>All Types</option>
-                            <option value="places" {{ request('type') == 'places' ? 'selected' : '' }}>Places</option>
-                            <option value="services" {{ request('type') == 'services' ? 'selected' : '' }}>Services</option>
+
+                    <div class="discover-field discover-field--province">
+                        <label for="discover-province" class="search-field-label">{{ __('search.province') }}</label>
+                        <select id="discover-province" name="province" class="search-select">
+                            <option value="">{{ __('search.all_provinces') }}</option>
+                            @foreach ($provinces as $provinceOption)
+                                <option value="{{ $provinceOption }}" @selected($province === $provinceOption)>{{ $provinceOption }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3 col-sm-12 search-field-col search-actions">
-                        <button type="submit" class="mk-button mk-button--primary search-submit">
-                            <i class="fa fa-search" aria-hidden="true"></i> Search
+
+                    <div class="discover-field">
+                        <label for="discover-category" class="search-field-label">{{ __('search.category') }}</label>
+                        <select id="discover-category" name="category" class="search-select" data-discover-category>
+                            <option value="">{{ __('search.category_all') }}</option>
+                            @foreach ($activeCategories as $cat)
+                                <option value="{{ $cat->slug }}" @selected($category === $cat->slug)>{{ $cat->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="discover-actions">
+                        <button type="submit" class="mk-button mk-button--primary discover-submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            {{ __('common.actions.search') }}
                         </button>
-                        @if (request()->hasAny(['search', 'location', 'city', 'type', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified', 'province', 'district', 'sort']))
-                            <a href="{{ route('search.index') }}" class="search-reset" aria-label="Reset search">
+                        @if ($hasFilters)
+                            <a href="{{ route('search.index') }}" class="discover-reset" aria-label="{{ __('search.reset') }}" title="{{ __('search.reset') }}">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                         @endif
                     </div>
                 </div>
 
-                <div class="search-chip-list" aria-label="Search shortcuts">
-                    <a href="{{ route('search.index', request()->except(['type', 'place_category', 'service_category', 'places_page', 'services_page'])) }}"
-                        class="search-chip {{ request('type', 'all') === 'all' && !request('place_category') && !request('service_category') ? 'is-active' : '' }}">
-                        All Results
-                    </a>
-                    <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['type' => 'places'])) }}"
-                        class="search-chip {{ request('type') === 'places' && !request('place_category') ? 'is-active' : '' }}">
-                        Places
-                    </a>
-                    <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['type' => 'services'])) }}"
-                        class="search-chip {{ request('type') === 'services' && !request('service_category') ? 'is-active' : '' }}">
-                        Services
-                    </a>
-                    @foreach ($placeCategories as $cat)
-                        <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['place_category' => $cat->slug, 'type' => 'places'])) }}"
-                            class="search-chip {{ request('place_category') == $cat->slug ? 'is-active' : '' }}">
-                            @if ($cat->icon_name)
-                                <i class="fa {{ $cat->icon_name }}" aria-hidden="true"></i>
-                            @endif
-                            {{ $cat->name }}
-                        </a>
-                    @endforeach
-                    @foreach ($serviceCategories as $cat)
-                        <a href="{{ route('search.index', array_merge(request()->except(['place_category', 'service_category', 'places_page', 'services_page']), ['service_category' => $cat->slug, 'type' => 'services'])) }}"
-                            class="search-chip search-chip--service {{ request('service_category') == $cat->slug ? 'is-active' : '' }}">
-                            @if ($cat->icon_name)
-                                <i class="fa {{ $cat->icon_name }}" aria-hidden="true"></i>
-                            @endif
-                            {{ $cat->name }}
-                        </a>
-                    @endforeach
+                <div class="discover-more">
+                    <div class="discover-more__header">
+                        <span><i class="fa fa-sliders" aria-hidden="true"></i> {{ __('search.filters') }}</span>
+                    </div>
+                    <div class="discover-grid discover-grid--secondary">
+                        <div class="discover-field">
+                            <label for="discover-status" class="search-field-label">{{ __('search.status') }}</label>
+                            <select id="discover-status" name="status" class="search-select">
+                                <option value="">{{ __('search.any_status') }}</option>
+                                @foreach ($statusOptions as $statusOption)
+                                    <option value="{{ $statusOption }}" @selected($status === $statusOption)>
+                                        {{ __('common.status.' . $statusOption) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="discover-field">
+                            <label for="discover-rating" class="search-field-label">{{ __('search.rating') }}</label>
+                            <select id="discover-rating" name="rating" class="search-select">
+                                <option value="">{{ __('search.any_rating') }}</option>
+                                @for ($stars = 5; $stars >= 1; $stars--)
+                                    <option value="{{ $stars }}" @selected((int) $rating === $stars)>
+                                        {{ __('search.rating_min_plural', ['count' => $stars]) }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <div class="discover-field">
+                            <label for="discover-sort" class="search-field-label">{{ __('search.sort') }}</label>
+                            <select id="discover-sort" name="sort" class="search-select">
+                                @foreach ($sortOptions as $sortValue => $sortLabel)
+                                    <option value="{{ $sortValue }}" @selected($sort === $sortValue)>{{ $sortLabel }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="discover-toggles">
+                        <label class="discover-toggle">
+                            <input type="checkbox" name="verified" value="1" @checked($verified)>
+                            <span>{{ __('search.verified') }}</span>
+                        </label>
+                    </div>
                 </div>
             </form>
         </div>
-    </div>
+    </section>
 
-    <div class="mk-page-section mk-page-section--compact">
+    <section class="mk-page-section mk-page-section--compact">
         <div class="container">
-            @php
-                $activeFilterCount = collect(['location', 'province', 'district', 'place_category', 'service_category', 'status', 'price_level', 'rating', 'open_now', 'verified'])
-                    ->filter(fn ($key) => request()->filled($key))
-                    ->count()
-                    + (request()->filled('sort') && request('sort') !== 'newest' ? 1 : 0);
-            @endphp
-            <button type="button" class="filter-toggle" aria-controls="search-filter-panel" aria-expanded="false">
-                <i class="fa fa-sliders" aria-hidden="true"></i>
-                Show filters
-                @if ($activeFilterCount)
-                    <span class="filter-active-count">{{ $activeFilterCount }}</span>
+            <div class="discover-results-header">
+                <div>
+                    <span class="discover-results-header__label">{{ $resultLabel }}</span>
+                    <h2>{{ __('search.results_count', ['count' => $results->total()]) }}</h2>
+                </div>
+                @if ($hasFilters)
+                    <p>
+                        @if ($searchTerm)
+                            <span>{{ __('search.for_keyword') }} "{{ $searchTerm }}"</span>
+                        @endif
+                        @if ($province)
+                            <span>{{ __('search.in_location') }} {{ $province }}</span>
+                        @endif
+                    </p>
                 @endif
-            </button>
+            </div>
 
-            <div class="row search-layout">
-                <aside class="col-md-3 search-sidebar">
-                    <div id="search-filter-panel" class="responsive-filter-panel search-filter-panel mk-card">
-                        <h4 class="search-filter-title">
-                            <i class="fa fa-sliders" aria-hidden="true"></i> Filters
-                        </h4>
-                        <form action="{{ route('search.index') }}" method="GET">
-                            @if (request('search'))
-                                <input type="hidden" name="search" value="{{ request('search') }}">
-                            @endif
-                            @if (request('location'))
-                                <input type="hidden" name="location" value="{{ request('location') }}">
-                            @endif
-                            @if (request('type'))
-                                <input type="hidden" name="type" value="{{ request('type') }}">
-                            @endif
-                            @if (request('city'))
-                                <input type="hidden" name="city" value="{{ request('city') }}">
-                            @endif
-
-                            <div class="mk-form-group">
-                                <label class="mk-label">Province</label>
-                                <input type="text" name="province" value="{{ request('province') }}" placeholder="e.g. Herat"
-                                    class="search-filter-input">
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">Sort</label>
-                                <select name="sort" class="search-filter-select">
-                                    <option value="relevance" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'relevance')>Most relevant</option>
-                                    <option value="newest" @selected(request('sort', request('search') ? 'relevance' : 'newest') === 'newest')>Newest first</option>
-                                    <option value="name_asc" @selected(request('sort') === 'name_asc')>Name A-Z</option>
-                                    <option value="name_desc" @selected(request('sort') === 'name_desc')>Name Z-A</option>
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">District</label>
-                                <input type="text" name="district" value="{{ request('district') }}" placeholder="District"
-                                    class="search-filter-input">
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">Place Category</label>
-                                <select name="place_category" class="search-filter-select">
-                                    <option value="">All Categories</option>
-                                    @foreach ($placeCategories as $cat)
-                                        <option value="{{ $cat->slug }}" {{ request('place_category') == $cat->slug ? 'selected' : '' }}>
-                                            {{ $cat->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">Service Category</label>
-                                <select name="service_category" class="search-filter-select">
-                                    <option value="">All Categories</option>
-                                    @foreach ($serviceCategories as $cat)
-                                        <option value="{{ $cat->slug }}" {{ request('service_category') == $cat->slug ? 'selected' : '' }}>
-                                            {{ $cat->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">Status</label>
-                                <select name="status" class="search-filter-select">
-                                    <option value="">Any Status</option>
-                                    <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Open</option>
-                                    <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>Closed</option>
-                                    <option value="temporarily_closed" {{ request('status') == 'temporarily_closed' ? 'selected' : '' }}>Temporarily Closed</option>
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">Price Level</label>
-                                <select name="price_level" class="search-filter-select">
-                                    <option value="">Any Price</option>
-                                    <option value="low" {{ request('price_level') == 'low' ? 'selected' : '' }}>Low</option>
-                                    <option value="medium" {{ request('price_level') == 'medium' ? 'selected' : '' }}>Medium</option>
-                                    <option value="high" {{ request('price_level') == 'high' ? 'selected' : '' }}>High</option>
-                                    <option value="luxury" {{ request('price_level') == 'luxury' ? 'selected' : '' }}>Luxury</option>
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">Rating</label>
-                                <select name="rating" class="search-filter-select">
-                                    <option value="">Any Rating</option>
-                                    @for ($i = 5; $i >= 1; $i--)
-                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>{{ $i }} star{{ $i > 1 ? 's' : '' }}+</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="search-check">
-                                    <input type="checkbox" name="open_now" value="1" {{ request('open_now') ? 'checked' : '' }}>
-                                    Open Now
-                                </label>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="search-check">
-                                    <input type="checkbox" name="verified" value="1" {{ request('verified') ? 'checked' : '' }}>
-                                    Verified Only
-                                </label>
-                            </div>
-                            <button type="submit" class="mk-button mk-button--primary search-filter-submit">Apply Filters</button>
-                            <a href="{{ route('search.index') }}" class="search-filter-reset">Reset All</a>
-                        </form>
-                    </div>
-                </aside>
-
-                <div class="col-md-9">
-                    @php
-                        $placeCount = $places ? $places->total() : 0;
-                        $serviceCount = $services ? $services->total() : 0;
-                        $totalResults = $placeCount + $serviceCount;
-                    @endphp
-
-                    <div class="search-summary">
-                        <div>
-                            <h3>
-                                {{ $totalResults }} Result{{ $totalResults !== 1 ? 's' : '' }}
-                                @if (request('search'))
-                                    for "<mark>{{ request('search') }}</mark>"
-                                @endif
-                                @if (request('location') || request('city'))
-                                    in <mark>{{ request('location') ?: request('city') }}</mark>
-                                @endif
-                            </h3>
+            <div class="row">
+                @forelse ($results as $item)
+                    @if ($selectedType === 'service')
+                        <div class="col-sm-6 col-md-4 search-result-col">
+                            <x-service-card :service="$item" />
                         </div>
-                    </div>
-
-                    @if ($totalResults > 0)
-                        @if ($showPlaces && $places && $places->count())
-                            <h4 class="search-section-title">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i> Places
-                                <span>({{ $placeCount }})</span>
-                            </h4>
-                            <div class="row search-results-row">
-                                @foreach ($places as $place)
-                                    <div class="col-sm-6 col-md-4 search-result-col">
-                                        <div class="search-card">
-                                            <div class="search-card__media">
-                                                <a href="{{ route('places.show', $place) }}">
-                                                    @if ($place->media->first())
-                                                        <img src="{{ asset('storage/' . $place->media->first()->file_path) }}" alt="{{ $place->name }}">
-                                                    @else
-                                                        <img src="{{ asset('assets/img/demo/property-1.jpg') }}" alt="{{ $place->name }}">
-                                                    @endif
-                                                </a>
-                                                @if ($place->is_verified)
-                                                    <span class="search-card__badge search-card__badge--verified">
-                                                        <i class="fa fa-check-circle" aria-hidden="true"></i> Verified
-                                                    </span>
-                                                @endif
-                                                @if ($place->status === 'open')
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--open">Open</span>
-                                                @elseif($place->status === 'closed')
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--closed">Closed</span>
-                                                @else
-                                                    <span class="search-card__badge search-card__badge--status search-card__badge--warning">Temp. Closed</span>
-                                                @endif
-                                            </div>
-                                            <div class="search-card__body">
-                                                <div class="search-card__header">
-                                                    <h5 class="search-card__title">
-                                                        <a href="{{ route('places.show', $place) }}">{{ $place->name }}</a>
-                                                    </h5>
-                                                    @if ($place->category)
-                                                        <span class="search-card__category">{{ $place->category->name }}</span>
-                                                    @endif
-                                                </div>
-                                                <p class="search-card__location">
-                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                    {{ $place->city }}@if ($place->district), {{ $place->district }}@endif
-                                                </p>
-                                                @if ($place->tagline)
-                                                    <p class="search-card__tagline">{{ Str::limit($place->tagline, 70) }}</p>
-                                                @endif
-                                                <div class="search-card__footer">
-                                                    <span class="search-card__price">{{ ucfirst($place->price_level) }}</span>
-                                                    <a href="{{ route('places.show', $place) }}" class="search-card__link">View</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @if ($places->hasPages())
-                                <div class="search-pagination">{{ $places->appends(request()->query())->links() }}</div>
-                            @endif
-                        @elseif($showPlaces && $placeCount === 0 && request('type') !== 'services')
-                            <div class="mk-card mk-card--center mk-stack-sm">
-                                <p class="mk-text mk-text--muted">No places found for these filters.</p>
-                            </div>
-                        @endif
-
-                        @if ($showServices && $services && $services->count())
-                            <h4 class="search-section-title">
-                                <i class="fa fa-briefcase" aria-hidden="true"></i> Services
-                                <span>({{ $serviceCount }})</span>
-                            </h4>
-                            <div class="row">
-                                @foreach ($services as $service)
-                                    <div class="col-sm-6 col-md-4 search-result-col">
-                                        <x-service-card :service="$service" />
-                                    </div>
-                                @endforeach
-                            </div>
-                            @if ($services->hasPages())
-                                <div class="mk-pagination">{{ $services->appends(request()->query())->links() }}</div>
-                            @endif
-                        @elseif($showServices && $serviceCount === 0 && request('type') !== 'places')
-                            <div class="mk-card mk-card--center">
-                                <p class="mk-text mk-text--muted">No services found for these filters.</p>
-                            </div>
-                        @endif
                     @else
+                        @include('components.place-card', ['place' => $item])
+                    @endif
+                @empty
+                    <div class="col-md-12">
                         <div class="mk-card mk-card--empty">
                             <div class="mk-empty-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
-                            <h3 class="mk-heading mk-heading--md">No results found</h3>
-                            <p class="mk-text mk-text--muted mk-stack-sm">
-                                Try different keywords, a different location, or remove some filters.
-                            </p>
+                            <h3 class="mk-heading mk-heading--md">{{ __('search.no_results') }}</h3>
+                            <p class="mk-text mk-text--muted mk-stack-sm">{{ __('search.no_results_help') }}</p>
                             <a href="{{ route('search.index') }}" class="mk-button mk-button--primary mk-button--md">
-                                Reset Search
+                                {{ __('search.reset_search') }}
                             </a>
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endforelse
             </div>
-        </div>
-    </div>
 
+            @if ($results->hasPages())
+                <div class="mk-pagination-wrap">{{ $results->links() }}</div>
+            @endif
+        </div>
+    </section>
 @endsection
+
+@push('scripts')
+    <script>
+        window.DiscoverCategories = {
+            place: @json($placeCategories->map(fn ($category) => ['name' => $category->name, 'slug' => $category->slug])->values()),
+            service: @json($serviceCategories->map(fn ($category) => ['name' => $category->name, 'slug' => $category->slug])->values()),
+            placeholder: @json(__('search.category_all')),
+        };
+    </script>
+@endpush

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Favorite;
 use App\Models\Place;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -22,7 +23,7 @@ class FavoriteController extends Controller
             ->with(['category:id,name,slug'])
             ->where('is_active', true)
             ->orderByDesc('favorites.created_at')
-            ->paginate($request->integer('per_page', 15));
+            ->paginate(min(max($request->integer('per_page', 15), 1), 50));
 
         return response()->json($favorites);
     }
@@ -47,13 +48,21 @@ class FavoriteController extends Controller
             ->exists();
 
         if ($exists) {
-            return response()->json(['message' => 'Already in favorites.'], 409);
+            return response()->json(['message' => __('messages.api.favorite_exists')], 409);
         }
 
-        $favorite = Favorite::create([
-            'user_id' => $user->id,
-            'place_id' => $validated['place_id'],
-        ]);
+        try {
+            $favorite = Favorite::create([
+                'user_id' => $user->id,
+                'place_id' => $validated['place_id'],
+            ]);
+        } catch (QueryException $exception) {
+            if ($this->isUniqueConstraintViolation($exception)) {
+                return response()->json(['message' => __('messages.api.favorite_exists')], 409);
+            }
+
+            throw $exception;
+        }
 
         return response()->json($favorite, 201);
     }
@@ -68,7 +77,7 @@ class FavoriteController extends Controller
             ->delete();
 
         if (! $deleted) {
-            return response()->json(['message' => 'Not found in favorites.'], 404);
+            return response()->json(['message' => __('messages.api.favorite_missing')], 404);
         }
 
         return response()->json(null, 204);
@@ -84,5 +93,10 @@ class FavoriteController extends Controller
             ->exists();
 
         return response()->json(['is_favorited' => $isFavorited]);
+    }
+
+    private function isUniqueConstraintViolation(QueryException $exception): bool
+    {
+        return in_array($exception->errorInfo[0] ?? null, ['23000', '23505'], true);
     }
 }

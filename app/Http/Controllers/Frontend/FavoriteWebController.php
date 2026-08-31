@@ -15,12 +15,12 @@ class FavoriteWebController extends Controller
         $favorites = Auth::user()->favorites()
             ->with(['category:id,name,slug,color_code', 'media'])
             ->where('is_active', true)
-            ->latest()
+            ->orderByDesc('favorites.created_at')
             ->paginate(12);
         $favoriteServices = Auth::user()->favoriteServices()
             ->with(['category:id,name,slug', 'media'])
             ->where('is_active', true)
-            ->latest()
+            ->orderByDesc('favorites.created_at')
             ->paginate(12, ['*'], 'services_page');
 
         return view('pages.favorites.index', compact('favorites', 'favoriteServices'));

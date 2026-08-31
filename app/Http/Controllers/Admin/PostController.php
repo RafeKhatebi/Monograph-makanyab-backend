@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    public function __construct(private readonly SlugService $slugService) {}
+
     public function index(Request $request)
     {
         $posts = Post::with('user')
-            ->when($request->search, fn ($q, $v) => $q->where('title', 'like', "%{$v}%"))
-            ->when($request->filled('is_published'), fn ($q) => $q->where('is_published', $request->is_published))
-            ->latest()
+            ->when($request->search, fn ($q, $v) => $q->where(function ($query) use ($v) {
+                $query->where('title', 'like', "%{$v}%")
+                    ->orWhere('excerpt', 'like', "%{$v}%");
+            }))
+            ->when($request->filled('is_published'), fn ($q) => $q->where('is_published', $request->boolean('is_published')))
+            ->latest('created_at')
             ->paginate(15);
 
         return view('admin.posts.index', compact('posts'));
@@ -34,8 +40,12 @@ class PostController extends Controller
         $data = $request->validated();
 
         $data['user_id'] = Auth::id();
-        $data['slug'] = Str::slug($data['title']);
-        $data['published_at'] = now();
+        $data['slug'] = $this->slugService->createUniqueSlug(Post::class, $data['title']);
+        $data['is_published'] = $request->boolean('is_published');
+        $data['published_at'] = $data['is_published'] ? now() : null;
+        $data['submission_status'] = $data['is_published']
+            ? SuggestionStatus::Published->value
+            : SuggestionStatus::Draft->value;
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('posts', 'public');
@@ -45,7 +55,7 @@ class PostController extends Controller
 
         return redirect()
             ->route('admin.posts.index')
-            ->with('success', 'Post created successfully.');
+            ->with('success', __('messages.admin.posts.created'));
     }
 
     public function edit(Post $post)
@@ -57,7 +67,23 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $data['slug'] = Str::slug($data['title']);
+        if (array_key_exists('title', $data)) {
+            $data['slug'] = $this->slugService->createUniqueSlug(Post::class, $data['title'], (string) $post->getKey());
+        }
+
+        $data['is_published'] = $request->boolean('is_published');
+
+        if ($data['is_published'] && ! $post->published_at) {
+            $data['published_at'] = now();
+        }
+
+        if (! $data['is_published']) {
+            $data['published_at'] = null;
+        }
+
+        $data['submission_status'] = $data['is_published']
+            ? SuggestionStatus::Published->value
+            : SuggestionStatus::Draft->value;
 
         if ($request->hasFile('image')) {
 
@@ -72,7 +98,7 @@ class PostController extends Controller
 
         return redirect()
             ->route('admin.posts.index')
-            ->with('success', 'Post updated successfully.');
+            ->with('success', __('messages.admin.posts.updated'));
     }
 
     public function destroy(Post $post)
@@ -83,6 +109,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return back()->with('success', 'Post deleted successfully.');
+        return back()->with('success', __('messages.admin.posts.deleted'));
     }
 }

@@ -917,6 +917,14 @@ textarea {
     color: #10B981;
 }
 
+.mk-logo-img {
+    height: auto;
+    width: auto;
+    max-height: 40px;
+    max-width: 100%;
+    display: block;
+}
+
 /* Search */
 .mk-search {
     flex: 1;

@@ -75,7 +75,7 @@
                 <div>
                     <div class="admin-action-panel">
                         <h4 class="admin-section-title">Admin Actions</h4>
-                        @if($placeSuggestion->suggestion_status === 'pending')
+                        @if($placeSuggestion->suggestion_status?->value === 'pending')
                             <form action="{{ route('admin.place-suggestions.approve', $placeSuggestion) }}" method="POST" class="admin-form-block">
                                 @csrf
                                 <div class="form-group">
@@ -94,7 +94,7 @@
                             </form>
                         @else
                             <div class="alert alert-info">
-                                This suggestion has been {{ $placeSuggestion->suggestion_status }}.
+                                This suggestion has been {{ $placeSuggestion->suggestion_status->value }}.
                             </div>
                         @endif
                     </div>

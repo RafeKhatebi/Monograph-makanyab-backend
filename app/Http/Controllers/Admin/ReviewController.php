@@ -66,20 +66,20 @@ class ReviewController extends Controller
         $review->delete();
 
         return redirect()->route('admin.reviews.index')
-            ->with('success', 'Review deleted successfully.');
+            ->with('success', __('messages.admin.reviews.deleted'));
     }
 
     public function approve(Review $review)
     {
         $review->markApproved();
 
-        return back()->with('success', 'Review approved successfully.');
+        return back()->with('success', __('messages.admin.reviews.approved'));
     }
 
     public function reject(Review $review)
     {
         $review->markRejected();
 
-        return back()->with('success', 'Review rejected successfully.');
+        return back()->with('success', __('messages.admin.reviews.rejected'));
     }
 }

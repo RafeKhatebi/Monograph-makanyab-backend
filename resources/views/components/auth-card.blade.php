@@ -3,6 +3,9 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="box-two mk-card">
+                    <div class="text-center mk-stack-sm">
+                        <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="auth-card__logo">
+                    </div>
                     <h3 class="mk-heading mk-heading--md text-center mk-stack-sm">
                         {{ $title }}
                     </h3>

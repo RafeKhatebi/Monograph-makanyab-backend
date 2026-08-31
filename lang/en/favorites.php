@@ -1,0 +1,2 @@
+<?php
+return ['title' => 'My Favorites', 'subtitle' => "Places you've saved for later.", 'empty_title' => 'No Saved Places Yet', 'empty_text' => 'Start exploring and save your favorite places to find them easily later.', 'explore' => 'Explore Places', 'saved_places' => ':count saved places', 'saved_services' => 'Saved services'];

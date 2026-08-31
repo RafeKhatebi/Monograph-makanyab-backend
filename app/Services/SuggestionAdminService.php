@@ -6,6 +6,7 @@ use App\Enums\SuggestionStatus;
 use App\Models\Place;
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
@@ -52,15 +53,17 @@ class SuggestionAdminService
 
     public function approve(Model $suggestion, string $targetClass, ?string $adminNote = null): Model
     {
-        $target = $targetClass::create($this->buildTargetPayload($suggestion, $targetClass));
+        return DB::transaction(function () use ($suggestion, $targetClass, $adminNote) {
+            $target = $targetClass::create($this->buildTargetPayload($suggestion, $targetClass));
 
-        $suggestion->update([
-            'suggestion_status' => SuggestionStatus::Approved,
-            'admin_note' => $adminNote,
-            'approved_at' => now(),
-        ]);
+            $suggestion->update([
+                'suggestion_status' => SuggestionStatus::Approved,
+                'admin_note' => $adminNote,
+                'approved_at' => now(),
+            ]);
 
-        return $target;
+            return $target;
+        });
     }
 
     public function reject(Model $suggestion, ?string $adminNote = null): Model

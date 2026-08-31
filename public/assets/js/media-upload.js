@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
+    var translations = window.AppTranslations || {};
+
+    function translate(key, replacements, fallback) {
+        var value = translations[key] || fallback || key;
+
+        Object.keys(replacements || {}).forEach(function (name) {
+            value = value.replace(':' + name, replacements[name]);
+        });
+
+        return value;
+    }
+
     document.querySelectorAll('[data-media-upload]').forEach(function (root) {
         var input = root.querySelector('input[type="file"]');
         var preview = root.querySelector('[data-image-preview]');
@@ -19,32 +31,32 @@ document.addEventListener('DOMContentLoaded', function () {
             preview.innerHTML = '';
             files.forEach(function (file, index) {
                 var card = document.createElement('div');
-                card.style.cssText = 'border:1px solid #E5E7EB;border-radius:8px;padding:8px;background:#fff;';
+                card.className = 'media-preview-card';
 
                 var image = document.createElement('img');
                 image.alt = file.name;
-                image.style.cssText = 'width:100%;height:95px;object-fit:cover;border-radius:6px;';
+                image.className = 'media-preview-card__image';
                 image.src = URL.createObjectURL(file);
                 image.onload = function () { URL.revokeObjectURL(image.src); };
 
                 var title = document.createElement('small');
                 title.textContent = file.name + ' · ' + Math.ceil(file.size / 1024) + ' KB';
-                title.style.cssText = 'display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:6px 0;';
+                title.className = 'media-preview-card__title';
 
                 var actions = document.createElement('div');
-                actions.style.cssText = 'display:flex;gap:5px;flex-wrap:wrap;';
+                actions.className = 'media-preview-card__actions';
 
                 var cover = document.createElement('button');
                 cover.type = 'button';
-                cover.textContent = Number(coverInput.value) === index ? '★ Cover' : '☆ Cover';
-                cover.setAttribute('aria-label', 'Set ' + file.name + ' as cover image');
+                cover.textContent = (Number(coverInput.value) === index ? '★ ' : '☆ ') + translate('mediaCover', {}, 'Cover');
+                cover.setAttribute('aria-label', translate('mediaSetCover', { file: file.name }, 'Set ' + file.name + ' as cover image'));
                 cover.onclick = function () { coverInput.value = index; render(); };
 
                 var previous = document.createElement('button');
                 previous.type = 'button';
                 previous.textContent = '←';
                 previous.disabled = index === 0;
-                previous.setAttribute('aria-label', 'Move ' + file.name + ' earlier');
+                previous.setAttribute('aria-label', translate('mediaMoveEarlier', { file: file.name }, 'Move ' + file.name + ' earlier'));
                 previous.onclick = function () {
                     var oldCover = Number(coverInput.value);
                     [files[index - 1], files[index]] = [files[index], files[index - 1]];
@@ -57,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 next.type = 'button';
                 next.textContent = '→';
                 next.disabled = index === files.length - 1;
-                next.setAttribute('aria-label', 'Move ' + file.name + ' later');
+                next.setAttribute('aria-label', translate('mediaMoveLater', { file: file.name }, 'Move ' + file.name + ' later'));
                 next.onclick = function () {
                     var oldCover = Number(coverInput.value);
                     [files[index], files[index + 1]] = [files[index + 1], files[index]];
@@ -68,15 +80,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 var remove = document.createElement('button');
                 remove.type = 'button';
-                remove.textContent = 'Remove';
-                remove.setAttribute('aria-label', 'Remove ' + file.name);
+                remove.textContent = translate('remove', {}, 'Remove');
+                remove.setAttribute('aria-label', translate('mediaRemoveFile', { file: file.name }, 'Remove ' + file.name));
                 remove.onclick = function () {
                     files.splice(index, 1);
                     syncInput(); render();
                 };
 
                 [cover, previous, next, remove].forEach(function (button) {
-                    button.style.cssText = 'border:1px solid #D1D5DB;background:#fff;border-radius:5px;padding:3px 6px;font-size:11px;';
+                    button.className = 'media-preview-card__button';
                     actions.appendChild(button);
                 });
                 card.append(image, title, actions);
@@ -122,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!button || button.disabled) return;
             button.disabled = true;
             button.setAttribute('aria-busy', 'true');
-            button.textContent = button.dataset.loadingText || 'Saving…';
+            button.textContent = button.dataset.loadingText || translate('saving', {}, 'Saving...');
         });
     });
 });

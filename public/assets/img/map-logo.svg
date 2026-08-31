@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Makanyab map logo">
+  <rect width="64" height="64" rx="14" fill="#10B981"/>
+  <path d="M32 10c-9.4 0-17 7.3-17 16.4 0 11.8 17 27.6 17 27.6s17-15.8 17-27.6C49 17.3 41.4 10 32 10z" fill="#fff"/>
+  <circle cx="32" cy="26" r="7" fill="#10B981"/>
+  <path d="M20 47c4.1-2.1 8.1-3.1 12-3.1s7.9 1 12 3.1" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+</svg>

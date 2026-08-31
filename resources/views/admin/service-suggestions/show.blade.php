@@ -82,7 +82,7 @@
                 <div>
                     <div class="admin-action-panel">
                         <h4 class="admin-section-title">Review Actions</h4>
-                        @if ($serviceSuggestion->suggestion_status === 'pending')
+                        @if ($serviceSuggestion->suggestion_status?->value === 'pending')
                             <form action="{{ route('admin.service-suggestions.approve', $serviceSuggestion) }}"
                                 method="POST" class="admin-form-block">
                                 @csrf

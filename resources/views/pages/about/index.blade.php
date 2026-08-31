@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About Us')
+@section('title', __('content.about.title'))
 
 @section('content')
 
@@ -9,15 +9,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center">
+                    <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="about-branding__logo">
                     <h1 class="mk-hero__title mk-hero__title--large">
-                        About Makanyab
+                        {{ __('content.about.title') }}
                     </h1>
                     <p class="mk-hero__text mk-hero__text--center mk-stack-sm">
-                        The local discovery platform connecting people with the best services, businesses and places in
-                        Afghanistan.
+                        {{ __('content.about.intro') }}
                     </p>
                     <a href="{{ route('search.index') }}" class="mk-button mk-button--secondary mk-button--lg">
-                        Start Searching
+                        {{ __('content.about.start') }}
                     </a>
                 </div>
             </div>
@@ -32,27 +32,25 @@
             <div class="row mk-stack-lg">
                 <div class="col-md-6 mk-stack-md">
                     <h2 class="mk-heading mk-heading--xl">
-                        Who We Are
+                        {{ __('content.about.who') }}
                     </h2>
 
                     <p class="mk-text">
-                        Makanyab is a local discovery platform built to connect people with trusted businesses,
-                        services, and places across Afghanistan.
+                        {{ __('content.about.who_text') }}
                     </p>
 
                     <p class="mk-text mk-text--muted">
-                        From restaurants and hotels to service providers and shops, we simplify how people find
-                        what they need locally.
+                        {{ __('content.about.who_muted') }}
                     </p>
                 </div>
 
                 <div class="col-md-6 mk-stack-md">
                     <div class="mk-card mk-card--center">
                         <h3 class="mk-heading mk-heading--md">
-                            Local discovery made easy
+                            {{ __('content.about.easy') }}
                         </h3>
                         <p class="mk-text mk-text--muted">
-                            Find verified businesses, trusted services, and top-rated places in your city.
+                            {{ __('content.about.easy_text') }}
                         </p>
                     </div>
                 </div>
@@ -63,10 +61,10 @@
                 <div class="col-md-4 mk-stack-sm">
                     <div class="mk-card mk-card--center mk-card--feature">
                         <h3 class="mk-heading mk-heading--sm">
-                            Fast Search
+                            {{ __('content.about.fast') }}
                         </h3>
                         <p class="mk-text mk-text--muted mk-text--compact">
-                            Quickly find businesses and services using smart filters.
+                            {{ __('content.about.fast_text') }}
                         </p>
                     </div>
                 </div>
@@ -75,10 +73,10 @@
                     <div class="mk-card mk-card--center mk-card--feature">
 
                         <h3 class="mk-heading mk-heading--sm">
-                            Real Reviews
+                            {{ __('content.about.reviews') }}
                         </h3>
                         <p class="mk-text mk-text--muted mk-text--compact">
-                            Read honest feedback from real customers.
+                            {{ __('content.about.reviews_text') }}
                         </p>
                     </div>
                 </div>
@@ -87,10 +85,10 @@
                     <div class="mk-card mk-card--center mk-card--feature">
 
                         <h3 class="mk-heading mk-heading--sm">
-                            Verified Listings
+                            {{ __('content.about.verified') }}
                         </h3>
                         <p class="mk-text mk-text--muted mk-text--compact">
-                            Trusted and verified business information.
+                            {{ __('content.about.verified_text') }}
                         </p>
                     </div>
                 </div>
@@ -101,10 +99,10 @@
                 <div class="col-md-6 mk-stack-sm">
                     <div class="mk-card mk-card--accent">
                         <h3 class="mk-heading mk-heading--md mk-heading--primary">
-                            Our Mission
+                            {{ __('content.about.mission') }}
                         </h3>
                         <p class="mk-text">
-                            To make local discovery simple, fast, and reliable for everyone in Afghanistan.
+                            {{ __('content.about.mission_text') }}
                         </p>
                     </div>
                 </div>
@@ -112,10 +110,10 @@
                 <div class="col-md-6 mk-stack-sm">
                     <div class="mk-card mk-card--accent">
                         <h3 class="mk-heading mk-heading--md mk-heading--primary">
-                            Our Vision
+                            {{ __('content.about.vision') }}
                         </h3>
                         <p class="mk-text">
-                            To become the leading platform for discovering local businesses and services in Afghanistan.
+                            {{ __('content.about.vision_text') }}
                         </p>
                     </div>
                 </div>
@@ -124,26 +122,26 @@
             {{-- How It Works --}}
             <div class="mk-card mk-card--spacious">
                 <h3 class="mk-heading mk-heading--lg text-center mk-stack-md">
-                    How It Works
+                    {{ __('content.about.how') }}
                 </h3>
 
                 <div class="row text-center">
                     <div class="col-md-4 mk-stack-sm">
                         <div class="mk-step-number">01</div>
-                        <h4 class="mk-heading mk-heading--sm">Search</h4>
-                        <p class="mk-text mk-text--muted">Find services and businesses near you.</p>
+                        <h4 class="mk-heading mk-heading--sm">{{ __('content.about.search') }}</h4>
+                        <p class="mk-text mk-text--muted">{{ __('content.about.search_text') }}</p>
                     </div>
 
                     <div class="col-md-4 mk-stack-sm">
                         <div class="mk-step-number">02</div>
-                        <h4 class="mk-heading mk-heading--sm">Compare</h4>
-                        <p class="mk-text mk-text--muted">Read reviews and compare options easily.</p>
+                        <h4 class="mk-heading mk-heading--sm">{{ __('content.about.compare') }}</h4>
+                        <p class="mk-text mk-text--muted">{{ __('content.about.compare_text') }}</p>
                     </div>
 
                     <div class="col-md-4 mk-stack-sm">
                         <div class="mk-step-number">03</div>
-                        <h4 class="mk-heading mk-heading--sm">Choose</h4>
-                        <p class="mk-text mk-text--muted">Pick the best option and connect directly.</p>
+                        <h4 class="mk-heading mk-heading--sm">{{ __('content.about.choose') }}</h4>
+                        <p class="mk-text mk-text--muted">{{ __('content.about.choose_text') }}</p>
                     </div>
                 </div>
             </div>

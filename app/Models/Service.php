@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Service extends Model
 {
@@ -30,6 +32,20 @@ class Service extends Model
         'is_verified' => 'boolean',
         'is_active' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::forceDeleted(function (Service $service): void {
+            $media = $service->media()->get(['disk', 'file_path']);
+            $service->media()->delete();
+
+            DB::afterCommit(function () use ($media): void {
+                foreach ($media as $item) {
+                    Storage::disk($item->disk ?: 'public')->delete($item->file_path);
+                }
+            });
+        });
+    }
 
     public function getRouteKeyName(): string
     {

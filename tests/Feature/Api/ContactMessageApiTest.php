@@ -15,7 +15,9 @@ test('anyone can submit a contact message', function () {
 
     $this->postJson('/api/contact-messages', $data)
         ->assertCreated()
-        ->assertJsonFragment(['name' => 'John Doe']);
+        ->assertJsonPath('message', 'Contact message received.')
+        ->assertJsonPath('data.subject', 'Test Subject')
+        ->assertJsonMissing(['message' => 'This is a test message.']);
 });
 
 test('contact message requires all fields', function () {

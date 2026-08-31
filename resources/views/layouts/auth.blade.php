@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@yield('title', 'Makanyab')</title>
+     <head>
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="csrf-token" content="{{ csrf_token() }}">
+         <title>@yield('title', 'Makanyab')</title>
+         <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/branding/makanyab-app-icon.svg') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap"
             rel="stylesheet">
 
         <!-- Garo Estate Theme CSS -->
@@ -18,32 +19,31 @@
         <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css') }}">
         <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/owl.theme.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/owl.transitions.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/lightslider.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/variables.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/makanyab.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/ui-system.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-components.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
 
         @stack('styles')
     </head>
 
     <body>
+        <div class="auth-branding">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="auth-branding__logo">
+            </a>
+        </div>
+        @include('partials.language-switcher')
         <main>@yield('content')</main>
 
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset('assets/js/wow.js') }}"></script>
-        <script src="{{ asset('assets/js/icheck.min.js') }}"></script>
-        <script src="{{ asset('assets/js/lightslider.min.js') }}"></script>
-        <script src="{{ asset('assets/js/main.js') }}"></script>
-        <script src="{{ asset('assets/js/frontend-pages.js') }}"></script>
 
         @stack('scripts')
     </body>

@@ -86,7 +86,7 @@ class PlaceController extends Controller
         });
 
         return redirect()->route('admin.places.index')
-            ->with('success', 'Place created successfully.');
+            ->with('success', __('messages.admin.places.created'));
     }
 
     public function show(Place $place)
@@ -121,10 +121,11 @@ class PlaceController extends Controller
         DB::transaction(function () use ($request, $validated, $place, $mediaUploadService): void {
             $place->update($validated);
 
-            $mediaUploadService->removeImages($place, $request->input('remove_media', []));
+            $removedMediaIds = array_map('intval', $request->input('remove_media', []));
+            $mediaUploadService->removeImages($place, $removedMediaIds);
 
             if ($request->filled('cover_media_id')
-                && ! in_array($request->integer('cover_media_id'), $request->input('remove_media', []), true)) {
+                && ! in_array($request->integer('cover_media_id'), $removedMediaIds, true)) {
                 $mediaUploadService->setCoverImage($place, $request->integer('cover_media_id'));
             }
 
@@ -139,7 +140,7 @@ class PlaceController extends Controller
         });
 
         return redirect()->route('admin.places.index')
-            ->with('success', 'Place updated successfully.');
+            ->with('success', __('messages.admin.places.updated'));
     }
 
     public function destroy(Place $place)
@@ -147,7 +148,7 @@ class PlaceController extends Controller
         $place->delete();
 
         return redirect()->route('admin.places.index')
-            ->with('success', 'Place deleted successfully.');
+            ->with('success', __('messages.admin.places.deleted'));
     }
 
     public function restore(string $place)
@@ -158,26 +159,26 @@ class PlaceController extends Controller
 
         if (! $place->trashed()) {
             return redirect()->route('admin.places.index')
-                ->with('info', 'Place is already active.');
+                ->with('info', __('messages.admin.places.already_active'));
         }
 
         $place->restore();
 
         return redirect()->route('admin.places.index', ['trashed' => 'with'])
-            ->with('success', 'Place restored successfully.');
+            ->with('success', __('messages.admin.places.restored'));
     }
 
     public function toggleVerification(Place $place)
     {
         $place->update(['is_verified' => ! $place->is_verified]);
 
-        return back()->with('success', 'Verification status updated.');
+        return back()->with('success', __('messages.admin.places.verification_updated'));
     }
 
     public function toggleActive(Place $place)
     {
         $place->update(['is_active' => ! $place->is_active]);
 
-        return back()->with('success', 'Active status updated.');
+        return back()->with('success', __('messages.admin.places.active_updated'));
     }
 }

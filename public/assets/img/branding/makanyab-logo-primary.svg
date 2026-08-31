@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Makanyab primary logo</title>
+  <desc id="desc">Makanyab location and discovery mark with wordmark and tagline.</desc>
+  <rect width="1200" height="420" fill="white"/>
+  
+    <g transform="translate(40,48) scale(1.0)">
+      <!-- Map pin -->
+      <path d="M120 20C60 20 20 62 20 118c0 84 100 190 100 190s100-106 100-190C220 62 180 20 120 20Z"
+            fill="#22C55E"/>
+      <!-- Search lens outer -->
+      <circle cx="120" cy="118" r="72" fill="#FFFFFF"/>
+      <circle cx="120" cy="118" r="54" fill="none" stroke="#0F172A" stroke-width="12"/>
+      <!-- Magnifier handle -->
+      <line x1="158" y1="156" x2="205" y2="203" stroke="#0F172A" stroke-width="16" stroke-linecap="round"/>
+      <!-- Mountains -->
+      <path d="M78 114L98 94L116 108L132 89L159 114Z" fill="#14B8A6"/>
+      <!-- Skyline -->
+      <path d="M76 150V128H92V118H105V150H119V124H135V150H148V109H158V150H173V132H186V150Z"
+            fill="#0F172A"/>
+      <!-- Minaret -->
+      <path d="M146 108V86h4V72h4V86h4v22Z" fill="#0F172A"/>
+    </g>
+    
+  <!-- Wordmark -->
+  <text x="330" y="205" font-family="Inter, Arial, sans-serif" font-size="120" font-weight="700" fill="#0F172A" letter-spacing="-3">Makanyab</text>
+  <!-- Accent pin inside M -->
+  <circle cx="377" cy="138" r="9" fill="#22C55E"/>
+  <path d="M377 147l-13 18h26Z" fill="#22C55E"/>
+  <text x="335" y="265" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600" fill="#14B8A6" letter-spacing="7">FIND PLACES. DISCOVER MORE.</text>
+  <text x="337" y="315" font-family="Inter, Arial, sans-serif" font-size="24" fill="#0F172A">مکان‌یاب  |  د ځای موندنه  |  MAKANYAB</text>
+</svg>

@@ -38,6 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_picture',
         'email',
         'password',
+        'password_set_at',
         'role',
         'is_active',
         'settings',
@@ -53,6 +54,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (User $user): void {
+            if (! array_key_exists('password_set_at', $user->getAttributes()) && $user->password) {
+                $user->password_set_at = now();
+            }
+        });
+    }
+
     // Define relationships
     public function reviews(): HasMany
     {
@@ -61,12 +71,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function favorites(): BelongsToMany
     {
-        return $this->belongsToMany(Place::class, 'favorites');
+        return $this->belongsToMany(Place::class, 'favorites')
+            ->wherePivotNotNull('place_id')
+            ->withTimestamps();
     }
 
     public function favoriteServices(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'favorites');
+        return $this->belongsToMany(Service::class, 'favorites')
+            ->wherePivotNotNull('service_id')
+            ->withTimestamps();
     }
 
     public function places(): HasMany
@@ -102,6 +116,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function socialAccounts(): HasMany
     {
         return $this->hasMany(SocialAccount::class);
+    }
+
+    public function hasUsablePassword(): bool
+    {
+        return $this->password_set_at !== null;
     }
 
     // Role helper methods

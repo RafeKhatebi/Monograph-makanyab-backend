@@ -1,91 +1,72 @@
-<nav class="mk-nav" aria-label="Primary navigation">
+<nav class="mk-nav" aria-label="{{ __('navigation.aria_primary') }}">
     <div class="container">
         <div class="mk-inner">
 
-            {{-- Logo --}}
             <a href="{{ route('home') }}" class="mk-logo">
-                <div class="mk-logo-icon">M</div>
-                <span class="mk-logo-text">Makan<span>yab</span></span>
+                <img class="mk-logo-img" src="{{ asset('assets/img/branding/makanyab-logo-header.svg') }}" alt="Makanyab">
             </a>
 
-            {{-- Desktop Nav --}}
             <ul class="mk-links">
 
-                {{-- Home --}}
                 <li>
                     <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                        <i></i> Home
+                        <i></i> {{ __('navigation.home') }}
                     </a>
                 </li>
-                {{-- search --}}
                 <li>
                     <a href="{{ route('search.index') }}"
                         class="{{ request()->routeIs('search.index') ? 'active' : '' }}">
-                        <i></i> Search
+                        <i></i> {{ __('navigation.search') }}
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('place-suggestions.create') }}"
-                        class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
-                        <i></i> Suggest
-                    </a>
-                </li>
-                {{-- Discover dropdown --}}
                 <li
                     class="mk-dd-item {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'open-default' : '' }}">
                     <button type="button"
                         class="mk-nav-dropdown-trigger {{ request()->routeIs('places.*') || request()->routeIs('services.*') || request()->routeIs('categories.*') || request()->routeIs('service-categories.*') ? 'active' : '' }}"
                         aria-expanded="false" aria-haspopup="true" aria-controls="mk-discover-menu">
-                        <i></i> Discover <i class="fa fa-chevron-down mk-caret"></i>
+                        <i></i> {{ __('navigation.discover') }} <i class="fa fa-chevron-down mk-caret"></i>
                     </button>
                     <div class="mk-dd" id="mk-discover-menu" aria-hidden="true">
                         <a href="{{ route('places.index') }}">
-                            <i class="fa fa-map-marker"></i> Places
+                            <i class="fa fa-map-marker"></i> {{ __('navigation.places') }}
                         </a>
                         <a href="{{ route('categories.index') }}">
-                            <i class="fa fa-th-large"></i> Place Categories
+                            <i class="fa fa-th-large"></i> {{ __('navigation.place_categories') }}
                         </a>
                         <div class="mk-dd-divider"></div>
                         <a href="{{ route('services.index') }}">
-                            <i class="fa fa-briefcase"></i> Services
+                            <i class="fa fa-briefcase"></i> {{ __('navigation.services') }}
                         </a>
                         <a href="{{ route('service-categories.index') }}">
-                            <i class="fa fa-list-alt"></i> Service Categories
+                            <i class="fa fa-list-alt"></i> {{ __('navigation.service_categories') }}
                         </a>
                     </div>
                 </li>
 
 
-                {{-- Company links --}}
-
                 <li>
-                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                        <i></i> About
+                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
+                        <i></i> {{ __('navigation.blog') }}
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
-                        <i></i> Contact
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
-                        <i></i> Blog
+                        <i></i> {{ __('navigation.contact') }}
                     </a>
                 </li>
 
             </ul>
 
-            {{-- Auth --}}
             <div class="mk-auth">
+                @include('partials.language-switcher', ['variant' => 'icon'])
                 @guest
-                    <a href="{{ route('login') }}" class="mk-btn-login">Log In</a>
-                    <a href="{{ route('register') }}" class="mk-btn-signup">Sign Up</a>
+                    <a href="{{ route('login') }}" class="mk-btn-login">{{ __('navigation.login') }}</a>
+                    <a href="{{ route('register') }}" class="mk-btn-signup">{{ __('navigation.register') }}</a>
                 @else
                     @if (!auth()->user()->isAdmin())
                         <a href="{{ route('favorites.index') }}"
                             class="mk-nav-favorite"
-                            title="Favorites">
+                            title="{{ __('navigation.favorites') }}">
                             <i class="fa fa-heart-o"></i>
                         </a>
                     @endif
@@ -98,23 +79,23 @@
                         </button>
                         <div class="mk-user-dd" id="mk-user-dropdown" aria-hidden="true">
                             <a href="{{ route('profile.index') }}">
-                                <i class="fa fa-user"></i> My Profile
+                                <i class="fa fa-user"></i> {{ __('navigation.profile') }}
                             </a>
                             @if (!auth()->user()->isAdmin())
                                 <a href="{{ route('favorites.index') }}">
-                                    <i class="fa fa-heart"></i> Favorites
+                                    <i class="fa fa-heart"></i> {{ __('navigation.favorites') }}
                                 </a>
                             @endif
                             @if (auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}">
-                                    <i class="fa fa-dashboard"></i> Admin Panel
+                                    <i class="fa fa-dashboard"></i> {{ __('navigation.admin') }}
                                 </a>
                             @endif
                             <div class="mk-divider"></div>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="mk-danger">
-                                    <i class="fa fa-sign-out"></i> Log Out
+                                    <i class="fa fa-sign-out"></i> {{ __('navigation.logout') }}
                                 </button>
                             </form>
                         </div>
@@ -122,8 +103,7 @@
                 @endguest
             </div>
 
-            {{-- Hamburger --}}
-            <button class="mk-hamburger" id="mk-hamburger" aria-label="Open menu" aria-expanded="false"
+            <button class="mk-hamburger" id="mk-hamburger" aria-label="{{ __('navigation.open_menu') }}" aria-expanded="false"
                 aria-controls="mk-mobile">
                 <span></span><span></span><span></span>
             </button>
@@ -131,16 +111,14 @@
         </div>
     </div>
 
-    {{-- Mobile Drawer --}}
     <div class="mk-mobile" id="mk-mobile" aria-hidden="true">
         <div class="container">
 
-            {{-- Mobile Search --}}
             <div class="mk-mobile-search">
                 <form action="{{ route('search.index') }}" method="GET">
-                    <label for="mk-mobile-search-input" class="sr-only">Search places and services</label>
+                    <label for="mk-mobile-search-input" class="sr-only">{{ __('navigation.search_placeholder') }}</label>
                     <input id="mk-mobile-search-input" type="search" name="search" value="{{ request('search') }}"
-                        placeholder="Search places and services">
+                        placeholder="{{ __('navigation.search_placeholder') }}">
                     <button type="submit">
                         <i class="fa fa-search"></i>
                     </button>
@@ -149,78 +127,72 @@
             <div class="mk-mobile-divider"></div>
 
             <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                <i class="fa fa-home"></i> Home
+                <i class="fa fa-home"></i> {{ __('navigation.home') }}
             </a>
 
-            {{-- Discover accordion --}}
             <button class="mk-mobile-group-btn" id="mob-discover-btn" aria-expanded="false" aria-controls="mob-discover">
                 <span class="mk-mobile-label">
-                    <i class="fa fa-compass"></i> Discover
+                    <i class="fa fa-compass"></i> {{ __('navigation.discover') }}
                 </span>
                 <i class="fa fa-chevron-down mk-caret"></i>
             </button>
             <div class="mk-mobile-sub" id="mob-discover" aria-hidden="true">
                 <a href="{{ route('places.index') }}" class="{{ request()->routeIs('places.*') ? 'active' : '' }}">
-                    <i class="fa fa-map-marker"></i> Places
+                    <i class="fa fa-map-marker"></i> {{ __('navigation.places') }}
                 </a>
                 <a href="{{ route('categories.index') }}"
                     class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
-                    <i class="fa fa-th-large"></i> Place Categories
+                    <i class="fa fa-th-large"></i> {{ __('navigation.place_categories') }}
                 </a>
                 <a href="{{ route('services.index') }}"
                     class="{{ request()->routeIs('services.*') ? 'active' : '' }}">
-                    <i class="fa fa-briefcase"></i> Services
+                    <i class="fa fa-briefcase"></i> {{ __('navigation.services') }}
                 </a>
                 <a href="{{ route('service-categories.index') }}"
                     class="{{ request()->routeIs('service-categories.*') ? 'active' : '' }}">
-                    <i class="fa fa-list-alt"></i> Service Categories
+                    <i class="fa fa-list-alt"></i> {{ __('navigation.service_categories') }}
                 </a>
             </div>
 
 
             <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                <i></i> About
+                <i></i> {{ __('navigation.about') }}
             </a>
             <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
-                <i class="fa fa-envelope"></i> Contact
+                <i class="fa fa-envelope"></i> {{ __('navigation.contact') }}
             </a>
             <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
-                <i class="fa fa-newspaper-o"></i> Blog
+                <i class="fa fa-newspaper-o"></i> {{ __('navigation.blog') }}
             </a>
-            <a href="{{ route('place-suggestions.create') }}" class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
-                <i class="fa fa-lightbulb-o"></i> Suggest a Place
-            </a>
-            <a href="{{ route('service-suggestions.create') }}" class="{{ request()->routeIs('service-suggestions.*') ? 'active' : '' }}">
-                <i class="fa fa-concierge-bell"></i> Suggest a Service
-            </a>
-
             <div class="mk-mobile-divider"></div>
+
+            <div class="mk-mobile-language">
+                @include('partials.language-switcher')
+            </div>
 
             @guest
                 <div class="mk-mobile-auth">
-                    <a href="{{ route('login') }}" class="mk-mobile-auth-link mk-mobile-auth-link--login">Log
-                        In</a>
-                    <a href="{{ route('register') }}" class="mk-mobile-auth-link mk-mobile-auth-link--signup">Sign
-                        Up</a>
+                    <a href="{{ route('login') }}" class="mk-mobile-auth-link mk-mobile-auth-link--login">{{ __('navigation.login') }}</a>
+                    <a href="{{ route('register') }}" class="mk-mobile-auth-link mk-mobile-auth-link--signup">{{ __('navigation.register') }}</a>
                 </div>
             @else
                 <a href="{{ route('profile.index') }}">
-                    <i class="fa fa-user"></i> My Profile
+                    <i class="fa fa-user"></i> {{ __('navigation.profile') }}
                 </a>
                 @if (!auth()->user()->isAdmin())
                     <a href="{{ route('favorites.index') }}">
-                        <i class="fa fa-heart"></i> Favorites
+                        <i class="fa fa-heart"></i> {{ __('navigation.favorites') }}
                     </a>
                 @endif
                 @if (auth()->user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}">
-                        <i class="fa fa-dashboard"></i> Admin Panel
+                        <i class="fa fa-dashboard"></i> {{ __('navigation.admin') }}
                     </a>
                 @endif
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="mk-mobile-logout">
-                        <i class="fa fa-sign-out"></i> Log Out
+                        <i class="fa fa-sign-out"></i> {{ __('navigation.logout') }}
                     </button>
                 </form>
             @endguest

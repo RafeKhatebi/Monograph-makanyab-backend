@@ -11,6 +11,7 @@ use App\Models\ServiceSuggestion;
 use App\Services\SuggestionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SuggestionController extends Controller
 {
@@ -50,6 +51,7 @@ class SuggestionController extends Controller
 
     public function adminPlaceQueue(Request $request): JsonResponse
     {
+        $request->validate(['status' => ['nullable', Rule::enum(SuggestionStatus::class)]]);
         $status = $request->query('status', SuggestionStatus::Pending->value);
         $items = PlaceSuggestion::query()
             ->where('suggestion_status', $status)
@@ -61,6 +63,7 @@ class SuggestionController extends Controller
 
     public function adminServiceQueue(Request $request): JsonResponse
     {
+        $request->validate(['status' => ['nullable', Rule::enum(SuggestionStatus::class)]]);
         $status = $request->query('status', SuggestionStatus::Pending->value);
         $items = ServiceSuggestion::query()
             ->where('suggestion_status', $status)

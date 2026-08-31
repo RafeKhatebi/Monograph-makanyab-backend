@@ -71,6 +71,10 @@ Route::middleware('auth')->group(function () {
         ->whereIn('provider', ['google', 'facebook'])
         ->name('social.connect.callback');
 
+    Route::delete('account/social/{provider}', [SocialAuthController::class, 'disconnect'])
+        ->whereIn('provider', ['google', 'facebook'])
+        ->name('social.disconnect');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
