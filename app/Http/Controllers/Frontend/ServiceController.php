@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateServiceReviewRequest;
 use App\Models\Favorite;
 use App\Models\Review;
 use App\Models\Service;
-use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,9 +38,7 @@ class ServiceController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        $categories = ServiceCategory::active()->orderBy('name')->get();
-
-        return view('pages.services.index', compact('services', 'categories'));
+        return view('pages.services.index', compact('services'));
     }
 
     public function show(Service $service)

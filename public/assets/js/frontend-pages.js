@@ -33,6 +33,52 @@
             syncSearchCategories();
         }
 
+        const discoverForm = document.querySelector('[data-discover-form]');
+
+        if (discoverForm && window.DiscoverCategories) {
+            const categorySelect = discoverForm.querySelector('[data-discover-category]');
+            const typeInputs = discoverForm.querySelectorAll('[data-discover-type]');
+
+            const syncDiscoverCategories = function () {
+                const selected = discoverForm.querySelector('[data-discover-type]:checked');
+                const type = selected && selected.value === 'service' ? 'service' : 'place';
+                const categories = window.DiscoverCategories[type] || [];
+
+                if (!categorySelect) {
+                    return;
+                }
+
+                categorySelect.innerHTML = '';
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = window.DiscoverCategories.placeholder || '';
+                categorySelect.appendChild(placeholder);
+
+                categories.forEach(function (category) {
+                    const option = document.createElement('option');
+                    option.value = category.slug;
+                    option.textContent = category.name;
+                    categorySelect.appendChild(option);
+                });
+            };
+
+            typeInputs.forEach(function (input) {
+                input.addEventListener('change', function () {
+                    syncDiscoverCategories();
+
+                    if (categorySelect) {
+                        categorySelect.value = '';
+                    }
+
+                    if (typeof discoverForm.requestSubmit === 'function') {
+                        discoverForm.requestSubmit();
+                    } else {
+                        discoverForm.submit();
+                    }
+                });
+            });
+        }
+
         if (window.jQuery && jQuery.fn.lightSlider && document.getElementById('image-gallery')) {
             const gallery = jQuery('#image-gallery');
             if (gallery.children().length) {

@@ -4,7 +4,9 @@
     use App\Enums\PlaceStatus;
     use App\Enums\PriceLevel;
 
-    $activeType = old('type', request('type', 'place'));
+    $activeType = in_array(old('type', request('type', 'place')), ['place', 'service'], true)
+        ? old('type', request('type', 'place'))
+        : 'place';
     $priceOptions = [
         PriceLevel::Low->value => __('common.price.low'),
         PriceLevel::Medium->value => __('common.price.medium'),
@@ -30,15 +32,21 @@
 
     <section class="suggestion-hub">
         <div class="container">
+            @if (session('success'))
+                <div class="mk-alert mk-alert--success suggestion-success">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
             <div class="suggestion-hub__grid">
                 <main class="suggestion-panel">
-                    <form action="{{ route('suggest.store') }}" method="POST" enctype="multipart/form-data" data-suggest-form>
+                    <form action="{{ route('add.store') }}" method="POST" enctype="multipart/form-data" data-suggest-form>
                         @csrf
                         <input type="hidden" name="country" value="{{ old('country', 'Afghanistan') }}">
 
                         <fieldset class="suggestion-tabs">
                             <legend class="sr-only">{{ __('suggestions.submission_type') }}</legend>
-                            @foreach (['place', 'service', 'post'] as $type)
+                            @foreach (['place', 'service'] as $type)
                                 <label class="suggestion-tab">
                                     <input type="radio" name="type" value="{{ $type }}" @checked($activeType === $type)
                                         data-suggest-type>
@@ -53,9 +61,6 @@
                             <div class="suggestion-form-grid">
                                 <div data-suggest-for="place service">
                                     <x-form-field for="name" :label="__('suggestions.name')" :value="old('name')" />
-                                </div>
-                                <div data-suggest-for="post">
-                                    <x-form-field for="title" :label="__('suggestions.title')" :value="old('title')" />
                                 </div>
                                 <div data-suggest-for="place">
                                     <x-input-label for="place_category_id" :value="__('suggestions.category')" />
@@ -82,16 +87,6 @@
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
 
-                            <div data-suggest-for="post" class="suggestion-form-grid suggestion-form-grid--single">
-                                <x-form-field for="excerpt" :label="__('suggestions.excerpt')" :value="old('excerpt')" />
-                            </div>
-
-                            <div data-suggest-for="post" class="profile-form-group">
-                                <x-input-label for="content" :value="__('suggestions.content')" />
-                                <x-textarea id="content" name="content" rows="8"
-                                    placeholder="{{ __('suggestions.content_placeholder') }}">{{ old('content') }}</x-textarea>
-                                <x-input-error :messages="$errors->get('content')" class="mt-2" />
-                            </div>
                         </section>
 
                         <section class="suggestion-section" data-suggest-for="place service">
@@ -150,12 +145,6 @@
                                 <p class="suggestion-help">{{ __('suggestions.images_help') }}</p>
                                 <x-input-error :messages="$errors->get('images')" class="mt-2" />
                                 <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
-                            </div>
-                            <div data-suggest-for="post">
-                                <x-input-label for="image" :value="__('suggestions.image')" />
-                                <input id="image" type="file" name="image" class="form-control" accept="image/*">
-                                <p class="suggestion-help">{{ __('suggestions.image_help') }}</p>
-                                <x-input-error :messages="$errors->get('image')" class="mt-2" />
                             </div>
                         </section>
 

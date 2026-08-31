@@ -55,7 +55,7 @@ class SuggestionHubController extends Controller
             ]);
 
             return redirect()
-                ->route('suggest.create')
+                ->route('add.create')
                 ->with('success', __($isReviewSubmission ? 'messages.post_suggestion_sent' : 'messages.post_suggestion_saved'))
                 ->with('submission_id', $post->id);
         }
@@ -80,7 +80,7 @@ class SuggestionHubController extends Controller
         $mediaUploadService->attachImages($suggestion, $request->file('images', []), "{$type}-suggestions");
 
         return redirect()
-            ->route('suggest.create')
+            ->route('add.create')
             ->with('success', __($isReviewSubmission ? 'messages.suggestion_sent_for_review' : 'messages.suggestion_draft_saved'))
             ->with('submission_id', $suggestion->id);
     }

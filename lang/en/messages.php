@@ -2,10 +2,10 @@
 
 return [
     'contact_thanks' => 'Thank you for contacting us! We will get back to you soon.',
-    'place_suggestion_sent' => 'Thank you! Your place suggestion has been submitted for review.',
-    'service_suggestion_sent' => 'Thank you! Your service suggestion has been submitted for review.',
-    'suggestion_draft_saved' => 'Your suggestion has been saved as a draft.',
-    'suggestion_sent_for_review' => 'Your suggestion has been sent for review.',
+    'place_suggestion_sent' => 'Thank you! Your place has been submitted for review.',
+    'service_suggestion_sent' => 'Thank you! Your service has been submitted for review.',
+    'suggestion_draft_saved' => 'Your item has been saved as a draft.',
+    'suggestion_sent_for_review' => 'Your item has been sent for review. It will appear in the related listing after approval.',
     'post_suggestion_saved' => 'Your post has been saved as a draft.',
     'post_suggestion_sent' => 'Your post has been sent for review.',
     'review_submitted' => 'Review submitted and pending approval.',

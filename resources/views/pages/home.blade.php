@@ -63,46 +63,6 @@
         </div>
 
         <div class="container home-hero__search-wrap">
-            <form action="{{ route('search.index') }}" method="GET" class="home-search" data-home-search>
-                <div class="home-search__grid">
-                    <div class="home-search__field home-search__field--keyword">
-                        <label for="home-search-keyword" class="sr-only">{{ __('home.keyword') }}</label>
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        <input id="home-search-keyword" type="search" name="search"
-                            placeholder="{{ __('home.search_placeholder') }}" class="home-search__input"
-                            autocomplete="off">
-                    </div>
-
-                    <div class="home-search__field">
-                        <label for="home-search-province" class="sr-only">{{ __('home.choose_location') }}</label>
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                        <select id="home-search-province" name="province" class="home-search__select"
-                            aria-label="{{ __('home.choose_location') }}">
-                            <option value="">{{ __('home.any_location') }}</option>
-                            @foreach ($searchProvinces as $province)
-                                <option value="{{ $province }}">{{ $province }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="home-search__field">
-                        <label for="home-search-type" class="sr-only">{{ __('home.result_type') }}</label>
-                        <i class="fa fa-list-ul" aria-hidden="true"></i>
-                        <select id="home-search-type" name="type" class="home-search__select"
-                            aria-label="{{ __('home.result_type') }}">
-                            <option value="all">{{ __('home.places_services') }}</option>
-                            <option value="places">{{ __('home.places_only') }}</option>
-                            <option value="services">{{ __('home.services_only') }}</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="home-search__button">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        {{ __('common.actions.search') }}
-                    </button>
-                </div>
-            </form>
-
             <dl class="home-hero__stats" aria-label="{{ __('home.summary') }}">
                 <div>
                     <dt>{{ number_format($homeStats['places']) }}</dt>
@@ -133,7 +93,6 @@
             <div class="row">
                 <div class="col-md-12 home-section__header">
                     <h2 class="home-section__title">{{ __('home.featured_places_title') }}</h2>
-                    <p class="home-section__text">{{ __('home.featured_places_text') }}</p>
                 </div>
             </div>
             <div class="row home-feature-row">
@@ -146,8 +105,8 @@
                 @endforelse
             </div>
             <div class="row">
-                <div class="col-md-12 home-actions">
-                    <a href="{{ route('places.index') }}" class="mk-button mk-button--primary mk-button--lg">
+                <div class="col-md-12 home-more">
+                    <a href="{{ route('places.index') }}" class="home-view-more-link">
                         {{ __('home.see_more') }}
                     </a>
                 </div>
@@ -160,7 +119,6 @@
             <div class="row">
                 <div class="col-md-12 home-section__header">
                     <h2 class="home-section__title">{{ __('home.featured_services_title') }}</h2>
-                    <p class="home-section__text">{{ __('home.featured_services_text') }}</p>
                 </div>
             </div>
             <div class="row home-feature-row">
@@ -175,51 +133,9 @@
                 @endforelse
             </div>
             <div class="row">
-                <div class="col-md-12 home-actions">
-                    <a href="{{ route('services.index') }}" class="mk-button mk-button--primary mk-button--lg">
+                <div class="col-md-12 home-more">
+                    <a href="{{ route('services.index') }}" class="home-view-more-link">
                         {{ __('home.see_more') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="home-section home-section--muted">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 home-section__header">
-                    <h2 class="home-section__title">{{ __('home.categories_title') }}</h2>
-                    <p class="home-section__text">{{ __('home.categories_text') }}</p>
-                </div>
-            </div>
-            <div class="row">
-                @forelse($categories ?? [] as $category)
-                    <div class="col-sm-6 col-md-4 mk-stack-sm home-card-col">
-                        <a href="{{ route('search.index', ['place_category' => $category->slug, 'type' => 'places']) }}"
-                            class="home-category-link">
-                            <div class="home-category-card">
-                                <div class="home-category-card__icon"
-                                    style="color:{{ $category->color_code ?? '#10B981' }};">
-                                    <i class="fa {{ $category->icon_name ?? 'fa-folder' }}"></i>
-                                </div>
-                                <h5 class="home-category-card__title">
-                                    {{ $category->name }}</h5>
-                                <p class="home-category-card__text">
-                                    {{ __('home.places_count', ['count' => number_format($category->places_count)]) }}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                @empty
-                    <div class="col-sm-12 text-center">
-                        <p class="mk-text--muted">{{ __('home.empty_categories') }}</p>
-                    </div>
-                @endforelse
-            </div>
-            <div class="row mk-stack-sm">
-                <div class="col-md-12 text-center">
-                    <a href="{{ route('categories.index') }}" class="mk-button mk-button--secondary mk-button--lg">
-                        {{ __('home.view_all_categories') }}
                     </a>
                 </div>
             </div>
@@ -231,7 +147,6 @@
             <div class="row">
                 <div class="col-md-12 home-section__header">
                     <h2 class="home-section__title">{{ __('home.recently_verified_title') }}</h2>
-                    <p class="home-section__text">{{ __('home.recently_verified_text') }}</p>
                 </div>
             </div>
             <div class="row home-feature-row">
@@ -248,8 +163,8 @@
                 @endforelse
             </div>
             <div class="row">
-                <div class="col-md-12 home-actions">
-                    <a href="{{ route('places.index', ['verified' => 1]) }}" class="mk-button mk-button--primary mk-button--lg">
+                <div class="col-md-12 home-more">
+                    <a href="{{ route('places.index', ['verified' => 1]) }}" class="home-view-more-link">
                         {{ __('home.see_more') }}
                     </a>
                 </div>
@@ -262,7 +177,6 @@
             <div class="row">
                 <div class="col-md-12 home-section__header">
                     <h2 class="home-section__title">{{ __('home.latest_title') }}</h2>
-                    <p class="home-section__text">{{ __('home.latest_text') }}</p>
                 </div>
             </div>
             <div class="row home-feature-row">
@@ -276,9 +190,9 @@
                     </div>
                 @endforelse
             </div>
-            <div class="row mk-stack-sm">
-                <div class="col-md-12 text-center">
-                    <a href="{{ route('posts.index') }}" class="mk-button mk-button--primary mk-button--lg">
+            <div class="row">
+                <div class="col-md-12 home-more">
+                    <a href="{{ route('posts.index') }}" class="home-view-more-link">
                         {{ __('home.see_more') }}
                     </a>
                 </div>
@@ -315,14 +229,14 @@
         </div>
     </div>
 
-    <div class="home-suggest-sticky" aria-label="{{ __('home.suggest_sticky_label') }}">
-        <a href="{{ route('suggest.create', ['type' => 'place']) }}" class="home-suggest-sticky__button">
-            <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
-            {{ __('home.suggest_place') }}
+    <div class="home-suggest-sticky" aria-label="{{ __('home.add_sticky_label') }}">
+        <a href="{{ route('add.create', ['type' => 'place']) }}" class="home-suggest-sticky__button">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            {{ __('home.add_place') }}
         </a>
-        <a href="{{ route('suggest.create', ['type' => 'service']) }}" class="home-suggest-sticky__button home-suggest-sticky__button--secondary">
+        <a href="{{ route('add.create', ['type' => 'service']) }}" class="home-suggest-sticky__button home-suggest-sticky__button--secondary">
             <i class="fa fa-briefcase" aria-hidden="true"></i>
-            {{ __('home.suggest_service') }}
+            {{ __('home.add_service') }}
         </a>
     </div>
 

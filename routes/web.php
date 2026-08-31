@@ -15,12 +15,10 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\FavoriteWebController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PlaceController;
-use App\Http\Controllers\Frontend\PlaceSuggestionController;
 use App\Http\Controllers\Frontend\PostController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
-use App\Http\Controllers\Frontend\ServiceSuggestionController;
 use App\Http\Controllers\Frontend\SuggestionHubController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\LocaleController;
@@ -52,19 +50,18 @@ Route::post('/contact', [ContactController::class, 'store'])
 
 // Search Section
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
-Route::get('/suggest-place', [PlaceSuggestionController::class, 'create'])->name('place-suggestions.create');
-Route::post('/suggest-place', [PlaceSuggestionController::class, 'store'])
-    ->middleware('throttle:5,1')
+Route::redirect('/suggest-place', '/add?type=place')->name('place-suggestions.create');
+Route::post('/suggest-place', fn () => redirect()->route('add.create', ['type' => 'place']))
     ->name('place-suggestions.store');
-Route::get('/suggest-service', [ServiceSuggestionController::class, 'create'])->name('service-suggestions.create');
-Route::post('/suggest-service', [ServiceSuggestionController::class, 'store'])
-    ->middleware('throttle:5,1')
+Route::redirect('/suggest-service', '/add?type=service')->name('service-suggestions.create');
+Route::post('/suggest-service', fn () => redirect()->route('add.create', ['type' => 'service']))
     ->name('service-suggestions.store');
+Route::redirect('/suggest', '/add')->name('suggest.create');
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/suggest', [SuggestionHubController::class, 'create'])->name('suggest.create');
-    Route::post('/suggest', [SuggestionHubController::class, 'store'])
+    Route::get('/add', [SuggestionHubController::class, 'create'])->name('add.create');
+    Route::post('/add', [SuggestionHubController::class, 'store'])
         ->middleware('throttle:5,1')
-        ->name('suggest.store');
+        ->name('add.store');
 });
 
 //  Posts Section

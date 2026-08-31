@@ -2,10 +2,10 @@
 
 return [
     'contact_thanks' => 'له اړیکې مو مننه! ژر به درسره اړیکه ونیسو.',
-    'place_suggestion_sent' => 'مننه! ستاسو د ځای وړاندیز د کتنې لپاره ولېږل شو.',
-    'service_suggestion_sent' => 'مننه! ستاسو د خدمت وړاندیز د کتنې لپاره ولېږل شو.',
-    'suggestion_draft_saved' => 'ستاسو وړاندیز د مسودې په توګه خوندي شو.',
-    'suggestion_sent_for_review' => 'ستاسو وړاندیز د کتنې لپاره ولېږل شو.',
+    'place_suggestion_sent' => 'مننه! ستاسو ځای د کتنې لپاره ولېږل شو.',
+    'service_suggestion_sent' => 'مننه! ستاسو خدمت د کتنې لپاره ولېږل شو.',
+    'suggestion_draft_saved' => 'ستاسو توکی د مسودې په توګه خوندي شو.',
+    'suggestion_sent_for_review' => 'ستاسو توکی د کتنې لپاره ولېږل شو. له تایید وروسته به په اړوند لړلیک کې ښکاره شي.',
     'post_suggestion_saved' => 'ستاسو لیکنه د مسودې په توګه خوندي شوه.',
     'post_suggestion_sent' => 'ستاسو لیکنه د کتنې لپاره ولېږل شوه.',
     'review_submitted' => 'کتنه ولېږل شوه او د تایید په تمه ده.',

@@ -74,7 +74,7 @@
                 <div class="mk-footer-business">
                     <p class="mk-footer-business-title">{{ __('footer.own_business') }}</p>
                     <p class="mk-footer-business-text">{{ __('footer.list_business') }}</p>
-                    <a href="{{ route('register') }}" class="mk-footer-business-link">
+                    <a href="{{ route('add.create') }}" class="mk-footer-business-link">
                         {{ __('footer.get_listed') }}
                     </a>
                 </div>

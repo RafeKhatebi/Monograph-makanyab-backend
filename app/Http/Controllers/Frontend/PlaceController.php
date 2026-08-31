@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Place;
-use App\Models\PlaceCategory;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +35,7 @@ class PlaceController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        $categories = PlaceCategory::active()->orderBy('name')->get();
-
-        return view('pages.places.index', compact('places', 'categories'));
+        return view('pages.places.index', compact('places'));
     }
 
     public function show(Place $place)

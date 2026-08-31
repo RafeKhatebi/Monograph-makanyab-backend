@@ -49,7 +49,7 @@
             {{-- Places grid --}}
             <div class="category-results-header">
                 <h3>{{ __('categories.places', ['count' => $places->total()]) }}</h3>
-                <a href="{{ route('places.index', ['category' => $category->slug]) }}"
+                <a href="{{ route('search.index', ['type' => 'place', 'category' => $category->slug]) }}"
                     >{{ __('categories.view_filters') }} <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
             </div>
 

@@ -52,7 +52,7 @@
             {{-- Services grid --}}
             <div class="category-results-header">
                 <h3>{{ __('categories.services', ['count' => $services->total()]) }}</h3>
-                <a href="{{ route('services.index', ['category' => $category->slug]) }}">{{ __('categories.view_filters') }} <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="{{ route('search.index', ['type' => 'service', 'category' => $category->slug]) }}">{{ __('categories.view_filters') }} <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
             </div>
 
             <div class="row">

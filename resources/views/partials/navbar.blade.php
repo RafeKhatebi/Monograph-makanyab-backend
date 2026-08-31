@@ -60,7 +60,7 @@
             </ul>
 
             <div class="mk-auth">
-                @include('partials.language-switcher')
+                @include('partials.language-switcher', ['variant' => 'icon'])
                 @guest
                     <a href="{{ route('login') }}" class="mk-btn-login">{{ __('navigation.login') }}</a>
                     <a href="{{ route('register') }}" class="mk-btn-signup">{{ __('navigation.register') }}</a>
@@ -166,15 +166,6 @@
             <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
                 <i class="fa fa-newspaper-o"></i> {{ __('navigation.blog') }}
             </a>
-            @unless (request()->routeIs('home'))
-                <a href="{{ route('suggest.create', ['type' => 'place']) }}" class="{{ request()->routeIs('suggest.*') ? 'active' : '' }}">
-                    <i class="fa fa-lightbulb-o"></i> {{ __('navigation.suggest_place') }}
-                </a>
-                <a href="{{ route('suggest.create', ['type' => 'service']) }}" class="{{ request()->routeIs('suggest.*') ? 'active' : '' }}">
-                    <i class="fa fa-concierge-bell"></i> {{ __('navigation.suggest_service') }}
-                </a>
-            @endunless
-
             <div class="mk-mobile-divider"></div>
 
             <div class="mk-mobile-language">

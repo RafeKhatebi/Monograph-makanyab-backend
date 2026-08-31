@@ -76,20 +76,20 @@ return [
         ],
         'send_places' => [
             'title' => 'How to Send Places',
-            'intro' => 'Suggest missing places so other users can find accurate local information.',
+            'intro' => 'Add missing places so other users can find accurate local information.',
             'sections' => [
                 ['title' => 'Required details', 'body' => 'Provide the place name, category, city, district or area, full address, phone number if available, website or WhatsApp if available, short description, and clear images when needed.'],
                 ['title' => 'Quality rules', 'body' => 'Submit real places only. Do not create duplicates, fake locations, misleading names, private homes without permission, or listings with incorrect contact details. Use the correct category and write a helpful description.'],
-                ['title' => 'Draft and review', 'body' => 'A suggested place is saved as draft or pending review first. Makanyab checks the details, may contact the submitter if needed, and publishes the place only after approval. Rejected suggestions remain unpublished.'],
+                ['title' => 'Draft and review', 'body' => 'An added place is saved as draft or pending review first. Makanyab checks the details, may contact the submitter if needed, and publishes the place only after approval. Rejected items remain unpublished.'],
             ],
         ],
         'send_services' => [
             'title' => 'How to Send Services',
-            'intro' => 'Suggest service providers so people can find reliable help in their city.',
+            'intro' => 'Add service providers so people can find reliable help in their city.',
             'sections' => [
                 ['title' => 'Required details', 'body' => 'Provide the service name, service category, city, service area, address if available, phone number, WhatsApp or website if available, price level if known, description, and relevant images when needed.'],
                 ['title' => 'Quality rules', 'body' => 'Submit real service providers only. Do not add fake businesses, duplicate services, private contact information without permission, or exaggerated claims. The description should explain what the service provides and where it operates.'],
-                ['title' => 'Draft and review', 'body' => 'A suggested service is saved as draft or pending review before publication. Administrators review the information, approve suitable services, and may reject or edit submissions that are incomplete or unsafe.'],
+                ['title' => 'Draft and review', 'body' => 'An added service is saved as draft or pending review before publication. Administrators review the information, approve suitable services, and may reject or edit submissions that are incomplete or unsafe.'],
             ],
         ],
     ],

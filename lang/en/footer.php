@@ -11,7 +11,7 @@ return [
     'contact_makanyab' => 'Contact Makanyab',
     'own_business' => 'Own a business?',
     'list_business' => 'List your place and reach thousands of customers.',
-    'get_listed' => 'Get Listed Free',
+    'get_listed' => 'Add Place or Service',
     'rights' => 'All rights reserved.',
     'privacy' => 'Privacy Policy',
     'terms' => 'Terms of Service',
