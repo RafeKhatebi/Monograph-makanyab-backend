@@ -34,13 +34,14 @@
     </head>
 
     <body>
-        <div class="auth-branding">
-            <a href="{{ route('home') }}">
-                <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="auth-branding__logo">
-            </a>
+        <div class="auth-layout">
+            <div class="auth-layout__illustration">
+                <img src="{{ asset('assets/img/branding/makanyab-auth-discovery-illustration.png') }}" alt="Discover places and services with Makanyab" class="auth-illustration__img" loading="lazy">
+            </div>
+            <div class="auth-layout__form">
+                <main>@yield('content')</main>
+            </div>
         </div>
-        @include('partials.language-switcher')
-        <main>@yield('content')</main>
 
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>

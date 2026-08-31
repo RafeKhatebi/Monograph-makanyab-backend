@@ -25,7 +25,7 @@
             <x-form-field :label="__('auth.ui.confirm_password')" for="password_confirmation" type="password" name="password_confirmation"
                 autocomplete="new-password" required />
 
-            <x-primary-button class="w-full text-center mb-5">
+            <x-primary-button class="w-full text-center mb-4">
                 {{ __('auth.ui.create_account') }}
             </x-primary-button>
 

@@ -320,6 +320,10 @@
     margin-bottom: 24px;
 }
 
+.mk-stack-xs {
+    margin-bottom: 12px;
+}
+
 .mk-heading {
     color: var(--mk-text);
     font-weight: 800;
