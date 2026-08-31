@@ -88,6 +88,10 @@
             <div class="mk-footer-bottom-links">
                 <a href="{{ route('privacy') }}">{{ __('footer.privacy') }}</a>
                 <a href="{{ route('terms') }}">{{ __('footer.terms') }}</a>
+                <a href="{{ route('guides.share') }}">{{ __('footer.how_to_share') }}</a>
+                <a href="{{ route('guides.send-places') }}">{{ __('footer.how_to_send_places') }}</a>
+                <a href="{{ route('guides.send-services') }}">{{ __('footer.how_to_send_services') }}</a>
+                <a href="{{ route('guides.send-posts') }}">{{ __('footer.how_to_send_posts') }}</a>
                 <a href="{{ route('contact') }}">{{ __('navigation.support') }}</a>
             </div>
         </div>

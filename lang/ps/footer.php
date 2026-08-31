@@ -8,4 +8,8 @@ return [
     'contact_makanyab' => 'له مکان‌یاب سره اړیکه', 'own_business' => 'سوداګري لرئ؟',
     'list_business' => 'خپل ځای ثبت کړئ او زرګونو پېرېدونکو ته ورسېږئ.', 'get_listed' => 'وړیا ثبتول',
     'rights' => 'ټول حقوق خوندي دي.', 'privacy' => 'د محرمیت تګلاره', 'terms' => 'د خدمت شرایط',
+    'how_to_share' => 'څنګه شریکول وکړو',
+    'how_to_send_posts' => 'لیکنې لېږل',
+    'how_to_send_places' => 'ځایونه لېږل',
+    'how_to_send_services' => 'خدمتونه لېږل',
 ];

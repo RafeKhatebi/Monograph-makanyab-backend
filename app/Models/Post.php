@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SuggestionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,12 +17,16 @@ class Post extends Model
         'image',
         'excerpt',
         'content',
+        'submission_status',
+        'admin_note',
+        'extra_information',
         'is_published',
         'published_at',
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
+        'submission_status' => SuggestionStatus::class,
         'published_at' => 'datetime',
     ];
 

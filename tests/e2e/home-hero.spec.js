@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('home hero', () => {
-    test('slider controls and search form work without console errors', async ({ page }) => {
+    test('slider dots and simplified search form work without console errors', async ({ page }) => {
         const issues = [];
 
         page.on('console', (message) => {
@@ -15,9 +15,13 @@ test.describe('home hero', () => {
 
         const hero = page.locator('[data-home-hero]');
         await expect(hero).toBeVisible();
+        await expect(page.locator('[data-hero-slide]')).toHaveCount(6);
         await expect(page.locator('[data-hero-slide].is-active')).toContainText('Find trusted places across Afghanistan');
 
-        await page.getByRole('button', { name: 'Show next Makanyab highlight' }).click();
+        await expect(page.locator('[data-hero-prev]')).toHaveCount(0);
+        await expect(page.locator('[data-hero-next]')).toHaveCount(0);
+
+        await page.getByRole('button', { name: 'Show slide 2' }).click();
         await expect(page.locator('[data-hero-slide].is-active')).toContainText('Discover services that are ready to help');
 
         await page.getByRole('button', { name: 'Show slide 1' }).click();

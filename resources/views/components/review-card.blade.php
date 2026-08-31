@@ -8,7 +8,7 @@
         <div class="col-xs-10 col-sm-11">
             <strong>{{ $review->user->name ?? __('common.anonymous') }}</strong>
             <span class="text-muted mk-review__meta">
-                {{ $review->created_at->diffForHumans() }}
+                {{ __('common.dates.reviewed_on') }} {{ \App\Support\LocalizedDate::dateTime($review->created_at) }}
             </span>
             <div>
                 @include('components.rating-stars', ['rating' => $review->rating])

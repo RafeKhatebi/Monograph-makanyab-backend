@@ -12,18 +12,19 @@
 
     <section class="mk-page-section">
         <div class="container">
-            <div class="mk-card">
-                <h2 class="mk-heading mk-heading--md">{{ __('content.legal.collect') }}</h2>
-                <p class="mk-text">Makanyab collects information you provide when creating an account, submitting listings,
-                    sending contact messages, writing reviews, or saving favorites.</p>
+            <div class="static-content">
+                @foreach (__('content.legal.privacy_sections') as $section)
+                    <section class="static-content__section">
+                        <h2 class="mk-heading mk-heading--md">{{ $section['title'] }}</h2>
+                        <p class="mk-text">{{ $section['body'] }}</p>
+                    </section>
+                @endforeach
 
-                <h2 class="mk-heading mk-heading--md">{{ __('content.legal.use') }}</h2>
-                <p class="mk-text">We use this information to operate the directory, moderate submissions, respond to
-                    support requests, improve search and discovery, and protect the platform from misuse.</p>
-
-                <h2 class="mk-heading mk-heading--md">{{ __('navigation.contact') }}</h2>
-                <p class="mk-text">Questions about privacy can be sent through the contact page.</p>
-                <x-ui.button :href="route('contact')" variant="primary">{{ __('footer.contact_makanyab') }}</x-ui.button>
+                <section class="static-content__section static-content__section--contact">
+                    <h2 class="mk-heading mk-heading--md">{{ __('navigation.contact') }}</h2>
+                    <p class="mk-text">{{ __('content.legal.questions') }}</p>
+                    <x-ui.button :href="route('contact')" variant="primary">{{ __('footer.contact_makanyab') }}</x-ui.button>
+                </section>
             </div>
         </div>
     </section>

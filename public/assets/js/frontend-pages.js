@@ -17,6 +17,22 @@
             });
         }
 
+        const searchType = document.querySelector('[data-search-type]');
+
+        if (searchType) {
+            const syncSearchCategories = function () {
+                const activeType = searchType.value === 'services' ? 'services' : 'places';
+
+                document.querySelectorAll('[data-category-group], [data-filter-category-group]').forEach(function (group) {
+                    const groupType = group.dataset.categoryGroup || group.dataset.filterCategoryGroup;
+                    group.classList.toggle('is-hidden', groupType !== activeType);
+                });
+            };
+
+            searchType.addEventListener('change', syncSearchCategories);
+            syncSearchCategories();
+        }
+
         if (window.jQuery && jQuery.fn.lightSlider && document.getElementById('image-gallery')) {
             const gallery = jQuery('#image-gallery');
             if (gallery.children().length) {

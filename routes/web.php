@@ -21,6 +21,7 @@ use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ServiceCategoryController as FrontendServiceCategoryController;
 use App\Http\Controllers\Frontend\ServiceController as FrontendServiceController;
 use App\Http\Controllers\Frontend\ServiceSuggestionController;
+use App\Http\Controllers\Frontend\SuggestionHubController;
 use App\Http\Controllers\Frontend\UserProfileController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +39,10 @@ Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::view('/privacy-policy', 'pages.legal.privacy')->name('privacy');
 Route::view('/terms-of-service', 'pages.legal.terms')->name('terms');
+Route::view('/how-to-share', 'pages.legal.guide', ['guide' => 'share'])->name('guides.share');
+Route::view('/how-to-send-posts', 'pages.legal.guide', ['guide' => 'send_posts'])->name('guides.send-posts');
+Route::view('/how-to-send-places', 'pages.legal.guide', ['guide' => 'send_places'])->name('guides.send-places');
+Route::view('/how-to-send-services', 'pages.legal.guide', ['guide' => 'send_services'])->name('guides.send-services');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -55,6 +60,12 @@ Route::get('/suggest-service', [ServiceSuggestionController::class, 'create'])->
 Route::post('/suggest-service', [ServiceSuggestionController::class, 'store'])
     ->middleware('throttle:5,1')
     ->name('service-suggestions.store');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/suggest', [SuggestionHubController::class, 'create'])->name('suggest.create');
+    Route::post('/suggest', [SuggestionHubController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('suggest.store');
+});
 
 //  Posts Section
 

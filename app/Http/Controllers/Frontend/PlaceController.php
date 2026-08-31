@@ -33,7 +33,7 @@ class PlaceController extends Controller
             ->filterVerified($request->boolean('verified'))
             ->filterCategorySlug($request->query('category'))
             ->orderByDesc('created_at')
-            ->paginate(12)
+            ->paginate(20)
             ->withQueryString();
 
         $categories = PlaceCategory::active()->orderBy('name')->get();

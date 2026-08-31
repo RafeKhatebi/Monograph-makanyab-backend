@@ -1,50 +1,6 @@
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
         const hero = document.querySelector('[data-home-hero]');
-        const form = document.querySelector('[data-home-search]');
-
-        if (form) {
-            const categoryPicker = form.querySelector('[data-category-picker]');
-            const placeInput = form.querySelector('[data-place-category-input]');
-            const serviceInput = form.querySelector('[data-service-category-input]');
-            const typeInput = form.querySelector('select[name="type"]');
-
-            const syncCategory = function () {
-                if (!categoryPicker || !placeInput || !serviceInput) {
-                    return;
-                }
-
-                const value = categoryPicker.value || '';
-                const parts = value.split(':');
-
-                placeInput.value = '';
-                serviceInput.value = '';
-
-                if (parts.length !== 2) {
-                    return;
-                }
-
-                if (parts[0] === 'place') {
-                    placeInput.value = parts[1];
-                    if (typeInput && typeInput.value === 'services') {
-                        typeInput.value = 'places';
-                    }
-                }
-
-                if (parts[0] === 'service') {
-                    serviceInput.value = parts[1];
-                    if (typeInput && typeInput.value === 'places') {
-                        typeInput.value = 'services';
-                    }
-                }
-            };
-
-            if (categoryPicker) {
-                categoryPicker.addEventListener('change', syncCategory);
-            }
-
-            form.addEventListener('submit', syncCategory);
-        }
 
         if (!hero) {
             return;

@@ -14,4 +14,8 @@ return [
     'rights' => 'All rights reserved.',
     'privacy' => 'Privacy Policy',
     'terms' => 'Terms of Service',
+    'how_to_share' => 'How to Share',
+    'how_to_send_posts' => 'Send Posts',
+    'how_to_send_places' => 'Send Places',
+    'how_to_send_services' => 'Send Services',
 ];

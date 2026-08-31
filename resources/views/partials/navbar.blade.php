@@ -6,7 +6,6 @@
                 <span class="mk-logo-icon">
                     <img src="{{ asset('assets/img/map-logo.svg') }}" alt="" aria-hidden="true">
                 </span>
-                <!-- <span class="mk-logo-text">Makan<span>yab</span></span> -->
             </a>
 
             <ul class="mk-links">
@@ -20,12 +19,6 @@
                     <a href="{{ route('search.index') }}"
                         class="{{ request()->routeIs('search.index') ? 'active' : '' }}">
                         <i></i> {{ __('navigation.search') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('place-suggestions.create') }}"
-                        class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
-                        <i></i> {{ __('navigation.suggest') }}
                     </a>
                 </li>
                 <li
@@ -173,12 +166,14 @@
             <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
                 <i class="fa fa-newspaper-o"></i> {{ __('navigation.blog') }}
             </a>
-            <a href="{{ route('place-suggestions.create') }}" class="{{ request()->routeIs('place-suggestions.*') ? 'active' : '' }}">
-                <i class="fa fa-lightbulb-o"></i> {{ __('navigation.suggest_place') }}
-            </a>
-            <a href="{{ route('service-suggestions.create') }}" class="{{ request()->routeIs('service-suggestions.*') ? 'active' : '' }}">
-                <i class="fa fa-concierge-bell"></i> {{ __('navigation.suggest_service') }}
-            </a>
+            @unless (request()->routeIs('home'))
+                <a href="{{ route('suggest.create', ['type' => 'place']) }}" class="{{ request()->routeIs('suggest.*') ? 'active' : '' }}">
+                    <i class="fa fa-lightbulb-o"></i> {{ __('navigation.suggest_place') }}
+                </a>
+                <a href="{{ route('suggest.create', ['type' => 'service']) }}" class="{{ request()->routeIs('suggest.*') ? 'active' : '' }}">
+                    <i class="fa fa-concierge-bell"></i> {{ __('navigation.suggest_service') }}
+                </a>
+            @endunless
 
             <div class="mk-mobile-divider"></div>
 

@@ -7,13 +7,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="description" content="@yield('meta-description', 'Discover places, services, guides, and local updates with Makanyab.')">
-        <title>@yield('title', 'Makanyab') - Discover Places</title>
+        <meta name="description" content="@yield('meta-description', __('common.meta.default_description'))">
+        <title>@yield('title', 'Makanyab') - {{ __('common.meta.title_suffix') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap"
             rel="stylesheet">
 
         <!-- Garo Estate Theme CSS -->
@@ -45,7 +45,6 @@
 
     <body>
 
-        {{-- @include('partials.topbar') --}}
         @include('partials.navbar')
         @include('partials.flash-message')
         <main>@yield('content')</main>

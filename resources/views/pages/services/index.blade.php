@@ -11,147 +11,96 @@
         </div>
     </div>
 
-    <div class="listing-layout">
+    <div class="listing-layout listing-layout--simple">
         <div class="container">
-            <div class="row">
-
-                {{-- Sidebar --}}
-                <div class="col-md-3 listing-sidebar">
-                    <div class="listing-filter-panel">
-                        <h4 class="listing-filter-title listing-filter-title--service">
-                            <i class="fa fa-sliders" aria-hidden="true"></i> {{ __('search.filters') }}
-                        </h4>
-                        <form action="{{ route('services.index') }}" method="GET">
-                            <div class="mk-form-group">
-                                <label class="mk-label">{{ __('places.keywords') }}</label>
-                                <input type="text" name="search" value="{{ request('search') }}"
-                                    placeholder="{{ __('places.keyword_placeholder') }}" class="search-filter-input">
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">{{ __('places.city') }}</label>
-                                <input type="text" name="city" value="{{ request('city') }}" placeholder="{{ __('places.city') }}"
-                                    class="search-filter-input">
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">{{ __('search.service_category') }}</label>
-                                <select name="category" class="search-filter-select">
-                                    <option value="">{{ __('search.category_all') }}</option>
-                                    @foreach ($categories as $cat)
-                                        <option value="{{ $cat->slug }}"
-                                            {{ request('category') === $cat->slug ? 'selected' : '' }}>{{ $cat->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">{{ __('search.status') }}</label>
-                                <select name="status" class="search-filter-select">
-                                    <option value="">{{ __('search.any_status') }}</option>
-                                    <option value="open"
-                                        {{ request('status') === 'open' ? 'selected' : '' }}>{{ __('common.status.open') }}</option>
-                                    <option value="closed"
-                                        {{ request('status') === 'closed' ? 'selected' : '' }}>{{ __('common.status.closed') }}</option>
-                                    <option value="temporarily_closed"
-                                        {{ request('status') === 'temporarily_closed' ? 'selected' : '' }}>{{ __('common.status.temporarily_closed') }}</option>
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">{{ __('search.price_level') }}</label>
-                                <select name="price_level" class="search-filter-select">
-                                    <option value="">{{ __('search.any_price') }}</option>
-                                    <option value="low" {{ request('price_level') === 'low' ? 'selected' : '' }}>Low
-                                    </option>
-                                    <option value="medium" {{ request('price_level') === 'medium' ? 'selected' : '' }}>
-                                        Medium</option>
-                                    <option value="high" {{ request('price_level') === 'high' ? 'selected' : '' }}>High
-                                    </option>
-                                    <option value="luxury" {{ request('price_level') === 'luxury' ? 'selected' : '' }}>
-                                        Luxury</option>
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="mk-label">{{ __('search.rating') }}</label>
-                                <select name="rating" class="search-filter-select">
-                                    <option value="">{{ __('places.any_rating') }}</option>
-                                    @for ($i = 5; $i >= 1; $i--)
-                                        <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
-                                            {{ __('places.stars', ['count' => $i]) }}
-                                        </option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="search-check">
-                                    <input type="checkbox" name="open_now" value="1"
-                                        {{ request('open_now') ? 'checked' : '' }}>
-                                    {{ __('places.open_now') }}
-                                </label>
-                            </div>
-                            <div class="mk-form-group">
-                                <label class="search-check">
-                                    <input type="checkbox" name="verified" value="1"
-                                        {{ request('verified') ? 'checked' : '' }}>
-                                    {{ __('places.verified_only') }}
-                                </label>
-                            </div>
-                            <button type="submit" class="mk-button mk-button--primary search-filter-submit">
-                                {{ __('places.apply') }}
-                            </button>
-                            @if (request()->anyFilled(['search', 'city', 'category', 'status', 'price_level', 'rating', 'open_now', 'verified']))
-                                <a href="{{ route('services.index') }}" class="search-filter-reset">{{ __('places.reset') }}</a>
-                            @endif
-                        </form>
-                    </div>
-
-                    {{-- Service Categories quick links --}}
-                    @if ($categories->count())
-                        <div class="listing-filter-panel listing-quick-links">
-                            <h5 class="listing-quick-links__title">{{ __('navigation.service_categories') }}
-                            </h5>
-                            @foreach ($categories as $cat)
-                                <a href="{{ route('service-categories.show', $cat->slug) }}" class="listing-quick-link">
-                                    <span>{{ $cat->name }}</span>
-                                    <span class="listing-quick-link__count">{{ $cat->services_count ?? 0 }}</span>
-                                </a>
-                            @endforeach
+            <form action="{{ route('services.index') }}" method="GET" class="listing-filter-top">
+                <div class="listing-filter-top__grid">
+                    <div class="listing-filter-top__field listing-filter-top__field--wide">
+                        <label class="search-field-label" for="services-search">{{ __('places.keywords') }}</label>
+                        <div class="search-input-wrap">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <input id="services-search" type="search" name="search" value="{{ request('search') }}"
+                                placeholder="{{ __('places.keyword_placeholder') }}" class="search-input search-input--icon">
                         </div>
+                    </div>
+                    <div class="listing-filter-top__field">
+                        <label class="search-field-label" for="services-city">{{ __('places.city') }}</label>
+                        <div class="search-input-wrap">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <input id="services-city" type="text" name="city" value="{{ request('city') }}"
+                                placeholder="{{ __('places.city') }}" class="search-input search-input--location">
+                        </div>
+                    </div>
+                    <div class="listing-filter-top__field">
+                        <label class="search-field-label" for="services-category">{{ __('search.service_category') }}</label>
+                        <select id="services-category" name="category" class="search-select">
+                            <option value="">{{ __('search.category_all') }}</option>
+                            @foreach ($categories as $cat)
+                                <option value="{{ $cat->slug }}" {{ request('category') === $cat->slug ? 'selected' : '' }}>{{ $cat->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="listing-filter-top__field">
+                        <label class="search-field-label" for="services-status">{{ __('search.status') }}</label>
+                        <select id="services-status" name="status" class="search-select">
+                            <option value="">{{ __('search.any_status') }}</option>
+                            <option value="open" {{ request('status') === 'open' ? 'selected' : '' }}>{{ __('common.status.open') }}</option>
+                            <option value="closed" {{ request('status') === 'closed' ? 'selected' : '' }}>{{ __('common.status.closed') }}</option>
+                            <option value="temporarily_closed" {{ request('status') === 'temporarily_closed' ? 'selected' : '' }}>{{ __('common.status.temporarily_closed') }}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="mk-button mk-button--primary listing-filter-top__submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        {{ __('places.apply') }}
+                    </button>
+                </div>
+                <div class="listing-filter-top__checks">
+                    <label class="search-check">
+                        <input type="checkbox" name="open_now" value="1" {{ request('open_now') ? 'checked' : '' }}>
+                        {{ __('places.open_now') }}
+                    </label>
+                    <label class="search-check">
+                        <input type="checkbox" name="verified" value="1" {{ request('verified') ? 'checked' : '' }}>
+                        {{ __('places.verified_only') }}
+                    </label>
+                    @if (request()->anyFilled(['search', 'city', 'category', 'status', 'open_now', 'verified']))
+                        <a href="{{ route('services.index') }}" class="listing-filter-top__reset">{{ __('places.reset') }}</a>
                     @endif
                 </div>
+            </form>
 
-                {{-- Results --}}
-                <div class="col-md-9">
-                    <div class="search-summary">
-                        <h3>
-                            {{ $services->total() }} {{ __('services.title') }}
-                            @if (request('search'))
-                                for "<mark>{{ request('search') }}</mark>"
-                            @endif
-                        </h3>
-                    </div>
-
-                    <div class="row">
-                        @forelse($services as $service)
-                            <div class="col-sm-6 col-md-4 listing-result-col">
-                                <x-service-card :service="$service" />
-                            </div>
-                            @empty
-                                <div class="col-md-12 listing-empty">
-                                    <div class="mk-empty-icon"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
-                                    <h3 class="mk-heading mk-heading--md">{{ __('services.no_results') }}</h3>
-                                    <p class="mk-text--muted mk-stack-sm">{{ __('places.adjust') }}</p>
-                                    <a href="{{ route('services.index') }}" class="mk-button mk-button--primary mk-button--md">{{ __('places.reset_filters') }}</a>
-                                </div>
-                            @endforelse
-                        </div>
-
-                        @if ($services->hasPages())
-                            <div class="mk-pagination">
-                                {{ $services->appends(request()->query())->links() }}
-                            </div>
-                        @endif
-                    </div>
-                </div>
+            <div class="search-summary listing-summary">
+                <h3>
+                    {{ $services->total() }} {{ __('services.title') }}
+                    @if (request('search'))
+                        {{ __('search.for_keyword') }} "<mark>{{ request('search') }}</mark>"
+                    @endif
+                </h3>
             </div>
+
+            <div class="row">
+                @forelse($services as $service)
+                    <div class="col-sm-6 col-md-4 listing-result-col">
+                        <x-service-card :service="$service" />
+                    </div>
+                    @empty
+                        <div class="col-md-12 listing-empty">
+                            <div class="mk-empty-icon"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
+                            <h3 class="mk-heading mk-heading--md">{{ __('services.no_results') }}</h3>
+                            <p class="mk-text--muted mk-stack-sm">{{ __('places.adjust') }}</p>
+                            <a href="{{ route('services.index') }}" class="mk-button mk-button--primary mk-button--md">{{ __('places.reset_filters') }}</a>
+                        </div>
+                    @endforelse
+                </div>
+
+                @if ($services->hasMorePages())
+                    <div class="listing-load-more">
+                        <a href="{{ $services->appends(request()->query())->nextPageUrl() }}" class="mk-button mk-button--primary mk-button--lg">
+                            {{ __('services.load_more') }}
+                        </a>
+                    </div>
+                @endif
         </div>
+    </div>
 
     @endsection

@@ -12,18 +12,19 @@
 
     <section class="mk-page-section">
         <div class="container">
-            <div class="mk-card">
-                <h2 class="mk-heading mk-heading--md">Use of Makanyab</h2>
-                <p class="mk-text">Makanyab helps people discover places and services. Users must provide accurate
-                    information and avoid submitting misleading, harmful, or unlawful content.</p>
+            <div class="static-content">
+                @foreach (__('content.legal.terms_sections') as $section)
+                    <section class="static-content__section">
+                        <h2 class="mk-heading mk-heading--md">{{ $section['title'] }}</h2>
+                        <p class="mk-text">{{ $section['body'] }}</p>
+                    </section>
+                @endforeach
 
-                <h2 class="mk-heading mk-heading--md">Listings and Reviews</h2>
-                <p class="mk-text">Listings, suggestions, and reviews may be moderated for quality, safety, and relevance.
-                    Makanyab may remove content that violates platform standards.</p>
-
-                <h2 class="mk-heading mk-heading--md">{{ __('content.legal.support') }}</h2>
-                <p class="mk-text">Questions about these terms can be sent through the contact page.</p>
-                <x-ui.button :href="route('contact')" variant="primary">{{ __('content.posts.contact_support') }}</x-ui.button>
+                <section class="static-content__section static-content__section--contact">
+                    <h2 class="mk-heading mk-heading--md">{{ __('content.legal.support') }}</h2>
+                    <p class="mk-text">{{ __('content.legal.questions') }}</p>
+                    <x-ui.button :href="route('contact')" variant="primary">{{ __('content.posts.contact_support') }}</x-ui.button>
+                </section>
             </div>
         </div>
     </section>

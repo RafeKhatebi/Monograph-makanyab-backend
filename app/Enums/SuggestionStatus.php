@@ -4,8 +4,12 @@ namespace App\Enums;
 
 enum SuggestionStatus: string
 {
+    case Draft = 'draft';
+    case Sent = 'sent';
+    case UnderReview = 'under_review';
     case Pending = 'pending';
     case Approved = 'approved';
+    case Published = 'published';
     case Rejected = 'rejected';
 
     public static function values(): array
@@ -15,6 +19,6 @@ enum SuggestionStatus: string
 
     public function label(): string
     {
-        return ucfirst($this->value);
+        return __('suggestions.status.'.$this->value);
     }
 }

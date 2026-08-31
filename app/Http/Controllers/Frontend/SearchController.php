@@ -38,8 +38,27 @@ class SearchController extends Controller
         ]);
 
         $sort = $request->query('sort') ?: ($searchTerm !== '' ? 'relevance' : 'newest');
-        $showPlaces = $request->type !== 'services';
-        $showServices = $request->type !== 'places';
+        $hasSearchFilters = $request->hasAny([
+            'search',
+            'location',
+            'city',
+            'province',
+            'district',
+            'place_category',
+            'service_category',
+            'status',
+            'price_level',
+            'rating',
+            'open_now',
+            'verified',
+            'sort',
+            'type',
+        ]);
+        $selectedType = in_array($request->query('type'), ['places', 'services'], true)
+            ? $request->query('type')
+            : 'places';
+        $showPlaces = ! $hasSearchFilters || $selectedType !== 'services';
+        $showServices = ! $hasSearchFilters || $selectedType === 'services';
 
         $places = null;
         $services = null;
@@ -63,7 +82,7 @@ class SearchController extends Controller
             $this->applySort($placesQuery, $sort, $searchTerm, 'places');
 
             $places = $placesQuery
-                ->paginate(8, ['*'], 'places_page')
+                ->paginate(20, ['*'], 'places_page')
                 ->withQueryString();
         }
 
@@ -88,7 +107,7 @@ class SearchController extends Controller
             $this->applySort($servicesQuery, $sort, $searchTerm, 'services');
 
             $services = $servicesQuery
-                ->paginate(8, ['*'], 'services_page')
+                ->paginate(20, ['*'], 'services_page')
                 ->withQueryString();
         }
 
@@ -107,7 +126,9 @@ class SearchController extends Controller
             'placeCategories',
             'serviceCategories',
             'showPlaces',
-            'showServices'
+            'showServices',
+            'selectedType',
+            'hasSearchFilters'
         ));
     }
 

@@ -36,7 +36,7 @@ class ServiceController extends Controller
             ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))
             ->orderByDesc('created_at')
-            ->paginate(12)
+            ->paginate(20)
             ->withQueryString();
 
         $categories = ServiceCategory::active()->orderBy('name')->get();

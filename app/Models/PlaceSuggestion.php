@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class PlaceSuggestion extends Model
 {
@@ -36,6 +37,7 @@ class PlaceSuggestion extends Model
         'rt_rw',
         'neighborhood',
         'postal_code',
+        'extra_information',
         'latitude',
         'longitude',
         'status',
@@ -67,5 +69,10 @@ class PlaceSuggestion extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(PlaceCategory::class, 'place_category_id');
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
     }
 }

@@ -12,7 +12,7 @@ class PostController extends Controller
         $posts = Post::published()
             ->with('user:id,name')
             ->latest('published_at')
-            ->paginate(6);
+            ->paginate(12);
 
         $recentPosts = Post::published()
             ->latest('published_at')

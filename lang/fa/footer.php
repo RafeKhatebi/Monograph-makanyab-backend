@@ -8,4 +8,8 @@ return [
     'contact_makanyab' => 'تماس با مکان‌یاب', 'own_business' => 'صاحب کسب‌وکار هستید؟',
     'list_business' => 'مکان خود را ثبت کنید و به هزاران مشتری دسترسی پیدا کنید.', 'get_listed' => 'ثبت رایگان',
     'rights' => 'تمام حقوق محفوظ است.', 'privacy' => 'حریم خصوصی', 'terms' => 'شرایط استفاده',
+    'how_to_share' => 'چگونه شریک کنیم',
+    'how_to_send_posts' => 'ارسال نوشته‌ها',
+    'how_to_send_places' => 'ارسال مکان‌ها',
+    'how_to_send_services' => 'ارسال خدمات',
 ];

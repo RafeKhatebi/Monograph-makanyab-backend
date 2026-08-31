@@ -4,65 +4,67 @@
 @section('meta-description', $post->excerpt ?: Str::limit(strip_tags($post->content), 155))
 
 @section('content')
-    <div class="content-area mk-page-section">
+    <div class="detail-hero">
         <div class="container">
-            <div class="row content-article-header">
-                <div class="col-md-12">
-                    <div class="mk-card">
-                        <h1 class="content-article-title">{{ $post->title }}
-                        </h1>
-                        <p class="content-article-meta">
-                            {{ __('content.posts.published') }} {{ $post->published_at?->format('F d, Y') }}
-                            @if ($post->user)
-                                {{ __('content.posts.by') }} {{ $post->user->name }}
-                            @endif
-                        </p>
-                    </div>
+            <div class="detail-hero__content">
+                <span class="detail-pill">{{ __('content.posts.default_category') }}</span>
+                <h1 class="detail-hero__title">{{ $post->title }}</h1>
+                <div class="detail-hero__meta">
+                    <span>{{ __('common.dates.published_on') }} {{ \App\Support\LocalizedDate::date($post->published_at ?? $post->created_at) }}</span>
+                    @if ($post->user)
+                        <span>{{ __('content.posts.by') }} {{ $post->user->name }}</span>
+                    @endif
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="mk-card content-article-card service-media-card">
-                        @if ($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}"
-                                class="content-article-image" alt="{{ $post->title }}">
-                        @endif
-                    </div>
+    <div class="detail-page">
+        <div class="container">
+            <div class="detail-grid">
+                <main class="detail-main">
+                    @if ($post->image)
+                        <section class="detail-card detail-media-card">
+                            <img src="{{ asset('storage/' . $post->image) }}" class="detail-cover-image" alt="{{ $post->title }}">
+                        </section>
+                    @endif
 
-                    <div class="mk-card content-article-card">
-                        <div class="content-article-body">
+                    <article class="detail-card">
+                        <div class="detail-copy detail-copy--article">
                             {!! nl2br(e($post->content)) !!}
                         </div>
-                    </div>
+                    </article>
 
-                    <a href="{{ route('posts.index') }}" class="mk-btn mk-btn-secondary">
-                        ← {{ __('content.posts.back') }}
+                    <a href="{{ route('posts.index') }}" class="mk-button mk-button--secondary mk-button--md">
+                        {{ __('content.posts.back') }}
                     </a>
-                </div>
+                </main>
 
-                <div class="col-md-4">
-                    <div class="mk-card content-sidebar-card">
-                        <h3 class="content-sidebar-title">{{ __('content.posts.recent') }}</h3>
+                <aside class="detail-sidebar">
+                    <section class="detail-card">
+                        <h2 class="detail-section-title">{{ __('content.posts.recent') }}</h2>
                         @if (isset($recentPosts) && $recentPosts->count())
-                            @foreach ($recentPosts as $recent)
-                                <a href="{{ route('posts.show', $recent->slug) }}" class="content-sidebar-link">
-                                    <strong>{{ Str::limit($recent->title, 55) }}</strong>
-                                    <div class="content-sidebar-date">
-                                        {{ $recent->published_at?->format('M d, Y') }}</div>
-                                </a>
-                            @endforeach
+                            <div class="detail-link-list">
+                                @foreach ($recentPosts as $recent)
+                                    <a href="{{ route('posts.show', $recent->slug) }}">
+                                        <strong>{{ Str::limit($recent->title, 55) }}</strong>
+                                        <span>{{ \App\Support\LocalizedDate::date($recent->published_at ?? $recent->created_at) }}</span>
+                                    </a>
+                                @endforeach
+                            </div>
                         @else
-                            <p class="mk-text mk-text--muted">{{ __('content.posts.no_recent') }}</p>
+                            <p class="detail-copy detail-copy--muted">{{ __('content.posts.no_recent') }}</p>
                         @endif
-                    </div>
-                    <div class="mk-card content-sidebar-card">
-                        <h3 class="content-sidebar-title">{{ __('content.posts.assistance') }}
-                        </h3>
-                        <p class="mk-text mk-text--muted">{{ __('content.posts.assistance_text') }}</p>
-                        <a href="{{ route('contact') }}" class="mk-btn mk-btn-primary">{{ __('content.posts.contact_support') }}</a>
-                    </div>
-                </div>
+                    </section>
+
+                    <section class="detail-card">
+                        <h2 class="detail-section-title">{{ __('content.posts.assistance') }}</h2>
+                        <p class="detail-copy detail-copy--muted">{{ __('content.posts.assistance_text') }}</p>
+                        <a href="{{ route('contact') }}" class="mk-button mk-button--primary mk-button--md">
+                            {{ __('content.posts.contact_support') }}
+                        </a>
+                    </section>
+                </aside>
             </div>
         </div>
     </div>

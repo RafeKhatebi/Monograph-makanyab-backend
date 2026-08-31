@@ -14,4 +14,5 @@ return [
     'no_results' => 'No results found.', 'no_places' => 'No places found for these filters.', 'no_services' => 'No services found for these filters.',
     'no_results_help' => 'Try different keywords, a different location, or remove some filters.',
     'reset_search' => 'Reset Search', 'view' => 'View', 'results_count' => ':count results found',
+    'see_more_places' => 'See More Places', 'see_more_services' => 'See More Services',
 ];

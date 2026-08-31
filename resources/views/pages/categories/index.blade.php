@@ -6,8 +6,7 @@
     <div class="mk-hero mk-hero--search">
         <div class="container text-center">
             <h1 class="mk-hero__title">{{ __('categories.browse') }}</h1>
-            <p class="mk-hero__text">Discover places by category and find
-                your next favorite spot.</p>
+            <p class="mk-hero__text">{{ __('categories.browse_intro') }}</p>
             <form action="{{ route('categories.index') }}" method="GET" class="mk-search-strip">
                 <div class="mk-search-strip__inner">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('categories.search_placeholder') }}"
@@ -29,7 +28,7 @@
                             <div class="category-card">
                                 <div class="category-card__icon"
                                     style="color:{{ $category->color_code ?? '#10B981' }};">
-                                    <i class="fa {{ $category->icon_name ?? 'fa-folder' }}"></i>
+                                    <i class="fa {{ $category->icon_name ?: 'fa-map-marker' }}" aria-hidden="true"></i>
                                 </div>
                                 <h5 class="category-card__title">
                                     {{ $category->name }}</h5>

@@ -35,13 +35,11 @@
                     </h2>
 
                     <p class="mk-text">
-                        Makanyab is a local discovery platform built to connect people with trusted businesses,
-                        services, and places across Afghanistan.
+                        {{ __('content.about.who_text') }}
                     </p>
 
                     <p class="mk-text mk-text--muted">
-                        From restaurants and hotels to service providers and shops, we simplify how people find
-                        what they need locally.
+                        {{ __('content.about.who_muted') }}
                     </p>
                 </div>
 
@@ -51,7 +49,7 @@
                             {{ __('content.about.easy') }}
                         </h3>
                         <p class="mk-text mk-text--muted">
-                            Find verified businesses, trusted services, and top-rated places in your city.
+                            {{ __('content.about.easy_text') }}
                         </p>
                     </div>
                 </div>
@@ -65,7 +63,7 @@
                             {{ __('content.about.fast') }}
                         </h3>
                         <p class="mk-text mk-text--muted mk-text--compact">
-                            Quickly find businesses and services using smart filters.
+                            {{ __('content.about.fast_text') }}
                         </p>
                     </div>
                 </div>
@@ -77,7 +75,7 @@
                             {{ __('content.about.reviews') }}
                         </h3>
                         <p class="mk-text mk-text--muted mk-text--compact">
-                            Read honest feedback from real customers.
+                            {{ __('content.about.reviews_text') }}
                         </p>
                     </div>
                 </div>
@@ -89,7 +87,7 @@
                             {{ __('content.about.verified') }}
                         </h3>
                         <p class="mk-text mk-text--muted mk-text--compact">
-                            Trusted and verified business information.
+                            {{ __('content.about.verified_text') }}
                         </p>
                     </div>
                 </div>
@@ -103,7 +101,7 @@
                             {{ __('content.about.mission') }}
                         </h3>
                         <p class="mk-text">
-                            To make local discovery simple, fast, and reliable for everyone in Afghanistan.
+                            {{ __('content.about.mission_text') }}
                         </p>
                     </div>
                 </div>
@@ -114,7 +112,7 @@
                             {{ __('content.about.vision') }}
                         </h3>
                         <p class="mk-text">
-                            To become the leading platform for discovering local businesses and services in Afghanistan.
+                            {{ __('content.about.vision_text') }}
                         </p>
                     </div>
                 </div>
@@ -130,19 +128,19 @@
                     <div class="col-md-4 mk-stack-sm">
                         <div class="mk-step-number">01</div>
                         <h4 class="mk-heading mk-heading--sm">{{ __('content.about.search') }}</h4>
-                        <p class="mk-text mk-text--muted">Find services and businesses near you.</p>
+                        <p class="mk-text mk-text--muted">{{ __('content.about.search_text') }}</p>
                     </div>
 
                     <div class="col-md-4 mk-stack-sm">
                         <div class="mk-step-number">02</div>
                         <h4 class="mk-heading mk-heading--sm">{{ __('content.about.compare') }}</h4>
-                        <p class="mk-text mk-text--muted">Read reviews and compare options easily.</p>
+                        <p class="mk-text mk-text--muted">{{ __('content.about.compare_text') }}</p>
                     </div>
 
                     <div class="col-md-4 mk-stack-sm">
                         <div class="mk-step-number">03</div>
                         <h4 class="mk-heading mk-heading--sm">{{ __('content.about.choose') }}</h4>
-                        <p class="mk-text mk-text--muted">Pick the best option and connect directly.</p>
+                        <p class="mk-text mk-text--muted">{{ __('content.about.choose_text') }}</p>
                     </div>
                 </div>
             </div>

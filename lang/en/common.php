@@ -15,6 +15,7 @@ return [
         'clear' => 'Clear',
         'reset' => 'Reset',
         'view' => 'View',
+        'read_more' => 'Read More',
         'create' => 'Create',
         'add' => 'Add',
         'remove' => 'Remove',
@@ -33,6 +34,7 @@ return [
     ],
     'yes' => 'Yes',
     'no' => 'No',
+    'days' => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     'all' => 'All',
     'none' => 'None',
     'required' => 'Required',
@@ -42,6 +44,20 @@ return [
     'skip_to_content' => 'Skip to main content',
     'verified' => 'Verified', 'toggle_favorite' => 'Toggle favorite', 'view_service' => 'View service', 'out_of_five' => ':rating out of 5 stars',
     'pagination' => 'Pagination', 'user' => 'User', 'anonymous' => 'Anonymous',
+    'meta' => [
+        'default_description' => 'Discover places, services, guides, and local updates with Makanyab.',
+        'title_suffix' => 'Discover Places',
+    ],
+    'dates' => [
+        'added_on' => 'Added',
+        'published_on' => 'Published',
+        'updated_on' => 'Updated',
+        'verified_on' => 'Verified',
+        'reviewed_on' => 'Reviewed',
+    ],
+    'shamsi' => [
+        'months' => ['Hamal', 'Sawr', 'Jawza', 'Saratan', 'Asad', 'Sunbula', 'Mizan', 'Aqrab', 'Qaws', 'Jadi', 'Dalwa', 'Hut'],
+    ],
     'media' => [
         'cover' => 'Cover',
         'set_cover' => 'Set :file as cover image',

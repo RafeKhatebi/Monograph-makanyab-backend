@@ -5,7 +5,7 @@
     <div class="mk-hero mk-hero--search">
         <div class="container text-center">
             <h1 class="mk-hero__title">{{ __('categories.service_browse') }}</h1>
-            <p class="mk-hero__text mk-hero__text--center">Find the right service provider by category.</p>
+            <p class="mk-hero__text mk-hero__text--center">{{ __('categories.service_browse_intro') }}</p>
             <form action="{{ route('service-categories.index') }}" method="GET" class="mk-search-strip">
                 <div class="mk-search-strip__inner">
                     <input type="text" name="search" value="{{ request('search') }}"
@@ -27,7 +27,7 @@
                         <a href="{{ route('service-categories.show', $category->slug) }}" class="service-category-link">
                             <div class="service-category-card">
                                 <div class="service-category-card__icon" style="color:{{ $category->color_code ?? '#10B981' }};">
-                                    <i class="fa {{ $category->icon_name ?? 'fa-briefcase' }}" aria-hidden="true"></i>
+                                    <i class="fa {{ $category->icon_name ?: 'fa-briefcase' }}" aria-hidden="true"></i>
                                 </div>
                                 <h5 class="service-category-card__title">
                                     {{ $category->name }}</h5>

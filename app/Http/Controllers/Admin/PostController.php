@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -42,6 +43,9 @@ class PostController extends Controller
         $data['slug'] = $this->slugService->createUniqueSlug(Post::class, $data['title']);
         $data['is_published'] = $request->boolean('is_published');
         $data['published_at'] = $data['is_published'] ? now() : null;
+        $data['submission_status'] = $data['is_published']
+            ? SuggestionStatus::Published->value
+            : SuggestionStatus::Draft->value;
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('posts', 'public');
@@ -76,6 +80,10 @@ class PostController extends Controller
         if (! $data['is_published']) {
             $data['published_at'] = null;
         }
+
+        $data['submission_status'] = $data['is_published']
+            ? SuggestionStatus::Published->value
+            : SuggestionStatus::Draft->value;
 
         if ($request->hasFile('image')) {
 
