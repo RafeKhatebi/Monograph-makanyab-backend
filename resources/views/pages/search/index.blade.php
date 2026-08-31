@@ -6,10 +6,9 @@
     @php
         $activeCategories = $selectedType === 'service' ? $serviceCategories : $placeCategories;
         $resultLabel = $selectedType === 'service' ? __('search.services') : __('search.places');
-        $hasAdvancedFilters = filled($locationTerm) || filled($status) || filled($priceLevel) || filled($rating) || $openNow || $verified || ! in_array($sort, ['relevance', 'newest'], true);
+        $hasAdvancedFilters = filled($status) || filled($rating) || $verified || ! in_array($sort, ['relevance', 'newest'], true);
         $hasFilters = filled($searchTerm) || filled($category) || filled($province) || $selectedType !== 'place' || $hasAdvancedFilters;
         $statusOptions = ['open', 'closed', 'temporarily_closed'];
-        $priceOptions = ['low', 'medium', 'high', 'luxury'];
         $sortOptions = [
             'relevance' => __('search.most_relevant'),
             'newest' => __('search.newest'),
@@ -21,28 +20,26 @@
     <section class="discover-hero">
         <div class="container">
             <div class="discover-hero__content">
-                <span class="discover-hero__eyebrow">{{ __('navigation.discover') }}</span>
                 <h1 class="discover-hero__title">{{ __('search.title') }}</h1>
                 <p class="discover-hero__text">{{ __('search.discover_intro') }}</p>
             </div>
 
+            <nav class="discover-type" aria-label="{{ __('search.search_in') }}">
+                @foreach (['place' => __('search.places'), 'service' => __('search.services')] as $typeValue => $typeLabel)
+                    @php
+                        $typeUrlParams = request()->except(['category', 'page']);
+                        $typeUrlParams['type'] = $typeValue;
+                    @endphp
+                    <a href="{{ route('search.index', $typeUrlParams) }}"
+                        class="discover-type__link {{ $selectedType === $typeValue ? 'is-active' : '' }}"
+                        aria-current="{{ $selectedType === $typeValue ? 'true' : 'false' }}">
+                        {{ $typeLabel }}
+                    </a>
+                @endforeach
+            </nav>
+
             <form action="{{ route('search.index') }}" method="GET" class="discover-panel" data-discover-form>
                 <input type="hidden" name="type" value="{{ $selectedType }}">
-                <fieldset class="discover-type" aria-label="{{ __('search.search_in') }}">
-                    @foreach (['place' => __('search.places'), 'service' => __('search.services')] as $typeValue => $typeLabel)
-                        @php
-                            $typeUrlParams = request()->except(['category', 'page']);
-                            $typeUrlParams['type'] = $typeValue;
-                        @endphp
-                        <a href="{{ route('search.index', $typeUrlParams) }}"
-                            class="discover-type__link {{ $selectedType === $typeValue ? 'is-active' : '' }}"
-                            aria-current="{{ $selectedType === $typeValue ? 'true' : 'false' }}"
-                            data-discover-type-link="{{ $typeValue }}">
-                            {{ $typeLabel }}
-                        </a>
-                    @endforeach
-                </fieldset>
-
                 <div class="discover-grid discover-grid--primary">
                     <div class="discover-field discover-field--keyword">
                         <label for="discover-keyword" class="search-field-label">{{ __('search.what') }}</label>
@@ -54,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="discover-field">
+                    <div class="discover-field discover-field--province">
                         <label for="discover-province" class="search-field-label">{{ __('search.province') }}</label>
                         <select id="discover-province" name="province" class="search-select">
                             <option value="">{{ __('search.all_provinces') }}</option>
@@ -93,31 +90,12 @@
                     </div>
                     <div class="discover-grid discover-grid--secondary">
                         <div class="discover-field">
-                            <label for="discover-location" class="search-field-label">{{ __('search.where') }}</label>
-                            <input id="discover-location" type="search" name="location" value="{{ $locationTerm }}"
-                                placeholder="{{ __('search.location_placeholder') }}"
-                                class="search-input" maxlength="120" autocomplete="off">
-                        </div>
-
-                        <div class="discover-field">
                             <label for="discover-status" class="search-field-label">{{ __('search.status') }}</label>
                             <select id="discover-status" name="status" class="search-select">
                                 <option value="">{{ __('search.any_status') }}</option>
                                 @foreach ($statusOptions as $statusOption)
                                     <option value="{{ $statusOption }}" @selected($status === $statusOption)>
                                         {{ __('common.status.' . $statusOption) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="discover-field">
-                            <label for="discover-price" class="search-field-label">{{ __('search.price_level') }}</label>
-                            <select id="discover-price" name="price_level" class="search-select">
-                                <option value="">{{ __('search.any_price') }}</option>
-                                @foreach ($priceOptions as $priceOption)
-                                    <option value="{{ $priceOption }}" @selected($priceLevel === $priceOption)>
-                                        {{ __('common.price.' . $priceOption) }}
                                     </option>
                                 @endforeach
                             </select>
@@ -147,10 +125,6 @@
 
                     <div class="discover-toggles">
                         <label class="discover-toggle">
-                            <input type="checkbox" name="open_now" value="1" @checked($openNow)>
-                            <span>{{ __('search.open_now') }}</span>
-                        </label>
-                        <label class="discover-toggle">
                             <input type="checkbox" name="verified" value="1" @checked($verified)>
                             <span>{{ __('search.verified') }}</span>
                         </label>
@@ -174,9 +148,6 @@
                         @endif
                         @if ($province)
                             <span>{{ __('search.in_location') }} {{ $province }}</span>
-                        @endif
-                        @if ($locationTerm)
-                            <span>{{ __('search.where') }} {{ $locationTerm }}</span>
                         @endif
                     </p>
                 @endif

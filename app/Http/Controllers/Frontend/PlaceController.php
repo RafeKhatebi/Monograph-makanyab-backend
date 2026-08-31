@@ -32,7 +32,7 @@ class PlaceController extends Controller
             ->filterVerified($request->boolean('verified'))
             ->filterCategorySlug($request->query('category'))
             ->orderByDesc('created_at')
-            ->paginate(20)
+            ->paginate(18)
             ->withQueryString();
 
         return view('pages.places.index', compact('places'));

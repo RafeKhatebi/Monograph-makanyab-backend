@@ -9,6 +9,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="description" content="@yield('meta-description', __('common.meta.default_description'))">
         <title>@yield('title', 'Makanyab') - {{ __('common.meta.title_suffix') }}</title>
+        <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/branding/makanyab-app-icon.svg') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

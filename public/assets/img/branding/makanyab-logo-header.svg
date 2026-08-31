@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220" role="img" aria-labelledby="title desc">
+  <title id="title">Makanyab header logo</title>
+  <desc id="desc">Compact horizontal Makanyab logo for website and app headers.</desc>
+  <rect width="900" height="220" fill="white"/>
+  
+    <g transform="translate(22,16) scale(0.62)">
+      <!-- Map pin -->
+      <path d="M120 20C60 20 20 62 20 118c0 84 100 190 100 190s100-106 100-190C220 62 180 20 120 20Z"
+            fill="#22C55E"/>
+      <!-- Search lens outer -->
+      <circle cx="120" cy="118" r="72" fill="#FFFFFF"/>
+      <circle cx="120" cy="118" r="54" fill="none" stroke="#0F172A" stroke-width="12"/>
+      <!-- Magnifier handle -->
+      <line x1="158" y1="156" x2="205" y2="203" stroke="#0F172A" stroke-width="16" stroke-linecap="round"/>
+      <!-- Mountains -->
+      <path d="M78 114L98 94L116 108L132 89L159 114Z" fill="#14B8A6"/>
+      <!-- Skyline -->
+      <path d="M76 150V128H92V118H105V150H119V124H135V150H148V109H158V150H173V132H186V150Z"
+            fill="#0F172A"/>
+      <!-- Minaret -->
+      <path d="M146 108V86h4V72h4V86h4v22Z" fill="#0F172A"/>
+    </g>
+    
+  <text x="210" y="122" font-family="Inter, Arial, sans-serif" font-size="92" font-weight="700" fill="#0F172A" letter-spacing="-2">Makanyab</text>
+  <circle cx="244" cy="78" r="7" fill="#22C55E"/>
+  <path d="M244 85l-10 14h20Z" fill="#22C55E"/>
+  <text x="214" y="164" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="600" fill="#14B8A6" letter-spacing="5">FIND PLACES. DISCOVER MORE.</text>
+</svg>

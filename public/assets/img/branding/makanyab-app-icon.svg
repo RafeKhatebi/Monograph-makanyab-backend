@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Makanyab app icon</title>
+  <desc id="desc">Makanyab app icon combining location pin, search and Afghan landscape cues.</desc>
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="#14B8A6"/>
+  <g transform="translate(116,92) scale(1.15)">
+      <path d="M120 20C60 20 20 62 20 118c0 84 100 190 100 190s100-106 100-190C220 62 180 20 120 20Z" fill="#FFFFFF"/>
+      <circle cx="120" cy="118" r="72" fill="#14B8A6"/>
+      <circle cx="120" cy="118" r="54" fill="none" stroke="#FFFFFF" stroke-width="12"/>
+      <line x1="158" y1="156" x2="205" y2="203" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+      <path d="M78 114L98 94L116 108L132 89L159 114Z" fill="#22C55E"/>
+      <path d="M76 150V128H92V118H105V150H119V124H135V150H148V109H158V150H173V132H186V150Z" fill="#0F172A"/>
+      <path d="M146 108V86h4V72h4V86h4v22Z" fill="#0F172A"/>
+  </g>
+</svg>

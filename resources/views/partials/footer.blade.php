@@ -5,8 +5,7 @@
             {{-- Col 1: Brand + Contact --}}
             <div class="col-md-4 col-sm-6 mk-footer-column">
                 <a href="{{ route('home') }}" class="mk-footer-logo">
-                    <div class="mk-footer-logo-icon">M</div>
-                    <span class="mk-footer-logo-text">Makan<span>yab</span></span>
+                    <img class="mk-footer-logo-img" src="{{ asset('assets/img/branding/makanyab-logo-monochrome.svg') }}" alt="Makanyab">
                 </a>
                 <p>{{ __('footer.description') }}</p>
                 <ul class="mk-footer-contact">

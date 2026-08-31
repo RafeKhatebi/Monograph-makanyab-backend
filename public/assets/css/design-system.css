@@ -1275,6 +1275,27 @@ input[type="radio"] {
     text-align: center;
 }
 
+.auth-branding {
+    text-align: center;
+    padding: 32px 16px 16px;
+}
+
+.auth-branding__logo {
+    height: auto;
+    width: auto;
+    max-height: 120px;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.auth-card__logo {
+    height: auto;
+    width: auto;
+    max-height: 80px;
+    max-width: 100%;
+    display: inline-block;
+}
+
 /* Admin shell */
 .admin-shell {
     background: var(--mk-color-canvas);

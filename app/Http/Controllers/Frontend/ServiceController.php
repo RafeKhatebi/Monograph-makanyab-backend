@@ -35,7 +35,7 @@ class ServiceController extends Controller
             ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))
             ->orderByDesc('created_at')
-            ->paginate(20)
+            ->paginate(18)
             ->withQueryString();
 
         return view('pages.services.index', compact('services'));

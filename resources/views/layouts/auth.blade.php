@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@yield('title', 'Makanyab')</title>
+     <head>
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="csrf-token" content="{{ csrf_token() }}">
+         <title>@yield('title', 'Makanyab')</title>
+         <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/branding/makanyab-app-icon.svg') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,6 +34,11 @@
     </head>
 
     <body>
+        <div class="auth-branding">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="auth-branding__logo">
+            </a>
+        </div>
         @include('partials.language-switcher')
         <main>@yield('content')</main>
 

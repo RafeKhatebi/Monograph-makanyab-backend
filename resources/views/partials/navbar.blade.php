@@ -3,9 +3,7 @@
         <div class="mk-inner">
 
             <a href="{{ route('home') }}" class="mk-logo">
-                <span class="mk-logo-icon">
-                    <img src="{{ asset('assets/img/map-logo.svg') }}" alt="" aria-hidden="true">
-                </span>
+                <img class="mk-logo-img" src="{{ asset('assets/img/branding/makanyab-logo-header.svg') }}" alt="Makanyab">
             </a>
 
             <ul class="mk-links">

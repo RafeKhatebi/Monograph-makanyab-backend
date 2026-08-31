@@ -25,6 +25,7 @@
 @section('content')
     <section class="mk-hero">
         <div class="container">
+            <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="suggestion-branding__logo">
             <h1 class="mk-hero__title">{{ __('suggestions.hub.title') }}</h1>
             <p class="mk-hero__text">{{ __('suggestions.hub.description') }}</p>
         </div>

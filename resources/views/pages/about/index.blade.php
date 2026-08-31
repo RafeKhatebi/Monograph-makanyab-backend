@@ -9,6 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center">
+                    <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="about-branding__logo">
                     <h1 class="mk-hero__title mk-hero__title--large">
                         {{ __('content.about.title') }}
                     </h1>

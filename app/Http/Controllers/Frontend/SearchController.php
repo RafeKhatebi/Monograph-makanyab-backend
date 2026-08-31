@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Enums\PlaceStatus;
-use App\Enums\PriceLevel;
 use App\Models\Place;
 use App\Models\PlaceCategory;
 use App\Models\Service;
 use App\Models\ServiceCategory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -21,25 +19,20 @@ class SearchController extends Controller
         $selectedType = $this->normalizeType($request->query('type'));
         $category = trim((string) $request->query('category', ''));
         $province = trim((string) $request->query('province', ''));
-        $locationTerm = trim((string) $request->query('location', ''));
         $sort = $request->query('sort') ?: ($searchTerm !== '' ? 'relevance' : 'newest');
 
         $request->validate([
             'search' => ['nullable', 'string', 'max:120'],
-            'location' => ['nullable', 'string', 'max:120'],
             'province' => ['nullable', 'string', 'max:100'],
             'category' => ['nullable', 'string', 'max:255'],
             'type' => ['nullable', 'in:place,service,places,services,all'],
             'status' => ['nullable', 'in:'.implode(',', PlaceStatus::values())],
-            'price_level' => ['nullable', 'in:'.implode(',', PriceLevel::values())],
             'rating' => ['nullable', 'integer', 'between:1,5'],
             'sort' => ['nullable', 'in:relevance,newest,name_asc,name_desc'],
         ]);
 
         $rating = $request->filled('rating') ? $request->integer('rating') : null;
         $status = $request->query('status');
-        $priceLevel = $request->query('price_level');
-        $openNow = $request->boolean('open_now');
         $verified = $request->boolean('verified');
 
         if ($selectedType === 'service') {
@@ -51,11 +44,8 @@ class SearchController extends Controller
                 ->filterSearch($searchTerm)
                 ->filterCategorySlug($category)
                 ->when($province !== '', fn ($query) => $query->where('province', $province))
-                ->when($locationTerm !== '', fn ($query) => $this->applyLocationFilter($query, $locationTerm))
                 ->when(filled($status), fn ($query) => $query->where('status', $status))
-                ->when(filled($priceLevel), fn ($query) => $query->where('price_level', $priceLevel))
                 ->filterRatingAtLeast($rating)
-                ->filterOpenNow($openNow)
                 ->filterVerified($verified);
             $table = 'services';
         } else {
@@ -67,11 +57,8 @@ class SearchController extends Controller
                 ->filterSearch($searchTerm)
                 ->filterCategorySlug($category)
                 ->when($province !== '', fn ($query) => $query->where('province', $province))
-                ->when($locationTerm !== '', fn ($query) => $this->applyLocationFilter($query, $locationTerm))
                 ->when(filled($status), fn ($query) => $query->where('status', $status))
-                ->when(filled($priceLevel), fn ($query) => $query->where('price_level', $priceLevel))
                 ->filterRatingAtLeast($rating)
-                ->filterOpenNow($openNow)
                 ->filterVerified($verified);
             $table = 'places';
         }
@@ -81,19 +68,16 @@ class SearchController extends Controller
         $queryParams = array_filter([
             'category' => $category,
             'province' => $province,
-            'location' => $locationTerm,
             'search' => $searchTerm,
             'status' => $status,
-            'price_level' => $priceLevel,
             'rating' => $rating,
-            'open_now' => $openNow ? 1 : null,
             'verified' => $verified ? 1 : null,
             'sort' => $sort !== ($searchTerm !== '' ? 'relevance' : 'newest') ? $sort : null,
         ], fn ($value) => filled($value));
         $queryParams['type'] = $selectedType;
 
         $results = $resultsQuery
-            ->paginate(20)
+            ->paginate(18)
             ->appends($queryParams);
 
         $placeCategories = Cache::remember('active_place_categories', 1800, function () {
@@ -123,12 +107,9 @@ class SearchController extends Controller
             'selectedType',
             'category',
             'province',
-            'locationTerm',
             'searchTerm',
             'status',
-            'priceLevel',
             'rating',
-            'openNow',
             'verified',
             'sort'
         ));
@@ -139,17 +120,7 @@ class SearchController extends Controller
         return in_array($type, ['service', 'services'], true) ? 'service' : 'place';
     }
 
-    private function applyLocationFilter(Builder $query, string $location): void
-    {
-        $query->where(function (Builder $query) use ($location) {
-            $query->where('city', 'like', '%'.$location.'%')
-                ->orWhere('province', 'like', '%'.$location.'%')
-                ->orWhere('district', 'like', '%'.$location.'%')
-                ->orWhere('address', 'like', '%'.$location.'%');
-        });
-    }
-
-    private function applySort(Builder $query, string $sort, string $searchTerm, string $table): void
+    private function applySort($query, string $sort, string $searchTerm, string $table): void
     {
         if ($sort === 'name_asc') {
             $query->orderBy("{$table}.name");

@@ -16,6 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
+                <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="suggestion-branding__logo">
                 <h1 class="suggestion-hero__title">{{ $title }}</h1>
                 <p class="suggestion-hero__text">{{ $description }}</p>
                 <p class="suggestion-hero__switch">

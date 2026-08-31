@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="@yield('meta-description', 'Makanyab Admin Panel')">
     <title>@yield('title', 'Admin') - Makanyab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/branding/makanyab-app-icon.svg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,9 +36,7 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar" role="complementary" aria-label="{{ __('admin.navigation.aria') }}">
             <a href="{{ route('admin.dashboard') }}" class="sidebar-brand" aria-label="Makanyab Admin Dashboard">
-                <div class="sidebar-brand-icon" aria-hidden="true">
-                    <i class="fa fa-map-marked-alt"></i>
-                </div>
+                <img class="sidebar-brand-icon" src="{{ asset('assets/img/branding/makanyab-app-icon.svg') }}" alt="" aria-hidden="true">
                 <div class="sidebar-brand-text">Makanyab</div>
             </a>
 
