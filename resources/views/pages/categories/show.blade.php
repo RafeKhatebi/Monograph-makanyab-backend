@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $category->name . ' Places')
+@section('title', $category->name . ' - ' . __('navigation.places'))
 @section('content')
 
     <div class="mk-hero mk-hero--compact">
@@ -10,15 +10,14 @@
                 </div>
                 <div>
                     <div class="category-detail-hero__breadcrumb">
-                        <a href="{{ route('categories.index') }}">Categories</a>
+                        <a href="{{ route('categories.index') }}">{{ __('navigation.categories') }}</a>
                         @if ($category->parent)
                             › <a href="{{ route('categories.show', $category->parent->slug) }}"
                                 >{{ $category->parent->name }}</a>
                         @endif
                     </div>
                     <h1 class="category-detail-hero__title">{{ $category->name }}</h1>
-                    <p class="category-detail-hero__meta">{{ $category->places_count }}
-                        place{{ $category->places_count !== 1 ? 's' : '' }}</p>
+                    <p class="category-detail-hero__meta">{{ __('categories.places', ['count' => $category->places_count]) }}</p>
                 </div>
             </div>
         </div>
@@ -31,7 +30,7 @@
             @if ($subcategories->count())
                 <details open class="category-subcategory-panel">
                     <summary class="category-subcategory-panel__summary">
-                        <span><i class="fa fa-th-large"></i> Subcategories
+                        <span><i class="fa fa-th-large"></i> {{ __('categories.subcategories') }}
                             ({{ $subcategories->count() }})</span>
                         <i class="fa fa-chevron-down"></i>
                     </summary>
@@ -49,10 +48,9 @@
 
             {{-- Places grid --}}
             <div class="category-results-header">
-                <h3>{{ $places->total() }}
-                    Place{{ $places->total() !== 1 ? 's' : '' }}</h3>
+                <h3>{{ __('categories.places', ['count' => $places->total()]) }}</h3>
                 <a href="{{ route('places.index', ['category' => $category->slug]) }}"
-                    >View with filters →</a>
+                    >{{ __('categories.view_filters') }} <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
             </div>
 
             <div class="row">
@@ -60,8 +58,8 @@
                     @include('components.place-card', ['place' => $place])
                 @empty
                     <div class="col-md-12 mk-ui-empty">
-                        <h3 class="mk-heading mk-heading--md">No places in this category yet</h3>
-                        <p class="mk-text mk-text--muted">Active places will appear here once they are added.</p>
+                        <h3 class="mk-heading mk-heading--md">{{ __('categories.empty_places_in_category') }}</h3>
+                        <p class="mk-text mk-text--muted">{{ __('categories.active_places_later') }}</p>
                     </div>
                 @endforelse
             </div>

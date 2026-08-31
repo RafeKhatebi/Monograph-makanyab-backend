@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $category->name . ' Services')
+@section('title', $category->name . ' - ' . __('navigation.services'))
 @php use Illuminate\Support\Str; @endphp
 @section('content')
 
@@ -11,15 +11,14 @@
                 </div>
                 <div>
                     <div class="category-detail-hero__breadcrumb">
-                        <a href="{{ route('service-categories.index') }}">Service Categories</a>
+                        <a href="{{ route('service-categories.index') }}">{{ __('categories.service_browse') }}</a>
                         @if ($category->parent)
                             › <a href="{{ route('service-categories.show', $category->parent->slug) }}"
                                 >{{ $category->parent->name }}</a>
                         @endif
                     </div>
                     <h1 class="category-detail-hero__title">{{ $category->name }}</h1>
-                    <p class="category-detail-hero__meta">{{ $category->services_count }}
-                        service{{ $category->services_count !== 1 ? 's' : '' }}</p>
+                    <p class="category-detail-hero__meta">{{ __('categories.services', ['count' => $category->services_count]) }}</p>
                 </div>
             </div>
         </div>
@@ -33,7 +32,7 @@
                 <details open
                     class="category-subcategory-panel">
                     <summary class="category-subcategory-panel__summary">
-                        <span><i class="fa fa-th-large" aria-hidden="true"></i> Subcategories
+                        <span><i class="fa fa-th-large" aria-hidden="true"></i> {{ __('categories.subcategories') }}
                             ({{ $subcategories->count() }})</span>
                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
                     </summary>
@@ -52,9 +51,8 @@
 
             {{-- Services grid --}}
             <div class="category-results-header">
-                <h3>{{ $services->total() }}
-                    Service{{ $services->total() !== 1 ? 's' : '' }}</h3>
-                <a href="{{ route('services.index', ['category' => $category->slug]) }}">View with filters →</a>
+                <h3>{{ __('categories.services', ['count' => $services->total()]) }}</h3>
+                <a href="{{ route('services.index', ['category' => $category->slug]) }}">{{ __('categories.view_filters') }} <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
             </div>
 
             <div class="row">
@@ -65,8 +63,8 @@
                 @empty
                     <div class="col-md-12">
                         <div class="mk-ui-empty">
-                            <h3 class="mk-ui-empty__title">No services in this category yet</h3>
-                            <p class="mk-ui-empty__text">Active services will appear here once they are added.</p>
+                            <h3 class="mk-ui-empty__title">{{ __('categories.empty_services_in_category') }}</h3>
+                            <p class="mk-ui-empty__text">{{ __('categories.active_services_later') }}</p>
                         </div>
                     </div>
                 @endforelse

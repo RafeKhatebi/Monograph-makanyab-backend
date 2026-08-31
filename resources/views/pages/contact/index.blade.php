@@ -25,7 +25,7 @@
                             <div class="mk-icon-box"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
                             <div>
                                 <p class="mk-meta-label">{{ __('contact.office') }}</p>
-                                <p class="mk-meta-value">Herat, Afghanistan</p>
+                                <p class="mk-meta-value">{{ __('contact.office_address') }}</p>
                             </div>
                         </div>
 
@@ -49,16 +49,16 @@
                             <div class="mk-icon-box"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
                             <div>
                                 <p class="mk-meta-label">{{ __('contact.working_hours') }}</p>
-                                <p class="mk-meta-value">Sat - Thu, 9:00 AM - 6:00 PM</p>
+                                <p class="mk-meta-value">{{ __('contact.working_hours_value') }}</p>
                             </div>
                         </div>
 
                         <div class="mk-social">
                             <p class="mk-meta-label mk-stack-sm">{{ __('contact.follow') }}</p>
                             <div class="mk-social__links">
-                                <a href="#" class="mk-social__link" aria-label="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                <a href="#" class="mk-social__link" aria-label="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                <a href="#" class="mk-social__link" aria-label="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                <a href="#" class="mk-social__link" aria-label="{{ __('contact.facebook') }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                <a href="#" class="mk-social__link" aria-label="{{ __('contact.instagram') }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                <a href="#" class="mk-social__link" aria-label="{{ __('contact.twitter') }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>

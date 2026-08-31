@@ -72,6 +72,11 @@
                                         @endforeach
                                     </div>
                                 @endif
+                                @if (($favorites ?? collect())->isNotEmpty() || $favoriteServices->isNotEmpty())
+                                    <a href="{{ route('favorites.index') }}" class="mk-button mk-button--secondary mk-button--md">
+                                        {{ __('profile.view_all_favorites') }}
+                                    </a>
+                                @endif
                             </div>
                         </div>
 

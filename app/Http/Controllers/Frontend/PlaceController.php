@@ -54,7 +54,8 @@ class PlaceController extends Controller
             'reviews' => fn ($q) => $q->approved()
                 ->with('user:id,name,profile_picture')
                 ->select('id', 'user_id', 'place_id', 'rating', 'comment', 'created_at', 'is_approved', 'moderation_status')
-                ->latest(),
+                ->latest()
+                ->limit(10),
         ]);
 
         $similarPlaces = Place::with(['media:id,mediable_type,mediable_id,file_path,type,is_cover'])

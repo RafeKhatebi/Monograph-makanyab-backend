@@ -18,6 +18,25 @@ class LocalizedDate
         return self::format($date, true);
     }
 
+    public static function year(DateTimeInterface|string|null $date): string
+    {
+        if (! $date) {
+            return __('common.none');
+        }
+
+        $carbon = $date instanceof CarbonInterface
+            ? $date->copy()
+            : Carbon::parse($date);
+
+        [$year] = self::toJalali(
+            (int) $carbon->format('Y'),
+            (int) $carbon->format('n'),
+            (int) $carbon->format('j')
+        );
+
+        return self::localizeDigits((string) $year);
+    }
+
     public static function format(DateTimeInterface|string|null $date, bool $withTime = false): string
     {
         if (! $date) {

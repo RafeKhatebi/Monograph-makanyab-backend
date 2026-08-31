@@ -53,7 +53,8 @@ class ServiceController extends Controller
             'media',
             'reviews' => fn ($query) => $query->approved()
                 ->with('user:id,name,profile_picture')
-                ->latest(),
+                ->latest()
+                ->limit(10),
         ]);
         $isFavorited = Auth::check() && Favorite::where([
             'user_id' => Auth::id(),

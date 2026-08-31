@@ -27,7 +27,8 @@ class ServiceCategoryController extends Controller
             })
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->get();
+            ->paginate(24)
+            ->withQueryString();
 
         return view('pages.service-categories.index', compact('categories'));
     }

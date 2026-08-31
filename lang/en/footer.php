@@ -4,6 +4,7 @@ return [
     'description' => 'Your local discovery platform for the best restaurants, cafes, shops, hotels and services in Afghanistan.',
     'location' => 'Herat, Afghanistan',
     'social_links' => 'Social links',
+    'linkedin' => 'LinkedIn',
     'categories' => ['restaurants' => 'Restaurants', 'cafes' => 'Cafes', 'shopping' => 'Shopping', 'hotels' => 'Hotels'],
     'all_categories' => 'All Categories',
     'updates' => 'Contact us to get the latest places, deals, and updates.',

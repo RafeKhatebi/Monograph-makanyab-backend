@@ -25,10 +25,10 @@
                     </li>
                 </ul>
                 <div class="mk-footer-social" aria-label="{{ __('footer.social_links') }}">
-                    <a href="{{ route('contact') }}" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="{{ __('contact.facebook') }}"><i class="fa fa-facebook"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="{{ __('contact.instagram') }}"><i class="fa fa-instagram"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="{{ __('contact.twitter') }}"><i class="fa fa-twitter"></i></a>
+                    <a href="{{ route('contact') }}" aria-label="{{ __('footer.linkedin') }}"><i class="fa fa-linkedin"></i></a>
                 </div>
             </div>
 
@@ -84,7 +84,7 @@
 
         {{-- Bottom Bar --}}
         <div class="mk-footer-bottom">
-            <p>© {{ date('Y') }} Makanyab. {{ __('footer.rights') }}</p>
+            <p>© {{ \App\Support\LocalizedDate::year(now()) }} Makanyab. {{ __('footer.rights') }}</p>
             <div class="mk-footer-bottom-links">
                 <a href="{{ route('privacy') }}">{{ __('footer.privacy') }}</a>
                 <a href="{{ route('terms') }}">{{ __('footer.terms') }}</a>

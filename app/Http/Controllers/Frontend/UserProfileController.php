@@ -20,16 +20,19 @@ class UserProfileController extends Controller
             ->with(['category:id,name,slug,color_code', 'media'])
             ->where('is_active', true)
             ->latest()
+            ->limit(12)
             ->get();
         $favoriteServices = $user->favoriteServices()
             ->with(['category:id,name,slug', 'media'])
             ->where('is_active', true)
             ->latest()
+            ->limit(12)
             ->get();
 
         $reviews = $user->reviews()
             ->with(['place:id,name,slug', 'service:id,name,slug'])
             ->latest()
+            ->limit(20)
             ->get();
 
         return view('pages.profile.index', compact('favorites', 'favoriteServices', 'reviews'));

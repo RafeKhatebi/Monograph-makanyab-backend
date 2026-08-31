@@ -56,6 +56,9 @@
                     </div>
                 @endforelse
             </div>
+            @if ($categories->hasPages())
+                <div class="mk-pagination-wrap">{{ $categories->links() }}</div>
+            @endif
         </div>
     </div>
 
