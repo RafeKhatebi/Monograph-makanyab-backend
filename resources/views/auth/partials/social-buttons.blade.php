@@ -11,11 +11,6 @@
         <span>{{ $action }} with Google</span>
     </a>
 </div>
-
-<div class="mk-auth-divider" role="separator">
-    <span>or continue with email</span>
-</div>
-
 @once
     @push('scripts')
         <script>

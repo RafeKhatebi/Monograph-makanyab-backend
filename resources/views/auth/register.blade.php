@@ -12,11 +12,7 @@
 
             <x-form-field :label="__('validation.attributes.name')" for="name" name="name" :value="old('name')" autocomplete="name" required
                 autofocus />
-
-            <x-form-field :label="__('validation.attributes.username')" for="username" name="username" :value="old('username')" autocomplete="username"
-                required />
-
-            <x-form-field :label="__('auth.ui.email')" for="email" type="email" name="email" :value="old('email')" autocomplete="email"
+      <x-form-field :label="__('auth.ui.email')" for="email" type="email" name="email" :value="old('email')" autocomplete="email"
                 required />
 
             <x-form-field :label="__('auth.ui.password')" for="password" type="password" name="password" autocomplete="new-password"
@@ -25,7 +21,7 @@
             <x-form-field :label="__('auth.ui.confirm_password')" for="password_confirmation" type="password" name="password_confirmation"
                 autocomplete="new-password" required />
 
-            <x-primary-button class="w-full text-center mb-4">
+            <x-primary-button class="w-full text-center mb-2">
                 {{ __('auth.ui.create_account') }}
             </x-primary-button>
 
