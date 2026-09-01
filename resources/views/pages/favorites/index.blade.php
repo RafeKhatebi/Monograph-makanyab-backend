@@ -42,9 +42,7 @@
                     <h2 class="mk-heading mk-heading--md">{{ __('favorites.saved_services') }}</h2>
                     <div class="row">
                         @foreach ($favoriteServices as $service)
-                            <div class="col-sm-6 col-md-4 mk-stack-sm">
-                                <x-service-card :service="$service" />
-                            </div>
+                            <x-service-card :service="$service" />
                         @endforeach
                     </div>
                     @if ($favoriteServices->hasPages())

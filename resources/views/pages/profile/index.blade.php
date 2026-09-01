@@ -66,9 +66,7 @@
                                     <h4 class="mk-heading mk-heading--sm">{{ __('profile.saved_services') }}</h4>
                                     <div class="row">
                                         @foreach ($favoriteServices as $service)
-                                            <div class="col-sm-6 col-md-4 mk-stack-sm">
-                                                <x-service-card :service="$service" />
-                                            </div>
+                                            <x-service-card :service="$service" />
                                         @endforeach
                                     </div>
                                 @endif

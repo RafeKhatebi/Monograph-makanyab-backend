@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Discover', 'discover_intro' => 'Find places and services with one simple search. Choose a type, category, province, and keyword only when you need them.', 'what' => 'Keyword', 'where' => 'Where', 'search_in' => 'Search in',
+    'title' => 'Discover', 'discover_intro' => 'Search places and services easily. Filter only when needed.', 'what' => 'Keyword', 'where' => 'Where', 'search_in' => 'Search in',
     'keyword_placeholder' => 'Place, service, category, or keyword', 'location_placeholder' => 'City, district, province, or address',
     'all_types' => 'All Types', 'all_results' => 'All Results', 'reset' => 'Reset search', 'shortcuts' => 'Search shortcuts',
     'show_filters' => 'Show filters', 'hide_filters' => 'Hide filters', 'filters' => 'Filters', 'province' => 'Province',

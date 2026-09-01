@@ -23,15 +23,6 @@
                 </a>
             </div>
 
-            <div class="search-summary listing-summary p-6 m-6">
-                <h3>
-                    {{ __('places.count', ['count' => $places->total()]) }}
-                    @if (request('search'))
-                        {{ __('search.for_keyword') }} "<mark>{{ request('search') }}</mark>"
-                    @endif
-                </h3>
-            </div>
-
             <div class="row">
                 @forelse($places as $place)
                     @include('components.place-card', ['place' => $place])

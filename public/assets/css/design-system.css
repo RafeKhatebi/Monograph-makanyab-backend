@@ -1296,12 +1296,11 @@ input[type="radio"] {
     display: flex;
     height: 100vh;
     height: 100dvh;
-    min-height: 100vh;
-    min-height: 100dvh;
+    overflow: hidden;
 }
 
 .auth-layout__illustration {
-    flex: 0 0 50%;
+    flex: 1 1 50%;
     position: relative;
     overflow: hidden;
 }
@@ -1330,17 +1329,22 @@ input[type="radio"] {
 }
 
 .auth-layout__form {
-    flex: 0 0 50%;
+    flex: 1 1 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: var(--space-6);
     background: var(--mk-color-canvas);
+    overflow-y: auto;
 }
 
 .auth-layout__form > main {
     width: 100%;
     max-width: 400px;
+}
+
+.auth-layout {
+    margin: 0;
 }
 
 .auth-inline-control {

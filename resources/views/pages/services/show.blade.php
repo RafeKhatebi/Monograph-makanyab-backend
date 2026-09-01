@@ -138,9 +138,7 @@
                     <h2 class="related-section__title">{{ __('services.related') }}</h2>
                     <div class="row">
                         @foreach ($similar as $relatedService)
-                            <div class="col-sm-6 col-md-3 service-grid-col">
-                                <x-service-card :service="$relatedService" />
-                            </div>
+                            <x-service-card :service="$relatedService" />
                         @endforeach
                     </div>
                 </section>

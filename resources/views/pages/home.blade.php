@@ -123,9 +123,7 @@
             </div>
             <div class="row home-feature-row">
                 @forelse($featuredServices ?? [] as $service)
-                    <div class="col-sm-6 col-md-4 p-2 home-card-col">
-                        @include('components.service-card', ['service' => $service])
-                    </div>
+                    <x-service-card :service="$service" />
                 @empty
                     <div class="col-md-12 home-empty">
                         <p class="mk-text--muted">{{ __('home.empty_featured_services') }}</p>

@@ -24,21 +24,10 @@
                 </a>
             </div>
 
-            <div class="search-summary listing-summary">
-                <h3>
-                    {{ $services->total() }} {{ __('services.title') }}
-                    @if (request('search'))
-                        {{ __('search.for_keyword') }} "<mark>{{ request('search') }}</mark>"
-                    @endif
-                </h3>
-            </div>
-
             <div class="row">
                 @forelse($services as $service)
-                    <div class="col-sm-6 col-md-4 listing-result-col">
-                        <x-service-card :service="$service" />
-                    </div>
-                    @empty
+                    <x-service-card :service="$service" />
+                @empty
                         <div class="col-md-12 listing-empty">
                             <div class="mk-empty-icon"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
                             <h3 class="mk-heading mk-heading--md">{{ __('services.no_results') }}</h3>
