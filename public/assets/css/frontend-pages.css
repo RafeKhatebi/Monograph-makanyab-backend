@@ -1085,51 +1085,141 @@
     max-width: 100%;
 }
 
-.home-suggest-sticky {
-    align-items: center;
-    background: rgba(255, 255, 255, .94);
-    border: 1px solid rgba(203, 213, 225, .9);
-    border-radius: 8px;
-    bottom: 18px;
-    box-shadow: 0 16px 42px rgba(15, 23, 42, .2);
-    display: flex;
-    gap: 8px;
-    left: 50%;
-    padding: 8px;
+.mk-fab {
     position: fixed;
-    transform: translateX(-50%);
+    bottom: 10px;
+    inset-inline-end: 10px;
     z-index: 50;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 6px;
+    font-family: var(--mk-font-sans);
 }
 
-.home-suggest-sticky__button {
+.mk-fab__trigger {
     align-items: center;
-    background: var(--mk-primary);
-    border-radius: 8px;
+    background: var(--mk-color-primary);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, .22);
     color: #fff;
+    cursor: pointer;
     display: inline-flex;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+
+.mk-fab__trigger:hover,
+.mk-fab__trigger:focus {
+    background: var(--mk-color-primary-hover);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, .28);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.mk-fab__trigger i {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.mk-fab__label {
+    display: none;
+}
+
+.mk-fab__menu {
+    display: grid;
+    gap: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px) scale(.96);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+
+.mk-fab.is-open .mk-fab__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.mk-fab__item {
+    align-items: center;
+    background: var(--mk-color-surface);
+    border: 1px solid var(--mk-color-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .12);
+    color: var(--mk-color-ink);
+    display: inline-flex;
+    gap: 10px;
+    padding: 10px 16px;
+    text-decoration: none;
     font-size: 14px;
-    font-weight: 800;
-    gap: 8px;
-    min-height: 42px;
-    padding: 0 16px;
-    text-decoration: none;
+    font-weight: 600;
     white-space: nowrap;
+    transition: border-color .18s ease, box-shadow .18s ease, color .18s ease, transform .18s ease;
 }
 
-.home-suggest-sticky__button:hover,
-.home-suggest-sticky__button:focus {
-    background: var(--mk-primary-dark);
-    color: #fff;
-    text-decoration: none;
+.mk-fab__item:hover,
+.mk-fab__item:focus {
+    border-color: var(--mk-color-primary);
+    box-shadow: 0 0 0 3px var(--mk-color-primary-ring);
+    color: var(--mk-color-primary-hover);
+    transform: translateY(-1px);
+    outline: none;
 }
 
-.home-suggest-sticky__button--secondary {
-    background: #0f172a;
+.mk-fab__item i {
+    color: var(--mk-color-primary);
+    font-size: 15px;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mk-color-primary-soft);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-inline-end: auto;
 }
 
-.home-suggest-sticky__button--secondary:hover,
-.home-suggest-sticky__button--secondary:focus {
-    background: #1e293b;
+[dir="rtl"] .mk-fab {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+}
+
+@media (max-width: 767px) {
+    .mk-fab {
+        bottom: 8px;
+        inset-inline-end: 8px;
+    }
+
+    .mk-fab__trigger {
+        width: 40px;
+        height: 40px;
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .mk-fab__trigger i {
+        font-size: 14px;
+    }
+
+    .mk-fab__item {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-height: 680px) {
+    .mk-fab {
+        bottom: 6px;
+        inset-inline-end: 6px;
+    }
 }
 
 .home-empty {
@@ -2889,21 +2979,6 @@ html[dir="rtl"] .mk-language-popover {
 
     .home-section__title {
         font-size: 22px;
-    }
-
-    .home-suggest-sticky {
-        bottom: 12px;
-        left: 15px;
-        right: 15px;
-        transform: none;
-    }
-
-    .home-suggest-sticky__button {
-        flex: 1;
-        justify-content: center;
-        min-width: 0;
-        padding-left: 10px;
-        padding-right: 10px;
     }
 
     .mk-hero,

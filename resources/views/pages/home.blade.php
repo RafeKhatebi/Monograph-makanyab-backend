@@ -229,17 +229,6 @@
         </div>
     </div>
 
-    <div class="home-suggest-sticky" aria-label="{{ __('home.add_sticky_label') }}">
-        <a href="{{ route('add.create', ['type' => 'place']) }}" class="home-suggest-sticky__button">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-            {{ __('home.add_place') }}
-        </a>
-        <a href="{{ route('add.create', ['type' => 'service']) }}" class="home-suggest-sticky__button home-suggest-sticky__button--secondary">
-            <i class="fa fa-briefcase" aria-hidden="true"></i>
-            {{ __('home.add_service') }}
-        </a>
-    </div>
-
 @endsection
 
 @push('scripts')

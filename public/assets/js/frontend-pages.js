@@ -96,5 +96,41 @@
                 });
             }
         }
+
+        const fabTrigger = document.getElementById('mk-fab-trigger');
+        const fabMenu = document.getElementById('mk-fab-menu');
+        const fab = document.querySelector('.mk-fab');
+
+        if (fabTrigger && fabMenu && fab) {
+            const openFab = function () {
+                const isOpen = fab.classList.contains('is-open');
+                fab.classList.toggle('is-open', !isOpen);
+                fabTrigger.setAttribute('aria-expanded', String(!isOpen));
+                fabMenu.setAttribute('aria-hidden', String(isOpen));
+            };
+
+            const closeFab = function () {
+                fab.classList.remove('is-open');
+                fabTrigger.setAttribute('aria-expanded', 'false');
+                fabMenu.setAttribute('aria-hidden', 'true');
+            };
+
+            fabTrigger.addEventListener('click', function (event) {
+                event.stopPropagation();
+                openFab();
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!fab.contains(event.target)) {
+                    closeFab();
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeFab();
+                }
+            });
+        }
     });
 })();
