@@ -6,37 +6,37 @@
     @php
         $heroSlides = [
             [
-                'image' => asset('assets/img/slide1/slider-image-1.jpg'),
+                'image' => asset('assets/img/slide1/bg-01.jpg'),
                 'label' => __('home.hero_label'),
                 'title' => __('home.hero_title'),
                 'text' => __('home.hero_text'),
             ],
             [
-                'image' => asset('assets/img/demo/property-1.jpg'),
+                'image' => asset('assets/img/slide1/bg-02.jpg'),
                 'label' => __('home.hero_label'),
                 'title' => __('home.services_title'),
                 'text' => __('home.services_text'),
             ],
             [
-                'image' => asset('assets/img/slide1/slider-image-1.jpg'),
+                'image' => asset('assets/img/slide1/bg-03.jpg'),
                 'label' => __('home.community_label'),
                 'title' => __('home.community_title'),
                 'text' => __('home.community_text'),
             ],
             [
-                'image' => asset('assets/img/demo/property-1.jpg'),
+                'image' => asset('assets/img/slide1/bg-04.jpg'),
                 'label' => __('home.places_label'),
                 'title' => __('home.places_slide_title'),
                 'text' => __('home.places_slide_text'),
             ],
             [
-                'image' => asset('assets/img/slide1/slider-image-1.jpg'),
+                'image' => asset('assets/img/slide1/bg-05.jpg'),
                 'label' => __('home.verified_label'),
                 'title' => __('home.verified_slide_title'),
                 'text' => __('home.verified_slide_text'),
             ],
             [
-                'image' => asset('assets/img/demo/property-1.jpg'),
+                'image' => asset('assets/img/slide1/bg-06.jpg'),
                 'label' => __('home.local_label'),
                 'title' => __('home.local_slide_title'),
                 'text' => __('home.local_slide_text'),

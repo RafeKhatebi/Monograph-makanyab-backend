@@ -118,9 +118,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(SocialAccount::class);
     }
 
+    public function otps(): HasMany
+    {
+        return $this->hasMany(EmailVerificationOtp::class);
+    }
+
     public function hasUsablePassword(): bool
     {
         return $this->password_set_at !== null;
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new \App\Notifications\SendEmailVerificationOtpNotification);
     }
 
     // Role helper methods

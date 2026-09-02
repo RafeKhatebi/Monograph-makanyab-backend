@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Notifications\SendEmailVerificationOtpNotification;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
@@ -14,7 +14,7 @@ test('email verification screen can be rendered', function () {
 
     $response
         ->assertStatus(200)
-        ->assertSee('A verification email has been sent. Please check your inbox to continue.');
+        ->assertSee('Verify your email address to continue.');
 });
 
 test('verification email can be resent', function () {
@@ -28,7 +28,7 @@ test('verification email can be resent', function () {
         ->assertRedirect()
         ->assertSessionHas('status', __('auth.verification_sent'));
 
-    Notification::assertSentTo($user, VerifyEmail::class);
+    Notification::assertSentTo($user, SendEmailVerificationOtpNotification::class);
 });
 
 test('email can be verified', function () {

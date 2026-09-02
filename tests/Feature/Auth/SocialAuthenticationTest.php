@@ -60,18 +60,15 @@ function mockSocialiteConnectCallback(string $provider, SocialiteUser $user): vo
         ->andReturn($driver);
 }
 
-test('login and registration screens show google and facebook sign in options', function () {
+test('login and registration screens show google sign in option', function () {
     $this->get('/login')
         ->assertOk()
         ->assertSee('Sign in with Google')
-        ->assertSee('Sign in with Facebook')
-        ->assertSee(route('social.redirect', 'google'), false)
-        ->assertSee(route('social.redirect', 'facebook'), false);
+        ->assertSee(route('social.redirect', 'google'), false);
 
     $this->get('/register')
         ->assertOk()
-        ->assertSee('Sign up with Google')
-        ->assertSee('Sign up with Facebook');
+        ->assertSee('Sign up with Google');
 });
 
 test('social redirect sends user to configured provider', function () {

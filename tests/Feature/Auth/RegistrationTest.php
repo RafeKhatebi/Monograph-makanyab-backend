@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\SendEmailVerificationOtpNotification;
 use Illuminate\Support\Facades\Notification;
 
 test('registration screen can be rendered', function () {
@@ -31,5 +31,5 @@ test('new users can register', function () {
     $user = User::where('email', $email)->firstOrFail();
 
     expect($user->hasVerifiedEmail())->toBeFalse();
-    Notification::assertSentTo($user, VerifyEmail::class);
+    Notification::assertSentTo($user, SendEmailVerificationOtpNotification::class);
 });

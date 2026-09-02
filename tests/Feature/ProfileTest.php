@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Notifications\SendEmailVerificationOtpNotification;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Str;
 
 test('profile page is displayed', function () {
@@ -71,7 +71,7 @@ test('changing email resets verification and sends a new notification', function
         ->assertRedirect();
 
     expect($user->refresh()->email_verified_at)->toBeNull();
-    Notification::assertSentTo($user, VerifyEmail::class);
+    Notification::assertSentTo($user, SendEmailVerificationOtpNotification::class);
 });
 
 test('user can delete their account', function () {

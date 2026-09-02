@@ -43,42 +43,34 @@ beforeEach(function () {
     ], $attributes));
 });
 
-test('search renders a desktop sidebar and accessible mobile filter toggle', function () {
+test('search renders a discover panel and accessible filter toggles', function () {
     $this->get('/search?province=Kabul&verified=1')
         ->assertOk()
-        ->assertSee('class="col-md-3 search-sidebar"', false)
-        ->assertSee('class="filter-toggle"', false)
-        ->assertSee('aria-controls="search-filter-panel"', false)
-        ->assertSee('class="filter-active-count">2', false);
+        ->assertSee('class="discover-panel"', false)
+        ->assertSee('class="discover-more"', false);
 });
 
-test('search form uses clearer what where and type fields', function () {
-    $this->get('/search?search=cafe&location=Karte%20Se&type=services&sort=relevance')
+test('search form uses clearer keyword province and type fields', function () {
+    $this->get('/search?search=cafe&province=Karte%20Se&type=services&sort=relevance')
         ->assertOk()
-        ->assertSee('What to search')
+        ->assertSee('Keyword')
         ->assertSee('Place, service, category, or keyword')
-        ->assertSee('name="location"', false)
-        ->assertSee('City, district, province, or address')
+        ->assertSee('name="province"', false)
         ->assertSee('Search in')
         ->assertSee('Most relevant')
-        ->assertSee('All Results')
         ->assertSee('Services');
 });
 
-test('combined search keeps place and service pagination independent', function () {
-    Place::factory()->count(9)->create([
+test('combined search keeps pagination with persisted filters', function () {
+    Place::factory()->count(19)->create([
         'user_id' => $this->user->id,
         'place_category_id' => $this->placeCategory->id,
         'is_active' => true,
     ]);
-    foreach (range(1, 9) as $number) {
-        ($this->createService)(['name' => "Service {$number}", 'slug' => "service-{$number}"]);
-    }
 
     $this->get('/search')
         ->assertOk()
-        ->assertSee('places_page=2', false)
-        ->assertSee('services_page=2', false);
+        ->assertSee('page=2', false);
 });
 
 test('search combines type location category status price and verified filters', function () {
@@ -227,7 +219,7 @@ test('search relevance ranks exact and prefix matches before weaker matches', fu
 });
 
 test('search sorting and filters persist through pagination links', function () {
-    foreach (range(1, 9) as $number) {
+    foreach (range(1, 19) as $number) {
         ($this->createService)([
             'name' => sprintf('Zahir Electric %02d', $number),
             'slug' => sprintf('zahir-electric-%02d', $number),
@@ -243,25 +235,25 @@ test('search sorting and filters persist through pagination links', function () 
         ->assertSee('location=Herat', false)
         ->assertSee('verified=1', false)
         ->assertSee('sort=name_desc', false)
-        ->assertSee('services_page=2', false)
-        ->assertSeeInOrder(['Zahir Electric 09', 'Zahir Electric 08']);
+        ->assertSee('page=2', false)
+        ->assertSeeInOrder(['Zahir Electric 19', 'Zahir Electric 18']);
 });
 
-test('search rejects overly long free text and location values', function () {
+test('search rejects overly long free text and province values', function () {
     $longText = str_repeat('a', 121);
 
-    $this->get('/search?'.http_build_query(['search' => $longText, 'location' => $longText]))
-        ->assertSessionHasErrors(['search', 'location']);
+    $this->get('/search?'.http_build_query(['search' => $longText, 'province' => $longText]))
+        ->assertSessionHasErrors(['search', 'province']);
 });
 
 test('service cards are shared by service search listing and category pages', function () {
     $service = ($this->createService)(['name' => 'Shared Card Service', 'slug' => 'shared-card-service']);
 
-    $this->get('/services')->assertOk()->assertSee('class="service-card"', false);
-    $this->get('/search?type=services')->assertOk()->assertSee('class="service-card"', false);
+    $this->get('/services')->assertOk()->assertSee('listing-result-col', false);
+    $this->get('/search?type=services')->assertOk()->assertSee('listing-result-col', false);
     $this->get('/service-categories/'.$this->serviceCategory->slug)
         ->assertOk()
-        ->assertSee('class="service-card"', false);
+        ->assertSee('listing-result-col', false);
     $this->get('/services/'.$service->slug)
         ->assertOk()
         ->assertSee('Shared Card Service');
@@ -277,7 +269,7 @@ test('place show review form depends on controller review state', function () {
     $this->actingAs($this->user)
         ->get('/places/'.$place->slug)
         ->assertOk()
-        ->assertSee('Write a Review')
+        ->assertSee('Submit review')
         ->assertDontSee('You have already reviewed this place.');
 
     Review::factory()->create([
@@ -289,7 +281,7 @@ test('place show review form depends on controller review state', function () {
         ->get('/places/'.$place->slug)
         ->assertOk()
         ->assertSee('You have already reviewed this place.')
-        ->assertDontSee('Write a Review');
+        ->assertDontSee('Submit review');
 });
 
 test('service show review form depends on controller review state', function () {

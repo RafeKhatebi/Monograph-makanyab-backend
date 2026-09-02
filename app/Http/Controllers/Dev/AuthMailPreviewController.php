@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Dev;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Notifications\SendEmailVerificationOtpNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Password;
@@ -19,9 +20,11 @@ class AuthMailPreviewController extends Controller
 
     public function verification(Request $request): View
     {
+        $user = User::factory()->unverified()->create();
+
         return view('auth.preview.show', [
             'title' => 'Email Verification Preview',
-            'preview' => $this->previewData((new VerifyEmail)->toMail($request->user())),
+            'preview' => $this->previewData((new SendEmailVerificationOtpNotification)->toMail($user)),
         ]);
     }
 
