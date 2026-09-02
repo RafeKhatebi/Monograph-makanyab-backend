@@ -1,0 +1,467 @@
+/* Makanyab Home Hero & Floating Action Button
+   - All hero carousel / overlay / pagination / controls styles
+   - All mk-fab (sticky + button) styles
+   - Loaded after frontend-pages.css so it can override the base look
+   - Keeps HTML free of inline styles (per project convention)
+*/
+
+.home-hero {
+    background: #071a25;
+    color: #fff;
+    min-height: calc(100vh - 72px);
+    overflow: hidden;
+    position: relative;
+}
+
+.home-hero__slides,
+.home-hero__slide {
+    inset: 0;
+    position: absolute;
+}
+
+.home-hero__slide {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .7s ease;
+    z-index: 0;
+}
+
+.home-hero__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.home-hero__image {
+    height: 100%;
+    inset: 0;
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+/* Image is fully visible — no global overlay */
+
+/* Content aligned to the left with comfortable padding */
+.home-hero__content {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    padding: 96px 16px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+.home-hero__copy {
+    background: linear-gradient(180deg, rgba(3, 7, 18, .42) 0%, rgba(3, 7, 18, .28) 100%);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 16px;
+    box-shadow: 0 18px 48px rgba(3, 7, 18, .25);
+    margin-left: max(16px, calc((100vw - 1200px) / 2 + 16px));
+    max-width: 580px;
+    padding: 36px 40px;
+    text-align: left;
+    width: auto;
+    backdrop-filter: blur(2px);
+}
+
+.home-hero__eyebrow {
+    align-items: center;
+    background: rgba(255, 255, 255, .92);
+    border: 1px solid rgba(255, 255, 255, .65);
+    border-radius: 999px;
+    color: #0f172a;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    margin-bottom: 16px;
+    padding: 6px 14px;
+    text-transform: uppercase;
+}
+
+.home-hero__title {
+    color: #fff;
+    font-size: clamp(28px, 3.4vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 14px;
+    max-width: 640px;
+    text-shadow: 0 2px 12px rgba(3, 7, 18, .55);
+    text-wrap: balance;
+}
+
+.home-hero__text {
+    color: rgba(255, 255, 255, .95);
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 520px;
+    text-shadow: 0 1px 8px rgba(3, 7, 18, .55);
+}
+
+.home-hero__search-wrap {
+    box-sizing: border-box;
+    bottom: 80px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 3;
+}
+
+.home-hero__search-wrap .home-hero__stats {
+    margin: 0;
+}
+
+.home-hero__quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.home-hero__chip {
+    align-items: center;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .32);
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 700;
+    gap: 8px;
+    padding: 7px 16px;
+    text-decoration: none;
+}
+
+.home-hero__chip:hover,
+.home-hero__chip:focus {
+    background: rgba(255, 255, 255, .24);
+    color: #fff;
+    text-decoration: none;
+}
+
+.home-hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin: 0;
+}
+
+.home-hero__stats div {
+    background: rgba(3, 7, 18, .42);
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 10px;
+    min-width: 120px;
+    padding: 12px 18px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+}
+
+.home-hero__stats dt {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0;
+}
+
+.home-hero__stats dd {
+    color: rgba(255, 255, 255, .82);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    margin: 6px 0 0;
+    text-transform: uppercase;
+}
+
+.home-hero__control {
+    align-items: center;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-radius: 999px;
+    color: #fff;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    position: absolute;
+    top: 48%;
+    transform: translateY(-50%);
+    width: 44px;
+    z-index: 4;
+}
+
+.home-hero__control:hover,
+.home-hero__control:focus {
+    background: rgba(16, 185, 129, .9);
+    color: #fff;
+}
+
+.home-hero__control--prev {
+    left: 24px;
+}
+
+.home-hero__control--next {
+    right: 24px;
+}
+
+.home-hero__pagination {
+    bottom: 28px;
+    display: flex;
+    gap: 9px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    z-index: 4;
+}
+
+.home-hero__dot {
+    background: rgba(255, 255, 255, .45);
+    border: 0;
+    border-radius: 999px;
+    height: 10px;
+    padding: 0;
+    transition: background-color .2s, width .2s;
+    width: 10px;
+}
+
+.home-hero__dot.is-active {
+    background: #fff;
+    width: 28px;
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+    .home-hero {
+        min-height: 640px;
+    }
+
+    .home-hero__copy {
+        margin-left: 32px;
+        max-width: 520px;
+        padding: 30px 32px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .home-hero {
+        min-height: 600px;
+    }
+
+    .home-hero__content {
+        padding: 72px 16px 120px;
+    }
+
+    .home-hero__copy {
+        background: linear-gradient(180deg, rgba(3, 7, 18, .40) 0%, rgba(3, 7, 18, .28) 100%);
+        margin-left: 0;
+        max-width: 100%;
+        padding: 22px 20px;
+        text-align: center;
+    }
+
+    .home-hero__eyebrow {
+        font-size: 11px;
+        margin-bottom: 12px;
+        padding: 5px 12px;
+    }
+
+    .home-hero__title {
+        font-size: clamp(24px, 6vw, 30px);
+        line-height: 1.2;
+    }
+
+    .home-hero__text {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .home-hero__search-wrap {
+        bottom: 64px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .home-hero__quick-links {
+        display: none;
+    }
+
+    .home-hero__stats {
+        display: none;
+    }
+
+    .home-hero__control {
+        bottom: 15px;
+        height: 38px;
+        top: auto;
+        transform: none;
+        width: 38px;
+    }
+
+    .home-hero__control--prev {
+        left: 15px;
+    }
+
+    .home-hero__control--next {
+        right: 15px;
+    }
+
+    .home-hero__pagination {
+        bottom: 28px;
+    }
+}
+
+/* ====================================================================
+   Floating Action Button (mk-fab)
+   - Fixed bottom-right circular "+" trigger
+   - Expands to show Add Place / Add Service menu
+   - Positioned with safe-area awareness for mobile devices
+   ==================================================================== */
+
+.mk-fab {
+    align-items: flex-end;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column-reverse;
+    font-family: var(--mk-font-sans);
+    gap: 10px;
+    inset-inline-end: 24px;
+    position: fixed;
+    z-index: 1050;
+}
+
+.mk-fab__trigger {
+    align-items: center;
+    background: var(--mk-color-primary);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .25);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 22px;
+    height: 56px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    width: 56px;
+}
+
+.mk-fab__trigger:hover,
+.mk-fab__trigger:focus {
+    background: var(--mk-color-primary-hover);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .32);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.mk-fab__trigger i {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.mk-fab__label {
+    display: none;
+}
+
+.mk-fab__menu {
+    display: grid;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(8px) scale(.96);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+    visibility: hidden;
+}
+
+.mk-fab.is-open .mk-fab__menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+}
+
+.mk-fab__item {
+    align-items: center;
+    background: var(--mk-color-surface);
+    border: 1px solid var(--mk-color-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .12);
+    color: var(--mk-color-ink);
+    display: inline-flex;
+    flex-direction: row-reverse;
+    font-size: 14px;
+    font-weight: 600;
+    gap: 10px;
+    padding: 10px 16px;
+    text-decoration: none;
+    transition: border-color .18s ease, box-shadow .18s ease, color .18s ease, transform .18s ease;
+    white-space: nowrap;
+}
+
+.mk-fab__item:hover,
+.mk-fab__item:focus {
+    border-color: var(--mk-color-primary);
+    box-shadow: 0 0 0 3px var(--mk-color-primary-ring);
+    color: var(--mk-color-primary-hover);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.mk-fab__item i {
+    align-items: center;
+    background: var(--mk-color-primary-soft);
+    border-radius: 50%;
+    color: var(--mk-color-primary);
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 15px;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+}
+
+[dir="rtl"] .mk-fab__item {
+    flex-direction: row;
+}
+
+[dir="rtl"] .mk-fab {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+}
+
+@media (max-width: 767px) {
+    .mk-fab {
+        bottom: max(20px, env(safe-area-inset-bottom));
+        inset-inline-end: max(20px, env(safe-area-inset-right, env(safe-area-inset-end)));
+    }
+
+    .mk-fab__trigger {
+        font-size: 20px;
+        height: 52px;
+        width: 52px;
+    }
+
+    .mk-fab__trigger i {
+        font-size: 20px;
+    }
+
+    .mk-fab__item {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+}
+
+@media (max-height: 680px) {
+    .mk-fab {
+        bottom: max(20px, env(safe-area-inset-bottom));
+        inset-inline-end: max(20px, env(safe-area-inset-right, env(safe-area-inset-end)));
+    }
+}

@@ -71,12 +71,13 @@ Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.s
 
 // Places
 Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
+Route::get('/places/load-more', [PlaceController::class, 'loadMore'])->name('places.load-more');
 Route::get('/places/{place:slug}', [PlaceController::class, 'show'])->name('places.show');
-
-Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'])->name('services.show');
 
 // Services Index
 Route::get('/services', [FrontendServiceController::class, 'index'])->name('services.index');
+Route::get('/services/load-more', [FrontendServiceController::class, 'loadMore'])->name('services.load-more');
+Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'])->name('services.show');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/services/{service:slug}/favorite', [FrontendServiceController::class, 'toggleFavorite'])
         ->name('services.favorite');

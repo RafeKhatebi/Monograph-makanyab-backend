@@ -249,11 +249,11 @@ test('search rejects overly long free text and province values', function () {
 test('service cards are shared by service search listing and category pages', function () {
     $service = ($this->createService)(['name' => 'Shared Card Service', 'slug' => 'shared-card-service']);
 
-    $this->get('/services')->assertOk()->assertSee('listing-result-col', false);
-    $this->get('/search?type=services')->assertOk()->assertSee('listing-result-col', false);
+    $this->get('/services')->assertOk()->assertSee('place-card-col', false);
+    $this->get('/search?type=services')->assertOk()->assertSee('place-card-col', false);
     $this->get('/service-categories/'.$this->serviceCategory->slug)
         ->assertOk()
-        ->assertSee('listing-result-col', false);
+        ->assertSee('place-card-col', false);
     $this->get('/services/'.$service->slug)
         ->assertOk()
         ->assertSee('Shared Card Service');

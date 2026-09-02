@@ -21,7 +21,45 @@ class ServiceController extends Controller
             'rating' => ['nullable', 'integer', 'between:1,5'],
         ]);
 
-        $services = Service::query()
+        $services = $this->buildServicesQuery($request)
+            ->paginate(18)
+            ->withQueryString();
+
+        if ($request->boolean('fragment')) {
+            return response()->view('pages.services._cards', [
+                'services' => $services,
+            ]);
+        }
+
+        return view('pages.services.index', compact('services'));
+    }
+
+    public function loadMore(Request $request)
+    {
+        $request->validate([
+            'status' => ['nullable', 'in:open,closed,temporarily_closed'],
+            'price_level' => ['nullable', 'in:low,medium,high,luxury'],
+            'rating' => ['nullable', 'integer', 'between:1,5'],
+            'page' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $services = $this->buildServicesQuery($request)
+            ->paginate(18)
+            ->withQueryString();
+
+        $html = view('pages.services._cards', ['services' => $services])->render();
+        $hasMore = $services->hasMorePages();
+
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $hasMore,
+            'nextPage' => $hasMore ? $services->currentPage() + 1 : null,
+        ]);
+    }
+
+    private function buildServicesQuery(Request $request)
+    {
+        return Service::query()
             ->with(['category', 'media'])
             ->withCount(['reviews as reviews_count' => fn ($query) => $query->approved()])
             ->withAvg(['reviews as reviews_avg_rating' => fn ($query) => $query->approved()], 'rating')
@@ -34,11 +72,7 @@ class ServiceController extends Controller
             ->filterRatingAtLeast($request->integer('rating'))
             ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))
-            ->orderByDesc('created_at')
-            ->paginate(18)
-            ->withQueryString();
-
-        return view('pages.services.index', compact('services'));
+            ->orderByDesc('created_at');
     }
 
     public function show(Service $service)

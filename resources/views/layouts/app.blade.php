@@ -40,6 +40,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/home-hero.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/detail-pages.css') }}">
 
         @stack('styles')
     </head>

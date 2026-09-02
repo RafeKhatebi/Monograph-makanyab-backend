@@ -20,7 +20,45 @@ class PlaceController extends Controller
             'rating' => ['nullable', 'integer', 'between:1,5'],
         ]);
 
-        $places = Place::query()
+        $places = $this->buildPlacesQuery($request)
+            ->paginate(18)
+            ->withQueryString();
+
+        if ($request->boolean('fragment')) {
+            return response()->view('pages.places._cards', [
+                'places' => $places,
+            ]);
+        }
+
+        return view('pages.places.index', compact('places'));
+    }
+
+    public function loadMore(Request $request)
+    {
+        $request->validate([
+            'status' => ['nullable', 'in:open,closed,temporarily_closed'],
+            'price_level' => ['nullable', 'in:low,medium,high,luxury'],
+            'rating' => ['nullable', 'integer', 'between:1,5'],
+            'page' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $places = $this->buildPlacesQuery($request)
+            ->paginate(18)
+            ->withQueryString();
+
+        $html = view('pages.places._cards', ['places' => $places])->render();
+        $hasMore = $places->hasMorePages();
+
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $hasMore,
+            'nextPage' => $hasMore ? $places->currentPage() + 1 : null,
+        ]);
+    }
+
+    private function buildPlacesQuery(Request $request)
+    {
+        return Place::query()
             ->with(['category:id,name,slug,color_code,icon_name', 'media'])
             ->active()
             ->filterSearch($request->query('search'))
@@ -31,11 +69,7 @@ class PlaceController extends Controller
             ->filterOpenNow($request->boolean('open_now'))
             ->filterVerified($request->boolean('verified'))
             ->filterCategorySlug($request->query('category'))
-            ->orderByDesc('created_at')
-            ->paginate(18)
-            ->withQueryString();
-
-        return view('pages.places.index', compact('places'));
+            ->orderByDesc('created_at');
     }
 
     public function show(Place $place)
