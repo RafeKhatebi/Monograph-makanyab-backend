@@ -55,7 +55,7 @@ return new class extends Migration
                 });
 
                 if (Schema::getConnection()->getDriverName() === 'mysql') {
-                    DB::statement("ALTER TABLE {$tableName} MODIFY suggestion_status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending'");
+                    DB::statement("ALTER TABLE {$tableName} MODIFY suggestion_status ENUM('draft', 'sent', 'under_review', 'pending', 'approved', 'published', 'rejected') NOT NULL DEFAULT 'pending'");
                 }
             }
         }

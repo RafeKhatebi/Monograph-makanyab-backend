@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PlaceStatus;
 use App\Enums\PriceLevel;
+use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use App\Models\ServiceCategory;
+use App\Models\ServiceSuggestion;
 use App\Services\MediaUploadService;
 use App\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
@@ -45,44 +45,13 @@ class ServiceController extends Controller
 
         $services = $query->latest()->paginate(20)->withQueryString();
         $categories = ServiceCategory::active()->orderBy('name')->get();
-
-        return view('admin.services.index', compact('services', 'categories'));
-    }
-
-    public function create()
-    {
-        $categories = ServiceCategory::active()
-            ->orderBy('name')
+        $pendingSuggestions = ServiceSuggestion::with(['category', 'user'])
+            ->where('suggestion_status', SuggestionStatus::Pending->value)
+            ->latest()
+            ->limit(6)
             ->get();
 
-        return view('admin.services.create', compact('categories'));
-    }
-
-    public function store(StoreServiceRequest $request, SlugService $slugService, MediaUploadService $mediaUploadService)
-    {
-        $validated = $request->validated();
-        $validated['slug'] = $slugService->createUniqueSlug(Service::class, $validated['name']);
-        $validated['user_id'] = Auth::id();
-        $validated['is_verified'] = $request->boolean('is_verified');
-        $validated['is_active'] = $request->boolean('is_active');
-        $validated['status'] = $validated['status'] ?? PlaceStatus::Open->value;
-        $validated['price_level'] = $validated['price_level'] ?? PriceLevel::Medium->value;
-
-        DB::transaction(function () use ($request, $validated, $mediaUploadService): void {
-            $service = Service::create($validated);
-
-            if ($request->hasFile('images')) {
-                $mediaUploadService->attachImages(
-                    $service,
-                    $request->file('images'),
-                    'services',
-                    $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
-                );
-            }
-        });
-
-        return redirect()->route('admin.services.index')
-            ->with('success', __('messages.admin.services.created'));
+        return view('admin.services.index', compact('services', 'categories', 'pendingSuggestions'));
     }
 
     public function show(Service $service)

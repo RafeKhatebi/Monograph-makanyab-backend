@@ -54,6 +54,7 @@ test('places index render shows load more button with data attributes', function
 
     $this->get(route('places.index'))
         ->assertOk()
+        ->assertDontSee('listing-discover-cta', false)
         ->assertSee('data-load-more-wrap', false)
         ->assertSee('data-next-page="2"', false)
         ->assertSee('data-endpoint="'.route('places.load-more').'"', false)
@@ -67,6 +68,11 @@ test('services index render shows load more button with data attributes', functi
 
     $this->get(route('services.index'))
         ->assertOk()
+        ->assertSee('listing-hero--service', false)
+        ->assertSee('listing-card--service listing-card--text-only', false)
+        ->assertDontSee('listing-discover-cta', false)
+        ->assertDontSee('listing-card__media', false)
+        ->assertDontSee('<i class="fa fa-map-marker" aria-hidden="true"></i>', false)
         ->assertSee('data-load-more-wrap', false)
         ->assertSee('data-next-page="2"', false)
         ->assertSee('data-endpoint="'.route('services.load-more').'"', false)

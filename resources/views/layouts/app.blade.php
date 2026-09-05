@@ -55,17 +55,22 @@
 
         <!-- Global Floating Add Button -->
         <div class="mk-fab" aria-label="{{ __('home.add_sticky_label') }}">
-            <button type="button" class="mk-fab__trigger" aria-expanded="false" aria-controls="mk-fab-menu" id="mk-fab-trigger" aria-label="{{ __('home.add') }}">
+            <button type="button" class="mk-fab__trigger" id="mk-fab-trigger" aria-label="{{ __('home.add') }}"
+                aria-expanded="false" aria-controls="mk-fab-menu">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
-            <div class="mk-fab__menu" id="mk-fab-menu" role="menu" aria-hidden="true">
-                <a href="{{ route('add.create', ['type' => 'place']) }}" class="mk-fab__item" role="menuitem">
+            <div class="mk-fab__menu" id="mk-fab-menu" aria-hidden="true">
+                <a href="{{ route('add.create', ['type' => 'place']) }}" class="mk-fab__item">
                     <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
-                    <span>{{ __('home.add_place') }}</span>
+                    <span>{{ __('home.suggest_place') }}</span>
                 </a>
-                <a href="{{ route('add.create', ['type' => 'service']) }}" class="mk-fab__item" role="menuitem">
+                <a href="{{ route('add.create', ['type' => 'service']) }}" class="mk-fab__item">
                     <i class="fa fa-briefcase" aria-hidden="true"></i>
-                    <span>{{ __('home.add_service') }}</span>
+                    <span>{{ __('home.suggest_service') }}</span>
+                </a>
+                <a href="{{ route('add.create', ['type' => 'post']) }}" class="mk-fab__item">
+                    <i class="fa fa-newspaper" aria-hidden="true"></i>
+                    <span>{{ __('home.create_post') }}</span>
                 </a>
             </div>
         </div>

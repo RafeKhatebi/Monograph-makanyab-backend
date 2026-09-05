@@ -1,7 +1,9 @@
 <?php
 
+use App\Enums\SuggestionStatus;
 use App\Models\Place;
 use App\Models\PlaceCategory;
+use App\Models\PlaceSuggestion;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -50,7 +52,7 @@ it('validates public place listing filters', function () {
         ->assertSessionHasErrors('rating');
 });
 
-it('generates unique slugs for duplicate place names in admin CRUD', function () {
+it('generates unique slugs for duplicate approved place suggestions', function () {
     $admin = User::factory()->admin()->create();
     $category = PlaceCategory::factory()->create(['is_active' => true]);
 
@@ -65,10 +67,14 @@ it('generates unique slugs for duplicate place names in admin CRUD', function ()
         'district' => 'Kabul',
         'latitude' => 34.5553,
         'longitude' => 69.2075,
+        'suggestion_status' => SuggestionStatus::Pending,
     ];
 
-    $this->actingAs($admin)->post(route('admin.places.store'), $payload)->assertRedirect();
-    $this->actingAs($admin)->post(route('admin.places.store'), $payload)->assertRedirect();
+    $first = PlaceSuggestion::factory()->create($payload);
+    $second = PlaceSuggestion::factory()->create($payload);
+
+    $this->actingAs($admin)->post(route('admin.place-suggestions.approve', $first))->assertRedirect();
+    $this->actingAs($admin)->post(route('admin.place-suggestions.approve', $second))->assertRedirect();
 
     expect(Place::where('name', 'Duplicate Display Name')->orderBy('created_at')->pluck('slug')->all())
         ->toEqual(['duplicate-display-name', 'duplicate-display-name-1']);
@@ -92,26 +98,10 @@ it('allows admins to restore soft deleted places', function () {
     expect($place->fresh()->trashed())->toBeFalse();
 });
 
-it('rejects inactive categories when creating places through the admin form', function () {
+it('does not expose admin place create routes', function () {
     $admin = User::factory()->admin()->create();
-    $inactiveCategory = PlaceCategory::factory()->inactive()->create();
 
     $this->actingAs($admin)
-        ->from(route('admin.places.create'))
-        ->post(route('admin.places.store'), [
-            'name' => 'Inactive Category Place',
-            'place_category_id' => $inactiveCategory->id,
-            'description' => 'Should not be created.',
-            'address' => 'Test address',
-            'phone_1' => '+93000000000',
-            'country' => 'Afghanistan',
-            'province' => 'Kabul',
-            'district' => 'Kabul',
-            'latitude' => 34.5553,
-            'longitude' => 69.2075,
-        ])
-        ->assertRedirect(route('admin.places.create'))
-        ->assertSessionHasErrors('place_category_id');
-
-    $this->assertDatabaseMissing('places', ['name' => 'Inactive Category Place']);
+        ->get('/admin/places/create')
+        ->assertNotFound();
 });

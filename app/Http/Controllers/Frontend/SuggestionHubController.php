@@ -16,6 +16,7 @@ use App\Services\MediaUploadService;
 use App\Services\SlugService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class SuggestionHubController extends Controller
@@ -43,7 +44,9 @@ class SuggestionHubController extends Controller
                 'user_id' => $request->user()->id,
                 'title' => $data['title'],
                 'slug' => $slugService->createUniqueSlug(Post::class, $data['title']),
-                'image' => $request->file('image')->store('post-submissions', 'public'),
+                'image' => $request->hasFile('image')
+                    ? $request->file('image')->store('post-submissions', 'public')
+                    : null,
                 'excerpt' => $data['excerpt'] ?? null,
                 'content' => $data['content'],
                 'extra_information' => $data['extra_information'] ?? null,
@@ -55,7 +58,7 @@ class SuggestionHubController extends Controller
             ]);
 
             return redirect()
-                ->route('add.create')
+                ->route('add.create', ['type' => 'post'])
                 ->with('success', __($isReviewSubmission ? 'messages.post_suggestion_sent' : 'messages.post_suggestion_saved'))
                 ->with('submission_id', $post->id);
         }
@@ -64,23 +67,27 @@ class SuggestionHubController extends Controller
         $categoryField = $type === 'service' ? 'service_category_id' : 'place_category_id';
         $payload = Arr::except($data, ['type', 'submit_action', 'images', 'image', 'title', 'content', 'excerpt']);
 
-        $suggestion = $modelClass::create(array_merge($payload, [
-            'user_id' => $request->user()->id,
-            'submitted_by_name' => $request->user()->name,
-            'submitted_by_email' => $request->user()->email,
-            'country' => $payload['country'] ?? 'Afghanistan',
-            'status' => $payload['status'] ?? PlaceStatus::Open->value,
-            'price_level' => $payload['price_level'] ?? PriceLevel::Medium->value,
-            'suggestion_status' => $isReviewSubmission
-                ? SuggestionStatus::Pending->value
-                : SuggestionStatus::Draft->value,
-            $categoryField => $payload[$categoryField],
-        ]));
+        $suggestion = DB::transaction(function () use ($modelClass, $payload, $request, $isReviewSubmission, $categoryField, $mediaUploadService, $type) {
+            $suggestion = $modelClass::create(array_merge($payload, [
+                'user_id' => $request->user()->id,
+                'submitted_by_name' => $request->user()->name,
+                'submitted_by_email' => $request->user()->email,
+                'country' => $payload['country'] ?? 'Afghanistan',
+                'status' => $payload['status'] ?? PlaceStatus::Open->value,
+                'price_level' => $payload['price_level'] ?? PriceLevel::Medium->value,
+                'suggestion_status' => $isReviewSubmission
+                    ? SuggestionStatus::Pending->value
+                    : SuggestionStatus::Draft->value,
+                $categoryField => $payload[$categoryField],
+            ]));
 
-        $mediaUploadService->attachImages($suggestion, $request->file('images', []), "{$type}-suggestions");
+            $mediaUploadService->attachImages($suggestion, $request->file('images', []), "{$type}-suggestions");
+
+            return $suggestion;
+        });
 
         return redirect()
-            ->route('add.create')
+            ->route('add.create', ['type' => $type])
             ->with('success', __($isReviewSubmission ? 'messages.suggestion_sent_for_review' : 'messages.suggestion_draft_saved'))
             ->with('submission_id', $suggestion->id);
     }
@@ -135,6 +142,12 @@ class SuggestionHubController extends Controller
                 ];
             });
 
-        return $places->merge($services)->merge($posts)->sortByDesc('date')->take(20)->values();
+        return collect()
+            ->concat($places)
+            ->concat($services)
+            ->concat($posts)
+            ->sortByDesc('date')
+            ->take(20)
+            ->values();
     }
 }

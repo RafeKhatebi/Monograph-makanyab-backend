@@ -31,15 +31,29 @@ class StoreUserSubmissionRequest extends FormRequest
         ];
 
         if ($type === 'place') {
+            $rules['name'][] = Rule::unique('place_suggestions', 'name')->where(fn ($query) => $query
+                ->where('place_category_id', $this->input('place_category_id'))
+                ->where('city', $this->input('city'))
+                ->whereIn('suggestion_status', ['pending', 'approved']));
             $rules += $this->placeOrServiceRules('place_categories', 'place_category_id');
         }
 
         if ($type === 'service') {
+            $rules['name'][] = Rule::unique('service_suggestions', 'name')->where(fn ($query) => $query
+                ->where('service_category_id', $this->input('service_category_id'))
+                ->where('city', $this->input('city'))
+                ->whereIn('suggestion_status', ['pending', 'approved']));
             $rules += $this->placeOrServiceRules('service_categories', 'service_category_id');
         }
 
         if ($type === 'post') {
-            $rules['image'] = ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'];
+            $rules['image'] = [
+                Rule::requiredIf($this->input('submit_action') === 'send_review'),
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:4096',
+            ];
         }
 
         return $rules;
@@ -88,7 +102,7 @@ class StoreUserSubmissionRequest extends FormRequest
     private function placeOrServiceRules(string $categoryTable, string $categoryField): array
     {
         return [
-            $categoryField => ['required', "exists:{$categoryTable},id"],
+            $categoryField => ['required', Rule::exists($categoryTable, 'id')->where('is_active', true)],
             'phone_1' => ['required', 'string', 'max:20'],
             'phone_2' => ['nullable', 'string', 'max:20'],
             'whatsapp' => ['nullable', 'string', 'max:20'],
@@ -107,7 +121,13 @@ class StoreUserSubmissionRequest extends FormRequest
             'longitude' => ['nullable', 'numeric'],
             'status' => ['nullable', Rule::enum(PlaceStatus::class)],
             'price_level' => ['required', Rule::enum(PriceLevel::class)],
-            'images' => ['required', 'array', 'min:1', 'max:6'],
+            'images' => [
+                Rule::requiredIf($this->input('submit_action') === 'send_review'),
+                'nullable',
+                'array',
+                'min:1',
+                'max:6',
+            ],
             'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ];
     }

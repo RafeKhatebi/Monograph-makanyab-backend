@@ -4,7 +4,7 @@
     use App\Enums\PlaceStatus;
     use App\Enums\PriceLevel;
 
-    $activeType = in_array(old('type', request('type', 'place')), ['place', 'service'], true)
+    $activeType = in_array(old('type', request('type', 'place')), ['place', 'service', 'post'], true)
         ? old('type', request('type', 'place'))
         : 'place';
     $priceOptions = [
@@ -25,7 +25,6 @@
 @section('content')
     <section class="mk-hero">
         <div class="container">
-            <img src="{{ asset('assets/img/branding/makanyab-logo-primary.svg') }}" alt="Makanyab" class="suggestion-branding__logo">
             <h1 class="mk-hero__title">{{ __('suggestions.hub.title') }}</h1>
             <p class="mk-hero__text">{{ __('suggestions.hub.description') }}</p>
         </div>
@@ -39,7 +38,7 @@
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
-            <div class="suggestion-hub__grid">
+            <div class="suggestion-hub__grid suggestion-hub__grid--single">
                 <main class="suggestion-panel">
                     <form action="{{ route('add.store') }}" method="POST" enctype="multipart/form-data" data-suggest-form>
                         @csrf
@@ -47,7 +46,7 @@
 
                         <fieldset class="suggestion-tabs">
                             <legend class="sr-only">{{ __('suggestions.submission_type') }}</legend>
-                            @foreach (['place', 'service'] as $type)
+                            @foreach (['place', 'service', 'post'] as $type)
                                 <label class="suggestion-tab">
                                     <input type="radio" name="type" value="{{ $type }}" @checked($activeType === $type)
                                         data-suggest-type>
@@ -61,20 +60,27 @@
                             <h2>{{ __('suggestions.sections.basic') }}</h2>
                             <div class="suggestion-form-grid">
                                 <div data-suggest-for="place service">
-                                    <x-form-field for="name" :label="__('suggestions.name')" :value="old('name')" />
+                                    <x-form-field for="name" :label="__('suggestions.name')" :value="old('name')" required />
+                                </div>
+                                <div data-suggest-for="post">
+                                    <x-form-field for="title" :label="__('suggestions.title')" :value="old('title')" required />
                                 </div>
                                 <div data-suggest-for="place">
                                     <x-input-label for="place_category_id" :value="__('suggestions.category')" />
                                     <x-select-input id="place_category_id" name="place_category_id" :options="$placeCategories"
-                                        placeholder="{{ __('suggestions.select_category') }}" />
+                                        placeholder="{{ __('suggestions.select_category') }}" required />
                                     <x-input-error :messages="$errors->get('place_category_id')" class="mt-2" />
                                 </div>
                                 <div data-suggest-for="service">
                                     <x-input-label for="service_category_id" :value="__('suggestions.category')" />
                                     <x-select-input id="service_category_id" name="service_category_id" :options="$serviceCategories"
-                                        placeholder="{{ __('suggestions.select_category') }}" />
+                                        placeholder="{{ __('suggestions.select_category') }}" required />
                                     <x-input-error :messages="$errors->get('service_category_id')" class="mt-2" />
                                 </div>
+                            </div>
+
+                            <div data-suggest-for="post" class="suggestion-form-grid suggestion-form-grid--single">
+                                <x-form-field for="excerpt" :label="__('suggestions.excerpt')" :value="old('excerpt')" />
                             </div>
 
                             <div data-suggest-for="place service" class="suggestion-form-grid suggestion-form-grid--single">
@@ -84,8 +90,15 @@
                             <div data-suggest-for="place service" class="profile-form-group">
                                 <x-input-label for="description" :value="__('suggestions.description')" />
                                 <x-textarea id="description" name="description" rows="5"
-                                    placeholder="{{ __('suggestions.description_placeholder') }}">{{ old('description') }}</x-textarea>
+                                    placeholder="{{ __('suggestions.description_placeholder') }}" required>{{ old('description') }}</x-textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                            </div>
+
+                            <div data-suggest-for="post" class="profile-form-group">
+                                <x-input-label for="content" :value="__('suggestions.content')" />
+                                <x-textarea id="content" name="content" rows="8"
+                                    placeholder="{{ __('suggestions.content_placeholder') }}" required>{{ old('content') }}</x-textarea>
+                                <x-input-error :messages="$errors->get('content')" class="mt-2" />
                             </div>
 
                         </section>
@@ -93,10 +106,10 @@
                         <section class="suggestion-section" data-suggest-for="place service">
                             <h2>{{ __('suggestions.sections.location') }}</h2>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="province" :label="__('suggestions.province')" :value="old('province')" />
-                                <x-form-field for="city" :label="__('suggestions.city')" :value="old('city')" />
-                                <x-form-field for="district" :label="__('suggestions.district')" :value="old('district')" />
-                                <x-form-field for="address" :label="__('suggestions.address')" :value="old('address')" />
+                                <x-form-field for="province" :label="__('suggestions.province')" :value="old('province')" required />
+                                <x-form-field for="city" :label="__('suggestions.city')" :value="old('city')" required />
+                                <x-form-field for="district" :label="__('suggestions.district')" :value="old('district')" required />
+                                <x-form-field for="address" :label="__('suggestions.address')" :value="old('address')" required />
                             </div>
                             <div class="suggestion-form-grid">
                                 <x-form-field for="subdistrict" :label="__('suggestions.subdistrict')" :value="old('subdistrict')" />
@@ -105,18 +118,18 @@
                                 <x-form-field for="postal_code" :label="__('suggestions.postal_code')" :value="old('postal_code')" />
                             </div>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="latitude" :label="__('suggestions.latitude')" :value="old('latitude')" />
-                                <x-form-field for="longitude" :label="__('suggestions.longitude')" :value="old('longitude')" />
+                                <x-form-field for="latitude" :label="__('suggestions.latitude')" type="number" step="0.00000001" :value="old('latitude')" />
+                                <x-form-field for="longitude" :label="__('suggestions.longitude')" type="number" step="0.00000001" :value="old('longitude')" />
                             </div>
                         </section>
 
                         <section class="suggestion-section" data-suggest-for="place service">
                             <h2>{{ __('suggestions.sections.contact') }}</h2>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="phone_1" :label="__('suggestions.phone')" :value="old('phone_1')" />
-                                <x-form-field for="phone_2" :label="__('suggestions.phone_2')" :value="old('phone_2')" />
-                                <x-form-field for="whatsapp" :label="__('suggestions.whatsapp')" :value="old('whatsapp')" />
-                                <x-form-field for="website" :label="__('suggestions.website')" :value="old('website')" />
+                                <x-form-field for="phone_1" :label="__('suggestions.phone')" type="tel" :value="old('phone_1')" required />
+                                <x-form-field for="phone_2" :label="__('suggestions.phone_2')" type="tel" :value="old('phone_2')" />
+                                <x-form-field for="whatsapp" :label="__('suggestions.whatsapp')" type="tel" :value="old('whatsapp')" />
+                                <x-form-field for="website" :label="__('suggestions.website')" type="url" :value="old('website')" />
                             </div>
                         </section>
 
@@ -126,7 +139,7 @@
                                 <div>
                                     <x-input-label for="price_level" :value="__('suggestions.price_level')" />
                                     <x-select-input id="price_level" name="price_level" :options="$priceOptions"
-                                        placeholder="{{ __('suggestions.select_price') }}" />
+                                        placeholder="{{ __('suggestions.select_price') }}" required />
                                     <x-input-error :messages="$errors->get('price_level')" class="mt-2" />
                                 </div>
                                 <div>
@@ -146,6 +159,12 @@
                                 <p class="suggestion-help">{{ __('suggestions.images_help') }}</p>
                                 <x-input-error :messages="$errors->get('images')" class="mt-2" />
                                 <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
+                            </div>
+                            <div data-suggest-for="post">
+                                <x-input-label for="image" :value="__('suggestions.image')" />
+                                <input id="image" type="file" name="image" class="form-control" accept="image/*">
+                                <p class="suggestion-help">{{ __('suggestions.image_help') }}</p>
+                                <x-input-error :messages="$errors->get('image')" class="mt-2" />
                             </div>
                         </section>
 
@@ -168,25 +187,6 @@
                     </form>
                 </main>
 
-                <aside class="suggestion-status-panel">
-                    <h2>{{ __('suggestions.my_submissions') }}</h2>
-                    <p>{{ __('suggestions.my_submissions_text') }}</p>
-                    <div class="suggestion-status-list">
-                        @forelse ($submissions as $submission)
-                            <article class="suggestion-status-card">
-                                <span>{{ $submission['type'] }}</span>
-                                <h3>{{ $submission['title'] }}</h3>
-                                @if ($submission['category'])
-                                    <p>{{ $submission['category'] }}</p>
-                                @endif
-                                <strong>{{ $submission['status'] }}</strong>
-                                <time>{{ \App\Support\LocalizedDate::date($submission['date']) }}</time>
-                            </article>
-                        @empty
-                            <p class="mk-text mk-text--muted">{{ __('suggestions.no_submissions') }}</p>
-                        @endforelse
-                    </div>
-                </aside>
             </div>
         </div>
     </section>

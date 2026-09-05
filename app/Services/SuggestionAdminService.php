@@ -56,6 +56,11 @@ class SuggestionAdminService
         return DB::transaction(function () use ($suggestion, $targetClass, $adminNote) {
             $target = $targetClass::create($this->buildTargetPayload($suggestion, $targetClass));
 
+            $suggestion->media()->update([
+                'mediable_type' => $target->getMorphClass(),
+                'mediable_id' => $target->getKey(),
+            ]);
+
             $suggestion->update([
                 'suggestion_status' => SuggestionStatus::Approved,
                 'admin_note' => $adminNote,

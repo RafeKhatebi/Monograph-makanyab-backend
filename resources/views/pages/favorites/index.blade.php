@@ -12,7 +12,7 @@
 
     <div class="mk-page-section mk-page-section--compact">
         <div class="container">
-            @if ($favorites->isEmpty() && $favoriteServices->isEmpty())
+            @if ($favorites->isEmpty() && $favoriteServices->isEmpty() && ($favoritePosts ?? collect())->isEmpty())
                 <div class="mk-card mk-card--empty">
                     <div class="mk-empty-icon"><i class="fa fa-heart" aria-hidden="true"></i></div>
                     <h3 class="mk-heading mk-heading--md">{{ __('favorites.empty_title') }}</h3>
@@ -47,6 +47,20 @@
                     </div>
                     @if ($favoriteServices->hasPages())
                         <div class="mk-pagination">{{ $favoriteServices->links() }}</div>
+                    @endif
+                @endif
+                @if (($favoritePosts ?? collect())->isNotEmpty())
+                    <h2 class="mk-heading mk-heading--md">{{ __('favorites.saved_posts') }}</h2>
+                    <div class="profile-post-list">
+                        @foreach ($favoritePosts as $post)
+                            <a href="{{ route('posts.show', $post->slug) }}" class="profile-post-link">
+                                <strong>{{ $post->title }}</strong>
+                                <span>{{ \App\Support\LocalizedDate::date($post->published_at ?? $post->created_at) }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                    @if ($favoritePosts->hasPages())
+                        <div class="mk-pagination">{{ $favoritePosts->links() }}</div>
                     @endif
                 @endif
             @endif

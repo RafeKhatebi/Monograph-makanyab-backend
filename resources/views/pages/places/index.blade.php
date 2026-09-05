@@ -12,17 +12,6 @@
 
     <div class="listing-layout listing-layout--simple">
         <div class="container">
-            <div class="listing-discover-cta">
-                <div>
-                    <h2>{{ __('search.discover_places_title') }}</h2>
-                    <p>{{ __('search.discover_places_text') }}</p>
-                </div>
-                <a href="{{ route('search.index', ['type' => 'place']) }}" class="mk-button mk-button--primary mk-button--md">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    {{ __('navigation.discover') }}
-                </a>
-            </div>
-
             <div class="row" data-load-more-target="places">
                 @include('pages.places._cards', ['places' => $places])
             </div>

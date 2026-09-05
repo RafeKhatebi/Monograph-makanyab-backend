@@ -233,7 +233,7 @@ test('review must target exactly one place or service', function () {
     ]))->toThrow(InvalidArgumentException::class);
 });
 
-test('admin can approve reject filter and delete reviews', function () {
+test('admin reviews management routes are not exposed separately', function () {
     $pending = Review::factory()->pending()->create([
         'place_id' => $this->place->id,
         'user_id' => $this->user->id,
@@ -247,31 +247,8 @@ test('admin can approve reject filter and delete reviews', function () {
         'user_id' => User::factory()->create()->id,
     ]);
 
-    $this->actingAs($this->admin)
-        ->get('/admin/reviews?status=pending')
-        ->assertOk()
-        ->assertSee('Pending')
-        ->assertDontSee('Rejected during moderation');
-
-    $this->actingAs($this->admin)
-        ->get('/admin/reviews?status=approved&rating='.$approved->rating.'&target=place')
-        ->assertOk()
-        ->assertSee('Approved');
-
-    $this->actingAs($this->admin)
-        ->post("/admin/reviews/{$pending->id}/approve")
-        ->assertRedirect();
-    expect($pending->fresh()->moderation_status)->toBe(Review::STATUS_APPROVED)
-        ->and($pending->fresh()->is_approved)->toBeTrue();
-
-    $this->actingAs($this->admin)
-        ->post("/admin/reviews/{$approved->id}/reject")
-        ->assertRedirect();
-    expect($approved->fresh()->moderation_status)->toBe(Review::STATUS_REJECTED)
-        ->and($approved->fresh()->is_approved)->toBeFalse();
-
-    $this->actingAs($this->admin)
-        ->delete("/admin/reviews/{$rejected->id}")
-        ->assertRedirect(route('admin.reviews.index'));
-    $this->assertDatabaseMissing('reviews', ['id' => $rejected->id]);
+    $this->actingAs($this->admin)->get('/admin/reviews?status=pending')->assertNotFound();
+    $this->actingAs($this->admin)->post("/admin/reviews/{$pending->id}/approve")->assertNotFound();
+    $this->actingAs($this->admin)->post("/admin/reviews/{$approved->id}/reject")->assertNotFound();
+    $this->actingAs($this->admin)->delete("/admin/reviews/{$rejected->id}")->assertNotFound();
 });

@@ -10,7 +10,12 @@
 
         form.querySelectorAll('[data-suggest-for]').forEach(function (node) {
             var allowed = node.getAttribute('data-suggest-for').split(/\s+/);
-            node.classList.toggle('is-hidden', allowed.indexOf(type) === -1);
+            var isHidden = allowed.indexOf(type) === -1;
+
+            node.classList.toggle('is-hidden', isHidden);
+            node.querySelectorAll('input:not([data-suggest-type]), select, textarea, button').forEach(function (field) {
+                field.disabled = isHidden;
+            });
         });
     }
 

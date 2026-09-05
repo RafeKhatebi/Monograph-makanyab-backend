@@ -25,19 +25,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::factory()->admin()->create([
-            'name' => 'Makanyab Admin',
-            'username' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => 'password',
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            User::factory()->admin()->make([
+                'name' => 'Makanyab Admin',
+                'username' => 'admin',
+                'email' => 'admin@example.com',
+                'password' => 'password',
+            ])->getAttributes(),
+        );
         $owners = User::factory()->owner()->count(6)->create();
         $users = User::factory()->count(18)->create();
         User::factory()->inactive()->count(3)->create();
-        User::factory()->dariProfile()->create([
-            'username' => 'dari_user',
-            'email' => 'dari-user@example.com',
-        ]);
+        $dariUser = User::firstOrCreate(
+            ['username' => 'dari_user'],
+            User::factory()->dariProfile()->make([
+                'username' => 'dari_user',
+                'email' => 'dari-user@example.com',
+            ])->getAttributes(),
+        );
 
         $placeCategories = PlaceCategory::factory()->count(6)->create();
         PlaceCategory::factory()->inactive()->count(2)->create();

@@ -30,7 +30,10 @@
                 <div class="col-md-3 mk-stack-sm">
                     <div class="mk-card profile-tab-shell">
                         <div id="profile-tabs" class="profile-tabs">
-                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link active-tab">
+                            <a href="#tab-submissions" data-toggle="tab" class="profile-tab-link active-tab">
+                                <i class="fa fa-inbox" aria-hidden="true"></i> {{ __('profile.submissions') }}
+                            </a>
+                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link">
                                 <i class="fa fa-heart" aria-hidden="true"></i> {{ __('profile.favorites') }}
                             </a>
                             <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link">
@@ -46,9 +49,36 @@
                 {{-- Content --}}
                 <div class="col-md-9">
                     <div class="tab-content">
+                        {{-- Submissions --}}
+                        <div id="tab-submissions" class="tab-pane fade in active">
+                            <div class="mk-card profile-panel">
+                                <h3 class="mk-heading mk-heading--md">{{ __('profile.submissions') }}</h3>
+                                @forelse($submissions ?? [] as $submission)
+                                    <div class="profile-submission-item">
+                                        <div>
+                                            <div class="profile-submission-meta">
+                                                <span>{{ $submission['type'] }}</span>
+                                                @if ($submission['category'])
+                                                    <span>{{ $submission['category'] }}</span>
+                                                @endif
+                                            </div>
+                                            <h4>{{ $submission['title'] }}</h4>
+                                            <p>{{ \App\Support\LocalizedDate::date($submission['date']) }}</p>
+                                        </div>
+                                        <span class="profile-status-pill">{{ $submission['status'] }}</span>
+                                    </div>
+                                @empty
+                                    <div class="text-center profile-empty">
+                                        <div class="mk-empty-icon"><i class="fa fa-inbox" aria-hidden="true"></i></div>
+                                        <p class="mk-text mk-text--muted">{{ __('profile.empty_submissions') }}</p>
+                                        <a href="{{ route('add.create') }}" class="mk-button mk-button--primary mk-button--md">{{ __('profile.add_submission') }}</a>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
 
                         {{-- Favorites --}}
-                        <div id="tab-favorites" class="tab-pane fade in active">
+                        <div id="tab-favorites" class="tab-pane fade">
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.favorites') }}</h3>
                                 <div class="row">
@@ -70,7 +100,18 @@
                                         @endforeach
                                     </div>
                                 @endif
-                                @if (($favorites ?? collect())->isNotEmpty() || $favoriteServices->isNotEmpty())
+                                @if (($favoritePosts ?? collect())->isNotEmpty())
+                                    <h4 class="mk-heading mk-heading--sm">{{ __('profile.saved_posts') }}</h4>
+                                    <div class="profile-post-list">
+                                        @foreach ($favoritePosts as $post)
+                                            <a href="{{ route('posts.show', $post->slug) }}" class="profile-post-link">
+                                                <strong>{{ $post->title }}</strong>
+                                                <span>{{ \App\Support\LocalizedDate::date($post->published_at ?? $post->created_at) }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                @if (($favorites ?? collect())->isNotEmpty() || $favoriteServices->isNotEmpty() || ($favoritePosts ?? collect())->isNotEmpty())
                                     <a href="{{ route('favorites.index') }}" class="mk-button mk-button--secondary mk-button--md">
                                         {{ __('profile.view_all_favorites') }}
                                     </a>

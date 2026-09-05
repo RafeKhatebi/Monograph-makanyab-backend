@@ -1,4 +1,4 @@
-@props(['item', 'type' => 'place', 'showFavorite' => true, 'dateLabel' => null, 'dateValue' => null])
+@props(['item', 'type' => 'place', 'showFavorite' => true, 'dateLabel' => null, 'dateValue' => null, 'textOnly' => false])
 
 @php
     $isPost = $type === 'post';
@@ -24,20 +24,22 @@
     $displayDateLabel = $dateLabel ?? ($isPost ? __('common.dates.published_on') : __('common.dates.added_on'));
 @endphp
 
-<article class="listing-card listing-card--{{ $type }}">
-    <a class="listing-card__media" href="{{ $route }}">
-        <img src="{{ $image }}" alt="{{ $item->title ?? $item->name }}" loading="lazy">
-        @if (! $isPost && $item->is_verified)
-            <span class="listing-card__badge listing-card__badge--verified">
-                <i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('common.verified') }}
-            </span>
-        @endif
-        @if ($isService && $item->status)
-            <span class="listing-card__badge listing-card__badge--status listing-card__badge--{{ $item->status }}">
-                {{ __('common.status.' . $item->status) }}
-            </span>
-        @endif
-    </a>
+<article class="listing-card listing-card--{{ $type }} {{ $textOnly ? 'listing-card--text-only' : '' }}">
+    @unless ($textOnly)
+        <a class="listing-card__media" href="{{ $route }}">
+            <img src="{{ $image }}" alt="{{ $item->title ?? $item->name }}" loading="lazy">
+            @if (! $isPost && $item->is_verified)
+                <span class="listing-card__badge listing-card__badge--verified">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i> {{ __('common.verified') }}
+                </span>
+            @endif
+            @if ($isService && $item->status)
+                <span class="listing-card__badge listing-card__badge--status listing-card__badge--{{ $item->status }}">
+                    {{ __('common.status.' . $item->status) }}
+                </span>
+            @endif
+        </a>
+    @endunless
 
     @if ($type === 'place' && $showFavorite)
         @auth
@@ -70,12 +72,14 @@
 
         @unless ($isPost)
             <p class="listing-card__location">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                @unless ($textOnly)
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                @endunless
                 {{ $item->city }}@if ($item->district), {{ $item->district }}@endif
             </p>
         @endunless
 
-        @if ($isService && isset($item->reviews_count) && $item->reviews_count > 0)
+        @if (! $textOnly && $isService && isset($item->reviews_count) && $item->reviews_count > 0)
             <div class="mk-rating-row">
                 @include('components.rating-stars', ['rating' => $item->reviews_avg_rating ?? 0])
                 <span>({{ $item->reviews_count }})</span>

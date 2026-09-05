@@ -3,7 +3,7 @@
 return [
     'hub' => [
         'title' => 'Add to Makanyab',
-        'description' => 'Add a place or service to Makanyab. Your submission is saved first and can be reviewed by the team before publication.',
+        'description' => 'Suggest a place, suggest a service, or create a post. Your submission is saved first and reviewed before publication.',
     ],
     'types' => ['place' => 'Place', 'service' => 'Service', 'post' => 'Post'],
     'status' => ['draft' => 'Draft', 'sent' => 'Sent', 'under_review' => 'Under review', 'pending' => 'Under review', 'approved' => 'Published', 'published' => 'Published', 'rejected' => 'Rejected'],
@@ -66,8 +66,8 @@ return [
     'submit_suggestion' => 'Submit',
     'save_draft' => 'Save Draft',
     'send_for_review' => 'Send for Review',
-    'my_submissions' => 'My added items',
-    'my_submissions_text' => 'Track your drafts and review status here. Approved items appear on the related place or service pages.',
+    'my_submissions' => 'My submissions',
+    'my_submissions_text' => 'Track your drafts and review status here. Approved items appear on the related place, service, or post pages.',
     'no_submissions' => 'You have not submitted anything yet.',
     'latitude' => 'Latitude',
     'longitude' => 'Longitude',

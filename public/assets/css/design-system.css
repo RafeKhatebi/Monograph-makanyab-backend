@@ -2247,6 +2247,130 @@ input[type="radio"] {
     }
 }
 
+/* Language Switcher (icon variant — shared by web app and admin) */
+.mk-language-menu {
+    position: relative;
+}
+
+.mk-language-trigger {
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #0f172a;
+    cursor: pointer;
+    display: inline-flex;
+    height: 38px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+    width: 38px;
+}
+
+.mk-language-trigger:hover,
+.mk-language-trigger:focus,
+.mk-language-menu.open .mk-language-trigger {
+    background: var(--mk-color-primary-soft);
+    border-color: rgba(14, 165, 233, .28);
+    color: var(--mk-color-primary-hover);
+    outline: none;
+}
+
+.mk-language-trigger:focus-visible {
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, .2);
+}
+
+.mk-language-trigger .fa {
+    font-size: 16px;
+}
+
+.mk-language-popover {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, .14);
+    display: none;
+    min-width: 172px;
+    padding: 6px;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    z-index: 1100;
+}
+
+html[dir="rtl"] .mk-language-popover {
+    left: 0;
+    right: auto;
+}
+
+.mk-language-menu.open .mk-language-popover {
+    display: block;
+}
+
+.mk-language-option-form {
+    margin: 0;
+}
+
+.mk-language-option {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    color: #334155;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    min-height: 42px;
+    padding: 8px 10px;
+    text-align: inherit;
+    width: 100%;
+}
+
+.mk-language-option:hover,
+.mk-language-option:focus {
+    background: #f8fafc;
+    color: #0f172a;
+    outline: none;
+}
+
+.mk-language-option:focus-visible {
+    box-shadow: inset 0 0 0 2px rgba(14, 165, 233, .24);
+}
+
+.mk-language-option.is-active {
+    background: var(--mk-color-primary-soft);
+    color: var(--mk-color-primary-hover);
+    font-weight: 800;
+}
+
+.mk-language-option__text {
+    display: grid;
+    gap: 2px;
+}
+
+.mk-language-option__name {
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.mk-language-option__code {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    line-height: 1.1;
+}
+
+.mk-language-option.is-active .mk-language-option__code {
+    color: inherit;
+}
+
+.mk-language-option .fa {
+    font-size: 12px;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

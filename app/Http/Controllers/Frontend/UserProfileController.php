@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\UpdateUserProfileRequest;
+use App\Models\PlaceSuggestion;
+use App\Models\Post;
+use App\Models\ServiceSuggestion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -28,6 +32,11 @@ class UserProfileController extends Controller
             ->latest()
             ->limit(12)
             ->get();
+        $favoritePosts = $user->favoritePosts()
+            ->published()
+            ->latest()
+            ->limit(12)
+            ->get();
 
         $reviews = $user->reviews()
             ->with(['place:id,name,slug', 'service:id,name,slug'])
@@ -35,7 +44,9 @@ class UserProfileController extends Controller
             ->limit(20)
             ->get();
 
-        return view('pages.profile.index', compact('favorites', 'favoriteServices', 'reviews'));
+        $submissions = $this->userSubmissions($user->id);
+
+        return view('pages.profile.index', compact('favorites', 'favoriteServices', 'favoritePosts', 'reviews', 'submissions'));
     }
 
     public function update(UpdateUserProfileRequest $request)
@@ -91,5 +102,62 @@ class UserProfileController extends Controller
         }
 
         return back()->with('success', __('messages.profile_updated'));
+    }
+
+    private function userSubmissions(string $userId)
+    {
+        $places = PlaceSuggestion::with('category:id,name')
+            ->where('user_id', $userId)
+            ->latest()
+            ->limit(20)
+            ->get()
+            ->map(fn (PlaceSuggestion $suggestion) => [
+                'type' => __('suggestions.types.place'),
+                'title' => $suggestion->name,
+                'category' => $suggestion->category?->name,
+                'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
+                'date' => $suggestion->created_at,
+            ]);
+
+        $services = ServiceSuggestion::with('category:id,name')
+            ->where('user_id', $userId)
+            ->latest()
+            ->limit(20)
+            ->get()
+            ->map(fn (ServiceSuggestion $suggestion) => [
+                'type' => __('suggestions.types.service'),
+                'title' => $suggestion->name,
+                'category' => $suggestion->category?->name,
+                'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
+                'date' => $suggestion->created_at,
+            ]);
+
+        $posts = Post::where('user_id', $userId)
+            ->latest()
+            ->limit(20)
+            ->get()
+            ->map(function (Post $post) {
+                $status = $post->is_published
+                    ? SuggestionStatus::Published
+                    : ($post->submission_status ?? SuggestionStatus::Draft);
+
+                return [
+                    'type' => __('suggestions.types.post'),
+                    'title' => $post->title,
+                    'category' => __('content.posts.default_category'),
+                    'status' => $status instanceof SuggestionStatus
+                        ? $status->label()
+                        : __('suggestions.status.'.$status),
+                    'date' => $post->created_at,
+                ];
+            });
+
+        return collect()
+            ->concat($places)
+            ->concat($services)
+            ->concat($posts)
+            ->sortByDesc('date')
+            ->take(30)
+            ->values();
     }
 }

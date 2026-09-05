@@ -27,19 +27,15 @@ const adminPaths = [
     '/admin',
     '/admin/dashboard',
     '/admin/places',
-    '/admin/places/create',
     '/admin/users',
     '/admin/users/create',
-    '/admin/reviews',
     '/admin/contact-messages',
     '/admin/services',
-    '/admin/services/create',
     '/admin/categories',
     '/admin/service-categories',
     '/admin/place-suggestions',
     '/admin/service-suggestions',
     '/admin/posts',
-    '/admin/posts/create',
 ];
 
 test.describe('frontend browser audit', () => {

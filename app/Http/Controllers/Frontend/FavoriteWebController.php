@@ -7,6 +7,7 @@ use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class FavoriteWebController extends Controller
 {
@@ -22,30 +23,60 @@ class FavoriteWebController extends Controller
             ->where('is_active', true)
             ->orderByDesc('favorites.created_at')
             ->paginate(12, ['*'], 'services_page');
+        $favoritePosts = Auth::user()->favoritePosts()
+            ->published()
+            ->orderByDesc('favorites.created_at')
+            ->paginate(12, ['*'], 'posts_page');
 
-        return view('pages.favorites.index', compact('favorites', 'favoriteServices'));
+        return view('pages.favorites.index', compact('favorites', 'favoriteServices', 'favoritePosts'));
     }
 
     public function toggle(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'place_id' => [
-                'required',
+                'nullable',
                 Rule::exists('places', 'id')
                     ->whereNull('deleted_at')
                     ->where('is_active', true),
             ],
+            'service_id' => [
+                'nullable',
+                Rule::exists('services', 'id')
+                    ->whereNull('deleted_at')
+                    ->where('is_active', true),
+            ],
+            'post_id' => [
+                'nullable',
+                Rule::exists('posts', 'id')
+                    ->where('is_published', true)
+                    ->whereNotNull('published_at')
+                    ->where('published_at', '<=', now()),
+            ],
         ]);
 
+        $targets = collect(['place_id', 'service_id', 'post_id'])
+            ->filter(fn ($field) => filled($validated[$field] ?? null))
+            ->values();
+
+        if ($targets->count() !== 1) {
+            throw ValidationException::withMessages([
+                'favorite' => __('favorites.invalid_target'),
+            ]);
+        }
+
+        $targetField = $targets->first();
+        $targetValue = $validated[$targetField];
+
         $existing = Favorite::where('user_id', Auth::id())
-            ->where('place_id', $request->place_id)
+            ->where($targetField, $targetValue)
             ->first();
 
         if ($existing) {
             $existing->delete();
             $isFavorited = false;
         } else {
-            Favorite::create(['user_id' => Auth::id(), 'place_id' => $request->place_id]);
+            Favorite::create(['user_id' => Auth::id(), $targetField => $targetValue]);
             $isFavorited = true;
         }
 
@@ -55,7 +86,7 @@ class FavoriteWebController extends Controller
 
         return back()->with(
             'success',
-            $isFavorited ? 'Added to favorites.' : 'Removed from favorites.'
+            $isFavorited ? __('favorites.added') : __('favorites.removed')
         );
     }
 }

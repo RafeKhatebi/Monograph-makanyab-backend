@@ -1,8 +1,10 @@
 <?php
 
+use App\Enums\SuggestionStatus;
 use App\Models\Review;
 use App\Models\Service;
 use App\Models\ServiceCategory;
+use App\Models\ServiceSuggestion;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -83,7 +85,7 @@ it('filters public services by rating and open status', function () {
         ->assertDontSee('Open Low Rated Service');
 });
 
-it('generates unique slugs for duplicate service names in admin CRUD', function () {
+it('generates unique slugs for duplicate approved service suggestions', function () {
     $admin = User::factory()->admin()->create();
     $category = ServiceCategory::factory()->create(['is_active' => true]);
 
@@ -98,10 +100,14 @@ it('generates unique slugs for duplicate service names in admin CRUD', function 
         'city' => 'Kabul',
         'district' => 'Kabul',
         'is_active' => '1',
+        'suggestion_status' => SuggestionStatus::Pending,
     ];
 
-    $this->actingAs($admin)->post(route('admin.services.store'), $payload)->assertRedirect();
-    $this->actingAs($admin)->post(route('admin.services.store'), $payload)->assertRedirect();
+    $first = ServiceSuggestion::factory()->create($payload);
+    $second = ServiceSuggestion::factory()->create($payload);
+
+    $this->actingAs($admin)->post(route('admin.service-suggestions.approve', $first))->assertRedirect();
+    $this->actingAs($admin)->post(route('admin.service-suggestions.approve', $second))->assertRedirect();
 
     expect(Service::where('name', 'Duplicate Service Name')->orderBy('created_at')->pluck('slug')->all())
         ->toEqual(['duplicate-service-name', 'duplicate-service-name-1']);
@@ -125,25 +131,10 @@ it('allows admins to restore soft deleted services', function () {
     expect($service->fresh()->trashed())->toBeFalse();
 });
 
-it('rejects inactive categories when creating services through the admin form', function () {
+it('does not expose admin service create routes', function () {
     $admin = User::factory()->admin()->create();
-    $inactiveCategory = ServiceCategory::factory()->inactive()->create();
 
     $this->actingAs($admin)
-        ->from(route('admin.services.create'))
-        ->post(route('admin.services.store'), [
-            'name' => 'Inactive Category Service',
-            'service_category_id' => $inactiveCategory->id,
-            'description' => 'Should not be created.',
-            'phone_1' => '+93000000000',
-            'address' => 'Test address',
-            'country' => 'Afghanistan',
-            'province' => 'Kabul',
-            'city' => 'Kabul',
-            'district' => 'Kabul',
-        ])
-        ->assertRedirect(route('admin.services.create'))
-        ->assertSessionHasErrors('service_category_id');
-
-    $this->assertDatabaseMissing('services', ['name' => 'Inactive Category Service']);
+        ->get('/admin/services/create')
+        ->assertNotFound();
 });

@@ -12,14 +12,18 @@ class Favorite extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'place_id', 'service_id',
+        'user_id', 'place_id', 'service_id', 'post_id',
     ];
 
     protected static function booted(): void
     {
         static::saving(function (self $favorite): void {
-            if (filled($favorite->place_id) === filled($favorite->service_id)) {
-                throw new InvalidArgumentException('A favorite must target exactly one place or service.');
+            $targets = collect([$favorite->place_id, $favorite->service_id, $favorite->post_id])
+                ->filter(fn ($target) => filled($target))
+                ->count();
+
+            if ($targets !== 1) {
+                throw new InvalidArgumentException('A favorite must target exactly one place, service, or post.');
             }
         });
     }
@@ -37,5 +41,10 @@ class Favorite extends Model
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
     }
 }

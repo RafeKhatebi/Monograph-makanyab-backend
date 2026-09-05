@@ -35,6 +35,17 @@
                         </div>
                     </article>
 
+                    @auth
+                        <form method="POST" action="{{ route('favorites.toggle') }}" class="detail-action-form">
+                            @csrf
+                            <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            <button type="submit" class="mk-button mk-button--secondary mk-button--md">
+                                <i class="fa {{ $post->isFavoritedBy(auth()->user()) ? 'fa-bookmark' : 'fa-bookmark-o' }}" aria-hidden="true"></i>
+                                {{ $post->isFavoritedBy(auth()->user()) ? __('favorites.remove_post') : __('favorites.save_post') }}
+                            </button>
+                        </form>
+                    @endauth
+
                     <a href="{{ route('posts.index') }}" class="mk-button mk-button--secondary mk-button--md">
                         {{ __('content.posts.back') }}
                     </a>
