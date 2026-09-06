@@ -38,6 +38,12 @@
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
+            @if ($errors->any())
+                <div class="mk-alert mk-alert--danger suggestion-error" role="alert">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span>{{ __('suggestions.validation.form_error') }}</span>
+                </div>
+            @endif
             <div class="suggestion-hub__grid suggestion-hub__grid--single">
                 <main class="suggestion-panel">
                     <form action="{{ route('add.store') }}" method="POST" enctype="multipart/form-data" data-suggest-form>
@@ -188,6 +194,38 @@
                 </main>
 
             </div>
+
+            <section class="suggestion-submissions-panel" aria-labelledby="suggestion-submissions-title">
+                <div class="suggestion-submissions-header">
+                    <div>
+                        <h2 id="suggestion-submissions-title">{{ __('suggestions.my_submissions') }}</h2>
+                        <p>{{ __('suggestions.my_submissions_text') }}</p>
+                    </div>
+                    <a href="{{ route('profile.index') }}#tab-submissions" class="mk-button mk-button--secondary mk-button--sm">
+                        {{ __('profile.submissions') }}
+                    </a>
+                </div>
+
+                @forelse ($submissions as $submission)
+                    <div class="suggestion-submission-row">
+                        <div>
+                            <div class="suggestion-submission-meta">
+                                <span>{{ $submission['type'] }}</span>
+                                @if ($submission['category'])
+                                    <span>{{ $submission['category'] }}</span>
+                                @endif
+                                <span>{{ \App\Support\LocalizedDate::date($submission['date']) }}</span>
+                            </div>
+                            <h3>{{ $submission['title'] }}</h3>
+                        </div>
+                        <span class="profile-status-pill">{{ $submission['status'] }}</span>
+                    </div>
+                @empty
+                    <div class="mk-ui-empty">
+                        {{ __('suggestions.no_submissions') }}
+                    </div>
+                @endforelse
+            </section>
         </div>
     </section>
 @endsection

@@ -665,6 +665,111 @@ select:focus {
     color: var(--mk-modern-primary);
 }
 
+.profile-header {
+    align-items: center !important;
+    display: flex !important;
+    gap: 20px !important;
+}
+
+.profile-header-meta {
+    align-items: center !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+
+.profile-tab-shell {
+    padding: 12px !important;
+}
+
+.profile-tabs {
+    display: grid !important;
+    gap: 8px !important;
+    padding: 0 !important;
+}
+
+.profile-tab-link {
+    align-items: center !important;
+    display: flex !important;
+    gap: 10px !important;
+    justify-content: flex-start !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+    min-height: 44px !important;
+    padding: 0 14px !important;
+    text-align: start !important;
+    white-space: nowrap !important;
+}
+
+.profile-tab-link i {
+    flex: 0 0 18px !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.profile-tab-link span {
+    display: block !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.profile-panel {
+    padding: 28px !important;
+}
+
+.profile-panel > .mk-heading:first-child,
+.profile-section-title {
+    text-align: start !important;
+}
+
+[dir="rtl"] .profile-header,
+[dir="rtl"] .profile-header-meta,
+[dir="rtl"] .profile-tabs,
+[dir="rtl"] .profile-tab-link,
+[dir="rtl"] .profile-panel,
+[dir="rtl"] .profile-form-group,
+[dir="rtl"] .profile-section-title,
+[dir="rtl"] .profile-submission-item,
+[dir="rtl"] .profile-post-link,
+[dir="rtl"] .profile-social-link {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="rtl"] .profile-tab-link {
+    justify-content: flex-start !important;
+}
+
+[dir="rtl"] .profile-social-disconnect {
+    text-align: right !important;
+}
+
+@media (max-width: 991px) {
+    .profile-tab-shell {
+        position: static !important;
+    }
+
+    .profile-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .profile-header {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    .profile-tabs {
+        grid-template-columns: 1fr !important;
+    }
+
+    .profile-panel {
+        padding: 18px !important;
+    }
+}
+
 .mk-fab__trigger {
     background: var(--mk-modern-primary);
     box-shadow: 0 14px 34px rgba(15, 122, 91, .32);

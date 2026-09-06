@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title', __('profile.title'))
 @section('content')
+    @php
+        $role = auth()->user()->role;
+        $roleLabel = __('profile.roles.' . $role);
+        $roleLabel = $roleLabel === 'profile.roles.' . $role ? ucfirst($role) : $roleLabel;
+    @endphp
 
     {{-- Header --}}
     <div class="mk-hero">
@@ -15,8 +20,11 @@
                 @endif
                 <div>
                     <h1 class="mk-hero__title">{{ auth()->user()->name }}</h1>
-                    <p class="mk-hero__text">{{ ucfirst(auth()->user()->role) }} ·
-                        {{ auth()->user()->email }}</p>
+                    <p class="mk-hero__text profile-header-meta">
+                        <span>{{ $roleLabel }}</span>
+                        <span aria-hidden="true">·</span>
+                        <span dir="ltr">{{ auth()->user()->email }}</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -24,23 +32,27 @@
 
     <div class="mk-page-section mk-page-section--compact">
         <div class="container">
-            <div class="row">
+            <div class="row profile-layout-row">
 
                 {{-- Sidebar --}}
-                <div class="col-md-3 mk-stack-sm">
+                <div class="col-md-3 mk-stack-sm profile-sidebar-col">
                     <div class="mk-card profile-tab-shell">
-                        <div id="profile-tabs" class="profile-tabs">
-                            <a href="#tab-submissions" data-toggle="tab" class="profile-tab-link active-tab">
-                                <i class="fa fa-inbox" aria-hidden="true"></i> {{ __('profile.submissions') }}
+                        <div id="profile-tabs" class="profile-tabs" role="tablist" aria-label="{{ __('profile.title') }}">
+                            <a href="#tab-submissions" data-toggle="tab" class="profile-tab-link active-tab" role="tab">
+                                <i class="fa fa-inbox" aria-hidden="true"></i>
+                                <span>{{ __('profile.submissions') }}</span>
                             </a>
-                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link">
-                                <i class="fa fa-heart" aria-hidden="true"></i> {{ __('profile.favorites') }}
+                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link" role="tab">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span>{{ __('profile.favorites') }}</span>
                             </a>
-                            <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link">
-                                <i class="fa fa-star" aria-hidden="true"></i> {{ __('profile.reviews') }}
+                            <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link" role="tab">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <span>{{ __('profile.reviews') }}</span>
                             </a>
-                            <a href="#tab-settings" data-toggle="tab" class="profile-tab-link">
-                                <i class="fa fa-cog" aria-hidden="true"></i> {{ __('profile.settings') }}
+                            <a href="#tab-settings" data-toggle="tab" class="profile-tab-link" role="tab">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                <span>{{ __('profile.settings') }}</span>
                             </a>
                         </div>
                     </div>
@@ -258,3 +270,32 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        (function () {
+            const links = document.querySelectorAll('.profile-tab-link[data-toggle="tab"]');
+            const activate = function (activeLink) {
+                links.forEach(function (link) {
+                    const isActive = link === activeLink;
+                    link.classList.toggle('active-tab', isActive);
+                    link.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+            };
+
+            links.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    activate(link);
+                });
+            });
+
+            if (window.location.hash) {
+                const hashLink = document.querySelector('.profile-tab-link[href="' + window.location.hash + '"]');
+                if (hashLink && window.jQuery) {
+                    window.jQuery(hashLink).tab('show');
+                    activate(hashLink);
+                }
+            }
+        })();
+    </script>
+@endpush

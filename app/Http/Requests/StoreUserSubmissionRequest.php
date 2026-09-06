@@ -17,38 +17,42 @@ class StoreUserSubmissionRequest extends FormRequest
     public function rules(): array
     {
         $type = $this->input('type', 'place');
+        $isDraft = $this->input('submit_action') === 'draft';
 
         $rules = [
             'type' => ['required', Rule::in(['place', 'service', 'post'])],
             'submit_action' => ['required', Rule::in(['draft', 'send_review'])],
-            'name' => ['required_unless:type,post', 'nullable', 'string', 'max:255'],
+            'name' => [$type === 'post' ? 'nullable' : 'required', 'nullable', 'string', 'max:255'],
             'title' => ['required_if:type,post', 'nullable', 'string', 'max:255'],
             'tagline' => ['nullable', 'string', 'max:255'],
-            'description' => ['required_unless:type,post', 'nullable', 'string', 'min:20', 'max:2000'],
-            'content' => ['required_if:type,post', 'nullable', 'string', 'min:80'],
+            'description' => [$isDraft || $type === 'post' ? 'nullable' : 'required', 'nullable', 'string', $isDraft ? 'max:2000' : 'min:20', 'max:2000'],
+            'content' => [$type === 'post' && ! $isDraft ? 'required' : 'nullable', 'nullable', 'string', $isDraft ? 'max:20000' : 'min:80'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'extra_information' => ['nullable', 'string', 'max:2000'],
         ];
 
         if ($type === 'place') {
-            $rules['name'][] = Rule::unique('place_suggestions', 'name')->where(fn ($query) => $query
-                ->where('place_category_id', $this->input('place_category_id'))
-                ->where('city', $this->input('city'))
-                ->whereIn('suggestion_status', ['pending', 'approved']));
-            $rules += $this->placeOrServiceRules('place_categories', 'place_category_id');
+            if (! $isDraft) {
+                $rules['name'][] = Rule::unique('place_suggestions', 'name')->where(fn ($query) => $query
+                    ->where('place_category_id', $this->input('place_category_id'))
+                    ->where('city', $this->input('city'))
+                    ->whereIn('suggestion_status', ['pending', 'approved']));
+            }
+            $rules += $this->placeOrServiceRules('place_categories', 'place_category_id', $isDraft);
         }
 
         if ($type === 'service') {
-            $rules['name'][] = Rule::unique('service_suggestions', 'name')->where(fn ($query) => $query
-                ->where('service_category_id', $this->input('service_category_id'))
-                ->where('city', $this->input('city'))
-                ->whereIn('suggestion_status', ['pending', 'approved']));
-            $rules += $this->placeOrServiceRules('service_categories', 'service_category_id');
+            if (! $isDraft) {
+                $rules['name'][] = Rule::unique('service_suggestions', 'name')->where(fn ($query) => $query
+                    ->where('service_category_id', $this->input('service_category_id'))
+                    ->where('city', $this->input('city'))
+                    ->whereIn('suggestion_status', ['pending', 'approved']));
+            }
+            $rules += $this->placeOrServiceRules('service_categories', 'service_category_id', $isDraft);
         }
 
         if ($type === 'post') {
             $rules['image'] = [
-                Rule::requiredIf($this->input('submit_action') === 'send_review'),
                 'nullable',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
@@ -99,19 +103,19 @@ class StoreUserSubmissionRequest extends FormRequest
         ];
     }
 
-    private function placeOrServiceRules(string $categoryTable, string $categoryField): array
+    private function placeOrServiceRules(string $categoryTable, string $categoryField, bool $isDraft): array
     {
         return [
-            $categoryField => ['required', Rule::exists($categoryTable, 'id')->where('is_active', true)],
-            'phone_1' => ['required', 'string', 'max:20'],
+            $categoryField => [$isDraft ? 'nullable' : 'required', Rule::exists($categoryTable, 'id')->where('is_active', true)],
+            'phone_1' => [$isDraft ? 'nullable' : 'required', 'string', 'max:20'],
             'phone_2' => ['nullable', 'string', 'max:20'],
             'whatsapp' => ['nullable', 'string', 'max:20'],
             'website' => ['nullable', 'url', 'max:255'],
-            'address' => ['required', 'string', 'max:500'],
-            'country' => ['required', 'string', 'max:100'],
-            'province' => ['required', 'string', 'max:100'],
-            'city' => ['required', 'string', 'max:100'],
-            'district' => ['required', 'string', 'max:100'],
+            'address' => [$isDraft ? 'nullable' : 'required', 'string', 'max:500'],
+            'country' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
+            'province' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
+            'city' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
+            'district' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
             'subdistrict' => ['nullable', 'string', 'max:100'],
             'village' => ['nullable', 'string', 'max:100'],
             'rt_rw' => ['nullable', 'string', 'max:20'],
@@ -120,9 +124,8 @@ class StoreUserSubmissionRequest extends FormRequest
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
             'status' => ['nullable', Rule::enum(PlaceStatus::class)],
-            'price_level' => ['required', Rule::enum(PriceLevel::class)],
+            'price_level' => [$isDraft ? 'nullable' : 'required', Rule::enum(PriceLevel::class)],
             'images' => [
-                Rule::requiredIf($this->input('submit_action') === 'send_review'),
                 'nullable',
                 'array',
                 'min:1',

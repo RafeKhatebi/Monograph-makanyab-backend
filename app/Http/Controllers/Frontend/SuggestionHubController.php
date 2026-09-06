@@ -48,7 +48,7 @@ class SuggestionHubController extends Controller
                     ? $request->file('image')->store('post-submissions', 'public')
                     : null,
                 'excerpt' => $data['excerpt'] ?? null,
-                'content' => $data['content'],
+                'content' => $data['content'] ?? null,
                 'extra_information' => $data['extra_information'] ?? null,
                 'submission_status' => $isReviewSubmission
                     ? SuggestionStatus::UnderReview->value
@@ -78,7 +78,7 @@ class SuggestionHubController extends Controller
                 'suggestion_status' => $isReviewSubmission
                     ? SuggestionStatus::Pending->value
                     : SuggestionStatus::Draft->value,
-                $categoryField => $payload[$categoryField],
+                $categoryField => $payload[$categoryField] ?? null,
             ]));
 
             $mediaUploadService->attachImages($suggestion, $request->file('images', []), "{$type}-suggestions");
