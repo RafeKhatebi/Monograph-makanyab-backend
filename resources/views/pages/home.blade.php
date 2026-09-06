@@ -7,39 +7,21 @@
         $heroSlides = [
             [
                 'image' => asset('assets/img/slide1/bg-01.jpg'),
-                'label' => __('home.hero_label'),
-                'title' => __('home.hero_title'),
-                'text' => __('home.hero_text'),
             ],
             [
                 'image' => asset('assets/img/slide1/bg-02.jpg'),
-                'label' => __('home.hero_label'),
-                'title' => __('home.services_title'),
-                'text' => __('home.services_text'),
             ],
             [
                 'image' => asset('assets/img/slide1/bg-03.jpg'),
-                'label' => __('home.community_label'),
-                'title' => __('home.community_title'),
-                'text' => __('home.community_text'),
             ],
             [
                 'image' => asset('assets/img/slide1/bg-04.jpg'),
-                'label' => __('home.places_label'),
-                'title' => __('home.places_slide_title'),
-                'text' => __('home.places_slide_text'),
             ],
             [
                 'image' => asset('assets/img/slide1/bg-05.jpg'),
-                'label' => __('home.verified_label'),
-                'title' => __('home.verified_slide_title'),
-                'text' => __('home.verified_slide_text'),
             ],
             [
                 'image' => asset('assets/img/slide1/bg-06.jpg'),
-                'label' => __('home.local_label'),
-                'title' => __('home.local_slide_title'),
-                'text' => __('home.local_slide_text'),
             ],
         ];
     @endphp
@@ -51,11 +33,11 @@
                     aria-hidden="{{ $index === 0 ? 'false' : 'true' }}">
                     <img class="home-hero__image" src="{{ $slide['image'] }}" alt="" aria-hidden="true">
                     <div class="home-hero__shade"></div>
-         </article>
+                </article>
             @endforeach
         </div>
 
-        <div class=" home-hero__search-wrap">
+        <div class="home-hero__search-wrap">
             <form action="{{ route('search.index') }}" method="GET" class="home-hero-search" role="search" aria-label="{{ __('home.search_label') }}">
                 <div class="home-hero-search__field">
                     <label for="home-search-query" class="sr-only">{{ __('home.keyword') }}</label>
@@ -64,7 +46,7 @@
                         placeholder="{{ __('home.search_placeholder') }}">
                 </div>
             </form>
-              </div>
+        </div>
 
         <div class="home-hero__pagination" role="tablist" aria-label="{{ __('home.highlight_slides') }}">
             @foreach ($heroSlides as $index => $slide)

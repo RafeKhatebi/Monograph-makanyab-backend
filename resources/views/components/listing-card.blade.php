@@ -75,7 +75,7 @@
                 @unless ($textOnly)
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                 @endunless
-                {{ $item->city }}@if ($item->district), {{ $item->district }}@endif
+                <span>{{ $item->city }}@if ($item->district), {{ $item->district }}@endif</span>
             </p>
         @endunless
 

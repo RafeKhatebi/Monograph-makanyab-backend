@@ -4,7 +4,10 @@
 
 @section('content')
     @php
-        $serviceImages = $service->media->where('type', 'image')->sortBy('sort_order');
+        $serviceImages = $service->media
+            ->where('type', 'image')
+            ->sortBy('sort_order')
+            ->filter(fn ($media) => Storage::disk($media->disk ?: 'public')->exists($media->file_path));
         $serviceCover = $serviceImages->firstWhere('is_cover', true) ?? $serviceImages->first();
         $addressParts = collect([
             $service->address ?? null,
@@ -14,7 +17,7 @@
         ])->filter();
     @endphp
 
-    <header class="detail-hero">
+    <header class="detail-hero detail-hero--service">
         <div class="container">
             <div class="detail-hero__content">
                 <nav class="detail-hero__breadcrumbs" aria-label="{{ __('common.breadcrumb') }}">
@@ -34,9 +37,9 @@
                     </span>
                 @endif
 
-                <h1 class="detail-hero__title">{{ $service->name }}</h1>
+                <h1 class="detail-hero__title" dir="auto">{{ $service->name }}</h1>
 
-                <p class="detail-hero__text">
+                <p class="detail-hero__text" dir="auto">
                     {{ $service->tagline ?: __('services.professional') }}
                 </p>
 
@@ -57,7 +60,7 @@
         </div>
     </header>
 
-    <div class="detail-page">
+    <div class="detail-page detail-page--service">
         <div class="container">
             <div class="detail-grid">
                 <main class="detail-main">
@@ -77,7 +80,7 @@
 
                     <section class="detail-card">
                         <h2 class="detail-section-title"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ __('places.overview') }}</h2>
-                        <p class="detail-copy">{{ $service->description ?: __('places.no_description') }}</p>
+                        <p class="detail-copy" dir="auto">{{ $service->description ?: __('places.no_description') }}</p>
                     </section>
 
                     <section class="detail-card">

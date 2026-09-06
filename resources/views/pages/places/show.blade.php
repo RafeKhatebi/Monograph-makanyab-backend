@@ -4,7 +4,10 @@
 
 @section('content')
     @php
-        $placeImages = $place->media->where('type', 'image')->sortBy('sort_order');
+        $placeImages = $place->media
+            ->where('type', 'image')
+            ->sortBy('sort_order')
+            ->filter(fn ($media) => Storage::disk($media->disk ?: 'public')->exists($media->file_path));
         $placeCover = $placeImages->firstWhere('is_cover', true) ?? $placeImages->first();
         $addressParts = collect([
             $place->address ?? null,
@@ -14,7 +17,7 @@
         ])->filter();
     @endphp
 
-    <header class="detail-hero">
+    <header class="detail-hero detail-hero--place">
         <div class="container">
             <div class="detail-hero__content">
                 <nav class="detail-hero__breadcrumbs" aria-label="{{ __('common.breadcrumb') }}">
@@ -34,9 +37,9 @@
                     </span>
                 @endif
 
-                <h1 class="detail-hero__title">{{ $place->name }}</h1>
+                <h1 class="detail-hero__title" dir="auto">{{ $place->name }}</h1>
 
-                <p class="detail-hero__text">
+                <p class="detail-hero__text" dir="auto">
                     {{ $place->tagline ?: $place->city }}
                 </p>
 
@@ -54,7 +57,7 @@
         </div>
     </header>
 
-    <div class="detail-page">
+    <div class="detail-page detail-page--place">
         <div class="container">
             <div class="detail-grid">
                 <main class="detail-main">
@@ -74,7 +77,7 @@
 
                     <section class="detail-card">
                         <h2 class="detail-section-title"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ __('places.overview') }}</h2>
-                        <p class="detail-copy">{{ $place->description ?: __('places.no_description') }}</p>
+                        <p class="detail-copy" dir="auto">{{ $place->description ?: __('places.no_description') }}</p>
                     </section>
 
                     <section class="detail-card">
