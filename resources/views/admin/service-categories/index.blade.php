@@ -1,29 +1,29 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Service Categories')
-@section('page-title', 'Service Categories')
+@section('title', __('admin.crud.manage', ['item' => __('admin.dashboard.service_categories')]))
+@section('page-title', __('admin.dashboard.service_categories'))
 
 @section('content')
-    <section class="card" aria-label="Service Categories Management">
+    <section class="card" aria-label="{{ __('admin.crud.manage', ['item' => __('admin.dashboard.service_categories')]) }}">
         <div class="card-header admin-card-header">
-            <h2 class="admin-card-title">All Service Categories ({{ $categories->total() }})</h2>
+            <h2 class="admin-card-title">{{ __('admin.crud.all', ['item' => __('admin.dashboard.service_categories')]) }} ({{ $categories->total() }})</h2>
             <a href="{{ route('admin.service-categories.create') }}" class="btn btn-primary btn-sm">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add New Service Category
+                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('admin.crud.add', ['item' => __('admin.dashboard.service_categories')]) }}
             </a>
         </div>
 
         <div class="card-body">
             <div class="admin-table-wrap">
-                <table class="table" aria-label="Service Categories list">
+                <table class="table" aria-label="{{ __('admin.dashboard.service_categories') }} {{ __('admin.crud.list') }}">
                     <thead>
                         <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Slug</th>
-                            <th scope="col">Parent</th>
-                            <th scope="col">Children</th>
-                            <th scope="col">Services</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">{{ __('admin.dashboard.name') }}</th>
+                            <th scope="col">{{ __('admin.crud.slug') }}</th>
+                            <th scope="col">{{ __('admin.crud.parent_category') }}</th>
+                            <th scope="col">{{ __('admin.crud.children') }}</th>
+                            <th scope="col">{{ __('admin.dashboard.services') }}</th>
+                            <th scope="col">{{ __('admin.dashboard.status') }}</th>
+                            <th scope="col">{{ __('admin.crud.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,30 +31,29 @@
                             <tr>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->slug }}</td>
-                                <td>{{ $category->parent->name ?? '-' }}</td>
+                                <td>{{ $category->parent->name ?? __('admin.crud.none_top_level') }}</td>
                                 <td>{{ $category->children_count }}</td>
                                 <td>{{ $category->services_count }}</td>
                                 <td>
                                     <span class="badge {{ $category->is_active ? 'badge-success' : 'badge-secondary' }}">
-                                        {{ $category->is_active ? 'Active' : 'Inactive' }}
+                                        {{ $category->is_active ? __('admin.dashboard.active') : __('admin.dashboard.inactive') }}
                                     </span>
                                 </td>
                                 <td>
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.service-categories.show', $category) }}"
                                             class="btn btn-sm btn-outline-primary"
-                                            aria-label="View {{ $category->name }}">View</a>
+                                            aria-label="{{ __('admin.crud.view') }} {{ $category->name }}">{{ __('admin.crud.view') }}</a>
                                         <a href="{{ route('admin.service-categories.edit', $category) }}"
                                             class="btn btn-sm btn-outline-success"
-                                            aria-label="Edit {{ $category->name }}">Edit</a>
-                                        <form action="{{ route('admin.service-categories.destroy', $category) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this service category?');"
+                                            aria-label="{{ __('admin.crud.edit') }} {{ $category->name }}">{{ __('admin.crud.edit') }}</a>
+                                        <form action="{{ route('admin.service-categories.destroy', $category) }}" method="POST"
+                                            onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.service_categories')]) }}');"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="Delete {{ $category->name }}">Delete</button>
+                                                aria-label="{{ __('admin.crud.delete') }} {{ $category->name }}">{{ __('admin.crud.delete') }}</button>
                                         </form>
                                     </div>
                                 </td>
@@ -62,7 +61,7 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="admin-empty">
-                                    No service categories found
+                                    {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.service_categories')]) }}
                                 </td>
                             </tr>
                         @endforelse
@@ -71,7 +70,7 @@
             </div>
 
             @if ($categories->hasPages())
-                <nav class="admin-pagination" aria-label="Service Categories pagination">
+                <nav class="admin-pagination" aria-label="{{ __('admin.dashboard.service_categories') }} {{ __('admin.crud.pagination') }}">
                     {{ $categories->links() }}
                 </nav>
             @endif
