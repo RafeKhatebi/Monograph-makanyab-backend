@@ -285,9 +285,10 @@
     }
 
     .home-hero__search-wrap {
-        bottom: 64px;
+        bottom: 90px;
         padding-left: 15px;
         padding-right: 15px;
+        top: auto;
     }
 
     .home-hero__quick-links {

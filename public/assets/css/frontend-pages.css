@@ -2837,10 +2837,11 @@
     }
 
     .home-hero__search-wrap {
+        bottom: 90px;
         padding-left: 15px;
         padding-right: 15px;
-        top: 48%;
-        transform: translate(-50%, -4%);
+        top: auto;
+        transform: translateX(-50%);
     }
 
     .home-search {
@@ -3074,8 +3075,9 @@
     }
 
     .home-hero__search-wrap {
-        top: 54%;
-        transform: translate(-50%, -4%);
+        bottom: 110px;
+        top: auto;
+        transform: translateX(-50%);
     }
 
     .home-search__grid {

@@ -51,33 +51,20 @@
                     aria-hidden="{{ $index === 0 ? 'false' : 'true' }}">
                     <img class="home-hero__image" src="{{ $slide['image'] }}" alt="" aria-hidden="true">
                     <div class="home-hero__shade"></div>
-                    <div class="container home-hero__content">
-                        <div class="home-hero__copy">
-                            <span class="home-hero__eyebrow">{{ $slide['label'] }}</span>
-                            <h1 class="home-hero__title">{{ $slide['title'] }}</h1>
-                            <p class="home-hero__text">{{ $slide['text'] }}</p>
-                        </div>
-                    </div>
-                </article>
+         </article>
             @endforeach
         </div>
 
-        <div class="container home-hero__search-wrap">
-            <dl class="home-hero__stats" aria-label="{{ __('home.summary') }}">
-                <div>
-                    <dt>{{ number_format($homeStats['places']) }}</dt>
-                    <dd>{{ __('home.places') }}</dd>
+        <div class=" home-hero__search-wrap">
+            <form action="{{ route('search.index') }}" method="GET" class="home-hero-search" role="search" aria-label="{{ __('home.search_label') }}">
+                <div class="home-hero-search__field">
+                    <label for="home-search-query" class="sr-only">{{ __('home.keyword') }}</label>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input id="home-search-query" type="search" name="search" value="{{ request('search') }}"
+                        placeholder="{{ __('home.search_placeholder') }}">
                 </div>
-                <div>
-                    <dt>{{ number_format($homeStats['services']) }}</dt>
-                    <dd>{{ __('home.services') }}</dd>
-                </div>
-                <div>
-                    <dt>{{ number_format($homeStats['verified']) }}</dt>
-                    <dd>{{ __('home.verified') }}</dd>
-                </div>
-            </dl>
-        </div>
+            </form>
+              </div>
 
         <div class="home-hero__pagination" role="tablist" aria-label="{{ __('home.highlight_slides') }}">
             @foreach ($heroSlides as $index => $slide)

@@ -42,6 +42,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/home-hero.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/detail-pages.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/mirasaf-inspired.css') }}">
 
         @stack('styles')
     </head>
