@@ -12,7 +12,7 @@
 
             <x-form-field :label="__('validation.attributes.name')" for="name" name="name" :value="old('name')" autocomplete="name" required
                 autofocus />
-      <x-form-field :label="__('auth.ui.email')" for="email" type="email" name="email" :value="old('email')" autocomplete="email"
+            <x-form-field :label="__('auth.ui.email')" for="email" type="email" name="email" :value="old('email')" autocomplete="email"
                 required />
 
             <x-form-field :label="__('auth.ui.password')" for="password" type="password" name="password" autocomplete="new-password"

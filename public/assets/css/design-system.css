@@ -1406,6 +1406,134 @@ input[type="radio"] {
     }
 }
 
+/* Login and signup form refinements */
+.auth-card {
+    width: 100%;
+}
+
+.auth-card form {
+    display: grid;
+    gap: 0;
+}
+
+.auth-card .mk-ui-form-group {
+    margin-bottom: var(--mk-space-4);
+}
+
+.auth-password-field {
+    position: relative;
+}
+
+.auth-password-field .mk-ui-input {
+    padding-inline-end: 48px;
+}
+
+[dir="rtl"] .auth-password-field .mk-ui-input {
+    padding-inline-end: 13px;
+    padding-inline-start: 48px;
+}
+
+.auth-password-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: var(--mk-radius-sm);
+    color: var(--mk-color-muted);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 16px;
+    height: 40px;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+}
+
+[dir="rtl"] .auth-password-toggle {
+    left: 6px;
+    right: auto;
+}
+
+.auth-password-toggle:hover,
+.auth-password-toggle:focus {
+    color: var(--mk-color-primary-hover);
+}
+
+.auth-password-toggle .fa-eye-slash {
+    display: none;
+}
+
+.auth-password-toggle[aria-pressed="true"] .fa-eye {
+    display: none;
+}
+
+.auth-password-toggle[aria-pressed="true"] .fa-eye-slash {
+    display: inline-block;
+}
+
+.auth-inline-control {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 var(--mk-space-4);
+    min-height: 32px;
+}
+
+.auth-check {
+    align-items: center;
+    color: var(--mk-color-ink);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: var(--mk-font-size-sm);
+    font-weight: var(--mk-weight-semibold);
+    gap: var(--mk-space-2);
+    line-height: 1.2;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.auth-check input {
+    flex: 0 0 auto;
+    height: 16px;
+    margin: 0;
+    width: 16px;
+}
+
+.auth-check span {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.auth-card .mk-ui-button,
+.auth-card .mk-btn,
+.auth-card .mk-button {
+    min-height: 46px;
+    width: 100%;
+}
+
+.auth-card__link-row {
+    line-height: 1.4;
+    margin-top: var(--mk-space-3);
+}
+
+.auth-card__footer {
+    line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+    .auth-layout__form > main {
+        max-width: 440px;
+    }
+
+    .auth-card {
+        padding: var(--space-5);
+    }
+}
+
 /* Admin shell */
 .admin-shell {
     background: var(--mk-color-canvas);

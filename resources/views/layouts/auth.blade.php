@@ -45,6 +45,26 @@
 
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+        <script>
+            document.addEventListener('click', function (event) {
+                const toggle = event.target.closest('[data-password-toggle]');
+
+                if (! toggle) {
+                    return;
+                }
+
+                const input = document.getElementById(toggle.getAttribute('aria-controls'));
+
+                if (! input) {
+                    return;
+                }
+
+                const shouldShow = input.type === 'password';
+                input.type = shouldShow ? 'text' : 'password';
+                toggle.setAttribute('aria-pressed', shouldShow ? 'true' : 'false');
+                toggle.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
+            });
+        </script>
 
         @stack('scripts')
     </body>
