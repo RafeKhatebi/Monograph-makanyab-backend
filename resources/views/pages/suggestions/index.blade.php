@@ -23,14 +23,14 @@
 @section('title', __('suggestions.hub.title'))
 
 @section('content')
-    <section class="mk-hero">
+    <section class="mk-hero suggestion-form-hero">
         <div class="container">
             <h1 class="mk-hero__title">{{ __('suggestions.hub.title') }}</h1>
             <p class="mk-hero__text">{{ __('suggestions.hub.description') }}</p>
         </div>
     </section>
 
-    <section class="suggestion-hub">
+    <section class="suggestion-hub suggestion-form-page">
         <div class="container">
             @if (session('success'))
                 <div class="mk-alert mk-alert--success suggestion-success">
@@ -174,7 +174,7 @@
                             </div>
                         </section>
 
-                        <section class="suggestion-section">
+                        <section class="suggestion-section" data-suggest-for="place service">
                             <h2>{{ __('suggestions.sections.extra') }}</h2>
                             <x-input-label for="extra_information" :value="__('suggestions.extra_information')" />
                             <x-textarea id="extra_information" name="extra_information" rows="4"
@@ -183,7 +183,7 @@
                         </section>
 
                         <div class="suggestion-actions">
-                            <button type="submit" name="submit_action" value="draft" class="mk-button mk-button--secondary mk-button--lg">
+                            <button type="submit" name="submit_action" value="draft" class="mk-button mk-button--secondary mk-button--lg" formnovalidate>
                                 {{ __('suggestions.save_draft') }}
                             </button>
                             <button type="submit" name="submit_action" value="send_review" class="mk-button mk-button--primary mk-button--lg">
@@ -195,37 +195,6 @@
 
             </div>
 
-            <section class="suggestion-submissions-panel" aria-labelledby="suggestion-submissions-title">
-                <div class="suggestion-submissions-header">
-                    <div>
-                        <h2 id="suggestion-submissions-title">{{ __('suggestions.my_submissions') }}</h2>
-                        <p>{{ __('suggestions.my_submissions_text') }}</p>
-                    </div>
-                    <a href="{{ route('profile.index') }}#tab-submissions" class="mk-button mk-button--secondary mk-button--sm">
-                        {{ __('profile.submissions') }}
-                    </a>
-                </div>
-
-                @forelse ($submissions as $submission)
-                    <div class="suggestion-submission-row">
-                        <div>
-                            <div class="suggestion-submission-meta">
-                                <span>{{ $submission['type'] }}</span>
-                                @if ($submission['category'])
-                                    <span>{{ $submission['category'] }}</span>
-                                @endif
-                                <span>{{ \App\Support\LocalizedDate::date($submission['date']) }}</span>
-                            </div>
-                            <h3>{{ $submission['title'] }}</h3>
-                        </div>
-                        <span class="profile-status-pill">{{ $submission['status'] }}</span>
-                    </div>
-                @empty
-                    <div class="mk-ui-empty">
-                        {{ __('suggestions.no_submissions') }}
-                    </div>
-                @endforelse
-            </section>
         </div>
     </section>
 @endsection

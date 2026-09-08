@@ -323,7 +323,7 @@
 /* ====================================================================
    Floating Action Button (mk-fab)
    - Fixed bottom-right circular "+" trigger
-   - Expands to show Add Place / Add Service menu
+   - Opens the Add Place form directly
    - Positioned with safe-area awareness for mobile devices
    ==================================================================== */
 
@@ -331,9 +331,7 @@
     align-items: flex-end;
     bottom: 24px;
     display: flex;
-    flex-direction: column-reverse;
     font-family: var(--mk-font-sans);
-    gap: 10px;
     inset-inline-end: 24px;
     position: fixed;
     z-index: 1050;
@@ -353,6 +351,7 @@
     justify-content: center;
     line-height: 1;
     padding: 0;
+    text-decoration: none !important;
     transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease;
     width: 56px;
 }

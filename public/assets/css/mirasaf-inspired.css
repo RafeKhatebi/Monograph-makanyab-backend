@@ -613,9 +613,156 @@ h6 {
     font-weight: 900;
 }
 
+.suggestion-tab.is-active span {
+    background: rgba(15, 122, 91, .10);
+    border-color: var(--mk-modern-primary);
+    color: var(--mk-modern-primary);
+}
+
 .suggestion-section {
     border-top: 1px solid var(--mk-modern-border);
     padding-top: 28px;
+}
+
+.suggestion-form-hero {
+    background:
+        linear-gradient(135deg, rgba(6, 78, 59, .96), rgba(15, 122, 91, .92)),
+        #064e3b !important;
+    border-bottom: 1px solid rgba(255, 255, 255, .12) !important;
+    color: #ffffff !important;
+    padding: 34px 0 26px !important;
+}
+
+.suggestion-form-hero .mk-hero__title {
+    color: #ffffff !important;
+    font-size: 30px !important;
+    font-weight: 900 !important;
+    line-height: 1.2 !important;
+    margin: 0 0 8px !important;
+    max-width: 760px !important;
+}
+
+.suggestion-form-hero .mk-hero__text {
+    color: rgba(255, 255, 255, .88) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    max-width: 720px !important;
+}
+
+.suggestion-form-page {
+    background: #f6f8f6 !important;
+    padding: 24px 0 48px !important;
+}
+
+.suggestion-form-page .suggestion-hub__grid--single {
+    grid-template-columns: minmax(0, 760px) !important;
+}
+
+.suggestion-form-page .suggestion-panel {
+    border-radius: 8px !important;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, .06) !important;
+    padding: 22px !important;
+}
+
+.suggestion-form-page .suggestion-tabs {
+    gap: 6px !important;
+    margin-bottom: 18px !important;
+    padding: 6px !important;
+}
+
+.suggestion-form-page .suggestion-tab span {
+    font-size: 13px !important;
+    min-height: 38px !important;
+    justify-content: center !important;
+    padding: 0 12px !important;
+    width: 100% !important;
+}
+
+.suggestion-form-page .suggestion-section {
+    gap: 12px !important;
+    padding: 16px 0 !important;
+}
+
+.suggestion-form-page .suggestion-section:first-of-type {
+    padding-top: 0 !important;
+}
+
+.suggestion-form-page .suggestion-section h2 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
+}
+
+.suggestion-form-page .suggestion-form-grid {
+    gap: 12px !important;
+}
+
+.suggestion-form-page .profile-form-group,
+.suggestion-form-page .mk-ui-form-group {
+    margin-bottom: 0 !important;
+}
+
+.suggestion-form-page label,
+.suggestion-form-page .mk-label,
+.suggestion-form-page .mk-ui-label {
+    color: #22312b !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    margin-bottom: 6px !important;
+}
+
+.suggestion-form-page .form-control,
+.suggestion-form-page .form-select,
+.suggestion-form-page .mk-ui-input,
+.suggestion-form-page .mk-ui-select,
+.suggestion-form-page textarea,
+.suggestion-form-page select {
+    font-size: 14px !important;
+    min-height: 42px !important;
+    padding: 9px 12px !important;
+}
+
+.suggestion-form-page textarea,
+.suggestion-form-page .mk-ui-textarea {
+    min-height: 108px !important;
+}
+
+.suggestion-form-page #content {
+    min-height: 150px !important;
+}
+
+.suggestion-form-page .suggestion-help {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    margin-top: 5px !important;
+}
+
+.suggestion-form-page .suggestion-actions {
+    border-top: 1px solid var(--mk-modern-border) !important;
+    gap: 8px !important;
+    justify-content: flex-end !important;
+    margin-top: 2px !important;
+    padding-top: 16px !important;
+}
+
+.suggestion-form-page .suggestion-actions .mk-button {
+    min-height: 42px !important;
+    padding: 0 18px !important;
+}
+
+[dir="rtl"] .suggestion-form-hero,
+[dir="rtl"] .suggestion-form-page,
+[dir="rtl"] .suggestion-form-page .suggestion-section,
+[dir="rtl"] .suggestion-form-page .suggestion-actions {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="rtl"] .suggestion-form-page .suggestion-actions {
+    justify-content: flex-start !important;
 }
 
 .suggestion-section h2,
@@ -847,8 +994,61 @@ select:focus {
         padding: 52px 0;
     }
 
+    .suggestion-form-hero {
+        padding: 28px 0 22px !important;
+    }
+
+    .suggestion-form-page {
+        padding: 18px 0 38px !important;
+    }
+
+    .suggestion-form-page .suggestion-hub__grid--single {
+        grid-template-columns: 1fr !important;
+    }
+
+    .suggestion-form-page .suggestion-panel {
+        padding: 18px !important;
+    }
+
     .suggestion-tabs {
         grid-template-columns: 1fr;
+    }
+
+    .suggestion-form-page .suggestion-tabs {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .suggestion-form-hero .mk-hero__title {
+        font-size: 26px !important;
+    }
+
+    .suggestion-form-page .suggestion-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .suggestion-form-page .suggestion-actions {
+        align-items: stretch !important;
+        flex-direction: column !important;
+    }
+
+    .suggestion-form-page .suggestion-actions .mk-button {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .suggestion-form-hero {
+        padding: 24px 0 18px !important;
+    }
+
+    .suggestion-form-page .suggestion-panel {
+        padding: 16px !important;
+    }
+
+    .suggestion-form-page .suggestion-tabs {
+        grid-template-columns: 1fr !important;
     }
 }
 
@@ -2039,6 +2239,21 @@ select:focus {
     font-weight: 800;
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+
+.suggestion-form-hero {
+    background:
+        linear-gradient(135deg, rgba(6, 78, 59, .96), rgba(15, 122, 91, .92)),
+        #064e3b !important;
+    border-bottom-color: rgba(255, 255, 255, .12) !important;
+}
+
+.suggestion-form-hero .mk-hero__title {
+    color: #ffffff !important;
+}
+
+.suggestion-form-hero .mk-hero__text {
+    color: rgba(255, 255, 255, .9) !important;
 }
 
 @media (max-width: 991px) {

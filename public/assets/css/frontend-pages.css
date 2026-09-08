@@ -201,7 +201,8 @@
     padding: 0 16px;
 }
 
-.suggestion-tab input:checked + span {
+.suggestion-tab input:checked + span,
+.suggestion-tab.is-active span {
     background: var(--mk-primary-soft);
     border-color: var(--mk-primary);
     color: var(--mk-primary-deep);
@@ -294,6 +295,13 @@
 }
 
 .suggestion-success {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.suggestion-error {
     align-items: center;
     display: flex;
     gap: 8px;
@@ -1100,9 +1108,7 @@
     inset-inline-end: 24px;
     z-index: 1050;
     display: flex;
-    flex-direction: column-reverse;
     align-items: flex-end;
-    gap: 10px;
     font-family: var(--mk-font-sans);
 }
 
@@ -1121,6 +1127,7 @@
     padding: 0;
     font-size: 22px;
     line-height: 1;
+    text-decoration: none !important;
     transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
 }
 
