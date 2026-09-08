@@ -218,6 +218,43 @@
     padding: 0;
 }
 
+.admin-category-form {
+    margin-inline: auto;
+    max-width: 860px;
+}
+
+.admin-category-form .card-body {
+    padding: var(--space-5);
+}
+
+.admin-category-form .admin-form-grid {
+    gap: var(--space-4);
+}
+
+.admin-category-form .form-label {
+    color: var(--color-gray-800);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+}
+
+.admin-category-form .form-text,
+.admin-category-form .invalid-feedback {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+}
+
+.admin-category-options {
+    align-items: center;
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: var(--space-4);
+}
+
 .admin-title-group,
 .admin-header-actions,
 .admin-actions,
@@ -728,6 +765,14 @@
     .admin-form-grid,
     .admin-detail-grid,
     .admin-suggestion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-category-form {
+        max-width: none;
+    }
+
+    .admin-category-options {
         grid-template-columns: 1fr;
     }
 

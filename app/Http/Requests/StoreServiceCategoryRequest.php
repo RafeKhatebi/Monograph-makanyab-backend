@@ -22,15 +22,12 @@ class StoreServiceCategoryRequest extends FormRequest
             'slug' => ['nullable', 'string', 'max:255', 'alpha_dash', Rule::unique('service_categories', 'slug')],
             'description' => ['nullable', 'string'],
             'parent_id' => ['nullable', 'exists:service_categories,id'],
-            'icon_name' => ['nullable', 'string', 'max:255'],
-            'color_code' => ['nullable', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'has_menu' => ['nullable', 'boolean'],
             'has_booking' => ['nullable', 'boolean'],
             'has_delivery' => ['nullable', 'boolean'],
             'keywords' => ['nullable', 'string'],
             'schema_type' => ['nullable', 'string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
-            'sort_order' => ['nullable', 'integer', 'min:0', 'max:65535'],
         ];
     }
 
