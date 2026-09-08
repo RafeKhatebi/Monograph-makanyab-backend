@@ -5,7 +5,7 @@
     }
 
     function sync() {
-        var selected = form.querySelector('[data-suggest-type]:checked');
+        var selected = form.querySelector('[data-suggest-type]:checked') || form.querySelector('input[name="type"]');
         var type = selected ? selected.value : 'place';
 
         form.querySelectorAll('.suggestion-tab').forEach(function (tab) {

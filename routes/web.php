@@ -61,6 +61,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/add', [SuggestionHubController::class, 'store'])
         ->middleware('throttle:5,1')
         ->name('add.store');
+    Route::get('/add/{type}/{submission}/edit', [SuggestionHubController::class, 'edit'])
+        ->whereIn('type', ['place', 'service', 'post'])
+        ->name('add.edit');
+    Route::put('/add/{type}/{submission}', [SuggestionHubController::class, 'update'])
+        ->whereIn('type', ['place', 'service', 'post'])
+        ->middleware('throttle:5,1')
+        ->name('add.update');
 });
 
 //  Posts Section

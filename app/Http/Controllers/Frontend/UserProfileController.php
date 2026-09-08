@@ -117,6 +117,11 @@ class UserProfileController extends Controller
                 'category' => $suggestion->category?->name,
                 'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
                 'date' => $suggestion->created_at,
+                'edit_url' => route('add.edit', ['type' => 'place', 'submission' => $suggestion->getKey()]),
+                'can_edit' => ! in_array($suggestion->suggestion_status?->value, [
+                    SuggestionStatus::Approved->value,
+                    SuggestionStatus::Published->value,
+                ], true),
             ]);
 
         $services = ServiceSuggestion::with('category:id,name')
@@ -130,6 +135,11 @@ class UserProfileController extends Controller
                 'category' => $suggestion->category?->name,
                 'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
                 'date' => $suggestion->created_at,
+                'edit_url' => route('add.edit', ['type' => 'service', 'submission' => $suggestion->getKey()]),
+                'can_edit' => ! in_array($suggestion->suggestion_status?->value, [
+                    SuggestionStatus::Approved->value,
+                    SuggestionStatus::Published->value,
+                ], true),
             ]);
 
         $posts = Post::where('user_id', $userId)
@@ -149,6 +159,8 @@ class UserProfileController extends Controller
                         ? $status->label()
                         : __('suggestions.status.'.$status),
                     'date' => $post->created_at,
+                    'edit_url' => route('add.edit', ['type' => 'post', 'submission' => $post->getKey()]),
+                    'can_edit' => ! $post->is_published,
                 ];
             });
 

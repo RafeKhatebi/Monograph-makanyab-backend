@@ -68,12 +68,6 @@
                     <div class="mk-card">
                         <h3 class="mk-heading mk-heading--md mk-stack-sm">{{ __('contact.send_message') }}</h3>
 
-                        @if (session('success'))
-                            <div class="mk-alert mk-alert--success">
-                                <i class="fa fa-check-circle" aria-hidden="true"></i> {{ session('success') }}
-                            </div>
-                        @endif
-
                         <form action="{{ route('contact.store') }}" method="POST">
                             @csrf
                             <div class="row">

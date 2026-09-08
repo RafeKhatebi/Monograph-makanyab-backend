@@ -3,10 +3,25 @@
 @php
     use App\Enums\PlaceStatus;
     use App\Enums\PriceLevel;
+    use App\Enums\SuggestionStatus;
 
-    $activeType = in_array(old('type', request('type', 'place')), ['place', 'service', 'post'], true)
-        ? old('type', request('type', 'place'))
+    $isEditing = isset($editingSubmission) && $editingSubmission;
+    $activeType = in_array(old('type', $editingType ?? request('type', 'place')), ['place', 'service', 'post'], true)
+        ? old('type', $editingType ?? request('type', 'place'))
         : 'place';
+    $fieldValue = function (string $field, mixed $default = null) use ($isEditing, $editingSubmission) {
+        $value = old($field, $isEditing ? ($editingSubmission->{$field} ?? $default) : $default);
+
+        return $value instanceof \BackedEnum ? $value->value : $value;
+    };
+    $statusValue = $isEditing
+        ? ($activeType === 'post'
+            ? ($editingSubmission->submission_status ?? SuggestionStatus::Draft)
+            : ($editingSubmission->suggestion_status ?? SuggestionStatus::Draft))
+        : null;
+    $statusLabel = $statusValue instanceof SuggestionStatus
+        ? $statusValue->label()
+        : ($statusValue ? __('suggestions.status.'.$statusValue) : null);
     $priceOptions = [
         PriceLevel::Low->value => __('common.price.low'),
         PriceLevel::Medium->value => __('common.price.medium'),
@@ -25,19 +40,13 @@
 @section('content')
     <section class="mk-hero suggestion-form-hero">
         <div class="container">
-            <h1 class="mk-hero__title">{{ __('suggestions.hub.title') }}</h1>
-            <p class="mk-hero__text">{{ __('suggestions.hub.description') }}</p>
+            <h1 class="mk-hero__title">{{ $isEditing ? __('suggestions.edit_title') : __('suggestions.hub.title') }}</h1>
+            <p class="mk-hero__text">{{ $isEditing ? __('suggestions.edit_description') : __('suggestions.hub.description') }}</p>
         </div>
     </section>
 
     <section class="suggestion-hub suggestion-form-page">
         <div class="container">
-            @if (session('success'))
-                <div class="mk-alert mk-alert--success suggestion-success">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i>
-                    <span>{{ session('success') }}</span>
-                </div>
-            @endif
             @if ($errors->any())
                 <div class="mk-alert mk-alert--danger suggestion-error" role="alert">
                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
@@ -46,64 +55,89 @@
             @endif
             <div class="suggestion-hub__grid suggestion-hub__grid--single">
                 <main class="suggestion-panel">
-                    <form action="{{ route('add.store') }}" method="POST" enctype="multipart/form-data" data-suggest-form>
-                        @csrf
-                        <input type="hidden" name="country" value="{{ old('country', 'Afghanistan') }}">
+                    @if ($isEditing)
+                        <div class="suggestion-edit-banner">
+                            <div>
+                                <span>{{ __('suggestions.editing_label') }}</span>
+                                <strong>{{ $editingSubmission->name ?? $editingSubmission->title }}</strong>
+                                <p>{{ __('suggestions.editing_state_help') }}</p>
+                            </div>
+                            <span class="profile-status-pill">{{ $statusLabel }}</span>
+                        </div>
+                    @endif
 
-                        <fieldset class="suggestion-tabs">
-                            <legend class="sr-only">{{ __('suggestions.submission_type') }}</legend>
-                            @foreach (['place', 'service', 'post'] as $type)
-                                <label class="suggestion-tab">
-                                    <input type="radio" name="type" value="{{ $type }}" @checked($activeType === $type)
-                                        data-suggest-type>
-                                    <span>{{ __('suggestions.types.'.$type) }}</span>
-                                </label>
-                            @endforeach
-                        </fieldset>
+                    <form action="{{ $isEditing ? route('add.update', ['type' => $activeType, 'submission' => $editingSubmission->getKey()]) : route('add.store') }}" method="POST" enctype="multipart/form-data" data-suggest-form>
+                        @csrf
+                        @if ($isEditing)
+                            @method('PUT')
+                        @endif
+                        <input type="hidden" name="country" value="{{ $fieldValue('country', 'Afghanistan') }}">
+                        @if ($isEditing)
+                            <input type="hidden" name="type" value="{{ $activeType }}">
+                        @endif
+
+                        @if ($isEditing)
+                            <div class="suggestion-tabs suggestion-tabs--locked" aria-label="{{ __('suggestions.submission_type') }}">
+                                <span class="suggestion-tab is-active">
+                                    <span>{{ __('suggestions.types.'.$activeType) }}</span>
+                                </span>
+                            </div>
+                        @else
+                            <fieldset class="suggestion-tabs">
+                                <legend class="sr-only">{{ __('suggestions.submission_type') }}</legend>
+                                @foreach (['place', 'service', 'post'] as $type)
+                                    <label class="suggestion-tab">
+                                        <input type="radio" name="type" value="{{ $type }}" @checked($activeType === $type)
+                                            data-suggest-type>
+                                        <span>{{ __('suggestions.types.'.$type) }}</span>
+                                    </label>
+                                @endforeach
+                            </fieldset>
+                        @endif
                         <x-input-error :messages="$errors->get('type')" class="mt-2" />
 
                         <section class="suggestion-section">
                             <h2>{{ __('suggestions.sections.basic') }}</h2>
                             <div class="suggestion-form-grid">
                                 <div data-suggest-for="place service">
-                                    <x-form-field for="name" :label="__('suggestions.name')" :value="old('name')" required />
+                                    <x-form-field for="name" :label="__('suggestions.name')" :value="$fieldValue('name')" required />
                                 </div>
                                 <div data-suggest-for="post">
-                                    <x-form-field for="title" :label="__('suggestions.title')" :value="old('title')" required />
+                                    <x-form-field for="title" :label="__('suggestions.title')" :value="$fieldValue('title')" required />
                                 </div>
                                 <div data-suggest-for="place">
                                     <x-input-label for="place_category_id" :value="__('suggestions.category')" />
                                     <x-select-input id="place_category_id" name="place_category_id" :options="$placeCategories"
-                                        placeholder="{{ __('suggestions.select_category') }}" required />
+                                        :selected="$fieldValue('place_category_id')" placeholder="{{ __('suggestions.select_category') }}" required />
                                     <x-input-error :messages="$errors->get('place_category_id')" class="mt-2" />
                                 </div>
                                 <div data-suggest-for="service">
                                     <x-input-label for="service_category_id" :value="__('suggestions.category')" />
                                     <x-select-input id="service_category_id" name="service_category_id" :options="$serviceCategories"
-                                        placeholder="{{ __('suggestions.select_category') }}" required />
+                                        :selected="$fieldValue('service_category_id')" placeholder="{{ __('suggestions.select_category') }}" required />
                                     <x-input-error :messages="$errors->get('service_category_id')" class="mt-2" />
                                 </div>
                             </div>
 
                             <div data-suggest-for="post" class="suggestion-form-grid suggestion-form-grid--single">
-                                <x-form-field for="excerpt" :label="__('suggestions.excerpt')" :value="old('excerpt')" />
+                                <x-form-field for="excerpt" :label="__('suggestions.excerpt')" :value="$fieldValue('excerpt')" />
                             </div>
 
                             <div data-suggest-for="place service" class="suggestion-form-grid suggestion-form-grid--single">
-                                <x-form-field for="tagline" :label="__('suggestions.tagline')" :value="old('tagline')" />
+                                <x-form-field for="tagline" :label="__('suggestions.tagline')" :value="$fieldValue('tagline')" />
                             </div>
 
                             <div data-suggest-for="place service" class="profile-form-group">
                                 <x-input-label for="description" :value="__('suggestions.description')" />
                                 <x-textarea id="description" name="description" rows="5"
-                                    placeholder="{{ __('suggestions.description_placeholder') }}" required>{{ old('description') }}</x-textarea>
+                                    :value="$fieldValue('description')" placeholder="{{ __('suggestions.description_placeholder') }}" required />
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
 
                             <div data-suggest-for="post" class="profile-form-group">
                                 <x-input-label for="content" :value="__('suggestions.content')" />
                                 <x-textarea id="content" name="content" rows="8"
-                                    placeholder="{{ __('suggestions.content_placeholder') }}" required>{{ old('content') }}</x-textarea>
+                                    :value="$fieldValue('content')" placeholder="{{ __('suggestions.content_placeholder') }}" required />
                                 <x-input-error :messages="$errors->get('content')" class="mt-2" />
                             </div>
 
@@ -112,30 +146,30 @@
                         <section class="suggestion-section" data-suggest-for="place service">
                             <h2>{{ __('suggestions.sections.location') }}</h2>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="province" :label="__('suggestions.province')" :value="old('province')" required />
-                                <x-form-field for="city" :label="__('suggestions.city')" :value="old('city')" required />
-                                <x-form-field for="district" :label="__('suggestions.district')" :value="old('district')" required />
-                                <x-form-field for="address" :label="__('suggestions.address')" :value="old('address')" required />
+                                <x-form-field for="province" :label="__('suggestions.province')" :value="$fieldValue('province')" required />
+                                <x-form-field for="city" :label="__('suggestions.city')" :value="$fieldValue('city')" required />
+                                <x-form-field for="district" :label="__('suggestions.district')" :value="$fieldValue('district')" required />
+                                <x-form-field for="address" :label="__('suggestions.address')" :value="$fieldValue('address')" required />
                             </div>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="subdistrict" :label="__('suggestions.subdistrict')" :value="old('subdistrict')" />
-                                <x-form-field for="neighborhood" :label="__('suggestions.neighborhood')" :value="old('neighborhood')" />
-                                <x-form-field for="village" :label="__('suggestions.village')" :value="old('village')" />
-                                <x-form-field for="postal_code" :label="__('suggestions.postal_code')" :value="old('postal_code')" />
+                                <x-form-field for="subdistrict" :label="__('suggestions.subdistrict')" :value="$fieldValue('subdistrict')" />
+                                <x-form-field for="neighborhood" :label="__('suggestions.neighborhood')" :value="$fieldValue('neighborhood')" />
+                                <x-form-field for="village" :label="__('suggestions.village')" :value="$fieldValue('village')" />
+                                <x-form-field for="postal_code" :label="__('suggestions.postal_code')" :value="$fieldValue('postal_code')" />
                             </div>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="latitude" :label="__('suggestions.latitude')" type="number" step="0.00000001" :value="old('latitude')" />
-                                <x-form-field for="longitude" :label="__('suggestions.longitude')" type="number" step="0.00000001" :value="old('longitude')" />
+                                <x-form-field for="latitude" :label="__('suggestions.latitude')" type="number" step="0.00000001" :value="$fieldValue('latitude')" />
+                                <x-form-field for="longitude" :label="__('suggestions.longitude')" type="number" step="0.00000001" :value="$fieldValue('longitude')" />
                             </div>
                         </section>
 
                         <section class="suggestion-section" data-suggest-for="place service">
                             <h2>{{ __('suggestions.sections.contact') }}</h2>
                             <div class="suggestion-form-grid">
-                                <x-form-field for="phone_1" :label="__('suggestions.phone')" type="tel" :value="old('phone_1')" required />
-                                <x-form-field for="phone_2" :label="__('suggestions.phone_2')" type="tel" :value="old('phone_2')" />
-                                <x-form-field for="whatsapp" :label="__('suggestions.whatsapp')" type="tel" :value="old('whatsapp')" />
-                                <x-form-field for="website" :label="__('suggestions.website')" type="url" :value="old('website')" />
+                                <x-form-field for="phone_1" :label="__('suggestions.phone')" type="tel" :value="$fieldValue('phone_1')" required />
+                                <x-form-field for="phone_2" :label="__('suggestions.phone_2')" type="tel" :value="$fieldValue('phone_2')" />
+                                <x-form-field for="whatsapp" :label="__('suggestions.whatsapp')" type="tel" :value="$fieldValue('whatsapp')" />
+                                <x-form-field for="website" :label="__('suggestions.website')" type="url" :value="$fieldValue('website')" />
                             </div>
                         </section>
 
@@ -145,13 +179,13 @@
                                 <div>
                                     <x-input-label for="price_level" :value="__('suggestions.price_level')" />
                                     <x-select-input id="price_level" name="price_level" :options="$priceOptions"
-                                        placeholder="{{ __('suggestions.select_price') }}" required />
+                                        :selected="$fieldValue('price_level')" placeholder="{{ __('suggestions.select_price') }}" required />
                                     <x-input-error :messages="$errors->get('price_level')" class="mt-2" />
                                 </div>
                                 <div>
                                     <x-input-label for="status" :value="__('suggestions.open_status')" />
                                     <x-select-input id="status" name="status" :options="$statusOptions"
-                                        placeholder="{{ __('common.status.open') }}" />
+                                        :selected="$fieldValue('status')" placeholder="{{ __('common.status.open') }}" />
                                     <x-input-error :messages="$errors->get('status')" class="mt-2" />
                                 </div>
                             </div>
@@ -178,7 +212,7 @@
                             <h2>{{ __('suggestions.sections.extra') }}</h2>
                             <x-input-label for="extra_information" :value="__('suggestions.extra_information')" />
                             <x-textarea id="extra_information" name="extra_information" rows="4"
-                                placeholder="{{ __('suggestions.extra_placeholder') }}">{{ old('extra_information') }}</x-textarea>
+                                :value="$fieldValue('extra_information')" placeholder="{{ __('suggestions.extra_placeholder') }}" />
                             <x-input-error :messages="$errors->get('extra_information')" class="mt-2" />
                         </section>
 
@@ -187,7 +221,7 @@
                                 {{ __('suggestions.save_draft') }}
                             </button>
                             <button type="submit" name="submit_action" value="send_review" class="mk-button mk-button--primary mk-button--lg">
-                                {{ __('suggestions.send_for_review') }}
+                                {{ $isEditing ? __('suggestions.resubmit_for_review') : __('suggestions.send_for_review') }}
                             </button>
                         </div>
                     </form>

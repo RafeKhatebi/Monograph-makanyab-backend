@@ -17,16 +17,32 @@ use App\Services\SlugService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class SuggestionHubController extends Controller
 {
     public function create(): View
     {
+        return $this->formView();
+    }
+
+    public function edit(string $type, string $submission): View
+    {
+        $record = $this->resolveUserSubmission($type, $submission);
+
+        abort_if($this->isLocked($type, $record), 403);
+
+        return $this->formView($type, $record);
+    }
+
+    private function formView(?string $type = null, mixed $record = null): View
+    {
         return view('pages.suggestions.index', [
             'placeCategories' => PlaceCategory::active()->orderBy('name')->pluck('name', 'id'),
             'serviceCategories' => ServiceCategory::active()->orderBy('name')->pluck('name', 'id'),
-            'submissions' => $this->userSubmissions(),
+            'editingType' => $type,
+            'editingSubmission' => $record,
         ]);
     }
 
@@ -92,62 +108,101 @@ class SuggestionHubController extends Controller
             ->with('submission_id', $suggestion->id);
     }
 
-    private function userSubmissions()
+    public function update(
+        StoreUserSubmissionRequest $request,
+        string $type,
+        string $submission,
+        MediaUploadService $mediaUploadService,
+        SlugService $slugService
+    ): RedirectResponse {
+        $record = $this->resolveUserSubmission($type, $submission);
+
+        abort_if($this->isLocked($type, $record), 403);
+
+        $data = $request->validated();
+        abort_unless($data['type'] === $type, 422);
+
+        $isReviewSubmission = $data['submit_action'] === 'send_review';
+
+        if ($type === 'post') {
+            $payload = [
+                'title' => $data['title'],
+                'excerpt' => $data['excerpt'] ?? null,
+                'content' => $data['content'] ?? null,
+                'submission_status' => $isReviewSubmission
+                    ? SuggestionStatus::UnderReview->value
+                    : SuggestionStatus::Draft->value,
+                'is_published' => false,
+                'published_at' => null,
+            ];
+
+            if ($request->hasFile('image')) {
+                if ($record->image) {
+                    Storage::disk('public')->delete($record->image);
+                }
+                $payload['image'] = $request->file('image')->store('post-submissions', 'public');
+            }
+
+            if ($record->title !== $data['title']) {
+                $payload['slug'] = $slugService->createUniqueSlug(Post::class, $data['title'], (string) $record->getKey());
+            }
+
+            $record->update($payload);
+
+            return redirect()
+                ->route('add.edit', ['type' => 'post', 'submission' => $record->getKey()])
+                ->with('success', __($isReviewSubmission ? 'messages.post_suggestion_resubmitted' : 'messages.post_suggestion_updated'));
+        }
+
+        $categoryField = $type === 'service' ? 'service_category_id' : 'place_category_id';
+        $payload = Arr::except($data, ['type', 'submit_action', 'images', 'image', 'title', 'content', 'excerpt']);
+        $payload = array_merge($payload, [
+            'country' => $payload['country'] ?? 'Afghanistan',
+            'status' => $payload['status'] ?? PlaceStatus::Open->value,
+            'price_level' => $payload['price_level'] ?? PriceLevel::Medium->value,
+            'suggestion_status' => $isReviewSubmission
+                ? SuggestionStatus::Pending->value
+                : SuggestionStatus::Draft->value,
+            $categoryField => $payload[$categoryField] ?? null,
+            'submitted_by_name' => $request->user()->name,
+            'submitted_by_email' => $request->user()->email,
+        ]);
+
+        DB::transaction(function () use ($record, $payload, $request, $mediaUploadService, $type): void {
+            $record->update($payload);
+            $mediaUploadService->attachImages($record, $request->file('images', []), "{$type}-suggestions");
+        });
+
+        return redirect()
+            ->route('add.edit', ['type' => $type, 'submission' => $record->getKey()])
+            ->with('success', __($isReviewSubmission ? 'messages.suggestion_resubmitted_for_review' : 'messages.suggestion_updated'));
+    }
+
+    private function resolveUserSubmission(string $type, string $submission): PlaceSuggestion|ServiceSuggestion|Post
     {
-        $userId = auth()->id();
+        $modelClass = match ($type) {
+            'place' => PlaceSuggestion::class,
+            'service' => ServiceSuggestion::class,
+            'post' => Post::class,
+            default => abort(404),
+        };
 
-        $places = PlaceSuggestion::with('category')
-            ->where('user_id', $userId)
-            ->latest()
-            ->limit(10)
-            ->get()
-            ->map(fn (PlaceSuggestion $suggestion) => [
-                'type' => __('suggestions.types.place'),
-                'title' => $suggestion->name,
-                'category' => $suggestion->category?->name,
-                'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
-                'date' => $suggestion->created_at,
-            ]);
+        return $modelClass::query()
+            ->whereKey($submission)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+    }
 
-        $services = ServiceSuggestion::with('category')
-            ->where('user_id', $userId)
-            ->latest()
-            ->limit(10)
-            ->get()
-            ->map(fn (ServiceSuggestion $suggestion) => [
-                'type' => __('suggestions.types.service'),
-                'title' => $suggestion->name,
-                'category' => $suggestion->category?->name,
-                'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
-                'date' => $suggestion->created_at,
-            ]);
+    private function isLocked(string $type, PlaceSuggestion|ServiceSuggestion|Post $record): bool
+    {
+        if ($type === 'post') {
+            return (bool) $record->is_published;
+        }
 
-        $posts = Post::where('user_id', $userId)
-            ->latest()
-            ->limit(10)
-            ->get()
-            ->map(function (Post $post) {
-                $status = $post->is_published
-                    ? SuggestionStatus::Published
-                    : ($post->submission_status ?? SuggestionStatus::Draft);
+        $status = $record->suggestion_status instanceof SuggestionStatus
+            ? $record->suggestion_status->value
+            : (string) $record->suggestion_status;
 
-                return [
-                    'type' => __('suggestions.types.post'),
-                    'title' => $post->title,
-                    'category' => __('content.posts.default_category'),
-                    'status' => $status instanceof SuggestionStatus
-                        ? $status->label()
-                        : __('suggestions.status.'.$status),
-                    'date' => $post->created_at,
-                ];
-            });
-
-        return collect()
-            ->concat($places)
-            ->concat($services)
-            ->concat($posts)
-            ->sortByDesc('date')
-            ->take(20)
-            ->values();
+        return in_array($status, [SuggestionStatus::Approved->value, SuggestionStatus::Published->value], true);
     }
 }

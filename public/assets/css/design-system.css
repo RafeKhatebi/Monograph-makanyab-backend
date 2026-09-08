@@ -1873,6 +1873,15 @@ input[type="radio"] {
     line-height: 1.35;
 }
 
+.profile-submission-actions {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: var(--mk-space-2);
+    justify-content: flex-end;
+}
+
 .profile-submission-item p,
 .profile-post-link span {
     color: var(--mk-color-muted);
@@ -2474,6 +2483,7 @@ input[type="radio"] {
 [dir="rtl"] .profile-header-meta,
 [dir="rtl"] .profile-tab-link,
 [dir="rtl"] .profile-submission-item,
+[dir="rtl"] .profile-submission-actions,
 [dir="rtl"] .profile-submission-meta,
 [dir="rtl"] .profile-post-link,
 [dir="rtl"] .profile-social-link {
@@ -2643,6 +2653,11 @@ input[type="radio"] {
     .profile-submission-item,
     .profile-post-link {
         flex-direction: column;
+    }
+
+    .profile-submission-actions {
+        justify-content: flex-start;
+        width: 100%;
     }
 }
 

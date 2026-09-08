@@ -1,4 +1,4 @@
-@props(['id', 'name', 'options' => [], 'placeholder' => null])
+@props(['id', 'name', 'options' => [], 'placeholder' => null, 'selected' => null])
 
 <x-ui.select id="{{ $id }}" :name="$name" :options="$options" :placeholder="$placeholder"
-    :invalid="$errors->has($name)" {{ $attributes }} />
+    :selected="$selected" :invalid="$errors->has($name)" {{ $attributes }} />

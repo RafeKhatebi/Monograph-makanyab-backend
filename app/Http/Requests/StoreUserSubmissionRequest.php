@@ -36,7 +36,8 @@ class StoreUserSubmissionRequest extends FormRequest
                 $rules['name'][] = Rule::unique('place_suggestions', 'name')->where(fn ($query) => $query
                     ->where('place_category_id', $this->input('place_category_id'))
                     ->where('city', $this->input('city'))
-                    ->whereIn('suggestion_status', ['pending', 'approved']));
+                    ->whereIn('suggestion_status', ['pending', 'approved']))
+                    ->ignore($this->route('type') === 'place' ? $this->route('submission') : null);
             }
             $rules += $this->placeOrServiceRules('place_categories', 'place_category_id', $isDraft);
         }
@@ -46,7 +47,8 @@ class StoreUserSubmissionRequest extends FormRequest
                 $rules['name'][] = Rule::unique('service_suggestions', 'name')->where(fn ($query) => $query
                     ->where('service_category_id', $this->input('service_category_id'))
                     ->where('city', $this->input('city'))
-                    ->whereIn('suggestion_status', ['pending', 'approved']));
+                    ->whereIn('suggestion_status', ['pending', 'approved']))
+                    ->ignore($this->route('type') === 'service' ? $this->route('submission') : null);
             }
             $rules += $this->placeOrServiceRules('service_categories', 'service_category_id', $isDraft);
         }

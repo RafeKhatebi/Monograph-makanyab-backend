@@ -77,7 +77,15 @@
                                             <h4>{{ $submission['title'] }}</h4>
                                             <p>{{ \App\Support\LocalizedDate::date($submission['date']) }}</p>
                                         </div>
-                                        <span class="profile-status-pill">{{ $submission['status'] }}</span>
+                                        <div class="profile-submission-actions">
+                                            <span class="profile-status-pill">{{ $submission['status'] }}</span>
+                                            @if ($submission['can_edit'] ?? false)
+                                                <a href="{{ $submission['edit_url'] }}" class="mk-button mk-button--secondary mk-button--sm">
+                                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                                    <span>{{ __('profile.edit_submission') }}</span>
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
                                 @empty
                                     <div class="text-center profile-empty">
@@ -154,10 +162,6 @@
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.account_settings') }}
                                 </h3>
-                                @if (session('success'))
-                                    <div class="mk-alert mk-alert--success">
-                                        {{ session('success') }}</div>
-                                @endif
                                 @if (session('status'))
                                     <div class="mk-alert mk-alert--success">
                                         {{ session('status') }}</div>
