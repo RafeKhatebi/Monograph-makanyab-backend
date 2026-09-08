@@ -12,10 +12,12 @@
         ? null
         : (($item->media ?? collect())->firstWhere('is_cover', true) ?? ($item->media ?? collect())->sortBy('sort_order')->first());
     $image = $isPost
-        ? ($item->image ? asset('storage/' . $item->image) : asset('assets/img/demo/property-1.jpg'))
+        ? ($item->image && Storage::disk('public')->exists($item->image)
+            ? asset('storage/' . $item->image)
+            : asset('assets/img/placeholders/no-image.svg'))
         : ($media && Storage::disk($media->disk ?: 'public')->exists($media->file_path)
             ? asset('storage/' . $media->file_path)
-            : asset('assets/img/demo/property-1.jpg'));
+            : asset('assets/img/placeholders/no-image.svg'));
     $category = $isPost ? __('content.posts.default_category') : ($item->category->name ?? null);
     $description = $isPost
         ? ($item->excerpt ?: strip_tags($item->content ?? ''))

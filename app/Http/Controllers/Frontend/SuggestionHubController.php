@@ -38,9 +38,13 @@ class SuggestionHubController extends Controller
 
     private function formView(?string $type = null, mixed $record = null): View
     {
+        if ($record && $type !== 'post') {
+            $record->loadMissing('media');
+        }
+
         return view('pages.suggestions.index', [
-            'placeCategories' => PlaceCategory::active()->orderBy('name')->pluck('name', 'id'),
-            'serviceCategories' => ServiceCategory::active()->orderBy('name')->pluck('name', 'id'),
+            'placeCategories' => $this->categoryOptions(PlaceCategory::class),
+            'serviceCategories' => $this->categoryOptions(ServiceCategory::class),
             'editingType' => $type,
             'editingSubmission' => $record,
         ]);
@@ -81,7 +85,7 @@ class SuggestionHubController extends Controller
 
         $modelClass = $type === 'service' ? ServiceSuggestion::class : PlaceSuggestion::class;
         $categoryField = $type === 'service' ? 'service_category_id' : 'place_category_id';
-        $payload = Arr::except($data, ['type', 'submit_action', 'images', 'image', 'title', 'content', 'excerpt']);
+        $payload = Arr::except($data, ['type', 'submit_action', 'images', 'image', 'cover_image_index', 'title', 'content', 'excerpt']);
 
         $suggestion = DB::transaction(function () use ($modelClass, $payload, $request, $isReviewSubmission, $categoryField, $mediaUploadService, $type) {
             $suggestion = $modelClass::create(array_merge($payload, [
@@ -97,7 +101,12 @@ class SuggestionHubController extends Controller
                 $categoryField => $payload[$categoryField] ?? null,
             ]));
 
-            $mediaUploadService->attachImages($suggestion, $request->file('images', []), "{$type}-suggestions");
+            $mediaUploadService->attachImages(
+                $suggestion,
+                $request->file('images', []),
+                "{$type}-suggestions",
+                $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
+            );
 
             return $suggestion;
         });
@@ -155,7 +164,7 @@ class SuggestionHubController extends Controller
         }
 
         $categoryField = $type === 'service' ? 'service_category_id' : 'place_category_id';
-        $payload = Arr::except($data, ['type', 'submit_action', 'images', 'image', 'title', 'content', 'excerpt']);
+        $payload = Arr::except($data, ['type', 'submit_action', 'images', 'image', 'cover_image_index', 'title', 'content', 'excerpt']);
         $payload = array_merge($payload, [
             'country' => $payload['country'] ?? 'Afghanistan',
             'status' => $payload['status'] ?? PlaceStatus::Open->value,
@@ -170,7 +179,12 @@ class SuggestionHubController extends Controller
 
         DB::transaction(function () use ($record, $payload, $request, $mediaUploadService, $type): void {
             $record->update($payload);
-            $mediaUploadService->attachImages($record, $request->file('images', []), "{$type}-suggestions");
+            $mediaUploadService->attachImages(
+                $record,
+                $request->file('images', []),
+                "{$type}-suggestions",
+                $request->filled('cover_image_index') ? $request->integer('cover_image_index') : null
+            );
         });
 
         return redirect()
@@ -191,6 +205,22 @@ class SuggestionHubController extends Controller
             ->whereKey($submission)
             ->where('user_id', auth()->id())
             ->firstOrFail();
+    }
+
+    private function categoryOptions(string $modelClass): array
+    {
+        return $modelClass::query()
+            ->with('parent:id,name')
+            ->active()
+            ->orderBy('parent_id')
+            ->orderBy('name')
+            ->get()
+            ->mapWithKeys(fn ($category) => [
+                $category->id => $category->parent
+                    ? $category->parent->name.' / '.$category->name
+                    : $category->name,
+            ])
+            ->all();
     }
 
     private function isLocked(string $type, PlaceSuggestion|ServiceSuggestion|Post $record): bool

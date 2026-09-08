@@ -65,7 +65,7 @@
             <div class="detail-grid">
                 <main class="detail-main">
                     <section class="detail-card detail-media-card">
-                        <img src="{{ $serviceCover ? asset('storage/' . $serviceCover->file_path) : asset('assets/img/demo/property-1.jpg') }}"
+                        <img src="{{ $serviceCover ? asset('storage/' . $serviceCover->file_path) : asset('assets/img/placeholders/no-image.svg') }}"
                             alt="{{ $service->name }}" class="detail-cover-image">
                         @if ($serviceImages->count() > 1)
                             <div class="detail-thumb-grid">

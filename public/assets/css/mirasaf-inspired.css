@@ -947,6 +947,389 @@ select:focus {
     text-align: right !important;
 }
 
+/* Full-page user submission form */
+.submission-workspace {
+    background: #f6f8fb;
+    padding: 24px 0 96px;
+}
+
+.submission-header {
+    align-items: center;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: auto minmax(0, 1fr) minmax(220px, 320px);
+    margin-bottom: 18px;
+}
+
+.submission-back {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e3e8ef;
+    border-radius: 10px;
+    color: #10201a;
+    display: inline-flex;
+    height: 42px;
+    justify-content: center;
+    text-decoration: none !important;
+    width: 42px;
+}
+
+.submission-heading h1 {
+    color: #0f172a;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 0 0 4px;
+}
+
+.submission-heading p,
+.submission-type-control span {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.submission-type-control {
+    display: grid;
+    gap: 6px;
+}
+
+.submission-type-select,
+.submission-type-locked {
+    background: #fff;
+    border: 1px solid #d8e0ea;
+    border-radius: 10px;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 800;
+    min-height: 46px;
+    padding: 0 14px;
+    width: 100%;
+}
+
+.submission-type-locked {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+.submission-grid {
+    align-items: start;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, .85fr);
+}
+
+.submission-main,
+.submission-side {
+    display: grid;
+    gap: 14px;
+}
+
+.submission-card {
+    background: #fff;
+    border: 1px solid #e1e8f0;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .04);
+    padding: 18px;
+}
+
+.submission-card__header {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.submission-card__icon {
+    align-items: center;
+    background: #edf5ff;
+    border-radius: 999px;
+    color: #2563eb;
+    display: inline-flex;
+    flex: 0 0 38px;
+    height: 38px;
+    justify-content: center;
+    width: 38px;
+}
+
+.submission-card h2,
+.submission-more summary strong {
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.submission-card__header p,
+.submission-more summary small {
+    color: #64748b;
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+    margin: 2px 0 0;
+}
+
+.submission-fields {
+    display: grid;
+    gap: 12px;
+}
+
+.submission-fields--two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.submission-fields--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.submission-card label,
+.submission-card .mk-label,
+.submission-card .mk-ui-label {
+    color: #172033 !important;
+    display: block;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    margin-bottom: 6px !important;
+}
+
+.submission-card .form-control,
+.submission-card .form-select,
+.submission-card .mk-ui-input,
+.submission-card .mk-ui-select,
+.submission-card .mk-ui-textarea,
+.submission-card select,
+.submission-card textarea {
+    background: #fff !important;
+    border: 1px solid #d8e0ea !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    color: #0f172a !important;
+    font-size: 14px !important;
+    min-height: 44px !important;
+    padding: 10px 12px !important;
+    width: 100% !important;
+}
+
+.submission-card textarea,
+.submission-card .mk-ui-textarea {
+    min-height: 112px !important;
+    resize: vertical;
+}
+
+.submission-map-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    margin-top: 12px;
+}
+
+.submission-map-grid .suggestion-map {
+    border: 1px solid #d8e0ea;
+    border-radius: 12px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.submission-coordinates {
+    align-self: stretch;
+    display: grid;
+    gap: 10px;
+}
+
+.suggestion-help,
+.suggestion-coordinates {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.suggestion-coordinates span {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+.submission-drop-zone {
+    align-items: center;
+    border: 1px dashed #bfcbda;
+    border-radius: 12px;
+    cursor: pointer;
+    display: grid;
+    justify-items: center;
+    min-height: 170px;
+    padding: 24px;
+    position: relative;
+    text-align: center;
+}
+
+.submission-drop-zone input[type="file"] {
+    cursor: pointer;
+    inset: 0;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.submission-drop-zone i {
+    color: #64748b;
+    font-size: 30px;
+}
+
+.submission-drop-zone strong {
+    color: #0f172a;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.submission-drop-zone span,
+.submission-drop-zone small {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.submission-preview-grid,
+.submission-existing-media {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 12px;
+}
+
+.submission-existing-media img,
+.submission-post-image img {
+    aspect-ratio: 1;
+    border: 1px solid #e1e8f0;
+    border-radius: 10px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.submission-post-image {
+    margin-top: 12px;
+}
+
+.submission-more {
+    padding: 0;
+}
+
+.submission-more summary {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    padding: 18px;
+}
+
+.submission-more summary::-webkit-details-marker {
+    display: none;
+}
+
+.submission-more .submission-fields {
+    border-top: 1px solid #e1e8f0;
+    padding: 0 18px 18px;
+}
+
+.submission-actions {
+    align-items: center;
+    background: rgba(255, 255, 255, .94);
+    border-top: 1px solid #e1e8f0;
+    bottom: 0;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    left: 0;
+    padding: 12px max(16px, calc((100vw - 1170px) / 2));
+    position: sticky;
+    right: 0;
+    z-index: 20;
+}
+
+.submission-actions .mk-button {
+    min-height: 44px !important;
+}
+
+.submission-edit-banner {
+    margin-bottom: 14px;
+}
+
+[dir="rtl"] .submission-workspace,
+[dir="rtl"] .submission-header,
+[dir="rtl"] .submission-card,
+[dir="rtl"] .submission-actions,
+[dir="rtl"] .submission-edit-banner {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .submission-actions {
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .submission-back .fa-arrow-left::before {
+    content: "\f061";
+}
+
+@media (max-width: 991px) {
+    .submission-header,
+    .submission-grid,
+    .submission-map-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .submission-back {
+        order: 0;
+    }
+
+    .submission-type-control {
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 767px) {
+    .submission-workspace {
+        padding: 16px 0 112px;
+    }
+
+    .submission-heading h1 {
+        font-size: 24px;
+    }
+
+    .submission-card {
+        padding: 14px;
+    }
+
+    .submission-card__header {
+        align-items: flex-start;
+    }
+
+    .submission-fields--two,
+    .submission-fields--three,
+    .submission-preview-grid,
+    .submission-existing-media {
+        grid-template-columns: 1fr;
+    }
+
+    .submission-map-grid .suggestion-map {
+        height: 240px;
+    }
+
+    .submission-actions {
+        flex-direction: column;
+        padding: 10px 16px;
+    }
+
+    .submission-actions .mk-button {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
 @media (max-width: 991px) {
     .profile-tab-shell {
         position: static !important;

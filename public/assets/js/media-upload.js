@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var duplicate = files.some(function (existing) {
                     return existing.name === file.name && existing.size === file.size && existing.lastModified === file.lastModified;
                 });
-                if (!duplicate && files.length < 10) files.push(file);
+                if (!duplicate && files.length < 6) files.push(file);
             });
             syncInput();
             render();

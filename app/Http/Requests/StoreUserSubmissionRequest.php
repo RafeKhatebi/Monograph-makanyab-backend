@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\PlaceStatus;
-use App\Enums\PriceLevel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,11 +22,11 @@ class StoreUserSubmissionRequest extends FormRequest
             'submit_action' => ['required', Rule::in(['draft', 'send_review'])],
             'name' => [$type === 'post' ? 'nullable' : 'required', 'nullable', 'string', 'max:255'],
             'title' => ['required_if:type,post', 'nullable', 'string', 'max:255'],
-            'tagline' => ['nullable', 'string', 'max:255'],
             'description' => [$isDraft || $type === 'post' ? 'nullable' : 'required', 'nullable', 'string', $isDraft ? 'max:2000' : 'min:20', 'max:2000'],
             'content' => [$type === 'post' && ! $isDraft ? 'required' : 'nullable', 'nullable', 'string', $isDraft ? 'max:20000' : 'min:80'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'extra_information' => ['nullable', 'string', 'max:2000'],
+            'cover_image_index' => ['nullable', 'integer', 'min:0', 'max:5'],
         ];
 
         if ($type === 'place') {
@@ -81,7 +79,6 @@ class StoreUserSubmissionRequest extends FormRequest
             'city' => __('suggestions.city'),
             'address' => __('suggestions.address'),
             'phone_1' => __('suggestions.phone'),
-            'price_level' => __('suggestions.price_level'),
             'images' => __('suggestions.images'),
             'image' => __('suggestions.image'),
             'extra_information' => __('suggestions.extra_information'),
@@ -110,7 +107,6 @@ class StoreUserSubmissionRequest extends FormRequest
         return [
             $categoryField => [$isDraft ? 'nullable' : 'required', Rule::exists($categoryTable, 'id')->where('is_active', true)],
             'phone_1' => [$isDraft ? 'nullable' : 'required', 'string', 'max:20'],
-            'phone_2' => ['nullable', 'string', 'max:20'],
             'whatsapp' => ['nullable', 'string', 'max:20'],
             'website' => ['nullable', 'url', 'max:255'],
             'address' => [$isDraft ? 'nullable' : 'required', 'string', 'max:500'],
@@ -118,15 +114,9 @@ class StoreUserSubmissionRequest extends FormRequest
             'province' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
             'city' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
             'district' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
-            'subdistrict' => ['nullable', 'string', 'max:100'],
-            'village' => ['nullable', 'string', 'max:100'],
-            'rt_rw' => ['nullable', 'string', 'max:20'],
             'neighborhood' => ['nullable', 'string', 'max:100'],
-            'postal_code' => ['nullable', 'string', 'max:10'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
-            'status' => ['nullable', Rule::enum(PlaceStatus::class)],
-            'price_level' => [$isDraft ? 'nullable' : 'required', Rule::enum(PriceLevel::class)],
             'images' => [
                 'nullable',
                 'array',

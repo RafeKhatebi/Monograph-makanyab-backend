@@ -4,9 +4,19 @@
         return;
     }
 
+    var lastSharedName = '';
+
     function sync() {
-        var selected = form.querySelector('[data-suggest-type]:checked') || form.querySelector('input[name="type"]');
+        var typeSelect = document.querySelector('[data-suggest-type-select]');
+        var selected = typeSelect || form.querySelector('[data-suggest-type]:checked') || form.querySelector('input[name="type"]');
         var type = selected ? selected.value : 'place';
+        var activeName = Array.from(form.querySelectorAll('input[name="name"]')).find(function (input) {
+            return !input.disabled && input.value;
+        });
+
+        if (activeName) {
+            lastSharedName = activeName.value;
+        }
 
         form.querySelectorAll('.suggestion-tab').forEach(function (tab) {
             var input = tab.querySelector('[data-suggest-type]');
@@ -24,6 +34,12 @@
             node.querySelectorAll('input:not([data-suggest-type]), select, textarea, button').forEach(function (field) {
                 field.disabled = isHidden;
             });
+        });
+
+        form.querySelectorAll('input[name="name"]').forEach(function (input) {
+            if (!input.disabled && lastSharedName && !input.value) {
+                input.value = lastSharedName;
+            }
         });
 
         if (window.history && window.history.replaceState) {
@@ -51,5 +67,20 @@
         window.jQuery(form).on('ifChecked ifChanged', '[data-suggest-type]', sync);
     }
 
+    var typeSelect = document.querySelector('[data-suggest-type-select]');
+    if (typeSelect) {
+        typeSelect.addEventListener('change', sync);
+    }
+
     sync();
+
+    var firstInvalid = form.querySelector('.is-invalid, [aria-invalid="true"]');
+    if (firstInvalid) {
+        setTimeout(function () {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (typeof firstInvalid.focus === 'function') {
+                firstInvalid.focus({ preventScroll: true });
+            }
+        }, 100);
+    }
 })();

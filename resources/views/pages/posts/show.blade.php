@@ -7,7 +7,7 @@
     @php
         $postImage = $post->image && Storage::disk('public')->exists($post->image)
             ? asset('storage/' . $post->image)
-            : null;
+            : asset('assets/img/placeholders/no-image.svg');
     @endphp
 
     <div class="detail-hero detail-hero--post">
@@ -29,11 +29,9 @@
         <div class="container">
             <div class="detail-grid">
                 <main class="detail-main">
-                    @if ($postImage)
-                        <section class="detail-card detail-media-card">
-                            <img src="{{ $postImage }}" class="detail-cover-image" alt="{{ $post->title }}">
-                        </section>
-                    @endif
+                    <section class="detail-card detail-media-card">
+                        <img src="{{ $postImage }}" class="detail-cover-image" alt="{{ $post->title }}">
+                    </section>
 
                     <article class="detail-card">
                         <div class="detail-copy detail-copy--article" dir="auto">

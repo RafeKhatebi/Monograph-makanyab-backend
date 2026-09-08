@@ -62,7 +62,7 @@
             <div class="detail-grid">
                 <main class="detail-main">
                     <section class="detail-card detail-media-card">
-                        <img src="{{ $placeCover ? asset('storage/' . $placeCover->file_path) : asset('assets/img/demo/property-1.jpg') }}"
+                        <img src="{{ $placeCover ? asset('storage/' . $placeCover->file_path) : asset('assets/img/placeholders/no-image.svg') }}"
                             alt="{{ $place->name }}" class="detail-cover-image">
                         @if ($placeImages->count() > 1)
                             <div class="detail-thumb-grid">
