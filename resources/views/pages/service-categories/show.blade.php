@@ -57,15 +57,11 @@
 
             <div class="row">
                 @forelse($services as $service)
-                    <div class="col-sm-6 col-md-4 mk-stack-sm">
-                        <x-service-card :service="$service" />
-                    </div>
+                    <x-service-card :service="$service" />
                 @empty
-                    <div class="col-md-12">
-                        <div class="mk-ui-empty">
-                            <h3 class="mk-ui-empty__title">{{ __('categories.empty_services_in_category') }}</h3>
-                            <p class="mk-ui-empty__text">{{ __('categories.active_services_later') }}</p>
-                        </div>
+                    <div class="col-md-12 mk-ui-empty">
+                        <h3 class="mk-heading mk-heading--md">{{ __('categories.empty_services_in_category') }}</h3>
+                        <p class="mk-text mk-text--muted">{{ __('categories.active_services_later') }}</p>
                     </div>
                 @endforelse
             </div>

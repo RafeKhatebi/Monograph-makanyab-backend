@@ -25,12 +25,6 @@
                 @endforeach
 
                 <div class="static-content__actions">
-                    <x-ui.button :href="route('add.create', ['type' => 'place'])" variant="primary">
-                        {{ __('navigation.add_place') }}
-                    </x-ui.button>
-                    <x-ui.button :href="route('add.create', ['type' => 'service'])" variant="secondary">
-                        {{ __('navigation.add_service') }}
-                    </x-ui.button>
                     <x-ui.button :href="route('contact')" variant="secondary">
                         {{ __('navigation.contact') }}
                     </x-ui.button>

@@ -4,23 +4,66 @@
 @section('page-title', __('admin.dashboard.places'))
 
 @section('content')
+    @if (($pendingSuggestions ?? collect())->isNotEmpty())
+        <section class="card admin-mb-4" aria-label="{{ __('admin.suggestions.pending_place') }}">
+            <div class="card-header admin-card-header">
+                <h2 class="admin-card-title">{{ __('admin.suggestions.pending_place') }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="admin-table-wrap">
+                    <table class="table" aria-label="{{ __('admin.suggestions.pending_place') }}">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{ __('admin.suggestions.name') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.city') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.category') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.submitted_by') }}</th>
+                                <th scope="col" class="admin-table-actions">{{ __('admin.suggestions.actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($pendingSuggestions as $suggestion)
+                                <tr>
+                                    <td>{{ $suggestion->name }}</td>
+                                    <td>{{ $suggestion->city }}</td>
+                                    <td>{{ $suggestion->category->name ?? '-' }}</td>
+                                    <td>{{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? __('admin.suggestions.guest')) }}</td>
+                                    <td class="admin-table-actions">
+                                        <div class="admin-actions admin-actions--end">
+                                            <a href="{{ route('admin.place-suggestions.show', $suggestion) }}" class="btn btn-sm btn-outline-primary">{{ __('common.actions.view') }}</a>
+                                            <form action="{{ route('admin.place-suggestions.approve', $suggestion) }}" method="POST" class="admin-action-form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-success">{{ __('admin.suggestions.approve') }}</button>
+                                            </form>
+                                            <form action="{{ route('admin.place-suggestions.reject', $suggestion) }}" method="POST" class="admin-action-form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('admin.suggestions.reject') }}</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    @endif
+
     <section class="card" aria-label="{{ __('admin.crud.manage', ['item' => __('admin.dashboard.places')]) }}">
         <div class="card-header admin-card-header">
             <h2 class="admin-card-title">{{ __('admin.crud.all', ['item' => __('admin.dashboard.places')]) }} ({{ $places->total() }})</h2>
-            <a href="{{ route('admin.places.create') }}" class="btn btn-primary btn-sm">
-                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('admin.crud.add', ['item' => __('admin.dashboard.places')]) }}
-            </a>
         </div>
 
         <div class="card-body">
-            <form method="GET" action="{{ route('admin.places.index') }}" role="search" aria-label="Filter places" class="admin-filter-form">
+            <form method="GET" action="{{ route('admin.places.index') }}" role="search" aria-label="{{ __('admin.crud.search', ['item' => __('admin.dashboard.places')]) }}" class="admin-filter-form">
                 <div class="admin-filter-field">
                     <label for="search" class="sr-only">{{ __('admin.crud.search', ['item' => __('admin.dashboard.places')]) }}</label>
                     <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.crud.search', ['item' => __('admin.dashboard.places')]) }}"
                         class="form-control">
                 </div>
                 <div>
-                    <label for="category" class="sr-only">Filter by category</label>
+                    <label for="category" class="sr-only">{{ __('admin.dashboard.category') }}</label>
                     <select id="category" name="category" class="form-select admin-filter-select">
                         <option value="">{{ __('admin.crud.all_categories') }}</option>
                         @foreach ($categories as $category)
@@ -31,7 +74,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="is_verified" class="sr-only">Filter by verification status</label>
+                    <label for="is_verified" class="sr-only">{{ __('admin.crud.all_verification') }}</label>
                     <select id="is_verified" name="is_verified" class="form-select admin-filter-select">
                         <option value="">{{ __('admin.crud.all_verification') }}</option>
                         <option value="1" {{ request('is_verified') === '1' ? 'selected' : '' }}>{{ __('admin.crud.verified') }}</option>
@@ -39,7 +82,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="is_active" class="sr-only">Filter by status</label>
+                    <label for="is_active" class="sr-only">{{ __('admin.dashboard.status') }}</label>
                     <select id="is_active" name="is_active" class="form-select admin-filter-select admin-filter-select--sm">
                         <option value="">{{ __('admin.crud.all_status') }}</option>
                         <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>{{ __('admin.dashboard.active') }}</option>
@@ -47,7 +90,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="trashed" class="sr-only">Filter deleted places</label>
+                    <label for="trashed" class="sr-only">{{ __('admin.crud.deleted') }}</label>
                     <select id="trashed" name="trashed" class="form-select admin-filter-select admin-filter-select--sm">
                         <option value="">{{ __('admin.crud.current') }}</option>
                         <option value="with" {{ request('trashed') === 'with' ? 'selected' : '' }}>{{ __('admin.crud.with_deleted') }}</option>
@@ -63,7 +106,7 @@
             </form>
 
             <div class="admin-table-wrap">
-                <table class="table" aria-label="Places list">
+                <table class="table" aria-label="{{ __('admin.crud.all', ['item' => __('admin.dashboard.places')]) }}">
                     <thead>
                         <tr>
                             <th scope="col">{{ __('admin.dashboard.name') }}</th>
@@ -83,10 +126,10 @@
                                         {{ $place->name }}
                                     </div>
                                     @if ($place->is_verified)
-                                        <span class="badge badge-success admin-mt-1">Verified</span>
+                                        <span class="badge badge-success admin-mt-1">{{ __('admin.crud.verified') }}</span>
                                     @endif
                                     @if ($place->trashed())
-                                        <span class="badge badge-danger admin-mt-1">Deleted</span>
+                                        <span class="badge badge-danger admin-mt-1">{{ __('admin.crud.deleted') }}</span>
                                     @endif
                                 </td>
                                 <td>{{ $place->category->name ?? '-' }}</td>
@@ -100,7 +143,7 @@
                                 </td>
                                 <td>
                                     <span class="badge {{ $place->is_active ? 'badge-success' : 'badge-secondary' }}">
-                                        {{ $place->is_active ? 'Active' : 'Inactive' }}
+                                        {{ $place->is_active ? __('admin.dashboard.active') : __('admin.dashboard.inactive') }}
                                     </span>
                                 </td>
                                 <td class="admin-table-actions">
@@ -110,28 +153,28 @@
                                                 class="admin-action-form">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-outline-success"
-                                                    aria-label="Restore {{ $place->name }}">
+                                                    aria-label="{{ __('admin.crud.restore') }} {{ $place->name }}">
                                                     <i class="fa fa-undo" aria-hidden="true"></i>
                                                 </button>
                                             </form>
                                         @else
                                             <a href="{{ route('admin.places.show', $place) }}"
                                                 class="btn btn-sm btn-outline-primary"
-                                                aria-label="View {{ $place->name }}">
+                                                aria-label="{{ __('admin.crud.view') }} {{ $place->name }}">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
                                             <a href="{{ route('admin.places.edit', $place) }}"
                                                 class="btn btn-sm btn-outline-success"
-                                                aria-label="Edit {{ $place->name }}">
+                                                aria-label="{{ __('admin.crud.edit') }} {{ $place->name }}">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
                                             <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete this place?');"
+                                                onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.places')]) }}');"
                                                 class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    aria-label="Delete {{ $place->name }}">
+                                                    aria-label="{{ __('admin.crud.delete') }} {{ $place->name }}">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </button>
                                             </form>
@@ -143,7 +186,7 @@
                             <tr>
                                 <td colspan="7" class="admin-empty">
                                     <i class="fa fa-map-marker-alt admin-empty-icon" aria-hidden="true"></i>
-                                    No places found
+                                    {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.places')]) }}
                                 </td>
                             </tr>
                         @endforelse
@@ -152,7 +195,7 @@
             </div>
 
             @if ($places->hasPages())
-                <nav class="admin-pagination" aria-label="Places pagination">
+                <nav class="admin-pagination" aria-label="{{ __('admin.dashboard.places') }}">
                     {{ $places->links() }}
                 </nav>
             @endif

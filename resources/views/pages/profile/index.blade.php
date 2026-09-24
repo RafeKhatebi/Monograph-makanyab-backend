@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title', __('profile.title'))
 @section('content')
+    @php
+        $role = auth()->user()->role;
+        $roleLabel = __('profile.roles.' . $role);
+        $roleLabel = $roleLabel === 'profile.roles.' . $role ? ucfirst($role) : $roleLabel;
+    @endphp
 
     {{-- Header --}}
     <div class="mk-hero">
@@ -15,8 +20,11 @@
                 @endif
                 <div>
                     <h1 class="mk-hero__title">{{ auth()->user()->name }}</h1>
-                    <p class="mk-hero__text">{{ ucfirst(auth()->user()->role) }} ·
-                        {{ auth()->user()->email }}</p>
+                    <p class="mk-hero__text profile-header-meta">
+                        <span>{{ $roleLabel }}</span>
+                        <span aria-hidden="true">·</span>
+                        <span dir="ltr">{{ auth()->user()->email }}</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -24,20 +32,27 @@
 
     <div class="mk-page-section mk-page-section--compact">
         <div class="container">
-            <div class="row">
+            <div class="row profile-layout-row">
 
                 {{-- Sidebar --}}
-                <div class="col-md-3 mk-stack-sm">
+                <div class="col-md-3 mk-stack-sm profile-sidebar-col">
                     <div class="mk-card profile-tab-shell">
-                        <div id="profile-tabs" class="profile-tabs">
-                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link active-tab">
-                                <i class="fa fa-heart" aria-hidden="true"></i> {{ __('profile.favorites') }}
+                        <div id="profile-tabs" class="profile-tabs" role="tablist" aria-label="{{ __('profile.title') }}">
+                            <a href="#tab-submissions" data-toggle="tab" class="profile-tab-link active-tab" role="tab">
+                                <i class="fa fa-inbox" aria-hidden="true"></i>
+                                <span>{{ __('profile.submissions') }}</span>
                             </a>
-                            <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link">
-                                <i class="fa fa-star" aria-hidden="true"></i> {{ __('profile.reviews') }}
+                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link" role="tab">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span>{{ __('profile.favorites') }}</span>
                             </a>
-                            <a href="#tab-settings" data-toggle="tab" class="profile-tab-link">
-                                <i class="fa fa-cog" aria-hidden="true"></i> {{ __('profile.settings') }}
+                            <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link" role="tab">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <span>{{ __('profile.reviews') }}</span>
+                            </a>
+                            <a href="#tab-settings" data-toggle="tab" class="profile-tab-link" role="tab">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                <span>{{ __('profile.settings') }}</span>
                             </a>
                         </div>
                     </div>
@@ -46,9 +61,44 @@
                 {{-- Content --}}
                 <div class="col-md-9">
                     <div class="tab-content">
+                        {{-- Submissions --}}
+                        <div id="tab-submissions" class="tab-pane fade in active">
+                            <div class="mk-card profile-panel">
+                                <h3 class="mk-heading mk-heading--md">{{ __('profile.submissions') }}</h3>
+                                @forelse($submissions ?? [] as $submission)
+                                    <div class="profile-submission-item">
+                                        <div>
+                                            <div class="profile-submission-meta">
+                                                <span>{{ $submission['type'] }}</span>
+                                                @if ($submission['category'])
+                                                    <span>{{ $submission['category'] }}</span>
+                                                @endif
+                                            </div>
+                                            <h4>{{ $submission['title'] }}</h4>
+                                            <p>{{ \App\Support\LocalizedDate::date($submission['date']) }}</p>
+                                        </div>
+                                        <div class="profile-submission-actions">
+                                            <span class="profile-status-pill">{{ $submission['status'] }}</span>
+                                            @if ($submission['can_edit'] ?? false)
+                                                <a href="{{ $submission['edit_url'] }}" class="mk-button mk-button--secondary mk-button--sm">
+                                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                                    <span>{{ __('profile.edit_submission') }}</span>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="text-center profile-empty">
+                                        <div class="mk-empty-icon"><i class="fa fa-inbox" aria-hidden="true"></i></div>
+                                        <p class="mk-text mk-text--muted">{{ __('profile.empty_submissions') }}</p>
+                                        <a href="{{ route('add.create') }}" class="mk-button mk-button--primary mk-button--md">{{ __('profile.add_submission') }}</a>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
 
                         {{-- Favorites --}}
-                        <div id="tab-favorites" class="tab-pane fade in active">
+                        <div id="tab-favorites" class="tab-pane fade">
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.favorites') }}</h3>
                                 <div class="row">
@@ -66,13 +116,22 @@
                                     <h4 class="mk-heading mk-heading--sm">{{ __('profile.saved_services') }}</h4>
                                     <div class="row">
                                         @foreach ($favoriteServices as $service)
-                                            <div class="col-sm-6 col-md-4 mk-stack-sm">
-                                                <x-service-card :service="$service" />
-                                            </div>
+                                            <x-service-card :service="$service" />
                                         @endforeach
                                     </div>
                                 @endif
-                                @if (($favorites ?? collect())->isNotEmpty() || $favoriteServices->isNotEmpty())
+                                @if (($favoritePosts ?? collect())->isNotEmpty())
+                                    <h4 class="mk-heading mk-heading--sm">{{ __('profile.saved_posts') }}</h4>
+                                    <div class="profile-post-list">
+                                        @foreach ($favoritePosts as $post)
+                                            <a href="{{ route('posts.show', $post->slug) }}" class="profile-post-link">
+                                                <strong>{{ $post->title }}</strong>
+                                                <span>{{ \App\Support\LocalizedDate::date($post->published_at ?? $post->created_at) }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                @if (($favorites ?? collect())->isNotEmpty() || $favoriteServices->isNotEmpty() || ($favoritePosts ?? collect())->isNotEmpty())
                                     <a href="{{ route('favorites.index') }}" class="mk-button mk-button--secondary mk-button--md">
                                         {{ __('profile.view_all_favorites') }}
                                     </a>
@@ -103,10 +162,6 @@
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.account_settings') }}
                                 </h3>
-                                @if (session('success'))
-                                    <div class="mk-alert mk-alert--success">
-                                        {{ session('success') }}</div>
-                                @endif
                                 @if (session('status'))
                                     <div class="mk-alert mk-alert--success">
                                         {{ session('status') }}</div>
@@ -219,3 +274,32 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        (function () {
+            const links = document.querySelectorAll('.profile-tab-link[data-toggle="tab"]');
+            const activate = function (activeLink) {
+                links.forEach(function (link) {
+                    const isActive = link === activeLink;
+                    link.classList.toggle('active-tab', isActive);
+                    link.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+            };
+
+            links.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    activate(link);
+                });
+            });
+
+            if (window.location.hash) {
+                const hashLink = document.querySelector('.profile-tab-link[href="' + window.location.hash + '"]');
+                if (hashLink && window.jQuery) {
+                    window.jQuery(hashLink).tab('show');
+                    activate(hashLink);
+                }
+            }
+        })();
+    </script>
+@endpush

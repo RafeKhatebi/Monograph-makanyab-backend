@@ -83,6 +83,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withTimestamps();
     }
 
+    public function favoritePosts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'favorites')
+            ->wherePivotNotNull('post_id')
+            ->withTimestamps();
+    }
+
     public function places(): HasMany
     {
         return $this->hasMany(Place::class);
@@ -118,9 +125,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(SocialAccount::class);
     }
 
+    public function otps(): HasMany
+    {
+        return $this->hasMany(EmailVerificationOtp::class);
+    }
+
     public function hasUsablePassword(): bool
     {
         return $this->password_set_at !== null;
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new \App\Notifications\SendEmailVerificationOtpNotification);
     }
 
     // Role helper methods

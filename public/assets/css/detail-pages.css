@@ -1,0 +1,572 @@
+/* Makanyab Detail Page (Place / Service)
+   - Modern hero with cover image overlay
+   - Sticky sidebar with prominent contact card
+   - Clean section hierarchy and spacing
+   - Fully responsive (desktop / tablet / mobile)
+*/
+
+/* =========================================================
+   Hero with cover image background
+   ========================================================= */
+
+.detail-hero {
+    background: linear-gradient(135deg, var(--mk-primary-deep), var(--mk-primary));
+    color: #fff;
+    padding: 64px 0 56px;
+    position: relative;
+    overflow: hidden;
+}
+
+.detail-hero::before {
+    background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, .12), transparent 40%);
+    content: "";
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.detail-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.detail-hero__content {
+    max-width: 880px;
+}
+
+.detail-hero__breadcrumbs {
+    align-items: center;
+    color: rgba(255, 255, 255, .82);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.detail-hero__breadcrumbs a {
+    color: #fff;
+    font-weight: 600;
+    opacity: .85;
+    text-decoration: none;
+}
+
+.detail-hero__breadcrumbs a:hover,
+.detail-hero__breadcrumbs a:focus {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.detail-hero__breadcrumbs .fa {
+    font-size: 10px;
+    opacity: .55;
+}
+
+.detail-pill {
+    align-items: center;
+    background: rgba(255, 255, 255, .18);
+    border: 1px solid rgba(255, 255, 255, .32);
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 6px;
+    letter-spacing: .04em;
+    margin-bottom: 16px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 7px 14px;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.detail-pill .fa {
+    color: #fde68a;
+    font-size: 12px;
+}
+
+.detail-hero__title {
+    color: #fff;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 12px;
+    overflow-wrap: anywhere;
+    text-shadow: 0 2px 12px rgba(3, 7, 18, .25);
+}
+
+.detail-hero__text {
+    color: rgba(255, 255, 255, .9);
+    font-size: clamp(15px, 1.4vw, 18px);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 720px;
+}
+
+.detail-hero__meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.detail-hero__meta > * {
+    align-items: center;
+    background: rgba(15, 23, 42, .22);
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 600;
+    gap: 6px;
+    padding: 7px 12px;
+}
+
+.detail-hero__meta .fa {
+    font-size: 13px;
+}
+
+/* =========================================================
+   Page body / grid
+   ========================================================= */
+
+.detail-page {
+    background: var(--mk-page);
+    padding: 32px 0 72px;
+}
+
+.detail-grid {
+    align-items: start;
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.detail-main,
+.detail-sidebar {
+    display: grid;
+    gap: 20px;
+    min-width: 0;
+}
+
+.detail-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+/* =========================================================
+   Card primitives
+   ========================================================= */
+
+.detail-card {
+    background: #fff;
+    border: 1px solid var(--mk-border);
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, .07);
+    padding: 24px;
+}
+
+.detail-card__header {
+    align-items: center;
+    border-bottom: 1px solid var(--mk-border);
+    display: flex;
+    gap: 10px;
+    margin: -24px -24px 18px;
+    padding: 18px 24px;
+}
+
+.detail-card__header .fa {
+    align-items: center;
+    background: var(--mk-primary-soft);
+    border-radius: 8px;
+    color: var(--mk-primary-dark);
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+    font-size: 14px;
+}
+
+.detail-card__title {
+    color: var(--mk-text);
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.detail-media-card {
+    padding: 0;
+}
+
+.detail-cover-image {
+    aspect-ratio: 16 / 9;
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    background: #e2e8f0;
+}
+
+.detail-thumb-grid {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    padding: 10px;
+}
+
+.detail-thumb-grid img {
+    aspect-ratio: 4 / 3;
+    border-radius: 6px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.detail-section-title {
+    align-items: center;
+    color: var(--mk-text);
+    display: flex;
+    font-size: 18px;
+    font-weight: 800;
+    gap: 8px;
+    line-height: 1.35;
+    margin: 0 0 16px;
+}
+
+.detail-section-title .fa {
+    color: var(--mk-primary);
+    font-size: 16px;
+}
+
+.detail-copy {
+    color: #334155;
+    font-size: 15px;
+    line-height: 1.85;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.detail-copy--muted {
+    color: var(--mk-muted);
+}
+
+.detail-copy--article {
+    white-space: pre-line;
+}
+
+/* =========================================================
+   Facts grid (key/value rows)
+   ========================================================= */
+
+.detail-facts {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+}
+
+.detail-facts div {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    min-width: 0;
+    padding: 14px 16px;
+}
+
+.detail-facts dt {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.detail-facts dd {
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.45;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   Hours, links, contact
+   ========================================================= */
+
+.detail-hours {
+    display: grid;
+    gap: 8px;
+}
+
+.detail-hours div {
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #334155;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 12px 14px;
+}
+
+.detail-hours div span {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.detail-hours div strong {
+    color: var(--mk-primary-dark);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.detail-hours div.is-closed strong {
+    color: var(--mk-danger, #DC2626);
+}
+
+/* Contact card: highlighted block in the sidebar */
+
+.detail-contact-card {
+    background: linear-gradient(180deg, var(--mk-primary-soft) 0%, #fff 100%);
+    border-color: var(--mk-primary);
+    box-shadow: 0 14px 34px rgba(16, 185, 129, .12);
+}
+
+.detail-contact-card .detail-card__title,
+.detail-contact-card .detail-section-title {
+    color: var(--mk-primary-dark);
+}
+
+.detail-contact-list {
+    display: grid;
+    gap: 10px;
+}
+
+.detail-contact-list a,
+.detail-contact-list .detail-contact-item {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #0f172a;
+    display: flex;
+    gap: 12px;
+    padding: 12px 14px;
+    text-decoration: none;
+    transition: border-color .15s ease, box-shadow .15s ease, color .15s ease;
+}
+
+.detail-contact-list a:hover,
+.detail-contact-list a:focus {
+    border-color: var(--mk-primary);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, .12);
+    color: var(--mk-primary-dark);
+    text-decoration: none;
+}
+
+.detail-contact-list .fa {
+    align-items: center;
+    background: var(--mk-primary-soft);
+    border-radius: 50%;
+    color: var(--mk-primary-dark);
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 14px;
+    height: 36px;
+    justify-content: center;
+    width: 36px;
+}
+
+.detail-contact-list .detail-contact-label {
+    color: #64748b;
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.detail-contact-list .detail-contact-value {
+    color: #0f172a;
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* Owner block */
+
+.detail-owner {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.detail-owner div {
+    display: grid;
+    gap: 3px;
+}
+
+.detail-owner span:not(.mk-avatar) {
+    color: var(--mk-muted);
+    font-size: 13px;
+}
+
+.detail-owner-name {
+    color: #0f172a;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* Quick action buttons in sidebar */
+
+.detail-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.detail-actions .mk-button,
+.detail-favorite-form .mk-button,
+.detail-review-form .mk-button {
+    width: 100%;
+}
+
+.detail-favorite-form,
+.detail-review-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.detail-review-form label {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.detail-link-list {
+    display: grid;
+    gap: 9px;
+}
+
+.detail-link-list a {
+    align-items: flex-start;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #334155;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px;
+    text-decoration: none;
+    transition: border-color .15s ease, color .15s ease;
+}
+
+.detail-link-list a:hover,
+.detail-link-list a:focus {
+    border-color: var(--mk-primary);
+    color: var(--mk-primary-dark);
+    text-decoration: none;
+}
+
+.detail-link-list span {
+    color: var(--mk-muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   Related section
+   ========================================================= */
+
+.related-section {
+    margin-top: 40px;
+}
+
+.related-section__title {
+    color: var(--mk-text);
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 18px;
+}
+
+.related-section__title .fa {
+    color: var(--mk-primary);
+    font-size: 18px;
+    margin-inline-end: 8px;
+}
+
+/* =========================================================
+   RTL adjustments
+   ========================================================= */
+
+[dir="rtl"] .detail-contact-list a .fa,
+[dir="rtl"] .detail-hero__meta .fa {
+    margin: 0;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 991px) {
+    .detail-hero {
+        padding: 48px 0 40px;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .detail-sidebar {
+        position: static;
+        top: auto;
+    }
+
+    .detail-facts {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .detail-hero {
+        padding: 40px 0 32px;
+    }
+
+    .detail-page {
+        padding: 22px 0 48px;
+    }
+
+    .detail-card {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .detail-card__header {
+        margin: -18px -18px 14px;
+        padding: 14px 18px;
+    }
+
+    .detail-section-title {
+        font-size: 16px;
+    }
+
+    .detail-facts {
+        gap: 8px;
+    }
+
+    .detail-contact-list .fa {
+        height: 32px;
+        width: 32px;
+        font-size: 13px;
+    }
+}

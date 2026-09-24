@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     
-    $('input').iCheck({
+    $('input').not('[data-suggest-type]').iCheck({
         checkboxClass: 'icheckbox_square-yellow',
         radioClass: 'iradio_square-yellow',
         increaseArea: '20%' // optional

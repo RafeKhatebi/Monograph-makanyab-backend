@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var provinceSearch = document.getElementById('province-search');
     var provinceSelect = document.getElementById('province-select');
     var districtSelect = document.getElementById('district-select');
+    var cityInput = document.getElementById('city-value');
     var latInput = document.querySelector('input[name="latitude"]');
     var lngInput = document.querySelector('input[name="longitude"]');
     var coordsLabel = document.getElementById('selected-coords');
@@ -222,8 +223,16 @@ document.addEventListener('DOMContentLoaded', function () {
             districtSelect.value = selectedDistrict;
         }
 
+        syncCityFromDistrict();
+
         if (data.center && map) {
             map.setView(data.center, 8);
+        }
+    }
+
+    function syncCityFromDistrict() {
+        if (cityInput && districtSelect && districtSelect.value) {
+            cityInput.value = districtSelect.value;
         }
     }
 
@@ -265,6 +274,28 @@ document.addEventListener('DOMContentLoaded', function () {
             populateDistricts(this.value);
         });
     }
+
+    if (districtSelect) {
+        districtSelect.addEventListener('change', syncCityFromDistrict);
+    }
+
+    [latInput, lngInput].forEach(function (input) {
+        if (!input) {
+            return;
+        }
+
+        input.addEventListener('change', function () {
+            var latitude = latInput ? parseFloat(latInput.value) : NaN;
+            var longitude = lngInput ? parseFloat(lngInput.value) : NaN;
+
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                updatePosition(latitude, longitude);
+                if (map) {
+                    map.setView([latitude, longitude], Math.max(map.getZoom(), 13));
+                }
+            }
+        });
+    });
 
     var initialProvince = provinceSelect ? provinceSelect.dataset.selected || 'Kabul' : 'Kabul';
     var initialCenter = locationData[initialProvince] ? locationData[initialProvince].center : [34.5553, 69.2075];

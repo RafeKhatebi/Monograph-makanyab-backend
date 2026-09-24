@@ -25,7 +25,7 @@
     @stack('styles')
 </head>
 
-<body>
+<body class="admin-body">
     <!-- Skip to content link -->
     <a href="#main-content" class="skip-link">{{ __('common.skip_to_content') }}</a>
 
@@ -35,7 +35,7 @@
 
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar" role="complementary" aria-label="{{ __('admin.navigation.aria') }}">
-            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand" aria-label="Makanyab Admin Dashboard">
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand" aria-label="Makanyab {{ __('admin.navigation.dashboard') }}">
                 <img class="sidebar-brand-icon" src="{{ asset('assets/img/branding/makanyab-app-icon.svg') }}" alt="" aria-hidden="true">
                 <div class="sidebar-brand-text">Makanyab</div>
             </a>
@@ -77,29 +77,11 @@
                     <i class="fa fa-users" aria-hidden="true"></i>
                     {{ __('admin.navigation.users') }}
                 </a>
-                <a href="{{ route('admin.reviews.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.reviews.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    {{ __('admin.navigation.reviews') }}
-                </a>
                 <a href="{{ route('admin.contact-messages.index') }}"
                     class="sidebar-nav-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}"
                     {{ request()->routeIs('admin.contact-messages.*') ? 'aria-current="page"' : '' }}>
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                     {{ __('admin.navigation.contact_messages') }}
-                </a>
-                <a href="{{ route('admin.place-suggestions.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.place-suggestions.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.place-suggestions.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-lightbulb" aria-hidden="true"></i>
-                    {{ __('admin.navigation.place_suggestions') }}
-                </a>
-                <a href="{{ route('admin.service-suggestions.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.service-suggestions.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.service-suggestions.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-comment-dots" aria-hidden="true"></i>
-                    {{ __('admin.navigation.service_suggestions') }}
                 </a>
                 <a href="{{ route('admin.posts.index') }}"
                     class="sidebar-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}"
@@ -107,21 +89,10 @@
                     <i class="fa fa-newspaper" aria-hidden="true"></i>
                     {{ __('admin.navigation.posts') }}
                 </a>
-
-                <div class="sidebar-nav-divider" role="separator"></div>
-
                 <a href="{{ route('home') }}" class="sidebar-nav-item">
                     <i class="fa fa-globe" aria-hidden="true"></i>
                     {{ __('admin.navigation.back_to_site') }}
                 </a>
-
-                <form method="POST" action="{{ route('logout') }}" aria-label="Logout">
-                    @csrf
-                    <button type="submit" class="sidebar-nav-item sidebar-logout">
-                        <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
-                        {{ __('admin.navigation.logout') }}
-                    </button>
-                </form>
             </nav>
         </aside>
 
@@ -132,13 +103,13 @@
                 <div class="admin-header-inner">
                     <button class="sidebar-toggler" onclick="toggleSidebar()" aria-label="{{ __('navigation.open_menu') }}" aria-expanded="false" aria-controls="sidebar">
                         <i class="fa fa-bars" aria-hidden="true"></i>
-                        <span class="sr-only">Toggle menu</span>
+                        <span class="sr-only">{{ __('navigation.open_menu') }}</span>
                     </button>
                     <h1 class="admin-header-title" id="page-title">@yield('page-title', __('admin.navigation.dashboard'))</h1>
                 </div>
 
                 <div class="user-dropdown">
-                    @include('partials.language-switcher')
+                    @include('partials.language-switcher', ['variant' => 'icon'])
                     <button type="button" class="user-dropdown-toggle" onclick="toggleUserDropdown()" aria-expanded="false" aria-haspopup="true" aria-label="{{ __('admin.navigation.user_menu') }}">
                         <span>{{ auth()->user()->name }}</span>
                         <i class="fa fa-chevron-down" aria-hidden="true"></i>

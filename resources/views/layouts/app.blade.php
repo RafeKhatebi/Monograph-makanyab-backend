@@ -40,6 +40,9 @@
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/home-hero.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/detail-pages.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/mirasaf-inspired.css') }}">
 
         @stack('styles')
     </head>
@@ -50,6 +53,14 @@
         @include('partials.flash-message')
         <main>@yield('content')</main>
         @include('partials.footer')
+
+        <!-- Global Floating Add Button -->
+        <div class="mk-fab" aria-label="{{ __('home.add_sticky_label') }}">
+            <a href="{{ route('add.create', ['type' => 'place']) }}" class="mk-fab__trigger" id="mk-fab-trigger"
+                aria-label="{{ __('home.suggest_place') }}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+        </div>
 
         <!-- Scripts -->
         @php

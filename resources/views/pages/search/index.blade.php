@@ -7,7 +7,7 @@
         $activeCategories = $selectedType === 'service' ? $serviceCategories : $placeCategories;
         $resultLabel = $selectedType === 'service' ? __('search.services') : __('search.places');
         $hasAdvancedFilters = filled($status) || filled($rating) || $verified || ! in_array($sort, ['relevance', 'newest'], true);
-        $hasFilters = filled($searchTerm) || filled($category) || filled($province) || $selectedType !== 'place' || $hasAdvancedFilters;
+        $hasFilters = filled($searchTerm) || filled($category) || filled($province) || $hasAdvancedFilters;
         $statusOptions = ['open', 'closed', 'temporarily_closed'];
         $sortOptions = [
             'relevance' => __('search.most_relevant'),
@@ -47,7 +47,7 @@
                             <i class="fa fa-search" aria-hidden="true"></i>
                             <input id="discover-keyword" type="search" name="search" value="{{ $searchTerm }}"
                                 placeholder="{{ __('search.keyword_placeholder') }}"
-                                class="search-input search-input--icon" maxlength="120" autocomplete="off">
+                                class="search-input search-input--icon" maxlength="100" autocomplete="off">
                         </div>
                     </div>
 
@@ -86,7 +86,7 @@
 
                 <div class="discover-more">
                     <div class="discover-more__header">
-                        <span><i class="fa fa-sliders" aria-hidden="true"></i> {{ __('search.filters') }}</span>
+                        <span>{{ __('search.filters') }}</span>
                     </div>
                     <div class="discover-grid discover-grid--secondary">
                         <div class="discover-field">
@@ -156,9 +156,7 @@
             <div class="row">
                 @forelse ($results as $item)
                     @if ($selectedType === 'service')
-                        <div class="col-sm-6 col-md-4 search-result-col">
-                            <x-service-card :service="$item" />
-                        </div>
+                        <x-service-card :service="$item" />
                     @else
                         @include('components.place-card', ['place' => $item])
                     @endif

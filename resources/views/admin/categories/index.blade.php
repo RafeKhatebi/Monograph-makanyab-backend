@@ -14,13 +14,13 @@
 
         <div class="card-body">
             <div class="admin-table-wrap">
-                <table class="table" aria-label="Categories list">
+                <table class="table" aria-label="{{ __('admin.dashboard.categories') }} {{ __('admin.crud.list') }}">
                     <thead>
                         <tr>
                             <th scope="col">{{ __('admin.dashboard.name') }}</th>
-                            <th scope="col">Slug</th>
-                            <th scope="col">Parent</th>
-                            <th scope="col">Children</th>
+                            <th scope="col">{{ __('admin.crud.slug') }}</th>
+                            <th scope="col">{{ __('admin.crud.parent_category') }}</th>
+                            <th scope="col">{{ __('admin.crud.children') }}</th>
                             <th scope="col">{{ __('admin.dashboard.places') }}</th>
                             <th scope="col">{{ __('admin.dashboard.status') }}</th>
                             <th scope="col">{{ __('admin.crud.actions') }}</th>
@@ -70,7 +70,7 @@
             </div>
 
             @if ($categories->hasPages())
-                <nav class="admin-pagination" aria-label="Categories pagination">
+                <nav class="admin-pagination" aria-label="{{ __('admin.dashboard.categories') }} {{ __('admin.crud.pagination') }}">
                     {{ $categories->links() }}
                 </nav>
             @endif

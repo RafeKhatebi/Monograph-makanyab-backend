@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\PlaceCategoryController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
-use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
@@ -62,6 +61,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/add', [SuggestionHubController::class, 'store'])
         ->middleware('throttle:5,1')
         ->name('add.store');
+    Route::get('/add/{type}/{submission}/edit', [SuggestionHubController::class, 'edit'])
+        ->whereIn('type', ['place', 'service', 'post'])
+        ->name('add.edit');
+    Route::put('/add/{type}/{submission}', [SuggestionHubController::class, 'update'])
+        ->whereIn('type', ['place', 'service', 'post'])
+        ->middleware('throttle:5,1')
+        ->name('add.update');
 });
 
 //  Posts Section
@@ -71,12 +77,13 @@ Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.s
 
 // Places
 Route::get('/places', [PlaceController::class, 'index'])->name('places.index');
+Route::get('/places/load-more', [PlaceController::class, 'loadMore'])->name('places.load-more');
 Route::get('/places/{place:slug}', [PlaceController::class, 'show'])->name('places.show');
-
-Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'])->name('services.show');
 
 // Services Index
 Route::get('/services', [FrontendServiceController::class, 'index'])->name('services.index');
+Route::get('/services/load-more', [FrontendServiceController::class, 'loadMore'])->name('services.load-more');
+Route::get('/services/{service:slug}', [FrontendServiceController::class, 'show'])->name('services.show');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/services/{service:slug}/favorite', [FrontendServiceController::class, 'toggleFavorite'])
         ->name('services.favorite');
@@ -148,7 +155,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('/', fn () => redirect()->route('admin.dashboard'))->name('home');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         //  Places Management
-        Route::resource('places', App\Http\Controllers\Admin\PlaceController::class);
+        Route::resource('places', App\Http\Controllers\Admin\PlaceController::class)
+            ->except(['create', 'store']);
 
         Route::post('places/{place}/restore', [App\Http\Controllers\Admin\PlaceController::class, 'restore'])
             ->name('places.restore');
@@ -169,7 +177,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::resource('service-categories', ServiceCategoryController::class);
         //  Services Management
 
-        Route::resource('services', ServiceController::class);
+        Route::resource('services', ServiceController::class)
+            ->except(['create', 'store']);
         Route::post('services/{service}/restore', [ServiceController::class, 'restore'])
             ->name('services.restore');
 
@@ -206,13 +215,6 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::post('service-suggestions/{serviceSuggestion}/reject', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'reject'])
             ->name('service-suggestions.reject');
 
-        //  Reviews Management
-
-        Route::resource('reviews', ReviewController::class)
-            ->only(['index', 'show', 'destroy']);
-        Route::post('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
-        Route::post('reviews/{review}/reject', [ReviewController::class, 'reject'])->name('reviews.reject');
-
         Route::resource('contact-messages', AdminContactMessageController::class)
             ->only(['index', 'show', 'destroy']);
         Route::post('contact-messages/{contactMessage}/mark-unread', [AdminContactMessageController::class, 'markUnread'])
@@ -225,7 +227,9 @@ Route::middleware(['auth', 'verified', 'admin'])
         /*
         Posts Management
         */
-        Route::resource('posts', AdminPostController::class);
+        Route::resource('posts', AdminPostController::class)
+            ->except(['create', 'store', 'show']);
+        Route::post('posts/{post}/approve', [AdminPostController::class, 'approve'])->name('posts.approve');
     });
 
 if (app()->environment(['local', 'development', 'testing'])) {

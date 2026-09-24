@@ -41,7 +41,7 @@ return new class extends Migration
 
             $table->string('submitted_by_name')->nullable();
             $table->string('submitted_by_email')->nullable();
-            $table->enum('suggestion_status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('suggestion_status', ['draft', 'sent', 'under_review', 'pending', 'approved', 'published', 'rejected'])->default('pending');
             $table->text('admin_note')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('rejected_at')->nullable();

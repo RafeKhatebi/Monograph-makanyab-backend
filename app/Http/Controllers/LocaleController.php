@@ -97,7 +97,7 @@ class LocaleController extends Controller
             $url .= ':'.$parts['port'];
         }
 
-        $url .= $parts['path'] ?? '/';
+        $url .= $parts['path'] ?? '';
 
         if (isset($parts['query']) && $parts['query'] !== '') {
             $url .= '?'.$parts['query'];

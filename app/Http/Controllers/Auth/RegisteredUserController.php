@@ -45,7 +45,14 @@ class RegisteredUserController extends Controller
             'password_set_at' => now(),
         ]);
 
-        event(new Registered($user));
+        try {
+            event(new Registered($user));
+        } catch (\Throwable $e) {
+            Log::error('Failed to dispatch Registered event for user: '.$e->getMessage(), [
+                'user_id' => $user->id,
+                'email' => $user->email,
+            ]);
+        }
 
         Auth::login($user);
 

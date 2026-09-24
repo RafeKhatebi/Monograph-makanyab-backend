@@ -21,22 +21,18 @@ class StorePlaceCategoryRequest extends FormRequest
             'parent_id' => ['nullable', 'integer', Rule::exists('place_categories', 'id')],
             'name' => ['required', 'string', 'max:255', Rule::unique('place_categories', 'name')],
             'slug' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique('place_categories', 'slug')],
-            'icon_name' => ['nullable', 'string', 'max:100'],
-            'color_code' => ['sometimes', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'has_menu' => ['sometimes', 'boolean'],
             'has_booking' => ['sometimes', 'boolean'],
             'has_delivery' => ['sometimes', 'boolean'],
             'keywords' => ['nullable', 'string', 'max:1000'],
             'schema_type' => ['nullable', 'string', 'max:100'],
             'is_active' => ['sometimes', 'boolean'],
-            'sort_order' => ['sometimes', 'integer', 'min:0', 'max:65535'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'color_code.regex' => 'color_code must be a valid hex color (e.g. #3b82f6).',
             'parent_id.exists' => 'The selected parent category does not exist.',
             'name.unique' => 'A category with this name already exists.',
             'slug.unique' => 'A category with this slug already exists.',

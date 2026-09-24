@@ -23,7 +23,7 @@
                 </label>
             </div>
 
-            <x-primary-button class="w-full text-center mb-5">
+            <x-primary-button class="w-full text-center mb-4">
                 {{ __('auth.ui.sign_in') }}
             </x-primary-button>
 

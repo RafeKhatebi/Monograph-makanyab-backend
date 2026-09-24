@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\PlaceStatus;
-use App\Enums\PriceLevel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,29 +15,49 @@ class StoreUserSubmissionRequest extends FormRequest
     public function rules(): array
     {
         $type = $this->input('type', 'place');
+        $isDraft = $this->input('submit_action') === 'draft';
 
         $rules = [
             'type' => ['required', Rule::in(['place', 'service', 'post'])],
             'submit_action' => ['required', Rule::in(['draft', 'send_review'])],
-            'name' => ['required_unless:type,post', 'nullable', 'string', 'max:255'],
+            'name' => [$type === 'post' ? 'nullable' : 'required', 'nullable', 'string', 'max:255'],
             'title' => ['required_if:type,post', 'nullable', 'string', 'max:255'],
-            'tagline' => ['nullable', 'string', 'max:255'],
-            'description' => ['required_unless:type,post', 'nullable', 'string', 'min:20', 'max:2000'],
-            'content' => ['required_if:type,post', 'nullable', 'string', 'min:80'],
+            'description' => [$isDraft || $type === 'post' ? 'nullable' : 'required', 'nullable', 'string', $isDraft ? 'max:2000' : 'min:20', 'max:2000'],
+            'content' => [$type === 'post' && ! $isDraft ? 'required' : 'nullable', 'nullable', 'string', $isDraft ? 'max:20000' : 'min:80'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'extra_information' => ['nullable', 'string', 'max:2000'],
+            'cover_image_index' => ['nullable', 'integer', 'min:0', 'max:5'],
         ];
 
         if ($type === 'place') {
-            $rules += $this->placeOrServiceRules('place_categories', 'place_category_id');
+            if (! $isDraft) {
+                $rules['name'][] = Rule::unique('place_suggestions', 'name')->where(fn ($query) => $query
+                    ->where('place_category_id', $this->input('place_category_id'))
+                    ->where('city', $this->input('city'))
+                    ->whereIn('suggestion_status', ['pending', 'approved']))
+                    ->ignore($this->route('type') === 'place' ? $this->route('submission') : null);
+            }
+            $rules += $this->placeOrServiceRules('place_categories', 'place_category_id', $isDraft);
         }
 
         if ($type === 'service') {
-            $rules += $this->placeOrServiceRules('service_categories', 'service_category_id');
+            if (! $isDraft) {
+                $rules['name'][] = Rule::unique('service_suggestions', 'name')->where(fn ($query) => $query
+                    ->where('service_category_id', $this->input('service_category_id'))
+                    ->where('city', $this->input('city'))
+                    ->whereIn('suggestion_status', ['pending', 'approved']))
+                    ->ignore($this->route('type') === 'service' ? $this->route('submission') : null);
+            }
+            $rules += $this->placeOrServiceRules('service_categories', 'service_category_id', $isDraft);
         }
 
         if ($type === 'post') {
-            $rules['image'] = ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'];
+            $rules['image'] = [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:4096',
+            ];
         }
 
         return $rules;
@@ -61,7 +79,6 @@ class StoreUserSubmissionRequest extends FormRequest
             'city' => __('suggestions.city'),
             'address' => __('suggestions.address'),
             'phone_1' => __('suggestions.phone'),
-            'price_level' => __('suggestions.price_level'),
             'images' => __('suggestions.images'),
             'image' => __('suggestions.image'),
             'extra_information' => __('suggestions.extra_information'),
@@ -85,29 +102,27 @@ class StoreUserSubmissionRequest extends FormRequest
         ];
     }
 
-    private function placeOrServiceRules(string $categoryTable, string $categoryField): array
+    private function placeOrServiceRules(string $categoryTable, string $categoryField, bool $isDraft): array
     {
         return [
-            $categoryField => ['required', "exists:{$categoryTable},id"],
-            'phone_1' => ['required', 'string', 'max:20'],
-            'phone_2' => ['nullable', 'string', 'max:20'],
+            $categoryField => [$isDraft ? 'nullable' : 'required', Rule::exists($categoryTable, 'id')->where('is_active', true)],
+            'phone_1' => [$isDraft ? 'nullable' : 'required', 'string', 'max:20'],
             'whatsapp' => ['nullable', 'string', 'max:20'],
             'website' => ['nullable', 'url', 'max:255'],
-            'address' => ['required', 'string', 'max:500'],
-            'country' => ['required', 'string', 'max:100'],
-            'province' => ['required', 'string', 'max:100'],
-            'city' => ['required', 'string', 'max:100'],
-            'district' => ['required', 'string', 'max:100'],
-            'subdistrict' => ['nullable', 'string', 'max:100'],
-            'village' => ['nullable', 'string', 'max:100'],
-            'rt_rw' => ['nullable', 'string', 'max:20'],
+            'address' => [$isDraft ? 'nullable' : 'required', 'string', 'max:500'],
+            'country' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
+            'province' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
+            'city' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
+            'district' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
             'neighborhood' => ['nullable', 'string', 'max:100'],
-            'postal_code' => ['nullable', 'string', 'max:10'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
-            'status' => ['nullable', Rule::enum(PlaceStatus::class)],
-            'price_level' => ['required', Rule::enum(PriceLevel::class)],
-            'images' => ['required', 'array', 'min:1', 'max:6'],
+            'images' => [
+                'nullable',
+                'array',
+                'min:1',
+                'max:6',
+            ],
             'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ];
     }

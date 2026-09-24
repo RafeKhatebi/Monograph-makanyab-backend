@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">No image available</title>
+  <desc id="desc">Makanyab placeholder image used when a listing has no uploaded photo.</desc>
+  <rect width="960" height="640" fill="#f4f7f6"/>
+  <rect x="60" y="60" width="840" height="520" rx="28" fill="#ffffff" stroke="#d8e3df" stroke-width="3" stroke-dasharray="14 14"/>
+  <circle cx="620" cy="235" r="38" fill="#b7c4d1"/>
+  <path d="M234 470l158-176 104 116 70-78 160 138H234z" fill="#9eabb9"/>
+  <path d="M234 470l158-176 104 116 70-78 160 138" fill="none" stroke="#8795a5" stroke-width="3"/>
+  <text x="480" y="535" text-anchor="middle" fill="#425466" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">No Image</text>
+</svg>

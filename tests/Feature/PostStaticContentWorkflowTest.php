@@ -33,17 +33,19 @@ test('public posts only show currently published posts', function () {
     $this->get(route('posts.show', $future->slug))->assertNotFound();
 });
 
-test('admin post creation generates unique slugs and leaves drafts unpublished', function () {
-    $admin = User::factory()->create(['role' => 'admin']);
+test('submitted post creation generates unique slugs and leaves drafts unpublished', function () {
+    $user = User::factory()->create();
     Post::factory()->create(['title' => 'Duplicate Title', 'slug' => 'duplicate-title']);
 
-    $this->actingAs($admin)
-        ->post(route('admin.posts.store'), [
+    $this->actingAs($user)
+        ->post(route('add.store'), [
+            'type' => 'post',
+            'submit_action' => 'draft',
             'title' => 'Duplicate Title',
             'excerpt' => 'Short summary',
-            'content' => 'Body text',
+            'content' => 'Body text with enough detail for a saved draft post submission in the new user workflow.',
         ])
-        ->assertRedirect(route('admin.posts.index'));
+        ->assertRedirect(route('add.create', ['type' => 'post']));
 
     $this->assertDatabaseHas('posts', [
         'title' => 'Duplicate Title',

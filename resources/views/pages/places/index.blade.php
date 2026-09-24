@@ -12,47 +12,22 @@
 
     <div class="listing-layout listing-layout--simple">
         <div class="container">
-            <div class="listing-discover-cta">
-                <div>
-                    <h2>{{ __('search.discover_places_title') }}</h2>
-                    <p>{{ __('search.discover_places_text') }}</p>
-                </div>
-                <a href="{{ route('search.index', ['type' => 'place']) }}" class="mk-button mk-button--primary mk-button--md">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    {{ __('navigation.discover') }}
-                </a>
-            </div>
-
-            <div class="search-summary listing-summary p-6 m-6">
-                <h3>
-                    {{ __('places.count', ['count' => $places->total()]) }}
-                    @if (request('search'))
-                        {{ __('search.for_keyword') }} "<mark>{{ request('search') }}</mark>"
-                    @endif
-                </h3>
-            </div>
-
-            <div class="row">
-                @forelse($places as $place)
-                    @include('components.place-card', ['place' => $place])
-                @empty
-                    <div class="col-md-12 listing-empty">
-                        <div class="mk-empty-icon"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-                        <h3 class="mk-heading mk-heading--md">{{ __('places.no_results') }}</h3>
-                        <p class="mk-text--muted mk-stack-sm">{{ __('places.adjust') }}</p>
-                        <a href="{{ route('places.index') }}" class="mk-button mk-button--primary mk-button--md">{{ __('places.reset_filters') }}</a>
-                    </div>
-                @endforelse
+            <div class="row" data-load-more-target="places">
+                @include('pages.places._cards', ['places' => $places])
             </div>
 
             @if ($places->hasMorePages())
-                <div class="listing-load-more">
-                    <a href="{{ $places->appends(request()->query())->nextPageUrl() }}" class="mk-button mk-button--primary mk-button--lg">
+                <div class="listing-load-more" data-load-more-wrap data-next-page="{{ $places->currentPage() + 1 }}" data-endpoint="{{ route('places.load-more') }}" data-target="places">
+                    <button type="button" class="mk-button mk-button--primary mk-button--lg" data-load-more-trigger>
                         {{ __('places.load_more') }}
-                    </a>
+                    </button>
                 </div>
             @endif
         </div>
     </div>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/listing-load-more.js') }}"></script>
+@endpush

@@ -4,23 +4,66 @@
 @section('page-title', __('admin.dashboard.services'))
 
 @section('content')
+    @if (($pendingSuggestions ?? collect())->isNotEmpty())
+        <section class="card admin-mb-4" aria-label="{{ __('admin.suggestions.pending_service') }}">
+            <div class="card-header admin-card-header">
+                <h2 class="admin-card-title">{{ __('admin.suggestions.pending_service') }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="admin-table-wrap">
+                    <table class="table" aria-label="{{ __('admin.suggestions.pending_service') }}">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{ __('admin.suggestions.name') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.city') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.category') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.submitted_by') }}</th>
+                                <th scope="col">{{ __('admin.suggestions.actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($pendingSuggestions as $suggestion)
+                                <tr>
+                                    <td>{{ $suggestion->name }}</td>
+                                    <td>{{ $suggestion->city }}</td>
+                                    <td>{{ $suggestion->category->name ?? '-' }}</td>
+                                    <td>{{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? __('admin.suggestions.guest')) }}</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <a href="{{ route('admin.service-suggestions.show', $suggestion) }}" class="btn btn-sm btn-outline-primary">{{ __('common.actions.view') }}</a>
+                                            <form action="{{ route('admin.service-suggestions.approve', $suggestion) }}" method="POST" class="admin-action-form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-success">{{ __('admin.suggestions.approve') }}</button>
+                                            </form>
+                                            <form action="{{ route('admin.service-suggestions.reject', $suggestion) }}" method="POST" class="admin-action-form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('admin.suggestions.reject') }}</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    @endif
+
     <section class="card" aria-label="{{ __('admin.crud.manage', ['item' => __('admin.dashboard.services')]) }}">
         <div class="card-header admin-card-header">
             <h2 class="admin-card-title">{{ __('admin.crud.all', ['item' => __('admin.dashboard.services')]) }} ({{ $services->total() }})</h2>
-            <a href="{{ route('admin.services.create') }}" class="btn btn-primary btn-sm">
-                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('admin.crud.add', ['item' => __('admin.dashboard.services')]) }}
-            </a>
         </div>
 
         <div class="card-body">
-            <form method="GET" action="{{ route('admin.services.index') }}" role="search" aria-label="Filter services" class="admin-filter-form">
+            <form method="GET" action="{{ route('admin.services.index') }}" role="search" aria-label="{{ __('admin.crud.search', ['item' => __('admin.dashboard.services')]) }}" class="admin-filter-form">
                 <div class="admin-filter-field">
                     <label for="search" class="sr-only">{{ __('admin.crud.search', ['item' => __('admin.dashboard.services')]) }}</label>
                     <input type="text" id="search" name="search" value="{{ request('search') }}" placeholder="{{ __('admin.crud.search', ['item' => __('admin.dashboard.services')]) }}"
                         class="form-control">
                 </div>
                 <div>
-                    <label for="service_category" class="sr-only">Filter by category</label>
+                    <label for="service_category" class="sr-only">{{ __('admin.dashboard.category') }}</label>
                     <select id="service_category" name="service_category" class="form-select admin-filter-select">
                         <option value="">{{ __('admin.crud.all_categories') }}</option>
                         @foreach ($categories as $category)
@@ -32,7 +75,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="is_verified" class="sr-only">Filter by verification status</label>
+                    <label for="is_verified" class="sr-only">{{ __('admin.crud.all_verification') }}</label>
                     <select id="is_verified" name="is_verified" class="form-select admin-filter-select">
                         <option value="">{{ __('admin.crud.all_verification') }}</option>
                         <option value="1" {{ request('is_verified') === '1' ? 'selected' : '' }}>{{ __('admin.crud.verified') }}</option>
@@ -40,7 +83,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="is_active" class="sr-only">Filter by status</label>
+                    <label for="is_active" class="sr-only">{{ __('admin.dashboard.status') }}</label>
                     <select id="is_active" name="is_active" class="form-select admin-filter-select admin-filter-select--sm">
                         <option value="">{{ __('admin.crud.all_status') }}</option>
                         <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>{{ __('admin.dashboard.active') }}</option>
@@ -48,7 +91,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="trashed" class="sr-only">Filter deleted services</label>
+                    <label for="trashed" class="sr-only">{{ __('admin.crud.deleted') }}</label>
                     <select id="trashed" name="trashed" class="form-select admin-filter-select admin-filter-select--sm">
                         <option value="">{{ __('admin.crud.current') }}</option>
                         <option value="with" {{ request('trashed') === 'with' ? 'selected' : '' }}>{{ __('admin.crud.with_deleted') }}</option>
@@ -62,7 +105,7 @@
             </form>
 
             <div class="admin-table-wrap">
-                <table class="table" aria-label="Services list">
+                <table class="table" aria-label="{{ __('admin.crud.all', ['item' => __('admin.dashboard.services')]) }}">
                     <thead>
                         <tr>
                             <th scope="col">{{ __('admin.dashboard.name') }}</th>
@@ -133,7 +176,7 @@
             </div>
 
             @if ($services->hasPages())
-                <nav class="admin-pagination" aria-label="Services pagination">
+                <nav class="admin-pagination" aria-label="{{ __('admin.dashboard.services') }}">
                     {{ $services->links() }}
                 </nav>
             @endif

@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Services\SlugService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -28,34 +26,6 @@ class PostController extends Controller
             ->paginate(15);
 
         return view('admin.posts.index', compact('posts'));
-    }
-
-    public function create()
-    {
-        return view('admin.posts.create');
-    }
-
-    public function store(StorePostRequest $request)
-    {
-        $data = $request->validated();
-
-        $data['user_id'] = Auth::id();
-        $data['slug'] = $this->slugService->createUniqueSlug(Post::class, $data['title']);
-        $data['is_published'] = $request->boolean('is_published');
-        $data['published_at'] = $data['is_published'] ? now() : null;
-        $data['submission_status'] = $data['is_published']
-            ? SuggestionStatus::Published->value
-            : SuggestionStatus::Draft->value;
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('posts', 'public');
-        }
-
-        Post::create($data);
-
-        return redirect()
-            ->route('admin.posts.index')
-            ->with('success', __('messages.admin.posts.created'));
     }
 
     public function edit(Post $post)
@@ -110,5 +80,17 @@ class PostController extends Controller
         $post->delete();
 
         return back()->with('success', __('messages.admin.posts.deleted'));
+    }
+
+    public function approve(Post $post)
+    {
+        $post->update([
+            'is_published' => true,
+            'published_at' => $post->published_at ?? now(),
+            'submission_status' => SuggestionStatus::Published->value,
+            'admin_note' => null,
+        ]);
+
+        return back()->with('success', __('messages.admin.posts.updated'));
     }
 }

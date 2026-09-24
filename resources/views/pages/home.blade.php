@@ -6,40 +6,22 @@
     @php
         $heroSlides = [
             [
-                'image' => asset('assets/img/slide1/slider-image-1.jpg'),
-                'label' => __('home.hero_label'),
-                'title' => __('home.hero_title'),
-                'text' => __('home.hero_text'),
+                'image' => asset('assets/img/slide1/bg-01.jpg'),
             ],
             [
-                'image' => asset('assets/img/demo/property-1.jpg'),
-                'label' => __('home.hero_label'),
-                'title' => __('home.services_title'),
-                'text' => __('home.services_text'),
+                'image' => asset('assets/img/slide1/bg-02.jpg'),
             ],
             [
-                'image' => asset('assets/img/slide1/slider-image-1.jpg'),
-                'label' => __('home.community_label'),
-                'title' => __('home.community_title'),
-                'text' => __('home.community_text'),
+                'image' => asset('assets/img/slide1/bg-03.jpg'),
             ],
             [
-                'image' => asset('assets/img/demo/property-1.jpg'),
-                'label' => __('home.places_label'),
-                'title' => __('home.places_slide_title'),
-                'text' => __('home.places_slide_text'),
+                'image' => asset('assets/img/slide1/bg-04.jpg'),
             ],
             [
-                'image' => asset('assets/img/slide1/slider-image-1.jpg'),
-                'label' => __('home.verified_label'),
-                'title' => __('home.verified_slide_title'),
-                'text' => __('home.verified_slide_text'),
+                'image' => asset('assets/img/slide1/bg-05.jpg'),
             ],
             [
-                'image' => asset('assets/img/demo/property-1.jpg'),
-                'label' => __('home.local_label'),
-                'title' => __('home.local_slide_title'),
-                'text' => __('home.local_slide_text'),
+                'image' => asset('assets/img/slide1/bg-06.jpg'),
             ],
         ];
     @endphp
@@ -51,32 +33,19 @@
                     aria-hidden="{{ $index === 0 ? 'false' : 'true' }}">
                     <img class="home-hero__image" src="{{ $slide['image'] }}" alt="" aria-hidden="true">
                     <div class="home-hero__shade"></div>
-                    <div class="container home-hero__content">
-                        <div class="home-hero__copy">
-                            <span class="home-hero__eyebrow">{{ $slide['label'] }}</span>
-                            <h1 class="home-hero__title">{{ $slide['title'] }}</h1>
-                            <p class="home-hero__text">{{ $slide['text'] }}</p>
-                        </div>
-                    </div>
                 </article>
             @endforeach
         </div>
 
-        <div class="container home-hero__search-wrap">
-            <dl class="home-hero__stats" aria-label="{{ __('home.summary') }}">
-                <div>
-                    <dt>{{ number_format($homeStats['places']) }}</dt>
-                    <dd>{{ __('home.places') }}</dd>
+        <div class="home-hero__search-wrap">
+            <form action="{{ route('search.index') }}" method="GET" class="home-hero-search" role="search" aria-label="{{ __('home.search_label') }}">
+                <div class="home-hero-search__field">
+                    <label for="home-search-query" class="sr-only">{{ __('home.keyword') }}</label>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input id="home-search-query" type="search" name="search" value="{{ request('search') }}"
+                        placeholder="{{ __('home.search_placeholder') }}">
                 </div>
-                <div>
-                    <dt>{{ number_format($homeStats['services']) }}</dt>
-                    <dd>{{ __('home.services') }}</dd>
-                </div>
-                <div>
-                    <dt>{{ number_format($homeStats['verified']) }}</dt>
-                    <dd>{{ __('home.verified') }}</dd>
-                </div>
-            </dl>
+            </form>
         </div>
 
         <div class="home-hero__pagination" role="tablist" aria-label="{{ __('home.highlight_slides') }}">
@@ -123,9 +92,7 @@
             </div>
             <div class="row home-feature-row">
                 @forelse($featuredServices ?? [] as $service)
-                    <div class="col-sm-6 col-md-4 p-2 home-card-col">
-                        @include('components.service-card', ['service' => $service])
-                    </div>
+                    <x-service-card :service="$service" />
                 @empty
                     <div class="col-md-12 home-empty">
                         <p class="mk-text--muted">{{ __('home.empty_featured_services') }}</p>
@@ -227,17 +194,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="home-suggest-sticky" aria-label="{{ __('home.add_sticky_label') }}">
-        <a href="{{ route('add.create', ['type' => 'place']) }}" class="home-suggest-sticky__button">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-            {{ __('home.add_place') }}
-        </a>
-        <a href="{{ route('add.create', ['type' => 'service']) }}" class="home-suggest-sticky__button home-suggest-sticky__button--secondary">
-            <i class="fa fa-briefcase" aria-hidden="true"></i>
-            {{ __('home.add_service') }}
-        </a>
     </div>
 
 @endsection

@@ -14,7 +14,7 @@ test('verification email preview can be rendered locally', function () {
         ->get('/dev/auth-mail-preview/verification')
         ->assertOk()
         ->assertSee('Email Verification Preview')
-        ->assertSee('Verify Email Address')
+        ->assertSee('Resend Verification Email')
         ->assertSee('verify-email', false);
 });
 

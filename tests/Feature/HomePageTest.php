@@ -54,9 +54,6 @@ it('renders the phase nine home sections and searchable hero', function () {
     $response->assertOk()
         ->assertSee('data-home-hero', false)
         ->assertSee('Find trusted places across Afghanistan')
-        ->assertSee('Search places, services, or keywords')
-        ->assertSee('Any location')
-        ->assertSee('Restaurants')
         ->assertSee('Featured Places')
         ->assertSee('Featured Services')
         ->assertSee('Recently Verified')
@@ -64,8 +61,6 @@ it('renders the phase nine home sections and searchable hero', function () {
         ->assertSee('Kabul Garden Cafe')
         ->assertSee('City Repair Service')
         ->assertSee('Makanyab City Guide')
-        ->assertSee('Suggest a Place')
-        ->assertSee('Suggest a Service')
         ->assertDontSee('Show next Makanyab highlight');
 });
 
@@ -75,7 +70,6 @@ it('shows professional empty states when home records are unavailable', function
     $response->assertOk()
         ->assertSee('No featured places yet.')
         ->assertSee('No featured services yet.')
-        ->assertSee('No categories available yet.')
         ->assertSee('Verified places will appear here soon.')
         ->assertSee('New articles and updates will be published soon.');
 });

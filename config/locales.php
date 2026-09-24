@@ -2,17 +2,17 @@
 
 return [
     'en' => [
-        'name' => 'English',
-        'native' => 'English',
+        'name' => 'انگلیسی',
+        'native' => 'انگلیسی',
         'direction' => 'ltr',
     ],
     'fa' => [
-        'name' => 'Persian',
+        'name' => 'فارسی',
         'native' => 'فارسی',
         'direction' => 'rtl',
     ],
     'ps' => [
-        'name' => 'Pashto',
+        'name' => 'پشتو',
         'native' => 'پښتو',
         'direction' => 'rtl',
     ],

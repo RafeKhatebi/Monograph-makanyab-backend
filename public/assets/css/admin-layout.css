@@ -19,14 +19,34 @@
 
 .admin-shell {
     display: flex;
+    height: 100vh;
     min-height: 100vh;
+    overflow: hidden;
+}
+
+.admin-body {
+    height: 100vh;
+    overflow: hidden;
 }
 
 .admin-main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    height: 100vh;
     min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    scrollbar-gutter: stable;
+}
+
+.admin-content {
+    flex: 1 0 auto;
+}
+
+.admin-footer {
+    flex-shrink: 0;
 }
 
 .admin-header-inner {
@@ -123,9 +143,47 @@
     margin-bottom: var(--space-8);
 }
 
+.admin-dashboard-overview {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.admin-dashboard-heading {
+    align-items: end;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.admin-dashboard-heading h2 {
+    color: var(--color-gray-900);
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.admin-dashboard-kicker {
+    color: var(--color-gray-500);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0;
+    margin: 0 0 var(--space-1);
+}
+
 .admin-dashboard-grid {
     display: grid;
     gap: var(--space-6);
+}
+
+.admin-dashboard-panels {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-dashboard-panels .card:last-child {
+    grid-column: 1 / -1;
 }
 
 .admin-two-column-grid,
@@ -158,6 +216,43 @@
 
 .admin-card-body-flush {
     padding: 0;
+}
+
+.admin-category-form {
+    margin-inline: auto;
+    max-width: 860px;
+}
+
+.admin-category-form .card-body {
+    padding: var(--space-5);
+}
+
+.admin-category-form .admin-form-grid {
+    gap: var(--space-4);
+}
+
+.admin-category-form .form-label {
+    color: var(--color-gray-800);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+}
+
+.admin-category-form .form-text,
+.admin-category-form .invalid-feedback {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+}
+
+.admin-category-options {
+    align-items: center;
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: var(--space-4);
 }
 
 .admin-title-group,
@@ -489,6 +584,9 @@
 }
 
 .user-dropdown {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     position: relative;
 }
 
@@ -583,6 +681,11 @@
         display: block;
     }
 
+    .admin-main {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
     .admin-stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -590,9 +693,46 @@
     .admin-two-column-grid {
         grid-template-columns: 1fr;
     }
+
+    .admin-dashboard-panels {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-dashboard-panels .card:last-child {
+        grid-column: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .admin-body .sidebar {
+        left: 0;
+        right: auto;
+        width: var(--mk-admin-sidebar, 272px);
+    }
+
+    .admin-body .admin-main {
+        margin-left: var(--mk-admin-sidebar, 272px);
+        margin-right: 0;
+        width: calc(100% - var(--mk-admin-sidebar, 272px));
+    }
+
+    html[dir="rtl"] .admin-body .sidebar {
+        left: auto;
+        right: 0;
+    }
+
+    html[dir="rtl"] .admin-body .admin-main {
+        margin-left: 0;
+        margin-right: var(--mk-admin-sidebar, 272px);
+    }
 }
 
 @media (max-width: 767px) {
+    .admin-dashboard-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
     .admin-card-header {
         align-items: flex-start;
         flex-direction: column;
@@ -625,6 +765,14 @@
     .admin-form-grid,
     .admin-detail-grid,
     .admin-suggestion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-category-form {
+        max-width: none;
+    }
+
+    .admin-category-options {
         grid-template-columns: 1fr;
     }
 

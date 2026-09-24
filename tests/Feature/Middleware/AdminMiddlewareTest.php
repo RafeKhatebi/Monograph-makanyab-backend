@@ -50,12 +50,12 @@ test('admin can access users management', function () {
         ->assertOk();
 });
 
-test('admin can access reviews management', function () {
+test('admin reviews management is no longer exposed separately', function () {
     $admin = User::factory()->create(['role' => 'admin']);
 
     $this->actingAs($admin)
         ->get('/admin/reviews')
-        ->assertOk();
+        ->assertNotFound();
 });
 
 test('regular user cannot access admin places', function () {
