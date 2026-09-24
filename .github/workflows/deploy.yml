@@ -1,0 +1,97 @@
+name: Deploy Makanyab to InfinityFree
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Prepare InfinityFree deployment
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p deploy/htdocs/laravel
+
+          # Laravel application
+          rsync -a ./ deploy/htdocs/laravel/ \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.env' \
+            --exclude='deploy/' \
+            --exclude='node_modules/' \
+            --exclude='public/' \
+            --exclude='storage/app/public/' \
+            --exclude='storage/logs/*' \
+            --exclude='tests/' \
+            --exclude='test-results/'
+
+          # Public web files
+          rsync -a public/ deploy/htdocs/ \
+            --exclude='storage'
+
+          # InfinityFree front controller paths
+          sed -i "s#__DIR__.'/../storage/framework/maintenance.php'#__DIR__.'/laravel/storage/framework/maintenance.php'#" deploy/htdocs/index.php
+          sed -i "s#__DIR__.'/../vendor/autoload.php'#__DIR__.'/laravel/vendor/autoload.php'#" deploy/htdocs/index.php
+          sed -i "s#__DIR__.'/../bootstrap/app.php'#__DIR__.'/laravel/bootstrap/app.php'#" deploy/htdocs/index.php
+
+          # InfinityFree public uploads live in /htdocs/storage
+          sed -i "s#env('PUBLIC_FILESYSTEM_ROOT', storage_path('app/public'))#dirname(base_path()).'/storage'#" deploy/htdocs/laravel/config/filesystems.php
+
+          # Protect Laravel internals from direct web access
+          printf '%s\n' 'Require all denied' > deploy/htdocs/laravel/.htaccess
+
+          # Required writable Laravel directories
+          mkdir -p deploy/htdocs/laravel/storage/framework/cache/data
+          mkdir -p deploy/htdocs/laravel/storage/framework/sessions
+          mkdir -p deploy/htdocs/laravel/storage/framework/views
+          mkdir -p deploy/htdocs/laravel/storage/logs
+
+      - name: Deploy to InfinityFree
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ftpupload.net
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          local-dir: ./deploy/htdocs/
+          server-dir: /htdocs/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.env
+            storage/**
+            laravel/storage/logs/**
