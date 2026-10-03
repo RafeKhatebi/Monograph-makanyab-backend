@@ -2,20 +2,20 @@
     <div class="container">
         <div class="mk-inner">
 
-            <a href="{{ route('home') }}" class="mk-logo">
+            <a href="{{ route('home') }}" class="mk-logo" aria-label="{{ __('navigation.home') }}">
                 <img class="mk-logo-img" src="{{ asset('assets/img/branding/makanyab-logo-header.svg') }}" alt="Makanyab">
             </a>
 
             <ul class="mk-links">
 
                 <li>
-                    <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                    <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}" @if(request()->routeIs('home')) aria-current="page" @endif>
                         <i></i> {{ __('navigation.home') }}
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('search.index') }}"
-                        class="{{ request()->routeIs('search.index') ? 'active' : '' }}">
+                        class="{{ request()->routeIs('search.index') ? 'active' : '' }}" @if(request()->routeIs('search.index')) aria-current="page" @endif>
                         <i></i> {{ __('navigation.search') }}
                     </a>
                 </li>
@@ -45,12 +45,12 @@
 
 
                 <li>
-                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}">
+                    <a href="{{ route('posts.index') }}" class="{{ request()->routeIs('posts.*') ? 'active' : '' }}" @if(request()->routeIs('posts.*')) aria-current="page" @endif>
                         <i></i> {{ __('navigation.blog') }}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
+                    <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}" @if(request()->routeIs('contact')) aria-current="page" @endif>
                         <i></i> {{ __('navigation.contact') }}
                     </a>
                 </li>
@@ -66,7 +66,7 @@
                     @if (!auth()->user()->isAdmin())
                         <a href="{{ route('favorites.index') }}"
                             class="mk-nav-favorite"
-                            title="{{ __('navigation.favorites') }}">
+                            title="{{ __('navigation.favorites') }}" aria-label="{{ __('navigation.favorites') }}">
                             <i class="fa fa-heart-o"></i>
                         </a>
                     @endif
@@ -103,7 +103,7 @@
                 @endguest
             </div>
 
-            <button class="mk-hamburger" id="mk-hamburger" aria-label="{{ __('navigation.open_menu') }}" aria-expanded="false"
+            <button type="button" class="mk-hamburger" id="mk-hamburger" aria-label="{{ __('navigation.open_menu') }}" aria-expanded="false"
                 aria-controls="mk-mobile">
                 <span></span><span></span><span></span>
             </button>

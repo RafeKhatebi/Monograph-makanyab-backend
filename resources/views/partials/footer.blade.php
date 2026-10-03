@@ -23,12 +23,6 @@
                         <a href="mailto:info@makanyab.com" class="mk-footer-contact-link">info@makanyab.com</a>
                     </li>
                 </ul>
-                <div class="mk-footer-social" aria-label="{{ __('footer.social_links') }}">
-                    <a href="{{ route('contact') }}" aria-label="{{ __('contact.facebook') }}"><i class="fa fa-facebook"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="{{ __('contact.instagram') }}"><i class="fa fa-instagram"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="{{ __('contact.twitter') }}"><i class="fa fa-twitter"></i></a>
-                    <a href="{{ route('contact') }}" aria-label="{{ __('footer.linkedin') }}"><i class="fa fa-linkedin"></i></a>
-                </div>
             </div>
 
             {{-- Col 2: Quick Links --}}

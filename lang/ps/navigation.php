@@ -9,5 +9,6 @@ return [
     'suggest_place' => 'ځای زیاتول', 'suggest_service' => 'خدمت زیاتول', 'add_place' => 'ځای زیاتول', 'add_service' => 'خدمت زیاتول',
     'search_placeholder' => 'ځایونه او خدمتونه ولټوئ', 'open_menu' => 'مینو پرانیستل',
     'close_menu' => 'مینو تړل', 'explore' => 'سپړنه', 'categories' => 'کټګورۍ',
+    'skip_to_content' => 'اصلي منځپانګې ته لاړ شئ',
     'stay_updated' => 'له تازه معلوماتو خبر اوسئ', 'support' => 'ملاتړ',
 ];

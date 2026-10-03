@@ -9,5 +9,6 @@ return [
     'suggest_place' => 'افزودن مکان', 'suggest_service' => 'افزودن خدمات', 'add_place' => 'افزودن مکان', 'add_service' => 'افزودن خدمات',
     'search_placeholder' => 'جستجوی مکان‌ها و خدمات', 'open_menu' => 'باز کردن منو',
     'close_menu' => 'بستن منو', 'explore' => 'کاوش', 'categories' => 'دسته‌بندی‌ها',
+    'skip_to_content' => 'رفتن به محتوای اصلی',
     'stay_updated' => 'به‌روز بمانید', 'support' => 'پشتیبانی',
 ];

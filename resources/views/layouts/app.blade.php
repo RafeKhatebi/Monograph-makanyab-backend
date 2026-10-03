@@ -48,10 +48,11 @@
     </head>
 
     <body>
+        <a class="mk-skip-link" href="#main-content">{{ __('navigation.skip_to_content') }}</a>
 
         @include('partials.navbar')
         @include('partials.flash-message')
-        <main>@yield('content')</main>
+        <main id="main-content" tabindex="-1">@yield('content')</main>
         @include('partials.footer')
 
         <!-- Global Floating Add Button -->

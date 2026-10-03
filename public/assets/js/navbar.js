@@ -12,13 +12,14 @@
         ]
     };
 
-    function toggleMobilePanel() {
+    function setMobilePanelOpen(isOpen, returnFocus) {
         if (!dom.mobilePanel) return;
-        var isOpen = dom.mobilePanel.classList.toggle('open');
+        dom.mobilePanel.classList.toggle('open', isOpen);
         dom.mobilePanel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
         if (dom.hamburger) {
             dom.hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             dom.hamburger.setAttribute('aria-label', isOpen ? translations.closeMenu : translations.openMenu);
+            if (returnFocus) dom.hamburger.focus();
         }
     }
 
@@ -55,7 +56,22 @@
 
     function setupHamburger() {
         if (!dom.hamburger) return;
-        dom.hamburger.addEventListener('click', toggleMobilePanel);
+        dom.hamburger.addEventListener('click', function () {
+            var shouldOpen = !dom.mobilePanel.classList.contains('open');
+            closeAllDropdowns();
+            closeUserMenu();
+            setMobilePanelOpen(shouldOpen, false);
+            if (shouldOpen) {
+                var firstControl = dom.mobilePanel.querySelector('input, a, button');
+                if (firstControl) firstControl.focus();
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 992 && dom.mobilePanel.classList.contains('open')) {
+                setMobilePanelOpen(false, false);
+            }
+        });
     }
 
     function setupDesktopDropdowns() {
@@ -184,13 +200,7 @@
             closeLanguageMenus(null, true);
 
             if (dom.mobilePanel && dom.mobilePanel.classList.contains('open')) {
-                dom.mobilePanel.classList.remove('open');
-                dom.mobilePanel.setAttribute('aria-hidden', 'true');
-                if (dom.hamburger) {
-                    dom.hamburger.setAttribute('aria-expanded', 'false');
-                    dom.hamburger.setAttribute('aria-label', 'Open menu');
-                    dom.hamburger.focus();
-                }
+                setMobilePanelOpen(false, true);
             }
         });
     }

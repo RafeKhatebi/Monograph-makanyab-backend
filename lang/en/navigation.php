@@ -10,5 +10,6 @@ return [
     'suggest_place' => 'Add Place', 'suggest_service' => 'Add Service', 'add_place' => 'Add Place', 'add_service' => 'Add Service',
     'search_placeholder' => 'Search places and services', 'open_menu' => 'Open menu',
     'close_menu' => 'Close menu', 'explore' => 'Explore', 'categories' => 'Categories',
+    'skip_to_content' => 'Skip to main content',
     'stay_updated' => 'Stay Updated', 'support' => 'Support',
 ];
