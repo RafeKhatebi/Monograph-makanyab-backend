@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', __('categories.service_browse'))
+@section('meta-description', __('categories.service_browse_intro'))
 @section('content')
 
     <div class="mk-hero mk-hero--search">
@@ -8,7 +9,8 @@
             <p class="mk-hero__text mk-hero__text--center">{{ __('categories.service_browse_intro') }}</p>
             <form action="{{ route('service-categories.index') }}" method="GET" class="mk-search-strip">
                 <div class="mk-search-strip__inner">
-                    <input type="text" name="search" value="{{ request('search') }}"
+                    <label for="service-category-search" class="sr-only">{{ __('categories.service_search_placeholder') }}</label>
+                    <input id="service-category-search" type="search" name="search" value="{{ request('search') }}"
                         placeholder="{{ __('categories.service_search_placeholder') }}"
                         class="mk-search-strip__input">
                     <button type="submit" class="mk-search-strip__button" aria-label="{{ __('common.actions.search') }}">

@@ -100,6 +100,7 @@ return [
         'default_category' => 'News',
         'read_more' => 'Read More',
         'load_more' => 'Load 12 More',
+        'count' => ':count Article|:count Articles',
         'empty' => 'No Posts Yet',
         'empty_text' => 'New articles and updates will be published soon.',
         'recent' => 'Recent Articles',

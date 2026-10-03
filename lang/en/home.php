@@ -29,5 +29,5 @@ return [
     'view_all_articles' => 'View All Articles', 'cta_search_title' => 'Looking for a Place?',
     'cta_search_text' => 'Search thousands of places by category, location, and rating.', 'search_now' => 'Search Now',
     'cta_business_title' => 'Own a Business?', 'cta_business_text' => 'List your place and reach thousands of potential customers.',
-    'get_listed' => 'Get Listed',
+    'get_listed' => 'Get Listed', 'stat_places' => 'active places', 'stat_services' => 'active services', 'stat_verified' => 'verified listings',
 ];

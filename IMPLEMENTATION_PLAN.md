@@ -1,6 +1,6 @@
 # Implementation Plan
 
-Status: Phase 1 complete on 2026-10-03; awaiting owner verification before Phase 2. Public shared layout only; no reference code or assets copied.
+Status: Phase 2 complete on 2026-10-03; awaiting owner verification before Phase 3. Public discovery and reading pages only; no reference code or assets copied.
 
 ## 1. Repository Analysis
 
@@ -100,8 +100,8 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Verify RTL, keyboard/mobile menu, and responsive layout at 390px and 1440px; build and compile Blade views; run focused public navigation/footer tests. Full application test suite and auth page visual check remain for later relevant phases.
 
 ### Phase 2 — Public discovery and reading
-- [ ] Adapt home, place/service/post cards, search/filter/pagination, categories and detail layouts with real target data.
-- [ ] Add consistent loading/empty/error states; verify routes, filters and current interactions.
+- [x] Adapt home headline/statistics, place/service/post cards, listing summaries, search disclosure and article pagination with real target data. Keep existing category and detail layouts, add accessible category search labels and page-specific description metadata.
+- [x] Verify public routes, filters, pagination, empty states, category workflows, service images, RTL and responsive layouts. Mobile and desktop checks cover 390px and 1440px; mobile search overflow was found and fixed.
 
 ### Phase 3 — Contribution and Markdown
 - [ ] Map approved post fields/statuses to existing Post model and migrations; choose safe Markdown editor/renderer fitting Laravel and browser stack.
@@ -116,6 +116,7 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Phase 1 shared UI checked against the local reference design and rendered home/footer screenshots.
 - [x] Phase 1 responsive and RTL behavior checked at 390px and 1440px; neither viewport had horizontal overflow.
 - [x] Phase 1 Vite build, Blade view compilation, and focused public navigation/footer tests passed (4 tests, 24 assertions). `node --check` and `git diff --check` passed. Initial generic `php artisan test --compact` could not run because `tests/Unit` is absent; targeted feature tests were run instead.
+- [x] Phase 2 Blade compilation and Vite build passed. Public home, search, post, place category, service category, and detail behavior passed 26 focused tests (140 assertions). Rendered home, place, service, search and post pages were checked at 390px and 1440px without horizontal overflow.
 - [ ] Validation and form feedback checked.
 - [ ] Models, relationships and migrations checked.
 - [ ] Local email verification/reset checked using log or configured local mail catcher.

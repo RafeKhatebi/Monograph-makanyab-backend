@@ -37,6 +37,12 @@
             @endforeach
         </div>
 
+        <div class="home-hero__intro">
+            <span class="home-hero__eyebrow">{{ __('home.hero_label') }}</span>
+            <h1 class="home-hero__title">{{ __('home.hero_title') }}</h1>
+            <p class="home-hero__text">{{ __('home.hero_text') }}</p>
+        </div>
+
         <div class="home-hero__search-wrap">
             <form action="{{ route('search.index') }}" method="GET" class="home-hero-search" role="search" aria-label="{{ __('home.search_label') }}">
                 <div class="home-hero-search__field">
@@ -56,6 +62,23 @@
             @endforeach
         </div>
     </section>
+
+    <nav class="home-stats" aria-label="{{ __('home.summary') }}">
+        <div class="container home-stats__grid">
+            <a href="{{ route('places.index') }}" class="home-stat">
+                <span class="home-stat__icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                <span><strong>{{ number_format($homeStats['places']) }}</strong><small>{{ __('home.stat_places') }}</small></span>
+            </a>
+            <a href="{{ route('services.index') }}" class="home-stat">
+                <span class="home-stat__icon"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
+                <span><strong>{{ number_format($homeStats['services']) }}</strong><small>{{ __('home.stat_services') }}</small></span>
+            </a>
+            <a href="{{ route('search.index', ['verified' => 1]) }}" class="home-stat">
+                <span class="home-stat__icon"><i class="fa fa-check-circle" aria-hidden="true"></i></span>
+                <span><strong>{{ number_format($homeStats['verified']) }}</strong><small>{{ __('home.stat_verified') }}</small></span>
+            </a>
+        </div>
+    </nav>
 
     <div class="home-section home-section--muted">
         <div class="container">

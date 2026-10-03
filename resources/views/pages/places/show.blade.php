@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $place->name)
+@section('meta-description', \Illuminate\Support\Str::limit(strip_tags($place->description ?: $place->tagline ?: __('places.subtitle')), 155))
 
 @section('content')
     @php

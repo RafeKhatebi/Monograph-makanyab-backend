@@ -14,6 +14,10 @@
     <div class="mk-page-section">
         <div class="container">
             @if (isset($posts) && $posts->count())
+                <div class="content-index-heading">
+                    <span>{{ __('navigation.discover') }}</span>
+                    <h2>{{ trans_choice('content.posts.count', $posts->total(), ['count' => $posts->total()]) }}</h2>
+                </div>
                 <div class="row">
                     @foreach ($posts as $post)
                         <div class="col-md-4 col-sm-6 home-card-col">
@@ -21,12 +25,8 @@
                         </div>
                     @endforeach
                 </div>
-                @if ($posts->hasMorePages())
-                    <div class="listing-load-more">
-                        <a href="{{ $posts->appends(request()->query())->nextPageUrl() }}" class="mk-button mk-button--primary mk-button--lg">
-                            {{ __('content.posts.load_more') }}
-                        </a>
-                    </div>
+                @if ($posts->hasPages())
+                    <div class="mk-pagination-wrap">{{ $posts->onEachSide(1)->links() }}</div>
                 @endif
             @else
                 <div class="mk-ui-empty">

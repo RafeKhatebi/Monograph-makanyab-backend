@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', __('places.title'))
+@section('meta-description', __('places.subtitle'))
 @section('content')
 
     {{-- Page Header --}}
@@ -12,6 +13,8 @@
 
     <div class="listing-layout listing-layout--simple">
         <div class="container">
+            <x-discovery-summary :count="$places->total()" :label="trans_choice('places.count', $places->total(), ['count' => $places->total()])" type="place" />
+
             <div class="row" data-load-more-target="places">
                 @include('pages.places._cards', ['places' => $places])
             </div>

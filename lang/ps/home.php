@@ -29,5 +29,5 @@ return [
     'view_all_articles' => 'ټولې مقالې کتل', 'cta_search_title' => 'د ځای په لټه کې یاست؟',
     'cta_search_text' => 'زرګونه ځایونه د کټګورۍ، موقعیت او امتیاز له مخې ولټوئ.', 'search_now' => 'اوس لټون وکړئ',
     'cta_business_title' => 'کاروبار لرئ؟', 'cta_business_text' => 'خپل ځای ثبت کړئ او زرګونو احتمالي پېرېدونکو ته ورسېږئ.',
-    'get_listed' => 'ثبت یې کړئ',
+    'get_listed' => 'ثبت یې کړئ', 'stat_places' => 'فعال ځایونه', 'stat_services' => 'فعال خدمتونه', 'stat_verified' => 'تایید شوي لستونه',
 ];

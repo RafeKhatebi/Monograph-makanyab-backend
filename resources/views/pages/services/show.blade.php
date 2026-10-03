@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $service->name)
+@section('meta-description', \Illuminate\Support\Str::limit(strip_tags($service->description ?: $service->tagline ?: __('services.subtitle')), 155))
 
 @section('content')
     @php

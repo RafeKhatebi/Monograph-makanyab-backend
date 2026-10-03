@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', __('services.title'))
+@section('meta-description', __('services.subtitle'))
 @php use Illuminate\Support\Str; @endphp
 @section('content')
 
@@ -13,6 +14,8 @@
 
     <div class="listing-layout listing-layout--simple">
         <div class="container">
+            <x-discovery-summary :count="$services->total()" :label="trans_choice('services.count', $services->total(), ['count' => $services->total()])" type="service" />
+
             <div class="row" data-load-more-target="services">
                 @include('pages.services._cards', ['services' => $services])
             </div>

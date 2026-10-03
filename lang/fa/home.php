@@ -29,5 +29,5 @@ return [
     'view_all_articles' => 'مشاهده همه مقاله‌ها', 'cta_search_title' => 'دنبال یک مکان هستید؟',
     'cta_search_text' => 'هزاران مکان را بر اساس دسته‌بندی، موقعیت و امتیاز جستجو کنید.', 'search_now' => 'اکنون جستجو کنید',
     'cta_business_title' => 'صاحب کسب‌وکار هستید؟', 'cta_business_text' => 'مکان خود را ثبت کنید و به هزاران مشتری احتمالی برسید.',
-    'get_listed' => 'ثبت کسب‌وکار',
+    'get_listed' => 'ثبت کسب‌وکار', 'stat_places' => 'مکان فعال', 'stat_services' => 'خدمت فعال', 'stat_verified' => 'فهرست تأییدشده',
 ];

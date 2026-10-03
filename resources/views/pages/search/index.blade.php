@@ -84,10 +84,11 @@
                     </div>
                 </div>
 
-                <div class="discover-more">
-                    <div class="discover-more__header">
-                        <span>{{ __('search.filters') }}</span>
-                    </div>
+                <details class="discover-more" @if($hasAdvancedFilters) open @endif>
+                    <summary class="discover-more__header">
+                        <span><i class="fa fa-sliders" aria-hidden="true"></i> {{ __('search.filters') }}</span>
+                        <i class="fa fa-chevron-down discover-more__caret" aria-hidden="true"></i>
+                    </summary>
                     <div class="discover-grid discover-grid--secondary">
                         <div class="discover-field">
                             <label for="discover-status" class="search-field-label">{{ __('search.status') }}</label>
@@ -129,7 +130,7 @@
                             <span>{{ __('search.verified') }}</span>
                         </label>
                     </div>
-                </div>
+                </details>
             </form>
         </div>
     </section>
