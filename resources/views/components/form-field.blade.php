@@ -19,7 +19,7 @@
             <x-ui.text-input id="{{ $for }}" name="{{ $fieldName }}" type="password" :value="$value"
                 autocomplete="{{ $autocomplete }}" :required="$required" :autofocus="$autofocus"
                 :invalid="$errors->has($fieldName)" data-password-input {{ $attributes }} />
-            <button type="button" class="auth-password-toggle" data-password-toggle aria-label="Show password"
+            <button type="button" class="auth-password-toggle" data-password-toggle aria-label="{{ __('auth.layout.show_password') }}"
                 aria-controls="{{ $for }}" aria-pressed="false">
                 <i class="fa fa-eye" aria-hidden="true"></i>
                 <i class="fa fa-eye-slash" aria-hidden="true"></i>

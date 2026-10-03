@@ -28,11 +28,13 @@ class AppServiceProvider extends ServiceProvider
 
         VerifyEmail::toMailUsing(function ($notifiable, string $url) {
             return (new MailMessage)
-                ->subject('Verify your email address')
-                ->line('Please verify your email address before continuing.')
-                ->action('Verify Email Address', $url)
-                ->line('This verification link will expire in '.config('auth.verification.expire', 60).' minutes.')
-                ->line('If you did not create an account, no further action is required.');
+                ->subject(__('auth.mail.verification_subject'))
+                ->greeting(__('auth.mail.greeting', ['name' => $notifiable->name ?: __('common.user')]))
+                ->line(__('auth.ui.verify_email_intro'))
+                ->action(__('auth.mail.verification_action'), $url)
+                ->line(__('auth.verification_otp_expires', ['minutes' => config('auth.verification.expire', 60)]))
+                ->line(__('auth.verification_otp_ignore'))
+                ->salutation(config('app.name'));
         });
 
         ResetPassword::toMailUsing(function ($notifiable, string $token) {
@@ -40,14 +42,16 @@ class AppServiceProvider extends ServiceProvider
             $expires = config("auth.passwords.{$broker}.expire", 60);
 
             return (new MailMessage)
-                ->subject('Reset your password')
-                ->line('Use the button below to reset your password.')
-                ->action('Reset Password', url(route('password.reset', [
+                ->subject(__('auth.mail.reset_subject'))
+                ->greeting(__('auth.mail.greeting', ['name' => $notifiable->name ?: __('common.user')]))
+                ->line(__('auth.mail.reset_intro'))
+                ->action(__('auth.mail.reset_action'), url(route('password.reset', [
                     'token' => $token,
                     'email' => $notifiable->getEmailForPasswordReset(),
                 ], false)))
-                ->line('This password reset link will expire in '.$expires.' minutes.')
-                ->line('If you did not request a password reset, no further action is required.');
+                ->line(__('auth.mail.reset_expires', ['minutes' => $expires]))
+                ->line(__('auth.mail.reset_ignore'))
+                ->salutation(config('app.name'));
         });
 
         Gate::policy(Place::class, PlacePolicy::class);

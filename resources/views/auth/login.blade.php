@@ -4,10 +4,10 @@
 
 @section('content')
 
-    <x-auth-card :title="__('auth.ui.welcome')">
+    <x-auth-card :title="__('auth.ui.welcome')" :description="__('auth.layout.login_description')">
         @include('auth.partials.social-buttons')
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" data-auth-form>
             @csrf
 
             <x-form-field :label="__('auth.ui.email')" for="email" type="email" name="email" :value="old('email')" autocomplete="username"
@@ -23,7 +23,7 @@
                 </label>
             </div>
 
-            <x-primary-button class="w-full text-center mb-4">
+            <x-primary-button class="w-full text-center mb-4" data-loading-text="{{ __('auth.ui.signing_in') }}">
                 {{ __('auth.ui.sign_in') }}
             </x-primary-button>
 

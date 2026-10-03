@@ -4,10 +4,10 @@
 
 @section('content')
 
-    <x-auth-card :title="__('auth.ui.join')">
+    <x-auth-card :title="__('auth.ui.join')" :description="__('auth.layout.register_description')">
         @include('auth.partials.social-buttons', ['context' => 'register'])
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" data-auth-form>
             @csrf
 
             <x-form-field :label="__('validation.attributes.name')" for="name" name="name" :value="old('name')" autocomplete="name" required
@@ -21,7 +21,7 @@
             <x-form-field :label="__('auth.ui.confirm_password')" for="password_confirmation" type="password" name="password_confirmation"
                 autocomplete="new-password" required />
 
-            <x-primary-button class="w-full text-center mb-2">
+            <x-primary-button class="w-full text-center mb-2" data-loading-text="{{ __('auth.ui.creating_account') }}">
                 {{ __('auth.ui.create_account') }}
             </x-primary-button>
 

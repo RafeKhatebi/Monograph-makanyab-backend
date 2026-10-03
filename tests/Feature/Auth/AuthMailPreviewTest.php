@@ -14,7 +14,7 @@ test('verification email preview can be rendered locally', function () {
         ->get('/dev/auth-mail-preview/verification')
         ->assertOk()
         ->assertSee('Email Verification Preview')
-        ->assertSee('Resend Verification Email')
+        ->assertSee('Enter verification code')
         ->assertSee('verify-email', false);
 });
 
@@ -25,6 +25,6 @@ test('password reset email preview can be rendered locally', function () {
         ->get('/dev/auth-mail-preview/password-reset')
         ->assertOk()
         ->assertSee('Password Reset Preview')
-        ->assertSee('Reset Password')
+        ->assertSee('Reset password')
         ->assertSee('reset-password', false);
 });

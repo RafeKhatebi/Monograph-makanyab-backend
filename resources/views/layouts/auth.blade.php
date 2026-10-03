@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ config('locales.'.app()->getLocale().'.direction', 'ltr') }}"
+    data-show-password="{{ __('auth.layout.show_password') }}" data-hide-password="{{ __('auth.layout.hide_password') }}">
 
      <head>
          <meta charset="utf-8">
@@ -33,38 +34,32 @@
         @stack('styles')
     </head>
 
-    <body>
+    <body class="auth-page">
+        <a class="mk-skip-link" href="#auth-main">{{ __('common.skip_to_content') }}</a>
         <div class="auth-layout">
             <div class="auth-layout__illustration">
-                <img src="{{ asset('assets/img/branding/makanyab-auth-discovery-illustration.png') }}" alt="Discover places and services with Makanyab" class="auth-illustration__img" loading="lazy">
+                <img src="{{ asset('assets/img/branding/makanyab-auth-discovery-illustration.png') }}" alt="" class="auth-illustration__img">
+                <div class="auth-brand-message">
+                    <span class="auth-brand-message__eyebrow">{{ __('auth.layout.eyebrow') }}</span>
+                    <h2>{{ __('auth.layout.brand_title') }}</h2>
+                    <p>{{ __('auth.layout.brand_description') }}</p>
+                </div>
             </div>
             <div class="auth-layout__form">
-                <main>@yield('content')</main>
+                <div class="auth-layout__topbar">
+                    <a href="{{ route('home') }}" class="auth-home-link">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        {{ __('auth.layout.back_home') }}
+                    </a>
+                    @include('partials.language-switcher')
+                </div>
+                <main id="auth-main">@yield('content')</main>
             </div>
         </div>
 
         <script src="{{ asset('assets/js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-        <script>
-            document.addEventListener('click', function (event) {
-                const toggle = event.target.closest('[data-password-toggle]');
-
-                if (! toggle) {
-                    return;
-                }
-
-                const input = document.getElementById(toggle.getAttribute('aria-controls'));
-
-                if (! input) {
-                    return;
-                }
-
-                const shouldShow = input.type === 'password';
-                input.type = shouldShow ? 'text' : 'password';
-                toggle.setAttribute('aria-pressed', shouldShow ? 'true' : 'false');
-                toggle.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
-            });
-        </script>
+        <script src="{{ asset('assets/js/auth.js') }}"></script>
 
         @stack('scripts')
     </body>

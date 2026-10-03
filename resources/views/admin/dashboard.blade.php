@@ -106,6 +106,37 @@
         </div>
     </section>
 
+    <section class="admin-attention" aria-labelledby="admin-attention-title">
+        <div class="admin-dashboard-heading">
+            <div>
+                <p class="admin-dashboard-kicker">{{ __('admin.dashboard.status') }}</p>
+                <h2 id="admin-attention-title">{{ __('admin.dashboard.pending_suggestions') }}</h2>
+            </div>
+        </div>
+        <div class="admin-attention-grid">
+            <a href="{{ route('admin.place-suggestions.index', ['status' => 'pending']) }}" class="admin-attention-card">
+                <span class="admin-attention-card__icon"><i class="fa fa-map-marker-alt" aria-hidden="true"></i></span>
+                <span><strong>{{ $stats['pending_place_suggestions'] }}</strong>{{ __('admin.navigation.place_suggestions') }}</span>
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+            <a href="{{ route('admin.service-suggestions.index', ['status' => 'pending']) }}" class="admin-attention-card">
+                <span class="admin-attention-card__icon"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
+                <span><strong>{{ $stats['pending_service_suggestions'] }}</strong>{{ __('admin.navigation.service_suggestions') }}</span>
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+            <a href="{{ route('admin.posts.index', ['is_published' => 0]) }}" class="admin-attention-card">
+                <span class="admin-attention-card__icon"><i class="fa fa-newspaper" aria-hidden="true"></i></span>
+                <span><strong>{{ $stats['review_posts'] }}</strong>{{ __('admin.navigation.posts') }}</span>
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+            <a href="{{ route('admin.contact-messages.index', ['status' => 'unread']) }}" class="admin-attention-card">
+                <span class="admin-attention-card__icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                <span><strong>{{ $stats['unread_contact_messages'] }}</strong>{{ __('admin.navigation.contact_messages') }}</span>
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+
     <div class="admin-dashboard-panels">
         <section class="card" aria-label="{{ __('admin.dashboard.recent_places') }}">
             <div class="card-header admin-card-header">

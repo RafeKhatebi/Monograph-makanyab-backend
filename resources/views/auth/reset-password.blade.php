@@ -3,7 +3,7 @@
 @section('title', __('auth.ui.reset_password_title'))
 
 @section('content')
-    <x-auth-card :title="__('auth.ui.reset_password_title')">
+    <x-auth-card :title="__('auth.ui.reset_password_title')" :description="__('auth.layout.reset_description')">
         <form method="POST" action="{{ route('password.store') }}" class="mk-form" data-auth-form>
             @csrf
 
@@ -24,21 +24,3 @@
         </form>
     </x-auth-card>
 @endsection
-
-@push('scripts')
-    <script>
-        document.querySelectorAll('[data-auth-form]').forEach(function(form) {
-            form.addEventListener('submit', function() {
-                var button = form.querySelector('[data-loading-text]');
-
-                if (!button) {
-                    return;
-                }
-
-                button.dataset.defaultText = button.textContent.trim();
-                button.textContent = button.dataset.loadingText;
-                button.disabled = true;
-            });
-        });
-    </script>
-@endpush

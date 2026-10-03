@@ -3,10 +3,7 @@
 @section('title', __('auth.ui.confirm_password_title'))
 
 @section('content')
-    <x-auth-card :title="__('auth.ui.confirm_password_title')">
-        <p class="mk-text mk-text--muted">
-            {{ __('auth.ui.confirm_password_intro') }}
-        </p>
+    <x-auth-card :title="__('auth.ui.confirm_password_title')" :description="__('auth.ui.confirm_password_intro')">
 
     <form method="POST" action="{{ route('password.confirm') }}">
         @csrf

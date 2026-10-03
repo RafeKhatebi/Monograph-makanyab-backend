@@ -25,6 +25,18 @@
                         <span aria-hidden="true">·</span>
                         <span dir="ltr">{{ auth()->user()->email }}</span>
                     </p>
+                    <div class="profile-header-actions">
+                        <span class="profile-email-status is-verified">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            {{ __('common.verified') }}
+                        </span>
+                        @if (auth()->user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="mk-button mk-button--secondary mk-button--sm">
+                                <i class="fa fa-dashboard" aria-hidden="true"></i>
+                                {{ __('admin.panel') }}
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,19 +50,19 @@
                 <div class="col-md-3 mk-stack-sm profile-sidebar-col">
                     <div class="mk-card profile-tab-shell">
                         <div id="profile-tabs" class="profile-tabs" role="tablist" aria-label="{{ __('profile.title') }}">
-                            <a href="#tab-submissions" data-toggle="tab" class="profile-tab-link active-tab" role="tab">
+                            <a id="profile-tab-submissions" href="#tab-submissions" data-toggle="tab" class="profile-tab-link active-tab" role="tab" aria-controls="tab-submissions" aria-selected="true">
                                 <i class="fa fa-inbox" aria-hidden="true"></i>
                                 <span>{{ __('profile.submissions') }}</span>
                             </a>
-                            <a href="#tab-favorites" data-toggle="tab" class="profile-tab-link" role="tab">
+                            <a id="profile-tab-favorites" href="#tab-favorites" data-toggle="tab" class="profile-tab-link" role="tab" aria-controls="tab-favorites" aria-selected="false">
                                 <i class="fa fa-heart" aria-hidden="true"></i>
                                 <span>{{ __('profile.favorites') }}</span>
                             </a>
-                            <a href="#tab-reviews" data-toggle="tab" class="profile-tab-link" role="tab">
+                            <a id="profile-tab-reviews" href="#tab-reviews" data-toggle="tab" class="profile-tab-link" role="tab" aria-controls="tab-reviews" aria-selected="false">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <span>{{ __('profile.reviews') }}</span>
                             </a>
-                            <a href="#tab-settings" data-toggle="tab" class="profile-tab-link" role="tab">
+                            <a id="profile-tab-settings" href="#tab-settings" data-toggle="tab" class="profile-tab-link" role="tab" aria-controls="tab-settings" aria-selected="false">
                                 <i class="fa fa-cog" aria-hidden="true"></i>
                                 <span>{{ __('profile.settings') }}</span>
                             </a>
@@ -62,7 +74,7 @@
                 <div class="col-md-9">
                     <div class="tab-content">
                         {{-- Submissions --}}
-                        <div id="tab-submissions" class="tab-pane fade in active">
+                        <div id="tab-submissions" class="tab-pane fade in active" role="tabpanel" aria-labelledby="profile-tab-submissions">
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.submissions') }}</h3>
                                 @forelse($submissions ?? [] as $submission)
@@ -98,7 +110,7 @@
                         </div>
 
                         {{-- Favorites --}}
-                        <div id="tab-favorites" class="tab-pane fade">
+                        <div id="tab-favorites" class="tab-pane fade" role="tabpanel" aria-labelledby="profile-tab-favorites">
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.favorites') }}</h3>
                                 <div class="row">
@@ -140,7 +152,7 @@
                         </div>
 
                         {{-- Reviews --}}
-                        <div id="tab-reviews" class="tab-pane fade">
+                        <div id="tab-reviews" class="tab-pane fade" role="tabpanel" aria-labelledby="profile-tab-reviews">
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.reviews') }}</h3>
                                 @forelse($reviews ?? [] as $review)
@@ -158,7 +170,7 @@
                         </div>
 
                         {{-- Settings --}}
-                        <div id="tab-settings" class="tab-pane fade">
+                        <div id="tab-settings" class="tab-pane fade" role="tabpanel" aria-labelledby="profile-tab-settings">
                             <div class="mk-card profile-panel">
                                 <h3 class="mk-heading mk-heading--md">{{ __('profile.account_settings') }}
                                 </h3>
@@ -176,38 +188,44 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="profile-form-group">
-                                                <label class="mk-label">{{ __('profile.first_name') }}</label>
-                                                <input type="text" name="name"
-                                                    value="{{ old('name', auth()->user()->name) }}" class="form-control">
+                                                <label for="profile-name" class="mk-label">{{ __('profile.first_name') }} <span aria-hidden="true">*</span></label>
+                                                <input id="profile-name" type="text" name="name" autocomplete="given-name" required
+                                                    value="{{ old('name', auth()->user()->name) }}" class="form-control @error('name') is-invalid @enderror">
+                                                <x-input-error :messages="$errors->get('name')" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="profile-form-group">
-                                                <label class="mk-label">{{ __('profile.last_name') }}</label>
-                                                <input type="text" name="lastname"
+                                                <label for="profile-lastname" class="mk-label">{{ __('profile.last_name') }}</label>
+                                                <input id="profile-lastname" type="text" name="lastname" autocomplete="family-name"
                                                     value="{{ old('lastname', auth()->user()->lastname) }}"
-                                                    class="form-control">
+                                                    class="form-control @error('lastname') is-invalid @enderror">
+                                                <x-input-error :messages="$errors->get('lastname')" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="profile-form-group">
-                                        <label class="mk-label">{{ __('profile.email') }}</label>
-                                        <input type="email" name="email"
-                                            value="{{ old('email', auth()->user()->email) }}" class="form-control">
+                                        <label for="profile-email" class="mk-label">{{ __('profile.email') }} <span aria-hidden="true">*</span></label>
+                                        <input id="profile-email" type="email" name="email" autocomplete="email" required
+                                            value="{{ old('email', auth()->user()->email) }}" class="form-control @error('email') is-invalid @enderror">
+                                        <x-input-error :messages="$errors->get('email')" />
                                     </div>
                                     <div class="profile-form-group">
-                                        <label class="mk-label">{{ __('profile.username') }}</label>
-                                        <input type="text" name="username"
-                                            value="{{ old('username', auth()->user()->username) }}" class="form-control">
+                                        <label for="profile-username" class="mk-label">{{ __('profile.username') }} <span aria-hidden="true">*</span></label>
+                                        <input id="profile-username" type="text" name="username" autocomplete="username" required
+                                            value="{{ old('username', auth()->user()->username) }}" class="form-control @error('username') is-invalid @enderror">
+                                        <x-input-error :messages="$errors->get('username')" />
                                     </div>
                                     <div class="profile-form-group">
-                                        <label class="mk-label">{{ __('profile.phone') }}</label>
-                                        <input type="text" name="phone"
-                                            value="{{ old('phone', auth()->user()->phone) }}" class="form-control">
+                                        <label for="profile-phone" class="mk-label">{{ __('profile.phone') }}</label>
+                                        <input id="profile-phone" type="tel" name="phone" autocomplete="tel"
+                                            value="{{ old('phone', auth()->user()->phone) }}" class="form-control @error('phone') is-invalid @enderror">
+                                        <x-input-error :messages="$errors->get('phone')" />
                                     </div>
                                     <div class="profile-form-group">
-                                        <label class="mk-label">{{ __('profile.bio') }}</label>
-                                        <textarea name="bio" class="form-control" rows="3">{{ old('bio', auth()->user()->bio) }}</textarea>
+                                        <label for="profile-bio" class="mk-label">{{ __('profile.bio') }}</label>
+                                        <textarea id="profile-bio" name="bio" class="form-control @error('bio') is-invalid @enderror" rows="3">{{ old('bio', auth()->user()->bio) }}</textarea>
+                                        <x-input-error :messages="$errors->get('bio')" />
                                     </div>
                                     <div class="profile-form-group">
                                         <label for="profile_picture" class="mk-label">{{ __('profile.picture') }}</label>
@@ -223,20 +241,22 @@
                                     <h4 class="profile-section-title">{{ __('profile.change_password') }}
                                     </h4>
                                     <div class="profile-form-group">
-                                        <label class="mk-label">{{ __('profile.current_password') }}</label>
-                                        <input type="password" name="current_password" class="form-control">
+                                        <label for="profile-current-password" class="mk-label">{{ __('profile.current_password') }}</label>
+                                        <input id="profile-current-password" type="password" name="current_password" autocomplete="current-password" class="form-control @error('current_password') is-invalid @enderror">
+                                        <x-input-error :messages="$errors->get('current_password')" />
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="profile-form-group">
-                                                <label class="mk-label">{{ __('profile.new_password') }}</label>
-                                                <input type="password" name="password" class="form-control">
+                                                <label for="profile-password" class="mk-label">{{ __('profile.new_password') }}</label>
+                                                <input id="profile-password" type="password" name="password" autocomplete="new-password" class="form-control @error('password') is-invalid @enderror">
+                                                <x-input-error :messages="$errors->get('password')" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="profile-form-group">
-                                                <label class="mk-label">{{ __('profile.confirm_password') }}</label>
-                                                <input type="password" name="password_confirmation" class="form-control">
+                                                <label for="profile-password-confirmation" class="mk-label">{{ __('profile.confirm_password') }}</label>
+                                                <input id="profile-password-confirmation" type="password" name="password_confirmation" autocomplete="new-password" class="form-control">
                                             </div>
                                         </div>
                                     </div>

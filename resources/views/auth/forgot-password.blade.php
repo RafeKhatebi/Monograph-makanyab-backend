@@ -3,10 +3,7 @@
 @section('title', __('auth.ui.forgot_password_title'))
 
 @section('content')
-    <x-auth-card :title="__('auth.ui.forgot_password_title')">
-        <p class="mk-text mk-text--muted">
-            {{ __('auth.ui.forgot_password_intro') }}
-        </p>
+    <x-auth-card :title="__('auth.ui.forgot_password_title')" :description="__('auth.ui.forgot_password_intro')">
 
         <form method="POST" action="{{ route('password.email') }}" class="mk-form" data-auth-form>
             @csrf
@@ -25,21 +22,3 @@
         </p>
     </x-auth-card>
 @endsection
-
-@push('scripts')
-    <script>
-        document.querySelectorAll('[data-auth-form]').forEach(function(form) {
-            form.addEventListener('submit', function() {
-                var button = form.querySelector('[data-loading-text]');
-
-                if (!button) {
-                    return;
-                }
-
-                button.dataset.defaultText = button.textContent.trim();
-                button.textContent = button.dataset.loadingText;
-                button.disabled = true;
-            });
-        });
-    </script>
-@endpush

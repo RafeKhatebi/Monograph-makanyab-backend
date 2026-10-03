@@ -41,6 +41,7 @@ class AdminDashboardController extends Controller
             'total_posts' => Post::count(),
             'published_posts' => Post::published()->count(),
             'draft_posts' => Post::where('is_published', false)->count(),
+            'review_posts' => Post::where('submission_status', SuggestionStatus::UnderReview)->count(),
             'unread_contact_messages' => ContactMessage::whereNull('read_at')->whereNull('archived_at')->count(),
             'archived_contact_messages' => ContactMessage::whereNotNull('archived_at')->count(),
             'pending_place_suggestions' => PlaceSuggestion::where('suggestion_status', SuggestionStatus::Pending)->count(),

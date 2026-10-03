@@ -3,10 +3,7 @@
 @section('title', __('auth.ui.verify_email_title'))
 
 @section('content')
-    <x-auth-card :title="__('auth.ui.verify_email_title')">
-        <p class="mk-text mk-text--muted mk-stack-sm">
-            {{ __('auth.ui.verify_email_intro') }}
-        </p>
+    <x-auth-card :title="__('auth.ui.verify_email_title')" :description="__('auth.ui.verify_email_intro')">
 
         @if (session('status') && !$errors->any())
             <div class="mk-alert mk-alert--success">
@@ -29,7 +26,7 @@
 
             <div class="form-group">
                 <label for="otp_code" class="form-label">{{ __('auth.ui.otp_code_label') }}</label>
-                <input id="otp_code" type="text" name="otp_code" class="form-control" placeholder="{{ __('auth.ui.otp_code_placeholder') }}" maxlength="6" required autofocus>
+                <input id="otp_code" type="text" name="otp_code" class="form-control auth-otp-input" placeholder="{{ __('auth.ui.otp_code_placeholder') }}" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" maxlength="6" dir="ltr" required autofocus>
             </div>
 
             <button type="submit" class="mk-btn mk-btn-primary mk-btn-block">
@@ -54,21 +51,3 @@
         </form>
     </x-auth-card>
 @endsection
-
-@push('scripts')
-    <script>
-        document.querySelectorAll('[data-auth-form]').forEach(function(form) {
-            form.addEventListener('submit', function() {
-                var button = form.querySelector('[data-loading-text]');
-
-                if (!button) {
-                    return;
-                }
-
-                button.dataset.defaultText = button.textContent.trim();
-                button.textContent = button.dataset.loadingText;
-                button.disabled = true;
-            });
-        });
-    </script>
-@endpush

@@ -115,6 +115,13 @@
                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown-menu" id="userDropdown" role="menu">
+                        <div class="user-dropdown-summary" role="none">
+                            <strong>{{ auth()->user()->name }}</strong>
+                            <span dir="ltr">{{ auth()->user()->email }}</span>
+                        </div>
+                        <a href="{{ route('profile.index') }}" class="user-dropdown-item" role="menuitem">
+                            <i class="fa fa-user" aria-hidden="true"></i> {{ __('profile.title') }}
+                        </a>
                         <form method="POST" action="{{ route('logout') }}" role="none">
                             @csrf
                             <button type="submit" class="user-dropdown-item" role="menuitem">
