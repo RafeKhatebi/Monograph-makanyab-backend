@@ -29,6 +29,7 @@
 @endphp
 
 @section('title', $isEditing ? __('suggestions.edit_title') : __('suggestions.hub.title'))
+@section('body-class', 'submission-page')
 
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />

@@ -47,7 +47,7 @@
         @stack('styles')
     </head>
 
-    <body>
+    <body class="@yield('body-class')">
         <a class="mk-skip-link" href="#main-content">{{ __('navigation.skip_to_content') }}</a>
 
         @include('partials.navbar')

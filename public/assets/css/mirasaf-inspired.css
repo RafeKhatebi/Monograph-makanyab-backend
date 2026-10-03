@@ -1330,6 +1330,272 @@ select:focus {
     }
 }
 
+/* Submission workspace aligned with the shared Makanyab theme */
+.submission-page .mk-fab {
+    display: none;
+}
+
+.submission-workspace {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(199, 155, 69, .10), transparent 28%),
+        radial-gradient(circle at 88% 4%, rgba(15, 122, 91, .10), transparent 30%),
+        var(--mk-modern-bg);
+    padding: 30px 0 104px;
+}
+
+.submission-header {
+    background: linear-gradient(135deg, #123f34 0%, var(--mk-modern-primary) 100%);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 18px;
+    box-shadow: 0 18px 46px rgba(18, 63, 52, .18);
+    margin-bottom: 22px;
+    overflow: hidden;
+    padding: 22px;
+    position: relative;
+}
+
+.submission-header::after {
+    background: rgba(255, 255, 255, .08);
+    border-radius: 999px;
+    content: "";
+    height: 190px;
+    inset-inline-end: -60px;
+    position: absolute;
+    top: -110px;
+    width: 190px;
+}
+
+.submission-back {
+    background: rgba(255, 255, 255, .13);
+    border-color: rgba(255, 255, 255, .28);
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.submission-back:hover,
+.submission-back:focus {
+    background: #fff;
+    border-color: #fff;
+    color: var(--mk-modern-primary-strong);
+}
+
+.submission-heading,
+.submission-type-control {
+    position: relative;
+    z-index: 1;
+}
+
+.submission-heading h1 {
+    color: #fff;
+    font-size: clamp(27px, 3vw, 38px);
+    letter-spacing: -.02em;
+}
+
+.submission-heading p {
+    color: rgba(255, 255, 255, .78);
+    max-width: 680px;
+}
+
+.submission-type-control > span {
+    color: rgba(255, 255, 255, .76);
+    font-weight: 800;
+}
+
+.submission-type-select,
+.submission-type-locked {
+    background: rgba(255, 255, 255, .97);
+    border-color: rgba(255, 255, 255, .72);
+    color: var(--mk-modern-ink);
+}
+
+.submission-type-select:focus {
+    border-color: var(--mk-modern-gold);
+    box-shadow: 0 0 0 3px rgba(199, 155, 69, .24);
+    outline: none;
+}
+
+.submission-grid,
+.submission-main,
+.submission-side {
+    gap: 18px;
+}
+
+.submission-card {
+    background: var(--mk-modern-surface);
+    border-color: var(--mk-modern-border);
+    border-radius: 16px;
+    box-shadow: 0 12px 34px rgba(23, 33, 29, .06);
+    padding: 22px;
+}
+
+.submission-card__header {
+    border-bottom: 1px solid var(--mk-modern-border);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+}
+
+.submission-card__icon {
+    background: rgba(15, 122, 91, .10);
+    color: var(--mk-modern-primary);
+    height: 42px;
+    width: 42px;
+}
+
+.submission-card h2,
+.submission-more summary strong {
+    color: var(--mk-modern-ink);
+}
+
+.submission-card__header p,
+.submission-more summary small,
+.suggestion-help,
+.suggestion-coordinates,
+.submission-drop-zone span,
+.submission-drop-zone small {
+    color: var(--mk-modern-muted);
+}
+
+.submission-card label,
+.submission-card .mk-label,
+.submission-card .mk-ui-label {
+    color: var(--mk-modern-ink) !important;
+}
+
+.submission-card .form-control,
+.submission-card .form-select,
+.submission-card .mk-ui-input,
+.submission-card .mk-ui-select,
+.submission-card .mk-ui-textarea,
+.submission-card select,
+.submission-card textarea {
+    background: #fffefb !important;
+    border-color: var(--mk-modern-border) !important;
+    border-radius: 9px !important;
+    color: var(--mk-modern-ink) !important;
+    min-height: 46px !important;
+}
+
+.submission-card .form-control:focus,
+.submission-card .form-select:focus,
+.submission-card .mk-ui-input:focus,
+.submission-card .mk-ui-select:focus,
+.submission-card .mk-ui-textarea:focus,
+.submission-card select:focus,
+.submission-card textarea:focus {
+    border-color: var(--mk-modern-primary) !important;
+    box-shadow: 0 0 0 3px rgba(15, 122, 91, .12) !important;
+    outline: none !important;
+}
+
+.submission-map-grid .suggestion-map {
+    border-color: var(--mk-modern-border);
+    border-radius: 12px;
+}
+
+.suggestion-coordinates span {
+    color: var(--mk-modern-ink);
+}
+
+.submission-drop-zone {
+    background: linear-gradient(180deg, rgba(15, 122, 91, .04), rgba(199, 155, 69, .04));
+    border-color: rgba(15, 122, 91, .38);
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.submission-drop-zone:hover,
+.submission-drop-zone:focus-within {
+    background: rgba(15, 122, 91, .07);
+    border-color: var(--mk-modern-primary);
+    transform: translateY(-1px);
+}
+
+.submission-drop-zone i {
+    color: var(--mk-modern-primary);
+}
+
+.submission-drop-zone strong {
+    color: var(--mk-modern-ink);
+}
+
+.submission-existing-media img,
+.submission-post-image img {
+    border-color: var(--mk-modern-border);
+}
+
+.submission-more summary {
+    border-radius: 16px;
+}
+
+.submission-more[open] summary {
+    margin-bottom: 18px;
+}
+
+.submission-more .submission-fields {
+    border-top-color: var(--mk-modern-border);
+}
+
+.submission-actions {
+    background: rgba(251, 250, 246, .94);
+    border: 1px solid var(--mk-modern-border);
+    border-radius: 16px;
+    box-shadow: 0 -8px 28px rgba(23, 33, 29, .08);
+    margin-top: 20px;
+    padding: 12px 16px;
+}
+
+.submission-actions .mk-button--secondary {
+    background: #fffefb !important;
+    border-color: var(--mk-modern-border) !important;
+    color: var(--mk-modern-ink) !important;
+}
+
+.submission-actions .mk-button--secondary:hover,
+.submission-actions .mk-button--secondary:focus {
+    border-color: var(--mk-modern-primary) !important;
+    color: var(--mk-modern-primary-strong) !important;
+}
+
+.submission-edit-banner,
+.suggestion-error {
+    border-radius: 12px;
+}
+
+@media (max-width: 991px) {
+    .submission-header {
+        padding: 20px;
+    }
+
+    .submission-type-control {
+        max-width: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .submission-workspace {
+        padding: 16px 0 118px;
+    }
+
+    .submission-header {
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .submission-card {
+        border-radius: 13px;
+        padding: 16px;
+    }
+
+    .submission-card__header {
+        padding-bottom: 13px;
+    }
+
+    .submission-actions {
+        border-radius: 14px 14px 0 0;
+        margin-inline: -1px;
+    }
+}
+
 @media (max-width: 991px) {
     .profile-tab-shell {
         position: static !important;
