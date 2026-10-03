@@ -35,7 +35,7 @@
 
                     <article class="detail-card">
                         <div class="detail-copy detail-copy--article" dir="auto">
-                            {!! nl2br(e($post->content)) !!}
+                            {!! $renderedContent !!}
                         </div>
                     </article>
 

@@ -6,14 +6,17 @@ use App\Enums\PlaceStatus;
 use App\Enums\PriceLevel;
 use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PreviewMarkdownRequest;
 use App\Http\Requests\StoreUserSubmissionRequest;
 use App\Models\PlaceCategory;
 use App\Models\PlaceSuggestion;
 use App\Models\Post;
 use App\Models\ServiceCategory;
 use App\Models\ServiceSuggestion;
+use App\Services\MarkdownService;
 use App\Services\MediaUploadService;
 use App\Services\SlugService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +25,13 @@ use Illuminate\View\View;
 
 class SuggestionHubController extends Controller
 {
+    public function preview(PreviewMarkdownRequest $request, MarkdownService $markdown): JsonResponse
+    {
+        return response()->json([
+            'html' => $markdown->render($request->validated('content')),
+        ]);
+    }
+
     public function create(): View
     {
         return $this->formView();

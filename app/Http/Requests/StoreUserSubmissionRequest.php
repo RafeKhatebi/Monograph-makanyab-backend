@@ -23,7 +23,12 @@ class StoreUserSubmissionRequest extends FormRequest
             'name' => [$type === 'post' ? 'nullable' : 'required', 'nullable', 'string', 'max:255'],
             'title' => ['required_if:type,post', 'nullable', 'string', 'max:255'],
             'description' => [$isDraft || $type === 'post' ? 'nullable' : 'required', 'nullable', 'string', $isDraft ? 'max:2000' : 'min:20', 'max:2000'],
-            'content' => [$type === 'post' && ! $isDraft ? 'required' : 'nullable', 'nullable', 'string', $isDraft ? 'max:20000' : 'min:80'],
+            'content' => [
+                $type === 'post' && ! $isDraft ? 'required' : 'nullable',
+                'string',
+                ...($type === 'post' && ! $isDraft ? ['min:80'] : []),
+                'max:20000',
+            ],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'extra_information' => ['nullable', 'string', 'max:2000'],
             'cover_image_index' => ['nullable', 'integer', 'min:0', 'max:5'],

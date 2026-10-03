@@ -147,10 +147,8 @@
                             <div class="submission-fields">
                                 <x-form-field for="title" :label="__('suggestions.title')" :value="$fieldValue('title')" required />
                                 <x-form-field for="excerpt" :label="__('suggestions.excerpt')" :value="$fieldValue('excerpt')" />
-                                <x-input-label for="content" :value="__('suggestions.content')" />
-                                <x-textarea id="content" name="content" rows="8"
-                                    :value="$fieldValue('content')" placeholder="{{ __('suggestions.content_placeholder') }}" dir="auto" required />
-                                <x-input-error :messages="$errors->get('content')" class="mt-2" />
+                                <x-markdown-editor id="content" name="content" :value="$fieldValue('content')"
+                                    :label="__('suggestions.content')" :placeholder="__('suggestions.content_placeholder')" required />
                             </div>
                         </section>
 

@@ -2263,6 +2263,66 @@ select:focus {
     font-size: 17px;
     font-weight: 500;
     line-height: 1.95;
+    white-space: normal;
+}
+
+.detail-copy--article > :first-child {
+    margin-top: 0;
+}
+
+.detail-copy--article > :last-child {
+    margin-bottom: 0;
+}
+
+.detail-copy--article h1,
+.detail-copy--article h2,
+.detail-copy--article h3,
+.detail-copy--article h4 {
+    color: var(--detail-text);
+    font-weight: 900;
+    line-height: 1.35;
+    margin: 1.5em 0 .6em;
+}
+
+.detail-copy--article ul,
+.detail-copy--article ol {
+    padding-inline-start: 1.5em;
+}
+
+.detail-copy--article blockquote {
+    border-inline-start: 4px solid var(--mk-primary);
+    color: var(--detail-text-soft);
+    margin-inline: 0;
+    padding-inline-start: 16px;
+}
+
+.detail-copy--article table {
+    border-collapse: collapse;
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    width: max-content;
+}
+
+.detail-copy--article th,
+.detail-copy--article td {
+    border: 1px solid #cbd5e1;
+    padding: 8px 10px;
+}
+
+.detail-copy--article pre {
+    background: #0f172a;
+    border-radius: 8px;
+    color: #f8fafc;
+    direction: ltr;
+    overflow-x: auto;
+    padding: 14px;
+    text-align: left;
+}
+
+.detail-copy--article img {
+    height: auto;
+    max-width: 100%;
 }
 
 .detail-facts dt,

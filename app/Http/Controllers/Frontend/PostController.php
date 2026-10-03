@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Services\MarkdownService;
 
 class PostController extends Controller
 {
@@ -22,7 +23,7 @@ class PostController extends Controller
         return view('pages.posts.index', compact('posts', 'recentPosts'));
     }
 
-    public function show(Post $post)
+    public function show(Post $post, MarkdownService $markdown)
     {
         abort_if(! $post->is_published || ! $post->published_at || $post->published_at->isFuture(), 404);
 
@@ -34,6 +35,8 @@ class PostController extends Controller
             ->take(5)
             ->get();
 
-        return view('pages.posts.show', compact('post', 'recentPosts'));
+        $renderedContent = $markdown->render($post->content);
+
+        return view('pages.posts.show', compact('post', 'recentPosts', 'renderedContent'));
     }
 }

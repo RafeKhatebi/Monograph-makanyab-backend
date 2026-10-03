@@ -15,11 +15,8 @@
 </div>
 
 <div class="form-group">
-    <label for="content">Content <span aria-hidden="true">*</span></label>
-    <textarea id="content" name="content" rows="8" class="form-control" required>{{ old('content', $post->content ?? '') }}</textarea>
-    @error('content')
-        <div class="invalid-feedback d-block">{{ $message }}</div>
-    @enderror
+    <x-markdown-editor id="content" name="content" :value="old('content', $post->content ?? '')"
+        :label="__('suggestions.content')" :placeholder="__('suggestions.content_placeholder')" class="form-control" required />
 </div>
 
 <div class="form-group">

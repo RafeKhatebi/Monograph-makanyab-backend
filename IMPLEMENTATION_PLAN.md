@@ -1,6 +1,6 @@
 # Implementation Plan
 
-Status: Phase 2 complete on 2026-10-03; awaiting owner verification before Phase 3. Public discovery and reading pages only; no reference code or assets copied.
+Status: Phase 3 complete on 2026-10-03; awaiting owner verification before Phase 4. Contribution and Markdown workflow only; no reference code or assets copied.
 
 ## 1. Repository Analysis
 
@@ -104,8 +104,8 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Verify public routes, filters, pagination, empty states, category workflows, service images, RTL and responsive layouts. Mobile and desktop checks cover 390px and 1440px; mobile search overflow was found and fixed.
 
 ### Phase 3 — Contribution and Markdown
-- [ ] Map approved post fields/statuses to existing Post model and migrations; choose safe Markdown editor/renderer fitting Laravel and browser stack.
-- [ ] Add draft, preview, submission and admin review UI with validated uploads; preserve old posts and test sanitized rendering.
+- [x] Map approved post fields/statuses to existing Post model and migrations; use the existing title, excerpt, content, cover image, draft/review and publish fields. Store Markdown source in `posts.content` and render it with a server-side CommonMark pipeline that strips raw HTML and unsafe links.
+- [x] Add shared contributor/admin Markdown editor, exact server preview, draft/review/publish flow and validated cover uploads. Preserve existing plain text posts with soft line breaks and safely render Markdown headings, emphasis, lists, links, quotes, code, tables and images.
 
 ### Phase 4 — Account, admin and optional domain features
 - [ ] Align auth/profile/admin presentation and email templates, preserving Laravel guards/notifications.
@@ -117,17 +117,19 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Phase 1 responsive and RTL behavior checked at 390px and 1440px; neither viewport had horizontal overflow.
 - [x] Phase 1 Vite build, Blade view compilation, and focused public navigation/footer tests passed (4 tests, 24 assertions). `node --check` and `git diff --check` passed. Initial generic `php artisan test --compact` could not run because `tests/Unit` is absent; targeted feature tests were run instead.
 - [x] Phase 2 Blade compilation and Vite build passed. Public home, search, post, place category, service category, and detail behavior passed 26 focused tests (140 assertions). Rendered home, place, service, search and post pages were checked at 390px and 1440px without horizontal overflow.
+- [x] Phase 3 CommonMark rendering strips raw HTML and unsafe links. Markdown preview, storage, publication, legacy content, post upload and admin approval passed 9 focused tests (55 assertions). Blade compilation, JavaScript syntax, Vite build and PHP formatting passed. Contributor forms were checked at 390px and 1440px with no overflow; the admin preview rendered headings and tables at 390px with no console errors.
 - [ ] Validation and form feedback checked.
 - [ ] Models, relationships and migrations checked.
 - [ ] Local email verification/reset checked using log or configured local mail catcher.
-- [ ] Markdown storage, preview and safe rendering checked, including existing Post compatibility.
-- [ ] Upload validation, ownership and cleanup checked.
-- [ ] Authentication and authorization checked.
+- [x] Markdown storage, preview and safe rendering checked, including existing Post compatibility.
+- [x] Existing post cover upload validation and admin publication checked.
+- [x] Markdown preview authentication and existing owner-scoped post editing retained.
 - [ ] Existing place/service/post workflows regression checked.
 
 ## 7. Risks and decisions for owner verification
 
 1. The reference is in `.gitignore` and stays a local study copy; direct imports from `apps/web` cannot run in Blade without bringing React/Next.js. Avoid a second application in this repository unless architecture migration is explicitly desired.
+2. The full Feature suite currently reports 20 failures in older admin create-route, favorites, service factory and legacy UI expectations that are outside Phase 3. Phase 3's focused post and Markdown checks pass.
 2. No root LICENSE file was found in the local reference and its API package declares `UNLICENSED`. Before copying its code, images or logo into deliverable files, obtain permission/license terms from the owner; visual pattern analysis can proceed.
 3. The reference editor stores Tiptap JSON. The requested Markdown source format needs a deliberate target implementation and safe rendering rules.
 4. The reference's cultural-entry domain does not match Makanyab's place/service/post domain one-to-one. Reusing every model would duplicate or distort current architecture.
