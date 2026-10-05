@@ -48,7 +48,7 @@
                                             class="btn btn-sm btn-outline-success"
                                             aria-label="{{ __('admin.crud.edit') }} {{ $category->name }}">{{ __('admin.crud.edit') }}</a>
                                         <form action="{{ route('admin.service-categories.destroy', $category) }}" method="POST"
-                                            onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.service_categories')]) }}');"
+                                            data-confirm-delete="{{ $category->name }}"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')

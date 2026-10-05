@@ -80,7 +80,7 @@
                                             class="btn btn-sm btn-outline-success"
                                             aria-label="{{ __('admin.crud.edit') }} {{ Str::limit($post->title, 30) }}">{{ __('admin.crud.edit') }}</a>
                                         <form action="{{ route('admin.posts.destroy', $post) }}" method="POST"
-                                            onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.navigation.posts')]) }}');"
+                                            data-confirm-delete="{{ $post->title }}"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')

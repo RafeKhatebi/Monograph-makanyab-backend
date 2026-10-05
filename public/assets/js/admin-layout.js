@@ -73,6 +73,70 @@
 
     setupLanguageMenus();
 
+    function setupDeleteDialog() {
+        const dialog = document.getElementById('admin-delete-dialog');
+        if (!dialog) return;
+
+        const message = document.getElementById('admin-delete-message');
+        const cancelButton = dialog.querySelector('[data-confirm-cancel]');
+        const acceptButton = dialog.querySelector('[data-confirm-accept]');
+        let pendingForm = null;
+        let pendingSubmitter = null;
+        let confirmedForm = null;
+
+        function submitConfirmed(form, submitter) {
+            confirmedForm = form;
+            if (submitter && submitter.form === form) {
+                form.requestSubmit(submitter);
+            } else {
+                form.requestSubmit();
+            }
+        }
+
+        document.addEventListener('submit', function (event) {
+            const form = event.target;
+            if (!form.matches('[data-confirm-delete]')) return;
+            if (form === confirmedForm) {
+                confirmedForm = null;
+                return;
+            }
+
+            event.preventDefault();
+            pendingForm = form;
+            pendingSubmitter = event.submitter;
+
+            if (typeof dialog.showModal !== 'function') {
+                if (window.confirm(dialog.dataset.messageTemplate.replace(':item', form.dataset.confirmDelete))) {
+                    submitConfirmed(form, pendingSubmitter);
+                }
+                return;
+            }
+
+            message.textContent = dialog.dataset.messageTemplate.replace(':item', form.dataset.confirmDelete);
+            dialog.showModal();
+            cancelButton.focus();
+        });
+
+        cancelButton.addEventListener('click', function () {
+            dialog.close();
+        });
+
+        acceptButton.addEventListener('click', function () {
+            const form = pendingForm;
+            const submitter = pendingSubmitter;
+            dialog.close();
+            if (!form) return;
+            submitConfirmed(form, submitter);
+        });
+
+        dialog.addEventListener('close', function () {
+            pendingForm = null;
+            pendingSubmitter = null;
+        });
+    }
+
+    setupDeleteDialog();
+
     window.toggleSidebar = function () {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');

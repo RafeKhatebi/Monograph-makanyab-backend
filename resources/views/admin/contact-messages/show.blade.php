@@ -65,7 +65,7 @@
                 @endif
 
                 <form action="{{ route('admin.contact-messages.destroy', $message) }}" method="POST"
-                    onsubmit="return confirm(@js(__('admin.contact_messages.delete_confirm')));"
+                    data-confirm-delete="{{ $message->subject }}"
                     class="admin-action-form">
                     @csrf
                     @method('DELETE')

@@ -110,7 +110,7 @@
                                                 class="btn btn-sm btn-outline-success"
                                                 aria-label="{{ __('admin.crud.edit') }} {{ $service->name }}">{{ __('admin.crud.edit') }}</a>
                                             <form action="{{ route('admin.services.destroy', $service) }}" method="POST"
-                                                onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.services')]) }}');"
+                                                data-confirm-delete="{{ $service->name }}"
                                                 class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')

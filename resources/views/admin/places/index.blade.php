@@ -125,7 +125,7 @@
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </a>
                                             <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
-                                                onsubmit="return confirm('{{ __('admin.crud.confirm_delete', ['item' => __('admin.dashboard.places')]) }}');"
+                                                data-confirm-delete="{{ $place->name }}"
                                                 class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')

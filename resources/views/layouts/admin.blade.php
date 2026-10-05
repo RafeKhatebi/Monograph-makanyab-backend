@@ -178,6 +178,17 @@
         </div>
     </div>
 
+    <dialog class="admin-confirm-dialog" id="admin-delete-dialog" aria-labelledby="admin-delete-title" aria-describedby="admin-delete-message"
+        data-message-template="{{ __('admin.delete_modal.message') }}">
+        <div class="admin-confirm-dialog__icon" aria-hidden="true"><i class="fa fa-trash-alt"></i></div>
+        <h2 id="admin-delete-title">{{ __('admin.delete_modal.title') }}</h2>
+        <p id="admin-delete-message"></p>
+        <div class="admin-confirm-dialog__actions">
+            <button type="button" class="btn btn-outline-secondary" data-confirm-cancel>{{ __('admin.crud.cancel') }}</button>
+            <button type="button" class="btn btn-danger" data-confirm-accept>{{ __('admin.crud.delete') }}</button>
+        </div>
+    </dialog>
+
     @php
         $appTranslations = [
             'mediaCover' => __('common.media.cover'),
@@ -192,7 +203,7 @@
     <script>
         window.AppTranslations = Object.assign(window.AppTranslations || {}, @json($appTranslations));
     </script>
-    <script src="{{ asset('assets/js/admin-layout.js') }}"></script>
+    <script src="{{ asset('assets/js/admin-layout.js') }}?v={{ filemtime(public_path('assets/js/admin-layout.js')) }}"></script>
     @stack('scripts')
 </body>
 

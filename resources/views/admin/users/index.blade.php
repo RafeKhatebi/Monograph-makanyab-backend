@@ -80,7 +80,7 @@
                                             aria-label="{{ __('admin.users.edit_name', ['name' => $user->name]) }}">{{ __('admin.users.edit_action') }}</a>
                                         @if ($user->id !== auth()->id())
                                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                                                onsubmit="return confirm('{{ __('admin.users.delete_confirm') }}');"
+                                                data-confirm-delete="{{ $user->name }}"
                                                 class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')
