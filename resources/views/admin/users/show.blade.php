@@ -1,18 +1,18 @@
 @extends('layouts.admin')
 
-@section('title', 'User Details')
-@section('page-title', 'User Details')
+@section('title', __('admin.users.details'))
+@section('page-title', __('admin.users.details'))
 
 @section('content')
-    <section class="card" aria-label="User Details">
+    <section class="card" aria-label="{{ __('admin.users.details') }}">
         <div class="card-header admin-card-header">
             <h2 class="admin-card-title">{{ $user->name }}</h2>
             <div class="admin-header-actions">
                 <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-outline-primary btn-sm">
-                    <i class="fa fa-edit" aria-hidden="true"></i> Edit
+                    <i class="fa fa-edit" aria-hidden="true"></i> {{ __('admin.users.edit_action') }}
                 </a>
                 <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> {{ __('admin.users.back_short') }}
                 </a>
             </div>
         </div>
@@ -20,38 +20,38 @@
         <div class="card-body">
             <div class="admin-status-row">
                 <span class="badge {{ $user->role === 'admin' ? 'badge-primary' : ($user->role === 'owner' ? 'badge-info' : 'badge-secondary') }}">
-                    {{ ucfirst($user->role) }}
+                    {{ __('admin.dashboard.'.$user->role) }}
                 </span>
                 <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-danger' }}">
-                    {{ $user->is_active ? 'Active' : 'Inactive' }}
+                    {{ $user->is_active ? __('admin.users.active') : __('admin.users.inactive') }}
                 </span>
             </div>
 
             <div class="admin-detail-grid">
                 <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p class="admin-detail-label">Email</p>
+                        <p class="admin-detail-label">{{ __('admin.users.email') }}</p>
                         <p class="admin-detail-value">{{ $user->email }}</p>
                     </div>
                 </div>
 
                 <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p class="admin-detail-label">Email Verified</p>
-                        <p class="admin-detail-value">{{ $user->email_verified_at ? 'Yes' : 'No' }}</p>
+                        <p class="admin-detail-label">{{ __('admin.users.email_verified') }}</p>
+                        <p class="admin-detail-value">{{ $user->email_verified_at ? __('common.yes') : __('common.no') }}</p>
                     </div>
                 </div>
 
                 <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p class="admin-detail-label">Total Reviews</p>
+                        <p class="admin-detail-label">{{ __('admin.users.total_reviews') }}</p>
                         <p class="admin-detail-value admin-detail-value--metric">{{ $user->reviews_count }}</p>
                     </div>
                 </div>
 
                 <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p class="admin-detail-label">Total Favorites</p>
+                        <p class="admin-detail-label">{{ __('admin.users.total_favorites') }}</p>
                         <p class="admin-detail-value admin-detail-value--metric">{{ $user->favorites_count }}</p>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                 @if ($user->role === 'owner')
                     <div class="card admin-detail-card">
                         <div class="card-body">
-                            <p class="admin-detail-label">Owned Places</p>
+                            <p class="admin-detail-label">{{ __('admin.users.owned_places') }}</p>
                             <p class="admin-detail-value admin-detail-value--metric">{{ $user->places_count }}</p>
                         </div>
                     </div>
@@ -67,15 +67,15 @@
 
                 <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p class="admin-detail-label">Joined</p>
-                        <p class="admin-detail-value">{{ $user->created_at->format('M d, Y H:i') }}</p>
+                        <p class="admin-detail-label">{{ __('admin.users.joined') }}</p>
+                        <p class="admin-detail-value">{{ \App\Support\LocalizedDate::dateTime($user->created_at) }}</p>
                     </div>
                 </div>
 
                 <div class="card admin-detail-card">
                     <div class="card-body">
-                        <p class="admin-detail-label">Last Updated</p>
-                        <p class="admin-detail-value">{{ $user->updated_at->format('M d, Y H:i') }}</p>
+                        <p class="admin-detail-label">{{ __('admin.users.last_updated') }}</p>
+                        <p class="admin-detail-value">{{ \App\Support\LocalizedDate::dateTime($user->updated_at) }}</p>
                     </div>
                 </div>
             </div>

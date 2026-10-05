@@ -93,16 +93,6 @@
                     <small>{{ $stats['archived_contact_messages'] }} {{ __('admin.dashboard.archived') }}</small>
                 </div>
             </div>
-            <div class="stat-card" role="region" aria-label="{{ __('admin.dashboard.pending_suggestions') }}">
-                <div class="stat-card-icon blue" aria-hidden="true">
-                    <i class="fa fa-lightbulb"></i>
-                </div>
-                <div class="stat-card-info">
-                    <p>{{ __('admin.dashboard.pending_suggestions') }}</p>
-                    <h6>{{ $stats['pending_place_suggestions'] + $stats['pending_service_suggestions'] }}</h6>
-                    <small>{{ $stats['pending_place_suggestions'] }} {{ __('admin.dashboard.places') }} / {{ $stats['pending_service_suggestions'] }} {{ __('admin.dashboard.services') }}</small>
-                </div>
-            </div>
         </div>
     </section>
 

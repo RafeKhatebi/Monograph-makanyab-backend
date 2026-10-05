@@ -63,23 +63,6 @@
         </div>
     </section>
 
-    <nav class="home-stats" aria-label="{{ __('home.summary') }}">
-        <div class="container home-stats__grid">
-            <a href="{{ route('places.index') }}" class="home-stat">
-                <span class="home-stat__icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                <span><strong>{{ number_format($homeStats['places']) }}</strong><small>{{ __('home.stat_places') }}</small></span>
-            </a>
-            <a href="{{ route('services.index') }}" class="home-stat">
-                <span class="home-stat__icon"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
-                <span><strong>{{ number_format($homeStats['services']) }}</strong><small>{{ __('home.stat_services') }}</small></span>
-            </a>
-            <a href="{{ route('search.index', ['verified' => 1]) }}" class="home-stat">
-                <span class="home-stat__icon"><i class="fa fa-check-circle" aria-hidden="true"></i></span>
-                <span><strong>{{ number_format($homeStats['verified']) }}</strong><small>{{ __('home.stat_verified') }}</small></span>
-            </a>
-        </div>
-    </nav>
-
     <div class="home-section home-section--muted">
         <div class="container">
             <div class="row">
