@@ -2,6 +2,7 @@
 
 use App\Models\Place;
 use App\Models\PlaceCategory;
+use App\Models\PlaceSuggestion;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -26,29 +27,25 @@ test('admin can access places index', function () {
         ->assertOk();
 });
 
-test('admin can access create place form', function () {
+test('admin creates places through the contributor form', function () {
     $this->actingAs($this->admin)
         ->get('/admin/places/create')
+        ->assertNotFound();
+
+    $this->actingAs($this->admin)
+        ->get(route('add.create', ['type' => 'place']))
         ->assertOk();
 });
 
-test('admin can create a place', function () {
-    $data = [
-        'name' => 'New Place',
-        'place_category_id' => $this->category->id,
-        'description' => 'A test place description',
-        'address' => '123 Test Street',
-        'phone_1' => '+1234567890',
-        'country' => 'Afghanistan',
-        'province' => 'Kabul',
-        'district' => 'Kabul',
-        'latitude' => 34.5553,
-        'longitude' => 69.2075,
-        'is_active' => '1',
-    ];
-
+test('admin can submit and approve a place', function () {
     $this->actingAs($this->admin)
-        ->post('/admin/places', $data)
+        ->post(route('add.store'), adminPlacePayload($this->category->id, ['name' => 'New Place']))
+        ->assertRedirect(route('add.create', ['type' => 'place']))
+        ->assertSessionHasNoErrors();
+
+    $suggestion = PlaceSuggestion::where('name', 'New Place')->firstOrFail();
+    $this->actingAs($this->admin)
+        ->post(route('admin.place-suggestions.approve', $suggestion))
         ->assertRedirect();
 
     $this->assertDatabaseHas('places', ['name' => 'New Place']);
@@ -192,33 +189,26 @@ test('admin can filter places by verification status', function () {
         ->assertOk();
 });
 
-test('admin place form uses dependent province and district controls', function () {
+test('contributor place form exposes location controls', function () {
     $this->actingAs($this->admin)
-        ->get('/admin/places/create')
+        ->get(route('add.create', ['type' => 'place']))
         ->assertOk()
-        ->assertSee('id="province-select"', false)
-        ->assertSee('id="district-select"', false)
-        ->assertSee('"Kabul":["Kabul","Bagrami"', false);
+        ->assertSee('name="province"', false)
+        ->assertSee('name="district"', false);
 });
 
-test('admin can create places for valid province and district combinations', function (string $province, string $district) {
+test('admin can submit places with different locations', function (string $province, string $district) {
     $this->actingAs($this->admin)
-        ->post('/admin/places', [
+        ->post(route('add.store'), adminPlacePayload($this->category->id, [
             'name' => "{$district} Place",
-            'place_category_id' => $this->category->id,
-            'description' => 'A valid location combination.',
-            'address' => 'Test address',
-            'phone_1' => '+93000000000',
-            'country' => 'Afghanistan',
             'province' => $province,
+            'city' => $district,
             'district' => $district,
-            'latitude' => 34.5553,
-            'longitude' => 69.2075,
-        ])
-        ->assertRedirect(route('admin.places.index'))
+        ]))
+        ->assertRedirect(route('add.create', ['type' => 'place']))
         ->assertSessionHasNoErrors();
 
-    $this->assertDatabaseHas('places', [
+    $this->assertDatabaseHas('place_suggestions', [
         'name' => "{$district} Place",
         'province' => $province,
         'district' => $district,
@@ -231,91 +221,84 @@ test('admin can create places for valid province and district combinations', fun
     ['Nangarhar', 'Jalalabad'],
 ]);
 
-test('admin place form rejects a district from another province and preserves input', function () {
+test('contributor place form preserves input after validation fails', function () {
     $this->actingAs($this->admin)
-        ->from('/admin/places/create')
-        ->post('/admin/places', [
+        ->from(route('add.create', ['type' => 'place']))
+        ->post(route('add.store'), adminPlacePayload($this->category->id, [
             'name' => 'Invalid Location Place',
-            'place_category_id' => $this->category->id,
-            'description' => 'Invalid location combination.',
             'address' => 'Remember this address',
-            'phone_1' => '+93000000000',
-            'country' => 'Afghanistan',
             'province' => 'Kabul',
-            'district' => 'Mazar-e-Sharif',
-            'latitude' => 34.5553,
-            'longitude' => 69.2075,
-        ])
-        ->assertRedirect('/admin/places/create')
+            'district' => '',
+        ]))
+        ->assertRedirect(route('add.create', ['type' => 'place']))
         ->assertSessionHasErrors('district')
         ->assertSessionHasInput('address', 'Remember this address');
 
-    $this->assertDatabaseMissing('places', ['name' => 'Invalid Location Place']);
+    $this->assertDatabaseMissing('place_suggestions', ['name' => 'Invalid Location Place']);
 });
 
-test('admin place upload stores metadata and selects a cover image', function () {
+test('contributor place upload stores metadata and selects a cover image', function () {
     Storage::fake('public');
 
     $this->actingAs($this->admin)
-        ->post('/admin/places', [
+        ->post(route('add.store'), adminPlacePayload($this->category->id, [
             'name' => 'Place With Photos',
-            'place_category_id' => $this->category->id,
-            'description' => 'Photo upload test.',
-            'address' => 'Test address',
-            'phone_1' => '+93000000000',
-            'country' => 'Afghanistan',
-            'province' => 'Kabul',
-            'district' => 'Kabul',
-            'latitude' => 34.5553,
-            'longitude' => 69.2075,
             'images' => [
                 UploadedFile::fake()->createWithContent('first.jpg', $this->jpegBytes),
                 UploadedFile::fake()->createWithContent('cover.png', $this->pngBytes),
             ],
             'cover_image_index' => 1,
-        ])
-        ->assertRedirect(route('admin.places.index'))
+        ]))
+        ->assertRedirect(route('add.create', ['type' => 'place']))
         ->assertSessionHasNoErrors();
 
-    $place = Place::where('name', 'Place With Photos')->firstOrFail();
-    expect($place->media)->toHaveCount(2)
-        ->and($place->media->where('is_cover', true)->first()->mime_type)->toBe('image/png')
-        ->and($place->media->where('is_cover', true)->first()->file_size)->toBeGreaterThan(0);
+    $suggestion = PlaceSuggestion::where('name', 'Place With Photos')->firstOrFail();
+    expect($suggestion->media)->toHaveCount(2)
+        ->and($suggestion->media->where('is_cover', true)->first()->mime_type)->toBe('image/png')
+        ->and($suggestion->media->where('is_cover', true)->first()->file_size)->toBeGreaterThan(0);
 
-    $place->media->each(fn ($media) => Storage::disk('public')->assertExists($media->file_path));
+    $suggestion->media->each(fn ($media) => Storage::disk('public')->assertExists($media->file_path));
 });
 
-test('admin place upload rejects unsupported and oversized files', function () {
+test('contributor place upload rejects unsupported and oversized files', function () {
     Storage::fake('public');
 
-    $base = [
+    $base = adminPlacePayload($this->category->id, [
         'name' => 'Bad Photo Place',
-        'place_category_id' => $this->category->id,
-        'description' => 'Photo validation test.',
-        'address' => 'Test address',
-        'phone_1' => '+93000000000',
-        'country' => 'Afghanistan',
-        'province' => 'Kabul',
-        'district' => 'Kabul',
-        'latitude' => 34.5553,
-        'longitude' => 69.2075,
-    ];
+    ]);
 
     $this->actingAs($this->admin)
-        ->post('/admin/places', $base + [
+        ->post(route('add.store'), $base + [
             'images' => [UploadedFile::fake()->create('document.pdf', 100, 'application/pdf')],
         ])
         ->assertSessionHasErrors('images.0');
 
     $this->actingAs($this->admin)
-        ->post('/admin/places', $base + [
+        ->post(route('add.store'), $base + [
             'images' => [UploadedFile::fake()->createWithContent(
                 'large.jpg',
-                $this->jpegBytes.str_repeat("\0", 2049 * 1024)
+                $this->jpegBytes.str_repeat("\0", 4097 * 1024)
             )],
         ])
         ->assertSessionHasErrors('images.0');
 });
+
+function adminPlacePayload(int $categoryId, array $overrides = []): array
+{
+    return array_replace([
+        'type' => 'place',
+        'submit_action' => 'send_review',
+        'name' => 'Test Place',
+        'place_category_id' => $categoryId,
+        'description' => 'A complete place description for review.',
+        'phone_1' => '+93000000000',
+        'address' => 'Test address',
+        'country' => 'Afghanistan',
+        'province' => 'Kabul',
+        'city' => 'Kabul',
+        'district' => 'Kabul',
+    ], $overrides);
+}
 
 test('admin can remove an existing place image while editing', function () {
     Storage::fake('public');

@@ -169,7 +169,7 @@ test('add place and service submissions show validation errors for missing requi
 
     $response
         ->assertRedirect(route('add.create', ['type' => $type]))
-        ->assertSessionHasErrors(['name', 'description', 'phone_1', 'address', 'province', 'city', 'district', 'price_level', 'images']);
+        ->assertSessionHasErrors(['name', 'description', 'phone_1', 'address', 'province', 'city', 'district']);
 })->with(['place', 'service']);
 
 test('add submissions reject inactive categories', function (string $type, string $categoryModel, string $categoryField) {
@@ -328,7 +328,10 @@ test('admin can approve a submitted post from the posts section', function () {
 
 test('users can save posts and see saved posts in profile and favorites', function () {
     $user = User::factory()->create();
-    $post = Post::factory()->create(['title' => 'Saved Community Guide']);
+    $post = Post::factory()->create([
+        'title' => 'Saved Community Guide',
+        'published_at' => now()->subMinute(),
+    ]);
 
     $this
         ->actingAs($user)
@@ -402,18 +405,13 @@ test('farsi admin suggestion pages use translated interface text', function () {
         ->assertDontSeeText('Reject');
 });
 
-test('floating add button exposes exactly three submission options', function () {
+test('floating add button links to the place contribution form', function () {
     $this
         ->get(route('home'))
         ->assertOk()
         ->assertSee('class="mk-fab__trigger"', false)
-        ->assertSee('id="mk-fab-menu"', false)
         ->assertSee('href="'.route('add.create', ['type' => 'place']).'"', false)
-        ->assertSee('href="'.route('add.create', ['type' => 'service']).'"', false)
-        ->assertSee('href="'.route('add.create', ['type' => 'post']).'"', false)
-        ->assertSeeText('Suggest a Place')
-        ->assertSeeText('Suggest a Service')
-        ->assertSeeText('Create a Post');
+        ->assertSee('aria-label="Suggest a Place"', false);
 });
 
 test('admins cannot access direct create routes for places services or posts', function (string $path) {

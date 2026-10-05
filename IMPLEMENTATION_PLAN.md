@@ -1,6 +1,6 @@
 # Implementation Plan
 
-Status: Phase 4 presentation scope complete on 2026-10-03; awaiting owner verification. Optional domain modules remain unapproved and require separate phases.
+Status: Phases 1–4 and the add page theme correction are complete as of 2026-10-05. Phase 5 test-suite reconciliation is implemented but unverified at the user's request. Optional domain modules remain unapproved and require separate phases.
 
 ## 1. Repository Analysis
 
@@ -111,6 +111,10 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Align auth/profile/admin presentation and email templates, preserving Laravel guards/notifications. Reuse the reference's split auth shell, clear account status, admin attention queue and teal/cream mail treatment through existing Blade and MailMessage conventions.
 - [ ] Implement only approved optional features (team, new taxonomy, moderator, revisions, comments/reports, etc.) as separate logical phases with their own migrations, policies and checks.
 
+### Phase 5 — Feature suite reconciliation
+- [x] Review the 20 failures from the pre-change Feature suite run. Update tests for the current contributor submission and admin approval flow, current favorites wording, service imagery, validation rules, and floating add link. Remove the invalid `is_active` field from the service suggestion test payload.
+- [ ] Run the full Feature suite and resolve any remaining failures. Verification is deferred because the user explicitly requested no tests, type checks, or lint checks during this continuation.
+
 ## 6. Verification
 
 - [x] Phase 1 shared UI checked against the local reference design and rendered home/footer screenshots.
@@ -119,6 +123,7 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Phase 2 Blade compilation and Vite build passed. Public home, search, post, place category, service category, and detail behavior passed 26 focused tests (140 assertions). Rendered home, place, service, search and post pages were checked at 390px and 1440px without horizontal overflow.
 - [x] Phase 3 CommonMark rendering strips raw HTML and unsafe links. Markdown preview, storage, publication, legacy content, post upload and admin approval passed 9 focused tests (55 assertions). Blade compilation, JavaScript syntax, Vite build and PHP formatting passed. Contributor forms were checked at 390px and 1440px with no overflow; the admin preview rendered headings and tables at 390px with no console errors.
 - [x] Phase 4 authentication, profile, admin dashboard, middleware, verification and password-reset behavior passed 57 focused tests (204 assertions). Branded notification HTML rendered in LTR and RTL, Blade compilation, JavaScript syntax, Vite build and PHP formatting passed. Login, profile and admin dashboard were checked at 390px and 1440px with no overflow or console errors.
+- [x] Add place page now shares the public teal/cream palette, form and card treatment, responsive header, and sticky actions. Removed the redundant floating add button on this page. Checked the rendered page at 390px and 1440px without overflow or console errors; three focused place/service and Dari tests passed (32 assertions), and Blade compilation passed.
 - [x] Validation and form feedback checked for affected authentication and profile forms.
 - [x] Existing account/admin models and relationships checked; Phase 4 required no schema migration.
 - [x] Local email verification/reset checked through renderable development previews and notification tests; delivery remains on the configured local mailer.
@@ -127,12 +132,15 @@ Public pages: home, places, services, categories, posts, search, about, contact,
 - [x] Markdown preview authentication and existing owner-scoped post editing retained.
 - [x] Existing post contribution regression checked in Phase 3; Phase 4 made no place/service/post workflow changes.
 
-## 7. Risks and decisions for owner verification
+## 7. Remaining work
 
-1. The reference is in `.gitignore` and stays a local study copy; direct imports from `apps/web` cannot run in Blade without bringing React/Next.js. Avoid a second application in this repository unless architecture migration is explicitly desired.
-2. The full Feature suite currently reports 20 failures in older admin create-route, favorites, service factory and legacy UI expectations that are outside Phase 3. Phase 3's focused post and Markdown checks pass.
-3. No root LICENSE file was found in the local reference and its API package declares `UNLICENSED`. Before copying its code, images or logo into deliverable files, obtain permission/license terms from the owner; visual pattern analysis can proceed.
-4. The reference editor stores Tiptap JSON. The requested Markdown source format needs a deliberate target implementation and safe rendering rules.
-5. The reference's cultural-entry domain does not match Makanyab's place/service/post domain one-to-one. Reusing every model would duplicate or distort current architecture.
-6. Current CSS already contains a Mirasaf-inspired layer; audit cascade/visual regressions before adding styles. Existing Makanyab branding should not be overwritten by reference branding by accident.
-7. No implementation tests or build were run during this read-only analysis. Start with a baseline check after plan verification and before Phase 1 changes.
+- [ ] Verify the Phase 5 test updates by running the full Feature suite when checks are permitted, then resolve any remaining failures.
+- [ ] Decide which optional domain modules, if any, to build next: team page, taxonomy, moderator workspace, revisions, comments, reports, corrections, or audit history.
+- [ ] Confirm reuse rights before copying any code, images, or logos from the local reference repository.
+
+## 8. Current decisions and risks
+
+1. The reference remains an ignored local study copy. Its Next.js/React application is architecturally separate from this Laravel/Blade application.
+2. Before Phase 5 edits, the full Feature suite reported 20 failures (273 passed). The failures involved retired admin create routes and UI expectations, a service suggestion test payload, and post publication timing in a favorite test. Phase 5 edits have not been executed or verified at the user's request.
+3. No root LICENSE file was found in the reference and its API package declares `UNLICENSED`. Permission is needed before copying reference code, images or logos into deliverable files.
+4. Optional cultural-entry modules need explicit scope and data/permission design because they do not map directly to Makanyab's place, service and post models.

@@ -157,7 +157,7 @@ test('favorites page shows empty state and paginates places and services indepen
     $this->actingAs($this->user)
         ->get('/favorites')
         ->assertOk()
-        ->assertSee('No Saved Places Yet');
+        ->assertSee('No Saved Items Yet');
 
     foreach (range(1, 13) as $number) {
         $place = Place::factory()->create([

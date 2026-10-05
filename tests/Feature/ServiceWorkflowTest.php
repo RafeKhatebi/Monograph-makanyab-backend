@@ -99,7 +99,6 @@ it('generates unique slugs for duplicate approved service suggestions', function
         'province' => 'Kabul',
         'city' => 'Kabul',
         'district' => 'Kabul',
-        'is_active' => '1',
         'suggestion_status' => SuggestionStatus::Pending,
     ];
 

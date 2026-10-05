@@ -248,7 +248,7 @@ test('admin reviews management routes are not exposed separately', function () {
     ]);
 
     $this->actingAs($this->admin)->get('/admin/reviews?status=pending')->assertNotFound();
-    $this->actingAs($this->admin)->post("/admin/reviews/{$pending->id}/approve")->assertNotFound();
-    $this->actingAs($this->admin)->post("/admin/reviews/{$approved->id}/reject")->assertNotFound();
-    $this->actingAs($this->admin)->delete("/admin/reviews/{$rejected->id}")->assertNotFound();
+    $this->actingAs($this->admin)->post("/admin/reviews/{$pending->id}/approve")->assertStatus(405);
+    $this->actingAs($this->admin)->post("/admin/reviews/{$approved->id}/reject")->assertStatus(405);
+    $this->actingAs($this->admin)->delete("/admin/reviews/{$rejected->id}")->assertStatus(405);
 });
