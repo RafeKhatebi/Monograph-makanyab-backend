@@ -1,61 +1,17 @@
 @extends('layouts.admin')
 
-@section('title', __('admin.crud.manage', ['item' => __('admin.dashboard.places')]))
-@section('page-title', __('admin.dashboard.places'))
+@section('title', __('admin.moderation.all_places'))
+@section('page-title', __('admin.moderation.all_places'))
 
 @section('content')
-    @if (($pendingSuggestions ?? collect())->isNotEmpty())
-        <section class="card admin-mb-4" aria-label="{{ __('admin.suggestions.pending_place') }}">
-            <div class="card-header admin-card-header">
-                <h2 class="admin-card-title">{{ __('admin.suggestions.pending_place') }}</h2>
-            </div>
-            <div class="card-body">
-                <div class="admin-table-wrap">
-                    <table class="table" aria-label="{{ __('admin.suggestions.pending_place') }}">
-                        <thead>
-                            <tr>
-                                <th scope="col">{{ __('admin.suggestions.name') }}</th>
-                                <th scope="col">{{ __('admin.suggestions.city') }}</th>
-                                <th scope="col">{{ __('admin.suggestions.category') }}</th>
-                                <th scope="col">{{ __('admin.suggestions.submitted_by') }}</th>
-                                <th scope="col" class="admin-table-actions">{{ __('admin.suggestions.actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pendingSuggestions as $suggestion)
-                                <tr>
-                                    <td>{{ $suggestion->name }}</td>
-                                    <td>{{ $suggestion->city }}</td>
-                                    <td>{{ $suggestion->category->name ?? '-' }}</td>
-                                    <td>{{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? __('admin.suggestions.guest')) }}</td>
-                                    <td class="admin-table-actions">
-                                        <div class="admin-actions admin-actions--end">
-                                            <a href="{{ route('admin.place-suggestions.show', $suggestion) }}" class="btn btn-sm btn-outline-primary">{{ __('common.actions.view') }}</a>
-                                            <form action="{{ route('admin.place-suggestions.approve', $suggestion) }}" method="POST" class="admin-action-form">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-success">{{ __('admin.suggestions.approve') }}</button>
-                                            </form>
-                                            <form action="{{ route('admin.place-suggestions.reject', $suggestion) }}" method="POST" class="admin-action-form">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('admin.suggestions.reject') }}</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    @endif
-
     <section class="card" aria-label="{{ __('admin.crud.manage', ['item' => __('admin.dashboard.places')]) }}">
         <div class="card-header admin-card-header">
-            <h2 class="admin-card-title">{{ __('admin.crud.all', ['item' => __('admin.dashboard.places')]) }} ({{ $places->total() }})</h2>
+            <h2 class="admin-card-title">{{ __('admin.moderation.all_places') }} ({{ $places->total() }})</h2>
         </div>
 
         <div class="card-body">
+            @include('admin.partials.moderation-tabs', ['type' => 'places', 'activeSection' => 'all'])
+
             <form method="GET" action="{{ route('admin.places.index') }}" role="search" aria-label="{{ __('admin.crud.search', ['item' => __('admin.dashboard.places')]) }}" class="admin-filter-form">
                 <div class="admin-filter-field">
                     <label for="search" class="sr-only">{{ __('admin.crud.search', ['item' => __('admin.dashboard.places')]) }}</label>

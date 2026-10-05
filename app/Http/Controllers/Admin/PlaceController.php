@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PlaceStatus;
 use App\Enums\PriceLevel;
-use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdatePlaceRequest;
 use App\Models\Place;
 use App\Models\PlaceCategory;
-use App\Models\PlaceSuggestion;
 use App\Services\MediaUploadService;
 use App\Services\SlugService;
 use Illuminate\Http\Request;
@@ -48,13 +46,7 @@ class PlaceController extends Controller
 
         $places = $query->latest()->paginate(20)->withQueryString();
         $categories = PlaceCategory::active()->orderBy('name')->get();
-        $pendingSuggestions = PlaceSuggestion::with(['category', 'user'])
-            ->where('suggestion_status', SuggestionStatus::Pending->value)
-            ->latest()
-            ->limit(6)
-            ->get();
-
-        return view('admin.places.index', compact('places', 'categories', 'pendingSuggestions'));
+        return view('admin.places.index', compact('places', 'categories'));
     }
 
     public function show(Place $place)

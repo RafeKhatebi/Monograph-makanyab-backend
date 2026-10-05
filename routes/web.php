@@ -158,6 +158,9 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('/', fn () => redirect()->route('admin.dashboard'))->name('home');
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         //  Places Management
+        Route::get('places/pending', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'pending'])->name('places.pending');
+        Route::get('places/approved', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'approved'])->name('places.approved');
+        Route::get('places/rejected', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'rejected'])->name('places.rejected');
         Route::resource('places', App\Http\Controllers\Admin\PlaceController::class)
             ->except(['create', 'store']);
 
@@ -180,6 +183,9 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::resource('service-categories', ServiceCategoryController::class);
         //  Services Management
 
+        Route::get('services/pending', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'pending'])->name('services.pending');
+        Route::get('services/approved', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'approved'])->name('services.approved');
+        Route::get('services/rejected', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'rejected'])->name('services.rejected');
         Route::resource('services', ServiceController::class)
             ->except(['create', 'store']);
         Route::post('services/{service}/restore', [ServiceController::class, 'restore'])
@@ -230,9 +236,13 @@ Route::middleware(['auth', 'verified', 'admin'])
         /*
         Posts Management
         */
+        Route::get('posts/pending', [AdminPostController::class, 'pending'])->name('posts.pending');
+        Route::get('posts/approved', [AdminPostController::class, 'approved'])->name('posts.approved');
+        Route::get('posts/rejected', [AdminPostController::class, 'rejected'])->name('posts.rejected');
         Route::resource('posts', AdminPostController::class)
             ->except(['create', 'store', 'show']);
         Route::post('posts/{post}/approve', [AdminPostController::class, 'approve'])->name('posts.approve');
+        Route::post('posts/{post}/reject', [AdminPostController::class, 'reject'])->name('posts.reject');
     });
 
 if (app()->environment(['local', 'development', 'testing'])) {

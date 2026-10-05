@@ -26,6 +26,12 @@ return [
         'email_verified' => 'Email Verified', 'total_reviews' => 'Total Reviews',
         'total_favorites' => 'Total Favorites', 'owned_places' => 'Owned Places', 'last_updated' => 'Last Updated',
     ],
+    'moderation' => [
+        'all_places' => 'All Places', 'pending_places' => 'Pending Places', 'approved_places' => 'Approved Places', 'rejected_places' => 'Rejected Places',
+        'all_services' => 'All Services', 'pending_services' => 'Pending Services', 'approved_services' => 'Approved Services', 'rejected_services' => 'Rejected Services',
+        'all_posts' => 'All Posts', 'pending_posts' => 'Pending Posts', 'approved_posts' => 'Approved Posts', 'rejected_posts' => 'Rejected Posts',
+        'review_note' => 'Review note', 'no_note' => 'No review note provided.', 'post_image_help' => 'JPG, PNG, or WebP up to 2 MB.',
+    ],
     'contact_messages' => [
         'title' => 'Contact Messages',
         'single' => 'Contact Message',

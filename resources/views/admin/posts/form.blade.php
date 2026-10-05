@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="title">Title <span aria-hidden="true">*</span></label>
+    <label for="title">{{ __('suggestions.title') }} <span aria-hidden="true">*</span></label>
     <input id="title" type="text" name="title" class="form-control" value="{{ old('title', $post->title ?? '') }}" required maxlength="255">
     @error('title')
         <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -7,7 +7,7 @@
 </div>
 
 <div class="form-group">
-    <label for="excerpt">Excerpt</label>
+    <label for="excerpt">{{ __('suggestions.excerpt') }}</label>
     <textarea id="excerpt" name="excerpt" class="form-control" maxlength="500">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
     @error('excerpt')
         <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -20,9 +20,9 @@
 </div>
 
 <div class="form-group">
-    <label for="image">Image</label>
+    <label for="image">{{ __('suggestions.image') }}</label>
     <input id="image" type="file" name="image" class="form-control" accept="image/jpeg,image/png,image/webp">
-    <small class="form-text text-muted">JPG, PNG, or WebP up to 2 MB.</small>
+    <small class="form-text text-muted">{{ __('admin.moderation.post_image_help') }}</small>
     @error('image')
         <div class="invalid-feedback d-block">{{ $message }}</div>
     @enderror
@@ -32,6 +32,6 @@
     <label for="is_published">
         <input id="is_published" type="checkbox" name="is_published" value="1"
             {{ old('is_published', $post->is_published ?? true) ? 'checked' : '' }}>
-        Published
+        {{ __('admin.dashboard.published') }}
     </label>
 </div>

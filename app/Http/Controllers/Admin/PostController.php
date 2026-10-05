@@ -16,16 +16,40 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
+        return $this->listing($request, 'all');
+    }
+
+    public function pending(Request $request)
+    {
+        return $this->listing($request, 'pending');
+    }
+
+    public function approved(Request $request)
+    {
+        return $this->listing($request, 'approved');
+    }
+
+    public function rejected(Request $request)
+    {
+        return $this->listing($request, 'rejected');
+    }
+
+    private function listing(Request $request, string $section)
+    {
         $posts = Post::with('user')
             ->when($request->search, fn ($q, $v) => $q->where(function ($query) use ($v) {
                 $query->where('title', 'like', "%{$v}%")
                     ->orWhere('excerpt', 'like', "%{$v}%");
             }))
-            ->when($request->filled('is_published'), fn ($q) => $q->where('is_published', $request->boolean('is_published')))
+            ->when($section === 'pending', fn ($q) => $q->where('submission_status', SuggestionStatus::UnderReview))
+            ->when($section === 'approved', fn ($q) => $q->where('is_published', true))
+            ->when($section === 'rejected', fn ($q) => $q->where('submission_status', SuggestionStatus::Rejected))
+            ->when($section === 'all' && $request->filled('is_published'), fn ($q) => $q->where('is_published', $request->boolean('is_published')))
             ->latest('created_at')
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('admin.posts.index', compact('posts'));
+        return view('admin.posts.index', compact('posts', 'section'));
     }
 
     public function edit(Post $post)
@@ -51,9 +75,11 @@ class PostController extends Controller
             $data['published_at'] = null;
         }
 
-        $data['submission_status'] = $data['is_published']
-            ? SuggestionStatus::Published->value
-            : SuggestionStatus::Draft->value;
+        if ($data['is_published']) {
+            $data['submission_status'] = SuggestionStatus::Published->value;
+        } elseif ($post->is_published) {
+            $data['submission_status'] = SuggestionStatus::Draft->value;
+        }
 
         if ($request->hasFile('image')) {
 
@@ -66,8 +92,15 @@ class PostController extends Controller
 
         $post->update($data);
 
+        $destination = match (true) {
+            $post->is_published => 'approved',
+            $post->submission_status === SuggestionStatus::UnderReview => 'pending',
+            $post->submission_status === SuggestionStatus::Rejected => 'rejected',
+            default => 'index',
+        };
+
         return redirect()
-            ->route('admin.posts.index')
+            ->route('admin.posts.'.$destination)
             ->with('success', __('messages.admin.posts.updated'));
     }
 
@@ -84,6 +117,10 @@ class PostController extends Controller
 
     public function approve(Post $post)
     {
+        if ($post->submission_status !== SuggestionStatus::UnderReview) {
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
+        }
+
         $post->update([
             'is_published' => true,
             'published_at' => $post->published_at ?? now(),
@@ -92,5 +129,23 @@ class PostController extends Controller
         ]);
 
         return back()->with('success', __('messages.admin.posts.updated'));
+    }
+
+    public function reject(Request $request, Post $post)
+    {
+        $data = $request->validate(['admin_note' => ['nullable', 'string', 'max:2000']]);
+
+        if ($post->submission_status !== SuggestionStatus::UnderReview) {
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
+        }
+
+        $post->update([
+            'is_published' => false,
+            'published_at' => null,
+            'submission_status' => SuggestionStatus::Rejected->value,
+            'admin_note' => $data['admin_note'] ?? null,
+        ]);
+
+        return back()->with('success', __('messages.admin.suggestions.rejected'));
     }
 }

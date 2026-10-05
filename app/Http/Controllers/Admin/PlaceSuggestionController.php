@@ -14,14 +14,34 @@ class PlaceSuggestionController extends Controller
 {
     public function index(Request $request)
     {
+        return $this->listing($request, $request->query('status'));
+    }
+
+    public function pending(Request $request)
+    {
+        return $this->listing($request, SuggestionStatus::Pending->value);
+    }
+
+    public function approved(Request $request)
+    {
+        return $this->listing($request, SuggestionStatus::Approved->value);
+    }
+
+    public function rejected(Request $request)
+    {
+        return $this->listing($request, SuggestionStatus::Rejected->value);
+    }
+
+    private function listing(Request $request, ?string $status)
+    {
         $suggestions = PlaceSuggestion::with(['category', 'user'])
-            ->filterSuggestionStatus($request->query('status'))
+            ->filterSuggestionStatus($status)
             ->searchSuggestion($request->query('search'))
             ->latest()
             ->paginate(20)
             ->withQueryString();
 
-        return view('admin.place-suggestions.index', compact('suggestions'));
+        return view('admin.place-suggestions.index', compact('suggestions', 'status'));
     }
 
     public function show(PlaceSuggestion $placeSuggestion)

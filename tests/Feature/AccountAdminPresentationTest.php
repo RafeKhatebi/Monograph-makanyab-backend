@@ -34,7 +34,7 @@ test('profile settings expose status and accessible fields', function () {
         ->assertSee('aria-controls="tab-settings"', false);
 });
 
-test('admin dashboard provides a live attention queue', function () {
+test('admin dashboard links each pending content type to its own page', function () {
     $admin = User::factory()->admin()->create();
     PlaceSuggestion::factory()->create(['suggestion_status' => SuggestionStatus::Pending]);
     ServiceSuggestion::factory()->create(['suggestion_status' => SuggestionStatus::Pending]);
@@ -44,12 +44,12 @@ test('admin dashboard provides a live attention queue', function () {
     $this->actingAs($admin)
         ->get(route('admin.dashboard'))
         ->assertOk()
-        ->assertSee('admin-attention-grid', false)
-        ->assertSee(route('admin.place-suggestions.index', ['status' => 'pending']), false)
-        ->assertSee(route('admin.service-suggestions.index', ['status' => 'pending']), false)
-        ->assertSee(route('admin.posts.index', ['is_published' => 0]), false)
-        ->assertSeeText('Place Suggestions')
-        ->assertSeeText('Service Suggestions');
+        ->assertSee(route('admin.places.pending'), false)
+        ->assertSee(route('admin.services.pending'), false)
+        ->assertSee(route('admin.posts.pending'), false)
+        ->assertSeeText('Pending Places')
+        ->assertSeeText('Pending Services')
+        ->assertSeeText('Pending Posts');
 });
 
 test('verification email uses branded responsive rtl markup', function () {

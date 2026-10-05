@@ -20,6 +20,12 @@ return [
         'email_verified' => 'برېښنالیک تایید شوی', 'total_reviews' => 'ټولې کتنې',
         'total_favorites' => 'ټولې خوښې', 'owned_places' => 'د کارن ځایونه', 'last_updated' => 'وروستی تازه شوی',
     ],
+    'moderation' => [
+        'all_places' => 'ټول ځایونه', 'pending_places' => 'په تمه ځایونه', 'approved_places' => 'تایید شوي ځایونه', 'rejected_places' => 'رد شوي ځایونه',
+        'all_services' => 'ټول خدمتونه', 'pending_services' => 'په تمه خدمتونه', 'approved_services' => 'تایید شوي خدمتونه', 'rejected_services' => 'رد شوي خدمتونه',
+        'all_posts' => 'ټولې لیکنې', 'pending_posts' => 'په تمه لیکنې', 'approved_posts' => 'تایید شوې لیکنې', 'rejected_posts' => 'رد شوې لیکنې',
+        'review_note' => 'د ارزونې یادښت', 'no_note' => 'د ارزونې یادښت نشته.', 'post_image_help' => 'JPG، PNG یا WebP تر ۲ مېګابایټه پورې.',
+    ],
     'contact_messages' => ['title' => 'د اړیکې پیغامونه', 'single' => 'د اړیکې پیغام', 'management' => 'د اړیکې پیغامونو مدیریت', 'details' => 'د اړیکې پیغام جزئیات', 'count' => 'د اړیکې پیغامونه (:count)', 'filter_aria' => 'د اړیکې پیغامونه فلټر کړئ', 'search_label' => 'پیغامونه ولټوئ', 'search_placeholder' => 'نوم، برېښنالیک، تلیفون یا موضوع ولټوئ...', 'status_label' => 'د حالت له مخې فلټر', 'inbox' => 'ان‌باکس', 'unread' => 'نه دی لوستل شوی', 'read' => 'لوستل شوی', 'archived' => 'آرشیف شوی', 'list_aria' => 'د اړیکې پیغامونو لړلیک', 'from' => 'له', 'subject' => 'موضوع', 'status' => 'حالت', 'received' => 'ترلاسه شوی', 'actions' => 'کړنې', 'view_from' => 'له :name څخه پیغام کتل', 'empty' => 'د اړیکې پیغام ونه موندل شو', 'pagination' => 'د اړیکې پیغامونو پاڼه‌وېش', 'back' => 'بېرته', 'name' => 'نوم', 'email' => 'برېښنالیک', 'telephone' => 'تلیفون', 'submitted_by' => 'سپارونکی', 'guest' => 'مېلمه', 'message' => 'پیغام',         'delete_confirm' => 'دا د اړیکې پیغام ړنګ شي؟'],
     'suggestions' => [
         'place_title' => 'د ځای وړاندیزونه',

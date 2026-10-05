@@ -18,7 +18,7 @@
     <link href="{{ asset('assets/css/variables.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/ui-system.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin-utilities.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/admin-layout.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/admin-layout.css') }}?v={{ filemtime(public_path('assets/css/admin-layout.css')) }}" rel="stylesheet">
     <link href="{{ asset('assets/css/rtl.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/responsive-overrides.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/design-system.css') }}" rel="stylesheet">
@@ -47,30 +47,35 @@
                     <i class="fa fa-tachometer-alt" aria-hidden="true"></i>
                     {{ __('admin.navigation.dashboard') }}
                 </a>
-                <a href="{{ route('admin.places.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.places.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.places.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
-                    {{ __('admin.navigation.places') }}
-                </a>
-                <a href="{{ route('admin.categories.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.categories.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-tags" aria-hidden="true"></i>
-                    {{ __('admin.navigation.place_categories') }}
-                </a>
-                <a href="{{ route('admin.services.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.services.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.services.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-briefcase" aria-hidden="true"></i>
-                    {{ __('admin.navigation.services') }}
-                </a>
-                <a href="{{ route('admin.service-categories.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.service-categories.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.service-categories.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-layer-group" aria-hidden="true"></i>
-                    {{ __('admin.navigation.service_categories') }}
-                </a>
+                @foreach (['places', 'services', 'posts'] as $contentType)
+                    <div class="sidebar-nav-group" role="group" aria-label="{{ __('admin.navigation.'.$contentType) }}">
+                        @php
+                            $sectionActive = request()->routeIs('admin.'.$contentType.'.*')
+                                || ($contentType === 'places' && request()->routeIs('admin.place-suggestions.*'))
+                                || ($contentType === 'services' && request()->routeIs('admin.service-suggestions.*'));
+                            $sectionIcon = match ($contentType) {
+                                'places' => 'fa-map-marker-alt',
+                                'services' => 'fa-briefcase',
+                                'posts' => 'fa-newspaper',
+                            };
+                        @endphp
+                        <a href="{{ route('admin.'.$contentType.'.index') }}"
+                            class="sidebar-nav-item {{ $sectionActive ? 'active' : '' }}"
+                            @if (request()->routeIs('admin.'.$contentType.'.index')) aria-current="page" @endif>
+                            <i class="fa {{ $sectionIcon }}" aria-hidden="true"></i>
+                            {{ __('admin.navigation.'.$contentType) }}
+                        </a>
+                        @if ($contentType === 'places' || $contentType === 'services')
+                            @php $categoryRoute = $contentType === 'places' ? 'admin.categories.index' : 'admin.service-categories.index'; @endphp
+                            <a href="{{ route($categoryRoute) }}"
+                                class="sidebar-nav-item sidebar-nav-item--sub {{ request()->routeIs($contentType === 'places' ? 'admin.categories.*' : 'admin.service-categories.*') ? 'active' : '' }}"
+                                @if (request()->routeIs($contentType === 'places' ? 'admin.categories.*' : 'admin.service-categories.*')) aria-current="page" @endif>
+                                <i class="fa fa-tags" aria-hidden="true"></i>
+                                {{ __('admin.navigation.'.($contentType === 'places' ? 'place_categories' : 'service_categories')) }}
+                            </a>
+                        @endif
+                    </div>
+                @endforeach
                 <a href="{{ route('admin.users.index') }}"
                     class="sidebar-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
                     {{ request()->routeIs('admin.users.*') ? 'aria-current="page"' : '' }}>
@@ -82,12 +87,6 @@
                     {{ request()->routeIs('admin.contact-messages.*') ? 'aria-current="page"' : '' }}>
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                     {{ __('admin.navigation.contact_messages') }}
-                </a>
-                <a href="{{ route('admin.posts.index') }}"
-                    class="sidebar-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.posts.*') ? 'aria-current="page"' : '' }}>
-                    <i class="fa fa-newspaper" aria-hidden="true"></i>
-                    {{ __('admin.navigation.posts') }}
                 </a>
                 <a href="{{ route('home') }}" class="sidebar-nav-item">
                     <i class="fa fa-globe" aria-hidden="true"></i>

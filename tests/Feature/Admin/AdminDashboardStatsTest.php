@@ -29,10 +29,10 @@ test('admin dashboard reports counts from database', function () {
         ->get(route('admin.dashboard'))
         ->assertOk()
         ->assertSee('Total Services')
-        ->assertSee('1 Active / 1 Inactive')
+        ->assertSeeText('1 Active / 1 Pending')
         ->assertSee('Posts')
-        ->assertSee('1 Published / 1 Draft')
+        ->assertSeeText('1 Published / 0 Pending')
         ->assertSee('Contact Messages')
-        ->assertSee('Pending Suggestions')
-        ->assertSee('1 Places / 1 Services');
+        ->assertSee(route('admin.places.pending'), false)
+        ->assertSee(route('admin.services.pending'), false);
 });

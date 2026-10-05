@@ -20,6 +20,12 @@ return [
         'email_verified' => 'ایمیل تأیید شده', 'total_reviews' => 'مجموع دیدگاه‌ها',
         'total_favorites' => 'مجموع علاقه‌مندی‌ها', 'owned_places' => 'مکان‌های متعلق به کاربر', 'last_updated' => 'آخرین به‌روزرسانی',
     ],
+    'moderation' => [
+        'all_places' => 'همه مکان‌ها', 'pending_places' => 'مکان‌های در انتظار', 'approved_places' => 'مکان‌های تأییدشده', 'rejected_places' => 'مکان‌های ردشده',
+        'all_services' => 'همه خدمات', 'pending_services' => 'خدمات در انتظار', 'approved_services' => 'خدمات تأییدشده', 'rejected_services' => 'خدمات ردشده',
+        'all_posts' => 'همه نوشته‌ها', 'pending_posts' => 'نوشته‌های در انتظار', 'approved_posts' => 'نوشته‌های تأییدشده', 'rejected_posts' => 'نوشته‌های ردشده',
+        'review_note' => 'یادداشت بررسی', 'no_note' => 'یادداشتی برای بررسی ثبت نشده است.', 'post_image_help' => 'JPG، PNG یا WebP تا ۲ مگابایت.',
+    ],
     'contact_messages' => ['title' => 'پیام‌های تماس', 'single' => 'پیام تماس', 'management' => 'مدیریت پیام‌های تماس', 'details' => 'جزئیات پیام تماس', 'count' => 'پیام‌های تماس (:count)', 'filter_aria' => 'فیلتر پیام‌های تماس', 'search_label' => 'جستجوی پیام‌ها', 'search_placeholder' => 'جستجوی نام، ایمیل، تلفن یا موضوع...', 'status_label' => 'فیلتر بر اساس وضعیت', 'inbox' => 'صندوق ورودی', 'unread' => 'خوانده‌نشده', 'read' => 'خوانده‌شده', 'archived' => 'بایگانی‌شده', 'list_aria' => 'فهرست پیام‌های تماس', 'from' => 'از', 'subject' => 'موضوع', 'status' => 'وضعیت', 'received' => 'دریافت‌شده', 'actions' => 'عملیات', 'view_from' => 'مشاهده پیام از :name', 'empty' => 'پیام تماسی یافت نشد', 'pagination' => 'صفحه‌بندی پیام‌های تماس', 'back' => 'بازگشت', 'name' => 'نام', 'email' => 'ایمیل', 'telephone' => 'تلفن', 'submitted_by' => 'ارسال‌شده توسط', 'guest' => 'مهمان', 'message' => 'پیام', 'delete_confirm' => 'این پیام تماس حذف شود؟'],
     'suggestions' => [
         'place_title' => 'پیشنهادهای مکان',

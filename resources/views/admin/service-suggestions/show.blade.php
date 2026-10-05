@@ -10,7 +10,7 @@
                 <h3 class="admin-card-title">{{ $serviceSuggestion->name }}</h3>
                 <p class="admin-detail-value admin-table-muted">{{ __('admin.suggestions.submitted_by_name', ['name' => $serviceSuggestion->submitted_by_name ?? ($serviceSuggestion->user->name ?? __('admin.suggestions.guest'))]) }}</p>
             </div>
-            <a href="{{ route('admin.service-suggestions.index') }}" class="btn btn-secondary">{{ __('admin.suggestions.back') }}</a>
+            <a href="{{ route('admin.services.'.(in_array($serviceSuggestion->suggestion_status?->value, ['pending', 'approved', 'rejected'], true) ? $serviceSuggestion->suggestion_status->value : 'index')) }}" class="btn btn-secondary">{{ __('admin.suggestions.back') }}</a>
         </div>
 
         <div class="card-body">

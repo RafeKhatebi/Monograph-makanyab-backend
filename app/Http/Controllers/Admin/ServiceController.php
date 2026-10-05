@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PlaceStatus;
 use App\Enums\PriceLevel;
-use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use App\Models\ServiceCategory;
-use App\Models\ServiceSuggestion;
 use App\Services\MediaUploadService;
 use App\Services\SlugService;
 use Illuminate\Http\Request;
@@ -45,13 +43,7 @@ class ServiceController extends Controller
 
         $services = $query->latest()->paginate(20)->withQueryString();
         $categories = ServiceCategory::active()->orderBy('name')->get();
-        $pendingSuggestions = ServiceSuggestion::with(['category', 'user'])
-            ->where('suggestion_status', SuggestionStatus::Pending->value)
-            ->latest()
-            ->limit(6)
-            ->get();
-
-        return view('admin.services.index', compact('services', 'categories', 'pendingSuggestions'));
+        return view('admin.services.index', compact('services', 'categories'));
     }
 
     public function show(Service $service)

@@ -24,6 +24,51 @@
     overflow: hidden;
 }
 
+.sidebar-nav-group {
+    margin-block: 12px;
+    padding-block-start: 12px;
+    border-block-start: 1px solid rgba(255, 255, 255, .12);
+}
+
+.sidebar-nav-item--sub {
+    padding-inline-start: 24px;
+}
+
+.admin-status-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.admin-status-nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 7px 14px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    color: var(--color-gray-700);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-status-nav__link:hover,
+.admin-status-nav__link:focus-visible,
+.admin-status-nav__link.is-active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.admin-review-note {
+    width: min(180px, 100%);
+    min-width: 120px;
+}
+
 .admin-body {
     height: 100vh;
     overflow: hidden;
