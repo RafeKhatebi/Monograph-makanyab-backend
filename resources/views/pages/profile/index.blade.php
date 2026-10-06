@@ -91,6 +91,10 @@
                                         </div>
                                         <div class="profile-submission-actions">
                                             <span class="profile-status-pill">{{ $submission['status'] }}</span>
+                                            <a href="{{ $submission['preview_url'] }}" class="mk-button mk-button--secondary mk-button--sm">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                                <span>{{ __('suggestions.preview_card') }}</span>
+                                            </a>
                                             @if ($submission['can_edit'] ?? false)
                                                 <a href="{{ $submission['edit_url'] }}" class="mk-button mk-button--secondary mk-button--sm">
                                                     <i class="fa fa-edit" aria-hidden="true"></i>

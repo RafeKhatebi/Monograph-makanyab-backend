@@ -128,13 +128,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelectorAll('form[data-prevent-double-submit]').forEach(function (form) {
-        form.addEventListener('submit', function () {
+        form.addEventListener('submit', function (event) {
             if (!form.checkValidity()) return;
-            var button = form.querySelector('[data-submit-button]');
-            if (!button || button.disabled) return;
-            button.disabled = true;
-            button.setAttribute('aria-busy', 'true');
-            button.textContent = button.dataset.loadingText || translate('saving', {}, 'Saving...');
+            var button = event.submitter;
+            if (!button || !button.matches('[data-submit-button]') || button.disabled) return;
+            setTimeout(function () {
+                button.disabled = true;
+                button.setAttribute('aria-busy', 'true');
+                button.textContent = button.dataset.loadingText || translate('saving', {}, 'Saving...');
+            }, 0);
         });
     });
 });

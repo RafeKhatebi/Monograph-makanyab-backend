@@ -64,6 +64,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/add/markdown-preview', [SuggestionHubController::class, 'preview'])
         ->middleware('throttle:30,1')
         ->name('add.markdown-preview');
+    Route::get('/add/{type}/{submission}/preview', [SuggestionHubController::class, 'previewSubmission'])
+        ->whereIn('type', ['place', 'service', 'post'])
+        ->name('add.preview');
     Route::get('/add/{type}/{submission}/edit', [SuggestionHubController::class, 'edit'])
         ->whereIn('type', ['place', 'service', 'post'])
         ->name('add.edit');

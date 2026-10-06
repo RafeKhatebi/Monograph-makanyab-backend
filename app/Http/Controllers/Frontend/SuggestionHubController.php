@@ -46,6 +46,21 @@ class SuggestionHubController extends Controller
         return $this->formView($type, $record);
     }
 
+    public function previewSubmission(string $type, string $submission): View
+    {
+        $record = $this->resolveUserSubmission($type, $submission);
+
+        if ($type !== 'post') {
+            $record->loadMissing(['category', 'media']);
+        }
+
+        return view('pages.suggestions.preview', [
+            'previewType' => $type,
+            'previewSubmission' => $record,
+            'canEdit' => ! $this->isLocked($type, $record),
+        ]);
+    }
+
     private function formView(?string $type = null, mixed $record = null): View
     {
         if ($record && $type !== 'post') {
@@ -170,7 +185,8 @@ class SuggestionHubController extends Controller
 
             return redirect()
                 ->route('add.edit', ['type' => 'post', 'submission' => $record->getKey()])
-                ->with('success', __($isReviewSubmission ? 'messages.post_suggestion_resubmitted' : 'messages.post_suggestion_updated'));
+                ->with('success', __($isReviewSubmission ? 'messages.post_suggestion_resubmitted' : 'messages.post_suggestion_updated'))
+                ->with('submission_id', $record->getKey());
         }
 
         $categoryField = $type === 'service' ? 'service_category_id' : 'place_category_id';
@@ -199,7 +215,8 @@ class SuggestionHubController extends Controller
 
         return redirect()
             ->route('add.edit', ['type' => $type, 'submission' => $record->getKey()])
-            ->with('success', __($isReviewSubmission ? 'messages.suggestion_resubmitted_for_review' : 'messages.suggestion_updated'));
+            ->with('success', __($isReviewSubmission ? 'messages.suggestion_resubmitted_for_review' : 'messages.suggestion_updated'))
+            ->with('submission_id', $record->getKey());
     }
 
     private function resolveUserSubmission(string $type, string $submission): PlaceSuggestion|ServiceSuggestion|Post

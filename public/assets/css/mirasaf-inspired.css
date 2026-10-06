@@ -1362,6 +1362,130 @@ select:focus {
     margin-bottom: 14px;
 }
 
+.submission-feedback {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #dce8e4;
+    border-radius: 16px;
+    box-shadow: 0 12px 34px rgba(15, 23, 42, .06);
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin: 0 auto 20px;
+    max-width: 650px;
+    padding: 20px 24px;
+    text-align: center;
+}
+
+.submission-feedback--success {
+    flex-direction: column;
+}
+
+.submission-feedback__icon {
+    align-items: center;
+    background: #e8f7ef;
+    border-radius: 50%;
+    color: #168451;
+    display: inline-flex;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+}
+
+.submission-feedback p {
+    color: #172b24;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.submission-feedback__actions,
+.submission-preview-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.submission-feedback--error {
+    align-items: flex-start;
+    border-color: #f2c9c9;
+    color: #9d3030;
+    justify-content: flex-start;
+    text-align: start;
+}
+
+.submission-feedback--error > i {
+    margin-top: 3px;
+}
+
+.submission-feedback--error ul {
+    margin: 8px 0 0;
+    padding-inline-start: 20px;
+}
+
+.submission-preview-page {
+    background: #f6f8fb;
+    min-height: 65vh;
+    padding: 48px 0 72px;
+    text-align: center;
+}
+
+.submission-preview-page__header {
+    margin: 0 auto 26px;
+    max-width: 620px;
+}
+
+.submission-preview-page__eyebrow {
+    color: #168451;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.submission-preview-page__header h1 {
+    color: #0f172a;
+    font-size: 28px;
+    margin: 8px 0;
+}
+
+.submission-preview-page__header p,
+.submission-preview-page__note {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.submission-preview-page__card {
+    margin: 0 auto 18px;
+    max-width: 350px;
+    text-align: start;
+}
+
+.submission-preview-page__card .listing-card:hover {
+    transform: none;
+}
+
+.submission-preview-page__badge {
+    background: #e8f7ef;
+    border-radius: 999px;
+    color: #116b42;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 5px 10px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    z-index: 1;
+}
+
+[dir="rtl"] .submission-preview-page__badge {
+    left: 12px;
+    right: auto;
+}
+
+.submission-preview-page__note {
+    margin: 0 0 20px;
+}
+
 [dir="rtl"] .submission-workspace,
 [dir="rtl"] .submission-header,
 [dir="rtl"] .submission-card,

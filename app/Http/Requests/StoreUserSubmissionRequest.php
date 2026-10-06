@@ -7,6 +7,16 @@ use Illuminate\Validation\Rule;
 
 class StoreUserSubmissionRequest extends FormRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if (in_array($this->input('type'), ['place', 'service'], true)) {
+            $this->merge([
+                'country' => $this->input('country') ?: 'Afghanistan',
+                'city' => $this->input('district') ?: $this->input('city'),
+            ]);
+        }
+    }
+
     public function authorize(): bool
     {
         return $this->user() !== null;
@@ -104,6 +114,8 @@ class StoreUserSubmissionRequest extends FormRequest
             'images.*.max' => __('suggestions.validation.image_max'),
             'image.max' => __('suggestions.validation.image_max'),
             'min' => __('suggestions.validation.min'),
+            'description.min' => __('suggestions.validation.min_characters'),
+            'content.min' => __('suggestions.validation.min_characters'),
             'url' => __('suggestions.validation.url'),
             'images.required' => __('suggestions.validation.images_required'),
             'image.required' => __('suggestions.validation.image_required'),

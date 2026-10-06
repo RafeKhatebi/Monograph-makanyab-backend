@@ -94,7 +94,7 @@
             @if ($isPost)
                 <span>{{ __('content.posts.published') }}</span>
             @else
-                <span>{{ __('common.price.' . ($item->price_level ?? 'medium')) }}</span>
+                <span>{{ __('suggestions.types.'.$type) }}</span>
             @endif
             <a class="listing-card__button" href="{{ $route }}">
                 {{ __('common.actions.read_more') }}

@@ -66,10 +66,35 @@
                 </div>
             </header>
 
+            @if (session('success'))
+                @php($savedId = session('submission_id') ?? ($isEditing ? $editingSubmission->getKey() : null))
+                <div class="submission-feedback submission-feedback--success" role="status">
+                    <span class="submission-feedback__icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                    <p>{{ session('success') }}</p>
+                    @if ($savedId)
+                        <div class="submission-feedback__actions">
+                            <a href="{{ route('add.edit', ['type' => $activeType, 'submission' => $savedId]) }}" class="mk-button mk-button--secondary mk-button--sm">
+                                {{ __('suggestions.view_submission') }}
+                            </a>
+                            <a href="{{ route('add.preview', ['type' => $activeType, 'submission' => $savedId]) }}" class="mk-button mk-button--primary mk-button--sm">
+                                <i class="fa fa-eye" aria-hidden="true"></i> {{ __('suggestions.preview_card') }}
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            @endif
+
             @if ($errors->any())
-                <div class="mk-alert mk-alert--danger suggestion-error" role="alert">
+                <div class="submission-feedback submission-feedback--error" role="alert">
                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                    <span>{{ __('suggestions.validation.form_error') }}</span>
+                    <div>
+                        <strong>{{ __('suggestions.validation.form_error') }}</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             @endif
 
@@ -132,9 +157,11 @@
                             </div>
 
                             <div class="submission-fields">
-                                <x-input-label for="description" :value="__('suggestions.description')" />
+                                <label for="description" class="mk-ui-label">
+                                    {{ __('suggestions.description') }} <span class="mk-ui-required" aria-hidden="true">*</span>
+                                </label>
                                 <x-textarea id="description" name="description" rows="4"
-                                    :value="$fieldValue('description')" placeholder="{{ __('suggestions.description_placeholder') }}" dir="auto" />
+                                    :value="$fieldValue('description')" placeholder="{{ __('suggestions.description_placeholder') }}" dir="auto" required />
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
                         </section>
@@ -198,7 +225,7 @@
 
                             <div class="submission-fields submission-fields--two">
                                 <x-form-field for="neighborhood" :label="__('suggestions.area_neighborhood')" :value="$fieldValue('neighborhood')" />
-                                <x-form-field for="address" :label="__('suggestions.address')" :value="$fieldValue('address')" />
+                                <x-form-field for="address" :label="__('suggestions.address')" :value="$fieldValue('address')" required />
                             </div>
 
                             <div class="submission-map-grid">
@@ -309,6 +336,11 @@
 
                 <div class="submission-actions">
                     <a href="{{ route('profile.index') }}" class="mk-button mk-button--secondary mk-button--lg">{{ __('common.actions.cancel') }}</a>
+                    @if ($isEditing)
+                        <a href="{{ route('add.preview', ['type' => $activeType, 'submission' => $editingSubmission->getKey()]) }}" class="mk-button mk-button--secondary mk-button--lg">
+                            <i class="fa fa-eye" aria-hidden="true"></i> {{ __('suggestions.preview_card') }}
+                        </a>
+                    @endif
                     <button type="submit" name="submit_action" value="draft" class="mk-button mk-button--secondary mk-button--lg" formnovalidate>
                         {{ __('suggestions.save_draft') }}
                     </button>
@@ -325,7 +357,7 @@
 @push('scripts')
     <script>window.SuggestionLocations = @json($afghanistanLocations);</script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <script src="{{ asset('assets/js/media-upload.js') }}"></script>
+    <script src="{{ asset('assets/js/media-upload.js') }}?v={{ filemtime(public_path('assets/js/media-upload.js')) }}"></script>
     <script src="{{ asset('assets/js/suggestion-map.js') }}?v={{ filemtime(public_path('assets/js/suggestion-map.js')) }}"></script>
     <script src="{{ asset('assets/js/suggestion-hub.js') }}?v={{ filemtime(public_path('assets/js/suggestion-hub.js')) }}"></script>
 @endpush

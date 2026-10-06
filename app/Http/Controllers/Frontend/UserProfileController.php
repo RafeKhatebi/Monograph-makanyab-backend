@@ -118,6 +118,7 @@ class UserProfileController extends Controller
                 'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
                 'date' => $suggestion->created_at,
                 'edit_url' => route('add.edit', ['type' => 'place', 'submission' => $suggestion->getKey()]),
+                'preview_url' => route('add.preview', ['type' => 'place', 'submission' => $suggestion->getKey()]),
                 'can_edit' => ! in_array($suggestion->suggestion_status?->value, [
                     SuggestionStatus::Approved->value,
                     SuggestionStatus::Published->value,
@@ -136,6 +137,7 @@ class UserProfileController extends Controller
                 'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
                 'date' => $suggestion->created_at,
                 'edit_url' => route('add.edit', ['type' => 'service', 'submission' => $suggestion->getKey()]),
+                'preview_url' => route('add.preview', ['type' => 'service', 'submission' => $suggestion->getKey()]),
                 'can_edit' => ! in_array($suggestion->suggestion_status?->value, [
                     SuggestionStatus::Approved->value,
                     SuggestionStatus::Published->value,
@@ -160,6 +162,7 @@ class UserProfileController extends Controller
                         : __('suggestions.status.'.$status),
                     'date' => $post->created_at,
                     'edit_url' => route('add.edit', ['type' => 'post', 'submission' => $post->getKey()]),
+                    'preview_url' => route('add.preview', ['type' => 'post', 'submission' => $post->getKey()]),
                     'can_edit' => ! $post->is_published,
                 ];
             });
