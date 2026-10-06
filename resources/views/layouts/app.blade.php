@@ -42,7 +42,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/home-hero.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/detail-pages.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/mirasaf-inspired.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/mirasaf-inspired.css') }}?v={{ filemtime(public_path('assets/css/mirasaf-inspired.css')) }}">
 
         @stack('styles')
     </head>
@@ -86,7 +86,7 @@
         <script src="{{ asset('assets/js/lightslider.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <script src="{{ asset('assets/js/navbar.js') }}"></script>
-        <script src="{{ asset('assets/js/frontend-pages.js') }}"></script>
+        <script src="{{ asset('assets/js/frontend-pages.js') }}?v={{ filemtime(public_path('assets/js/frontend-pages.js')) }}"></script>
 
         @stack('scripts')
     </body>

@@ -37,6 +37,7 @@ return [
     'province_placeholder' => 'نام ولایت را وارد کنید',
     'province' => 'ولایت',
     'select_province' => 'انتخاب ولایت',
+    'no_provinces_found' => 'ولایتی یافت نشد',
     'district' => 'ولسوالی',
     'district_city' => 'ولسوالی / شهر',
     'select_province_first' => 'ابتدا ولایت را انتخاب کنید',

@@ -54,11 +54,13 @@
                             {{ __('suggestions.types.'.$activeType) }}
                         </div>
                     @else
-                        <select name="type" form="submission-form" class="submission-type-select" data-suggest-type-select>
-                            @foreach (['place', 'service', 'post'] as $type)
-                                <option value="{{ $type }}" @selected($activeType === $type)>{{ __('suggestions.types.'.$type) }}</option>
-                            @endforeach
-                        </select>
+                        <div class="submission-type-picker" data-suggest-type-picker>
+                            <select name="type" form="submission-form" class="submission-type-select" data-suggest-type-select>
+                                @foreach (['place', 'service', 'post'] as $type)
+                                    <option value="{{ $type }}" @selected($activeType === $type)>{{ __('suggestions.types.'.$type) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     @endif
                 </div>
             </header>
@@ -162,18 +164,18 @@
                                 </div>
                             </div>
 
-                            <div class="submission-fields submission-fields--three">
-                                <div>
-                                    <x-input-label for="province-search" :value="__('suggestions.search_province')" />
-                                    <input id="province-search" type="search" value="{{ $fieldValue('province') }}"
-                                        placeholder="{{ __('suggestions.province_placeholder') }}" class="form-control">
-                                </div>
+                            <div class="submission-fields submission-fields--two">
                                 <div>
                                     <x-input-label for="province-select" :value="__('suggestions.province')" />
-                                    <select id="province-select" name="province" data-selected="{{ $fieldValue('province') }}"
-                                        class="form-control @error('province') is-invalid @enderror" required>
-                                        <option value="">{{ __('suggestions.select_province') }}</option>
-                                    </select>
+                                    <div class="submission-province-picker" data-province-picker
+                                        data-placeholder="{{ __('suggestions.province_placeholder') }}"
+                                        data-select-message="{{ __('suggestions.select_province') }}"
+                                        data-no-results="{{ __('suggestions.no_provinces_found') }}">
+                                        <select id="province-select" name="province" data-selected="{{ $fieldValue('province') }}"
+                                            class="form-control @error('province') is-invalid @enderror" required>
+                                            <option value="">{{ __('suggestions.select_province') }}</option>
+                                        </select>
+                                    </div>
                                     <x-input-error :messages="$errors->get('province')" class="mt-2" />
                                 </div>
                                 <div>
@@ -271,10 +273,12 @@
                                 </div>
                             </div>
 
-                            <div class="submission-fields submission-fields--two">
+                            <div class="submission-fields submission-fields--two submission-fields--contact">
                                 <x-form-field for="phone_1" :label="__('suggestions.phone')" type="tel" :value="$fieldValue('phone_1')" required />
                                 <x-form-field for="whatsapp" :label="__('suggestions.whatsapp')" type="tel" :value="$fieldValue('whatsapp')" />
-                                <x-form-field for="website" :label="__('suggestions.website')" type="url" :value="$fieldValue('website')" />
+                                <div class="submission-contact__website">
+                                    <x-form-field for="website" :label="__('suggestions.website')" type="url" :value="$fieldValue('website')" />
+                                </div>
                             </div>
                         </section>
 
@@ -314,6 +318,6 @@
 @push('scripts')
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="{{ asset('assets/js/media-upload.js') }}"></script>
-    <script src="{{ asset('assets/js/suggestion-map.js') }}"></script>
-    <script src="{{ asset('assets/js/suggestion-hub.js') }}"></script>
+    <script src="{{ asset('assets/js/suggestion-map.js') }}?v={{ filemtime(public_path('assets/js/suggestion-map.js')) }}"></script>
+    <script src="{{ asset('assets/js/suggestion-hub.js') }}?v={{ filemtime(public_path('assets/js/suggestion-hub.js')) }}"></script>
 @endpush

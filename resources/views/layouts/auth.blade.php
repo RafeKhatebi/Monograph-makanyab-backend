@@ -29,13 +29,12 @@
         <link rel="stylesheet" href="{{ asset('assets/css/frontend-pages.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/responsive-overrides.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/design-system.css') }}?v={{ filemtime(public_path('assets/css/design-system.css')) }}">
 
         @stack('styles')
     </head>
 
     <body class="auth-page">
-        <a class="mk-skip-link" href="#auth-main">{{ __('common.skip_to_content') }}</a>
         <div class="auth-layout">
             <div class="auth-layout__illustration">
                 <img src="{{ asset('assets/img/branding/makanyab-auth-discovery-illustration.png') }}" alt="" class="auth-illustration__img">
@@ -46,13 +45,9 @@
                 </div>
             </div>
             <div class="auth-layout__form">
-                <div class="auth-layout__topbar">
-                    <a href="{{ route('home') }}" class="auth-home-link">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                        {{ __('auth.layout.back_home') }}
-                    </a>
-                    @include('partials.language-switcher')
-                </div>
+                <a href="{{ route('home') }}" class="auth-home-link" aria-label="{{ __('auth.layout.back_home') }}" title="{{ __('auth.layout.back_home') }}">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
                 <main id="auth-main">@yield('content')</main>
             </div>
         </div>

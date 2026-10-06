@@ -1373,31 +1373,35 @@ input[type="radio"] {
     align-items: center;
     justify-content: center;
     padding: var(--space-6);
+    padding-inline-start: 68px;
     background: var(--mk-color-canvas);
     overflow-y: auto;
-}
-
-.auth-layout__topbar {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    max-width: 520px;
-    padding-bottom: var(--mk-space-4);
-    width: 100%;
+    position: relative;
 }
 
 .auth-home-link {
     align-items: center;
-    color: var(--mk-color-muted);
+    background: var(--mk-color-surface);
+    border: 1px solid var(--mk-color-border);
+    border-radius: 50%;
+    box-shadow: var(--mk-shadow-sm);
+    color: var(--mk-color-ink);
     display: inline-flex;
-    font-size: var(--mk-font-size-sm);
-    font-weight: var(--mk-weight-semibold);
-    gap: var(--mk-space-2);
+    font-size: 18px;
+    height: 44px;
+    justify-content: center;
+    position: absolute;
+    inset-inline-start: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     text-decoration: none !important;
+    width: 44px;
+    z-index: 2;
 }
 
 .auth-home-link:hover,
-.auth-home-link:focus {
+.auth-home-link:focus-visible {
+    border-color: var(--mk-color-primary);
     color: var(--mk-color-primary-hover);
 }
 
@@ -1476,10 +1480,7 @@ input[type="radio"] {
     .auth-layout__form {
         flex: 1 0 100%;
         padding: var(--space-6) var(--space-4);
-    }
-
-    .auth-layout__topbar {
-        max-width: 440px;
+        padding-inline-start: 64px;
     }
 }
 

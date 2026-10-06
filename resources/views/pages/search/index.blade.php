@@ -61,14 +61,16 @@
                         </select>
                     </div>
 
-                    <div class="discover-field">
+                    <div class="discover-field discover-field--category">
                         <label for="discover-category" class="search-field-label">{{ __('search.category') }}</label>
-                        <select id="discover-category" name="category" class="search-select" data-discover-category>
-                            <option value="">{{ __('search.category_all') }}</option>
-                            @foreach ($activeCategories as $cat)
-                                <option value="{{ $cat->slug }}" @selected($category === $cat->slug)>{{ $cat->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="discover-select-picker" data-discover-select-picker>
+                            <select id="discover-category" name="category" class="search-select" data-discover-category>
+                                <option value="">{{ __('search.category_all') }}</option>
+                                @foreach ($activeCategories as $cat)
+                                    <option value="{{ $cat->slug }}" @selected($category === $cat->slug)>{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="discover-actions">
@@ -104,14 +106,16 @@
 
                         <div class="discover-field">
                             <label for="discover-rating" class="search-field-label">{{ __('search.rating') }}</label>
-                            <select id="discover-rating" name="rating" class="search-select">
-                                <option value="">{{ __('search.any_rating') }}</option>
-                                @for ($stars = 5; $stars >= 1; $stars--)
-                                    <option value="{{ $stars }}" @selected((int) $rating === $stars)>
-                                        {{ __('search.rating_min_plural', ['count' => $stars]) }}
-                                    </option>
-                                @endfor
-                            </select>
+                            <div class="discover-select-picker" data-discover-select-picker>
+                                <select id="discover-rating" name="rating" class="search-select">
+                                    <option value="">{{ __('search.any_rating') }}</option>
+                                    @for ($stars = 5; $stars >= 1; $stars--)
+                                        <option value="{{ $stars }}" @selected((int) $rating === $stars)>
+                                            {{ __('search.rating_min_plural', ['count' => $stars]) }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
                         </div>
 
                         <div class="discover-field">

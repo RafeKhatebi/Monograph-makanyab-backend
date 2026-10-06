@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Leaflet did not load. Map interaction is disabled, but form submission is still available.');
     }
 
-    var provinceSearch = document.getElementById('province-search');
     var provinceSelect = document.getElementById('province-select');
     var districtSelect = document.getElementById('district-select');
     var cityInput = document.getElementById('city-value');
@@ -158,41 +157,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    function populateProvinces(filter) {
+    function populateProvinces() {
         if (!provinceSelect) {
             return;
         }
 
-        var query = filter ? filter.toLowerCase() : '';
-        var provinceNames = Object.keys(locationData).filter(function (province) {
-            return province.toLowerCase().includes(query);
-        });
+        var selectedProvince = provinceSelect.dataset.selected || '';
+        provinceSelect.replaceChildren(provinceSelect.options[0]);
 
-        provinceSelect.innerHTML = '';
-
-        if (!provinceNames.length) {
-            provinceSelect.innerHTML = '<option value="">No provinces found</option>';
-            if (districtSelect) {
-                districtSelect.innerHTML = '<option value="">Select province first</option>';
-                districtSelect.disabled = true;
-            }
-            return;
-        }
-
-        provinceNames.forEach(function (province) {
+        Object.keys(locationData).forEach(function (province) {
             var option = document.createElement('option');
             option.value = province;
             option.textContent = province;
             provinceSelect.appendChild(option);
         });
 
-        var selectedProvince = provinceSelect.dataset.selected || provinceNames[0];
-        if (provinceNames.includes(selectedProvince)) {
-            provinceSelect.value = selectedProvince;
-        } else {
-            provinceSelect.value = provinceNames[0];
-        }
-
+        provinceSelect.value = locationData[selectedProvince] ? selectedProvince : '';
         populateDistricts(provinceSelect.value);
     }
 
@@ -207,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!data) {
             districtSelect.innerHTML = '<option value="">Select province first</option>';
             districtSelect.disabled = true;
+            if (cityInput) cityInput.value = '';
             return;
         }
 
@@ -263,15 +244,165 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    if (provinceSearch && provinceSelect) {
-        provinceSearch.addEventListener('input', function () {
-            populateProvinces(this.value);
-        });
-    }
-
     if (provinceSelect) {
         provinceSelect.addEventListener('change', function () {
             populateDistricts(this.value);
+        });
+    }
+
+    function setupProvincePicker() {
+        var picker = document.querySelector('[data-province-picker]');
+        if (!picker || !provinceSelect) return;
+
+        var input = document.createElement('input');
+        var menu = document.createElement('div');
+        var provinceNames = Object.keys(locationData);
+        var visibleOptions = [];
+        var activeIndex = -1;
+        var suppressFocusOpen = false;
+        var label = document.querySelector('label[for="province-select"]');
+
+        input.id = 'province-search';
+        input.type = 'text';
+        input.setAttribute('inputmode', 'search');
+        input.dir = 'auto';
+        input.className = 'form-control submission-province-input';
+        input.autocomplete = 'off';
+        input.required = true;
+        input.disabled = provinceSelect.disabled;
+        input.placeholder = picker.dataset.placeholder;
+        input.value = provinceSelect.value;
+        input.setAttribute('role', 'combobox');
+        input.setAttribute('aria-autocomplete', 'list');
+        input.setAttribute('aria-controls', 'province-options');
+        input.setAttribute('aria-expanded', 'false');
+
+        menu.id = 'province-options';
+        menu.className = 'submission-province-options';
+        menu.setAttribute('role', 'listbox');
+        menu.hidden = true;
+
+        function closeMenu() {
+            menu.hidden = true;
+            input.setAttribute('aria-expanded', 'false');
+            input.removeAttribute('aria-activedescendant');
+            activeIndex = -1;
+        }
+
+        function setActive(index) {
+            activeIndex = index;
+            visibleOptions.forEach(function (option, optionIndex) {
+                option.classList.toggle('is-active', optionIndex === index);
+            });
+            if (index >= 0) {
+                input.setAttribute('aria-activedescendant', visibleOptions[index].id);
+                visibleOptions[index].scrollIntoView({ block: 'nearest' });
+            } else {
+                input.removeAttribute('aria-activedescendant');
+            }
+        }
+
+        function chooseProvince(province) {
+            provinceSelect.value = province;
+            provinceSelect.dataset.selected = province;
+            if (districtSelect) districtSelect.dataset.selected = '';
+            input.value = province;
+            input.setCustomValidity('');
+            provinceSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            closeMenu();
+            suppressFocusOpen = document.activeElement !== input;
+            input.focus();
+        }
+
+        function renderOptions(filter) {
+            var query = (filter === undefined ? input.value : filter).trim().toLocaleLowerCase();
+            var matches = provinceNames.filter(function (province) {
+                return province.toLocaleLowerCase().includes(query);
+            });
+
+            menu.replaceChildren();
+            visibleOptions = [];
+            activeIndex = -1;
+            input.removeAttribute('aria-activedescendant');
+
+            if (!matches.length) {
+                var empty = document.createElement('div');
+                empty.className = 'submission-province-empty';
+                empty.textContent = picker.dataset.noResults;
+                menu.appendChild(empty);
+            }
+
+            matches.forEach(function (province, index) {
+                var option = document.createElement('button');
+                option.type = 'button';
+                option.id = 'province-option-' + index;
+                option.className = 'submission-province-option';
+                option.setAttribute('role', 'option');
+                option.setAttribute('aria-selected', String(provinceSelect.value === province));
+                option.tabIndex = -1;
+                option.dir = 'auto';
+                option.textContent = province;
+                option.addEventListener('click', function () { chooseProvince(province); });
+                menu.appendChild(option);
+                visibleOptions.push(option);
+            });
+
+            menu.hidden = false;
+            input.setAttribute('aria-expanded', 'true');
+        }
+
+        picker.appendChild(input);
+        picker.appendChild(menu);
+        picker.classList.add('is-enhanced');
+        provinceSelect.required = false;
+        if (label) label.htmlFor = input.id;
+
+        input.addEventListener('focus', function () {
+            if (suppressFocusOpen) {
+                suppressFocusOpen = false;
+                return;
+            }
+            renderOptions('');
+        });
+        input.addEventListener('click', function () {
+            if (menu.hidden) renderOptions('');
+        });
+        input.addEventListener('input', function () {
+            var query = input.value.trim().toLocaleLowerCase();
+            var exact = provinceNames.find(function (province) {
+                return province.toLocaleLowerCase() === query;
+            });
+            var nextValue = exact || '';
+            if (provinceSelect.value !== nextValue) {
+                provinceSelect.value = nextValue;
+                provinceSelect.dataset.selected = nextValue;
+                if (districtSelect) districtSelect.dataset.selected = '';
+                provinceSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            input.setCustomValidity(query && !exact ? picker.dataset.selectMessage : '');
+            renderOptions();
+        });
+
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && !menu.hidden) {
+                event.preventDefault();
+                closeMenu();
+            } else if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && !menu.hidden && visibleOptions.length) {
+                event.preventDefault();
+                var next = event.key === 'ArrowDown'
+                    ? (activeIndex + 1) % visibleOptions.length
+                    : (activeIndex <= 0 ? visibleOptions.length - 1 : activeIndex - 1);
+                setActive(next);
+            } else if (event.key === 'Enter' && !menu.hidden && visibleOptions.length) {
+                event.preventDefault();
+                chooseProvince(visibleOptions[activeIndex < 0 ? 0 : activeIndex].textContent);
+            } else if (event.key === 'Tab') {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!picker.contains(event.target)) closeMenu();
         });
     }
 
@@ -304,7 +435,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var hasInitial = !isNaN(initialLat) && !isNaN(initialLng);
 
     if (provinceSelect) {
-        populateProvinces(provinceSearch ? provinceSearch.value : '');
+        populateProvinces();
+        setupProvincePicker();
     }
 
     if (hasLeaflet) {

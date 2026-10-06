@@ -70,6 +70,105 @@
     var typeSelect = document.querySelector('[data-suggest-type-select]');
     if (typeSelect) {
         typeSelect.addEventListener('change', sync);
+
+        var picker = typeSelect.closest('[data-suggest-type-picker]');
+        if (picker) {
+            var trigger = document.createElement('button');
+            var menu = document.createElement('div');
+            var options = [];
+            var pickerLabel = picker.parentElement.querySelector('span');
+
+            trigger.type = 'button';
+            trigger.className = 'submission-type-select submission-type-trigger';
+            trigger.setAttribute('aria-label', pickerLabel ? pickerLabel.textContent.trim() : typeSelect.name);
+            trigger.setAttribute('aria-haspopup', 'listbox');
+            trigger.setAttribute('aria-expanded', 'false');
+            trigger.setAttribute('aria-controls', 'submission-type-menu');
+            trigger.innerHTML = '<span class="submission-type-trigger__text"></span><i class="fa fa-chevron-down" aria-hidden="true"></i>';
+
+            menu.id = 'submission-type-menu';
+            menu.className = 'submission-type-menu';
+            menu.setAttribute('role', 'listbox');
+            menu.setAttribute('aria-label', trigger.getAttribute('aria-label'));
+            menu.hidden = true;
+
+            function closeTypeMenu() {
+                menu.hidden = true;
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+
+            function openTypeMenu(focusOption) {
+                menu.hidden = false;
+                trigger.setAttribute('aria-expanded', 'true');
+                if (focusOption) {
+                    var selected = options.find(function (option) { return option.dataset.value === typeSelect.value; });
+                    (selected || options[0]).focus();
+                }
+            }
+
+            function syncTypeMenu() {
+                trigger.querySelector('.submission-type-trigger__text').textContent = typeSelect.selectedOptions[0].textContent;
+                options.forEach(function (option) {
+                    var isSelected = option.dataset.value === typeSelect.value;
+                    option.classList.toggle('is-selected', isSelected);
+                    option.setAttribute('aria-selected', String(isSelected));
+                });
+            }
+
+            Array.from(typeSelect.options).forEach(function (selectOption) {
+                var option = document.createElement('button');
+                option.type = 'button';
+                option.className = 'submission-type-option';
+                option.setAttribute('role', 'option');
+                option.dataset.value = selectOption.value;
+                option.textContent = selectOption.textContent;
+                option.tabIndex = -1;
+                option.addEventListener('click', function () {
+                    typeSelect.value = selectOption.value;
+                    typeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                    closeTypeMenu();
+                    trigger.focus();
+                });
+                menu.appendChild(option);
+                options.push(option);
+            });
+
+            picker.appendChild(trigger);
+            picker.appendChild(menu);
+            picker.classList.add('is-enhanced');
+            typeSelect.addEventListener('change', syncTypeMenu);
+            syncTypeMenu();
+
+            trigger.addEventListener('click', function () {
+                if (menu.hidden) openTypeMenu(false);
+                else closeTypeMenu();
+            });
+
+            picker.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && !menu.hidden) {
+                    event.preventDefault();
+                    closeTypeMenu();
+                    trigger.focus();
+                } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    if (menu.hidden) {
+                        openTypeMenu(true);
+                    } else {
+                        var current = options.indexOf(document.activeElement);
+                        var next = event.key === 'ArrowDown'
+                            ? (current + 1) % options.length
+                            : (current <= 0 ? options.length - 1 : current - 1);
+                        options[next].focus();
+                    }
+                } else if (event.key === 'Tab') {
+                    closeTypeMenu();
+                }
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!picker.contains(event.target)) closeTypeMenu();
+            });
+        }
     }
 
     sync();

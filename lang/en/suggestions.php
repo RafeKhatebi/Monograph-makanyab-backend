@@ -40,6 +40,7 @@ return [
     'province_placeholder' => 'Type province name',
     'province' => 'Province',
     'select_province' => 'Select province',
+    'no_provinces_found' => 'No matching provinces',
     'district' => 'District',
     'district_city' => 'District / City',
     'select_province_first' => 'Select province first',

@@ -37,6 +37,7 @@ return [
     'province_placeholder' => 'د ولایت نوم ولیکئ',
     'province' => 'ولایت',
     'select_province' => 'ولایت وټاکئ',
+    'no_provinces_found' => 'ورته ولایت ونه موندل شو',
     'district' => 'ولسوالۍ',
     'district_city' => 'ولسوالۍ / ښار',
     'select_province_first' => 'لومړی ولایت وټاکئ',
