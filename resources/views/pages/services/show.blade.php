@@ -10,12 +10,15 @@
             ->sortBy('sort_order')
             ->filter(fn ($media) => Storage::disk($media->disk ?: 'public')->exists($media->file_path));
         $serviceCover = $serviceImages->firstWhere('is_cover', true) ?? $serviceImages->first();
+        $displayProvince = \App\Support\LocalizedAfghanistanLocation::province($service->province);
+        $displayDistrict = \App\Support\LocalizedAfghanistanLocation::district($service->district, $service->province);
+        $displayCity = \App\Support\LocalizedAfghanistanLocation::district($service->city, $service->province);
         $addressParts = collect([
             $service->address ?? null,
-            $service->district ?? null,
-            $service->city ?? null,
-            $service->province ?? null,
-        ])->filter();
+            $displayDistrict,
+            $displayCity,
+            $displayProvince,
+        ])->filter()->unique()->values();
     @endphp
 
     <header class="detail-hero detail-hero--service">
@@ -89,7 +92,7 @@
                         <dl class="detail-facts">
                             <div>
                                 <dt>{{ __('places.city_label') }}</dt>
-                                <dd>{{ $service->city ?: __('common.none') }}</dd>
+                                <dd>{{ $displayCity ?: __('common.none') }}</dd>
                             </div>
                             <div>
                                 <dt>{{ __('places.category_label') }}</dt>
@@ -99,13 +102,15 @@
                                 <dt>{{ __('places.status_label') }}</dt>
                                 <dd>{{ __('common.status.' . $service->status) }}</dd>
                             </div>
-                            <div>
-                                <dt>{{ __('places.price_label') }}</dt>
-                                <dd>{{ __('common.price.' . ($service->price_level ?? 'medium')) }}</dd>
-                            </div>
+                            @if ($service->price_level)
+                                <div>
+                                    <dt>{{ __('places.price_label') }}</dt>
+                                    <dd>{{ __('common.price.' . $service->price_level) }}</dd>
+                                </div>
+                            @endif
                             @if ($addressParts->isNotEmpty())
                                 <div>
-                                    <dt>{{ __('places.address') }}</dt>
+                                    <dt>{{ __('suggestions.sections.location') }}</dt>
                                     <dd>{{ $addressParts->join(', ') }}</dd>
                                 </div>
                             @endif
@@ -137,8 +142,17 @@
                         @forelse($service->reviews as $review)
                             @include('components.review-card', ['review' => $review])
                         @empty
-                            <p class="detail-copy detail-copy--muted">{{ __('places.no_reviews') }}</p>
+                            @unless ($ownReview && ! $ownReview->is_approved)
+                                <p class="detail-copy detail-copy--muted">{{ __('places.no_reviews') }}</p>
+                            @endunless
                         @endforelse
+
+                        @if ($ownReview && ! $ownReview->is_approved)
+                            <div class="detail-own-review">
+                                <span class="profile-status-pill">{{ __('suggestions.review_status.'.$ownReview->moderation_status) }}</span>
+                                @include('components.review-card', ['review' => $ownReview])
+                            </div>
+                        @endif
 
                         @auth
                             @if (! $hasReviewed)
@@ -155,7 +169,7 @@
                                         placeholder="{{ __('places.comment_placeholder') }}"></textarea>
                                     <button type="submit" class="mk-button mk-button--primary mk-button--md">{{ __('places.submit_review') }}</button>
                                 </form>
-                            @else
+                            @elseif ($ownReview?->is_approved)
                                 <p class="detail-copy detail-copy--muted">{{ __('services.already_reviewed') }}</p>
                             @endif
                         @else

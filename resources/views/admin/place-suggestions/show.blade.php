@@ -10,7 +10,7 @@
                 <h3 class="admin-card-title">{{ $placeSuggestion->name }}</h3>
                 <p class="admin-detail-value admin-table-muted">{{ __('admin.suggestions.submitted_by_name', ['name' => $placeSuggestion->submitted_by_name ?? ($placeSuggestion->user->name ?? __('admin.suggestions.guest'))]) }}</p>
             </div>
-            <a href="{{ route('admin.places.'.(in_array($placeSuggestion->suggestion_status?->value, ['pending', 'approved', 'rejected'], true) ? $placeSuggestion->suggestion_status->value : 'index')) }}" class="btn btn-secondary">{{ __('admin.suggestions.back') }}</a>
+            <a href="{{ route('admin.places.'.(in_array($placeSuggestion->suggestion_status?->value, ['pending', 'changes_requested', 'approved', 'rejected'], true) ? $placeSuggestion->suggestion_status->value : 'index')) }}" class="btn btn-secondary">{{ __('admin.suggestions.back') }}</a>
         </div>
         <div class="card-body">
             <div class="admin-suggestion-grid">
@@ -27,11 +27,11 @@
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.city') }}</th>
-                                <td>{{ $placeSuggestion->city }}</td>
+                                <td>{{ \App\Support\LocalizedAfghanistanLocation::district($placeSuggestion->city, $placeSuggestion->province) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.province') }}</th>
-                                <td>{{ $placeSuggestion->province }}</td>
+                                <td>{{ \App\Support\LocalizedAfghanistanLocation::province($placeSuggestion->province) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.address') }}</th>
@@ -55,7 +55,7 @@
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.price') }}</th>
-                                <td>{{ __('common.price.'.$placeSuggestion->price_level->value) }}</td>
+                                <td>{{ $placeSuggestion->price_level ? __('common.price.'.$placeSuggestion->price_level->value) : '—' }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.submitted') }}</th>
@@ -83,6 +83,14 @@
                                     <textarea name="admin_note" id="admin_note" rows="4" class="form-control">{{ old('admin_note') }}</textarea>
                                 </div>
                                 <button type="submit" class="btn btn-success admin-btn-block admin-mt-1">{{ __('admin.suggestions.approve') }}</button>
+                            </form>
+                            <form action="{{ route('admin.place-suggestions.request-changes', $placeSuggestion) }}" method="POST" class="admin-form-block">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="changes_note" class="font-semibold">{{ __('admin.suggestions.changes_note') }}</label>
+                                    <textarea name="admin_note" id="changes_note" rows="4" class="form-control" required maxlength="2000">{{ old('admin_note') }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary admin-btn-block admin-mt-1">{{ __('admin.suggestions.request_changes') }}</button>
                             </form>
                             <form action="{{ route('admin.place-suggestions.reject', $placeSuggestion) }}" method="POST">
                                 @csrf

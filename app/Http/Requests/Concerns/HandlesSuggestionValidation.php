@@ -18,7 +18,7 @@ trait HandlesSuggestionValidation
             'phone_2' => 'nullable|string|max:20',
             'whatsapp' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
-            'address' => 'required|string|max:500',
+            'address' => 'nullable|string|max:500',
             'country' => 'required|string|max:100',
             'province' => 'required|string|max:100',
             'city' => 'required|string|max:100',

@@ -164,6 +164,7 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('places/pending', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'pending'])->name('places.pending');
         Route::get('places/approved', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'approved'])->name('places.approved');
         Route::get('places/rejected', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'rejected'])->name('places.rejected');
+        Route::get('places/changes-requested', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'changesRequested'])->name('places.changes_requested');
         Route::resource('places', App\Http\Controllers\Admin\PlaceController::class)
             ->except(['create', 'store']);
 
@@ -189,6 +190,7 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('services/pending', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'pending'])->name('services.pending');
         Route::get('services/approved', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'approved'])->name('services.approved');
         Route::get('services/rejected', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'rejected'])->name('services.rejected');
+        Route::get('services/changes-requested', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'changesRequested'])->name('services.changes_requested');
         Route::resource('services', ServiceController::class)
             ->except(['create', 'store']);
         Route::post('services/{service}/restore', [ServiceController::class, 'restore'])
@@ -216,6 +218,8 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         Route::post('place-suggestions/{placeSuggestion}/reject', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'reject'])
             ->name('place-suggestions.reject');
+        Route::post('place-suggestions/{placeSuggestion}/request-changes', [App\Http\Controllers\Admin\PlaceSuggestionController::class, 'requestChanges'])
+            ->name('place-suggestions.request-changes');
 
         //  Service Suggestions
         Route::resource('service-suggestions', App\Http\Controllers\Admin\ServiceSuggestionController::class)
@@ -226,6 +230,8 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         Route::post('service-suggestions/{serviceSuggestion}/reject', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'reject'])
             ->name('service-suggestions.reject');
+        Route::post('service-suggestions/{serviceSuggestion}/request-changes', [App\Http\Controllers\Admin\ServiceSuggestionController::class, 'requestChanges'])
+            ->name('service-suggestions.request-changes');
 
         Route::resource('contact-messages', AdminContactMessageController::class)
             ->only(['index', 'show', 'destroy']);
@@ -242,10 +248,12 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('posts/pending', [AdminPostController::class, 'pending'])->name('posts.pending');
         Route::get('posts/approved', [AdminPostController::class, 'approved'])->name('posts.approved');
         Route::get('posts/rejected', [AdminPostController::class, 'rejected'])->name('posts.rejected');
+        Route::get('posts/changes-requested', [AdminPostController::class, 'changesRequested'])->name('posts.changes_requested');
         Route::resource('posts', AdminPostController::class)
             ->except(['create', 'store', 'show']);
         Route::post('posts/{post}/approve', [AdminPostController::class, 'approve'])->name('posts.approve');
         Route::post('posts/{post}/reject', [AdminPostController::class, 'reject'])->name('posts.reject');
+        Route::post('posts/{post}/request-changes', [AdminPostController::class, 'requestChanges'])->name('posts.request-changes');
     });
 
 if (app()->environment(['local', 'development', 'testing'])) {

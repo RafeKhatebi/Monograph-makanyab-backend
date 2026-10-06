@@ -32,6 +32,11 @@ class ServiceSuggestionController extends Controller
         return $this->listing($request, SuggestionStatus::Rejected->value);
     }
 
+    public function changesRequested(Request $request)
+    {
+        return $this->listing($request, SuggestionStatus::ChangesRequested->value);
+    }
+
     private function listing(Request $request, ?string $status)
     {
         $suggestions = ServiceSuggestion::with(['category', 'user'])
@@ -71,5 +76,16 @@ class ServiceSuggestionController extends Controller
         $adminService->reject($serviceSuggestion, $request->admin_note);
 
         return back()->with('success', __('messages.admin.suggestions.rejected'));
+    }
+
+    public function requestChanges(ProcessSuggestionRequest $request, ServiceSuggestion $serviceSuggestion, SuggestionAdminService $adminService)
+    {
+        if ($serviceSuggestion->suggestion_status !== SuggestionStatus::Pending) {
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
+        }
+
+        $adminService->requestChanges($serviceSuggestion, $request->validated('admin_note'));
+
+        return back()->with('success', __('messages.admin.suggestions.changes_requested'));
     }
 }

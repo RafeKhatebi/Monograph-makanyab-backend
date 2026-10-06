@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\PriceLevel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -94,6 +95,7 @@ class StoreUserSubmissionRequest extends FormRequest
             'city' => __('suggestions.city'),
             'address' => __('suggestions.address'),
             'phone_1' => __('suggestions.phone'),
+            'price_level' => __('suggestions.price_level'),
             'images' => __('suggestions.images'),
             'image' => __('suggestions.image'),
             'extra_information' => __('suggestions.extra_information'),
@@ -107,6 +109,7 @@ class StoreUserSubmissionRequest extends FormRequest
             'required_if' => __('suggestions.validation.required'),
             'required_unless' => __('suggestions.validation.required'),
             'exists' => __('suggestions.validation.exists'),
+            'in' => __('suggestions.validation.exists'),
             'image' => __('suggestions.validation.image'),
             'mimes' => __('suggestions.validation.mimes'),
             'uploaded' => __('suggestions.validation.uploaded'),
@@ -127,9 +130,10 @@ class StoreUserSubmissionRequest extends FormRequest
         return [
             $categoryField => [$isDraft ? 'nullable' : 'required', Rule::exists($categoryTable, 'id')->where('is_active', true)],
             'phone_1' => [$isDraft ? 'nullable' : 'required', 'string', 'max:20'],
+            'price_level' => [$isDraft ? 'nullable' : 'required', Rule::in(PriceLevel::values())],
             'whatsapp' => ['nullable', 'string', 'max:20'],
             'website' => ['nullable', 'url', 'max:255'],
-            'address' => [$isDraft ? 'nullable' : 'required', 'string', 'max:500'],
+            'address' => ['nullable', 'string', 'max:500'],
             'country' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
             'province' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],
             'city' => [$isDraft ? 'nullable' : 'required', 'string', 'max:100'],

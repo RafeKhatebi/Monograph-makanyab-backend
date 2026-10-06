@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Enums\PlaceStatus;
-use App\Enums\PriceLevel;
 use App\Enums\SuggestionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PreviewMarkdownRequest;
 use App\Http\Requests\StoreUserSubmissionRequest;
 use App\Models\PlaceCategory;
+use App\Models\Place;
 use App\Models\PlaceSuggestion;
 use App\Models\Post;
+use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\ServiceSuggestion;
 use App\Services\MarkdownService;
@@ -46,18 +47,40 @@ class SuggestionHubController extends Controller
         return $this->formView($type, $record);
     }
 
-    public function previewSubmission(string $type, string $submission): View
+    public function previewSubmission(string $type, string $submission, MarkdownService $markdown): View
     {
         $record = $this->resolveUserSubmission($type, $submission);
+        $publishedItem = null;
 
         if ($type !== 'post') {
             $record->loadMissing(['category', 'media']);
+
+            if (in_array($record->suggestion_status?->value, ['approved', 'published'], true)) {
+                $targetClass = $type === 'place' ? Place::class : Service::class;
+                $categoryField = $type === 'place' ? 'place_category_id' : 'service_category_id';
+                $publishedItem = $targetClass::query()
+                    ->where('user_id', $record->user_id)
+                    ->where('name', $record->name)
+                    ->where($categoryField, $record->{$categoryField})
+                    ->with([
+                        'media',
+                        'reviews' => fn ($query) => $query->approved()->with('user:id,name')->latest()->limit(10),
+                    ])
+                    ->latest()
+                    ->first();
+
+                if ($publishedItem && $record->media->isEmpty()) {
+                    $record->setRelation('media', $publishedItem->media);
+                }
+            }
         }
 
         return view('pages.suggestions.preview', [
             'previewType' => $type,
             'previewSubmission' => $record,
             'canEdit' => ! $this->isLocked($type, $record),
+            'previewHtml' => $type === 'post' ? $markdown->render($record->content) : null,
+            'publishedItem' => $publishedItem,
         ]);
     }
 
@@ -119,7 +142,7 @@ class SuggestionHubController extends Controller
                 'submitted_by_email' => $request->user()->email,
                 'country' => $payload['country'] ?? 'Afghanistan',
                 'status' => $payload['status'] ?? PlaceStatus::Open->value,
-                'price_level' => $payload['price_level'] ?? PriceLevel::Medium->value,
+                'price_level' => $payload['price_level'] ?? null,
                 'suggestion_status' => $isReviewSubmission
                     ? SuggestionStatus::Pending->value
                     : SuggestionStatus::Draft->value,
@@ -194,7 +217,7 @@ class SuggestionHubController extends Controller
         $payload = array_merge($payload, [
             'country' => $payload['country'] ?? 'Afghanistan',
             'status' => $payload['status'] ?? PlaceStatus::Open->value,
-            'price_level' => $payload['price_level'] ?? PriceLevel::Medium->value,
+            'price_level' => $payload['price_level'] ?? null,
             'suggestion_status' => $isReviewSubmission
                 ? SuggestionStatus::Pending->value
                 : SuggestionStatus::Draft->value,

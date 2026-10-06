@@ -33,7 +33,7 @@ class StorePlaceRequest extends FormRequest
             'social_links.*' => ['url', 'max:255'],
 
             // Location
-            'address' => ['required', 'string', 'max:500'],
+            'address' => ['nullable', 'string', 'max:500'],
             'country' => ['required', 'string', 'max:100'],
             'province' => ['required', 'string', 'max:100'],
             'city' => ['required', 'string', 'max:100'],

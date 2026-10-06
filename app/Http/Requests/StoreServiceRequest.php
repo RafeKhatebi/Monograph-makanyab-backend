@@ -30,7 +30,7 @@ class StoreServiceRequest extends FormRequest
             'website' => 'nullable|url|max:255',
             'social_links' => 'nullable|array',
             'social_links.*' => 'nullable|string|max:255',
-            'address' => 'required|string|max:500',
+            'address' => 'nullable|string|max:500',
             'country' => 'required|string|max:100',
             'province' => 'required|string|max:100',
             'city' => 'required|string|max:100',

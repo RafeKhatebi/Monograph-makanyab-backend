@@ -36,7 +36,7 @@
                     @forelse ($suggestions as $suggestion)
                         <tr>
                             <td>{{ $suggestion->name }}</td>
-                            <td>{{ $suggestion->city }}</td>
+                            <td>{{ \App\Support\LocalizedAfghanistanLocation::district($suggestion->city, $suggestion->province) }}</td>
                             <td>{{ $suggestion->category->name ?? '—' }}</td>
                             <td>
                                 {{ $suggestion->submitted_by_name ?? ($suggestion->user->name ?? __('admin.suggestions.guest')) }}
@@ -57,6 +57,7 @@
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-outline-success">{{ __('admin.suggestions.approve') }}</button>
                                         </form>
+                                        <a href="{{ route('admin.'.$suggestionType.'.show', $suggestion) }}#changes_note" class="btn btn-sm btn-outline-primary">{{ __('admin.suggestions.request_changes') }}</a>
                                         <form action="{{ route('admin.'.$suggestionType.'.reject', $suggestion) }}" method="POST" class="admin-action-form">
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('admin.suggestions.reject') }}</button>

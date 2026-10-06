@@ -34,6 +34,11 @@ class PostController extends Controller
         return $this->listing($request, 'rejected');
     }
 
+    public function changesRequested(Request $request)
+    {
+        return $this->listing($request, 'changes_requested');
+    }
+
     private function listing(Request $request, string $section)
     {
         $posts = Post::with('user')
@@ -44,6 +49,7 @@ class PostController extends Controller
             ->when($section === 'pending', fn ($q) => $q->where('submission_status', SuggestionStatus::UnderReview))
             ->when($section === 'approved', fn ($q) => $q->where('is_published', true))
             ->when($section === 'rejected', fn ($q) => $q->where('submission_status', SuggestionStatus::Rejected))
+            ->when($section === 'changes_requested', fn ($q) => $q->where('submission_status', SuggestionStatus::ChangesRequested))
             ->when($section === 'all' && $request->filled('is_published'), fn ($q) => $q->where('is_published', $request->boolean('is_published')))
             ->latest('created_at')
             ->paginate(15)
@@ -96,6 +102,7 @@ class PostController extends Controller
             $post->is_published => 'approved',
             $post->submission_status === SuggestionStatus::UnderReview => 'pending',
             $post->submission_status === SuggestionStatus::Rejected => 'rejected',
+            $post->submission_status === SuggestionStatus::ChangesRequested => 'changes_requested',
             default => 'index',
         };
 
@@ -147,5 +154,23 @@ class PostController extends Controller
         ]);
 
         return back()->with('success', __('messages.admin.suggestions.rejected'));
+    }
+
+    public function requestChanges(Request $request, Post $post)
+    {
+        if ($post->submission_status !== SuggestionStatus::UnderReview) {
+            return back()->with('error', __('messages.admin.suggestions.already_processed'));
+        }
+
+        $data = $request->validate(['admin_note' => ['required', 'string', 'max:2000']]);
+
+        $post->update([
+            'is_published' => false,
+            'published_at' => null,
+            'submission_status' => SuggestionStatus::ChangesRequested->value,
+            'admin_note' => $data['admin_note'],
+        ]);
+
+        return back()->with('success', __('messages.admin.suggestions.changes_requested'));
     }
 }

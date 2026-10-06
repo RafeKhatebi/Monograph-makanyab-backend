@@ -29,8 +29,11 @@ return [
     ],
     'moderation' => [
         'all_places' => 'All Places', 'pending_places' => 'Pending Places', 'approved_places' => 'Approved Places', 'rejected_places' => 'Rejected Places',
+        'changes_requested_places' => 'Places needing updates',
         'all_services' => 'All Services', 'pending_services' => 'Pending Services', 'approved_services' => 'Approved Services', 'rejected_services' => 'Rejected Services',
+        'changes_requested_services' => 'Services needing updates',
         'all_posts' => 'All Posts', 'pending_posts' => 'Pending Posts', 'approved_posts' => 'Approved Posts', 'rejected_posts' => 'Rejected Posts',
+        'changes_requested_posts' => 'Posts needing updates',
         'review_note' => 'Review note', 'no_note' => 'No review note provided.', 'post_image_help' => 'JPG, PNG, or WebP up to 2 MB.',
     ],
     'contact_messages' => [
@@ -106,6 +109,8 @@ return [
         'approve_publish' => 'Approve and Publish',
         'reject' => 'Reject',
         'reject_suggestion' => 'Reject Suggestion',
+        'request_changes' => 'Request changes',
+        'changes_note' => 'What should the contributor update?',
         'processed' => 'This suggestion has been :status.',
         'no_note' => 'No note yet.',
         'no_note_provided' => 'No note provided.',

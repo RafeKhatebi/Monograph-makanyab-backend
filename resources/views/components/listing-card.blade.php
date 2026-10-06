@@ -24,6 +24,8 @@
         : ($item->tagline ?: $item->description ?: __('places.no_description'));
     $displayDate = $dateValue ?? ($isPost ? ($item->published_at ?? $item->created_at) : $item->created_at);
     $displayDateLabel = $dateLabel ?? ($isPost ? __('common.dates.published_on') : __('common.dates.added_on'));
+    $displayCity = $isPost ? null : \App\Support\LocalizedAfghanistanLocation::district($item->city, $item->province);
+    $displayDistrict = $isPost ? null : \App\Support\LocalizedAfghanistanLocation::district($item->district, $item->province);
 @endphp
 
 <article class="listing-card listing-card--{{ $type }} {{ $textOnly ? 'listing-card--text-only' : '' }}">
@@ -77,7 +79,7 @@
                 @unless ($textOnly)
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                 @endunless
-                <span>{{ $item->city }}@if ($item->district), {{ $item->district }}@endif</span>
+                <span>{{ $displayCity }}@if ($displayDistrict && $displayDistrict !== $displayCity), {{ $displayDistrict }}@endif</span>
             </p>
         @endunless
 
@@ -94,7 +96,7 @@
             @if ($isPost)
                 <span>{{ __('content.posts.published') }}</span>
             @else
-                <span>{{ __('suggestions.types.'.$type) }}</span>
+                <span>{{ $item->price_level ? __('common.price.'.$item->price_level) : __('suggestions.types.'.$type) }}</span>
             @endif
             <a class="listing-card__button" href="{{ $route }}">
                 {{ __('common.actions.read_more') }}

@@ -88,6 +88,9 @@
                                             </div>
                                             <h4>{{ $submission['title'] }}</h4>
                                             <p>{{ \App\Support\LocalizedDate::date($submission['date']) }}</p>
+                                            @if (in_array($submission['status_value'], ['changes_requested', 'rejected'], true) && $submission['admin_note'])
+                                                <p class="profile-submission-note"><strong>{{ __('suggestions.admin_feedback') }}:</strong> {{ $submission['admin_note'] }}</p>
+                                            @endif
                                         </div>
                                         <div class="profile-submission-actions">
                                             <span class="profile-status-pill">{{ $submission['status'] }}</span>

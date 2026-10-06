@@ -39,7 +39,7 @@ class UpdatePlaceRequest extends FormRequest
             'social_links.*' => ['url', 'max:255'],
 
             // Location
-            'address' => ['sometimes', 'string', 'max:500'],
+            'address' => ['sometimes', 'nullable', 'string', 'max:500'],
             'country' => ['sometimes', 'string', 'max:100'],
             'province' => ['sometimes', 'string', 'max:100'],
             'city' => ['sometimes', 'string', 'max:100'],

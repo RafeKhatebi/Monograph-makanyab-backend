@@ -10,7 +10,7 @@
                 <h3 class="admin-card-title">{{ $serviceSuggestion->name }}</h3>
                 <p class="admin-detail-value admin-table-muted">{{ __('admin.suggestions.submitted_by_name', ['name' => $serviceSuggestion->submitted_by_name ?? ($serviceSuggestion->user->name ?? __('admin.suggestions.guest'))]) }}</p>
             </div>
-            <a href="{{ route('admin.services.'.(in_array($serviceSuggestion->suggestion_status?->value, ['pending', 'approved', 'rejected'], true) ? $serviceSuggestion->suggestion_status->value : 'index')) }}" class="btn btn-secondary">{{ __('admin.suggestions.back') }}</a>
+            <a href="{{ route('admin.services.'.(in_array($serviceSuggestion->suggestion_status?->value, ['pending', 'changes_requested', 'approved', 'rejected'], true) ? $serviceSuggestion->suggestion_status->value : 'index')) }}" class="btn btn-secondary">{{ __('admin.suggestions.back') }}</a>
         </div>
 
         <div class="card-body">
@@ -28,11 +28,11 @@
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.city') }}</th>
-                                <td>{{ $serviceSuggestion->city }}</td>
+                                <td>{{ \App\Support\LocalizedAfghanistanLocation::district($serviceSuggestion->city, $serviceSuggestion->province) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.province') }}</th>
-                                <td>{{ $serviceSuggestion->province }}</td>
+                                <td>{{ \App\Support\LocalizedAfghanistanLocation::province($serviceSuggestion->province) }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.address') }}</th>
@@ -59,7 +59,7 @@
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.price_level') }}</th>
-                                <td>{{ __('common.price.'.$serviceSuggestion->price_level->value) }}</td>
+                                <td>{{ $serviceSuggestion->price_level ? __('common.price.'.$serviceSuggestion->price_level->value) : '—' }}</td>
                             </tr>
                             <tr>
                                 <th>{{ __('admin.suggestions.suggestion_state') }}</th>
@@ -91,6 +91,16 @@
                                         class="form-control">{{ old('admin_note') }}</textarea>
                                 </div>
                                 <button type="submit" class="btn btn-success admin-btn-block">{{ __('admin.suggestions.approve_publish') }}</button>
+                            </form>
+
+                            <form action="{{ route('admin.service-suggestions.request-changes', $serviceSuggestion) }}"
+                                method="POST" class="admin-form-block">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="changes_note" class="form-label">{{ __('admin.suggestions.changes_note') }}</label>
+                                    <textarea name="admin_note" id="changes_note" rows="4" class="form-control" required maxlength="2000">{{ old('admin_note') }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary admin-btn-block">{{ __('admin.suggestions.request_changes') }}</button>
                             </form>
 
                             <form action="{{ route('admin.service-suggestions.reject', $serviceSuggestion) }}"

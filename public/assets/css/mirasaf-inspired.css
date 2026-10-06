@@ -1486,6 +1486,52 @@ select:focus {
     margin: 0 0 20px;
 }
 
+.submission-preview-page__details {
+    display: none;
+    margin: 40px 0 22px;
+    scroll-margin-top: 100px;
+    text-align: start;
+}
+
+.submission-preview-page__details:target {
+    display: grid;
+}
+
+.submission-preview-page__details--post {
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline: auto;
+    max-width: 800px;
+}
+
+.flash-message--centered {
+    box-shadow: 0 12px 34px rgba(15, 23, 42, .08);
+    margin: 20px auto !important;
+    max-width: 560px;
+    text-align: center;
+}
+
+.detail-own-review {
+    border-top: 1px solid #e2e8f0;
+    margin-top: 18px;
+    padding-top: 16px;
+}
+
+.detail-own-review > .profile-status-pill {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.profile-submission-item .profile-submission-note {
+    background: #f6f8fb;
+    border-inline-start: 3px solid #3b82f6;
+    border-radius: 4px;
+    color: #334155;
+    line-height: 1.6;
+    margin-top: 10px;
+    max-width: 560px;
+    padding: 8px 10px;
+}
+
 [dir="rtl"] .submission-workspace,
 [dir="rtl"] .submission-header,
 [dir="rtl"] .submission-card,

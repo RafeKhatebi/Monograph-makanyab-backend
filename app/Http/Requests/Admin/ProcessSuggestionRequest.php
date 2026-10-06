@@ -14,7 +14,7 @@ class ProcessSuggestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'admin_note' => ['nullable', 'string', 'max:2000'],
+            'admin_note' => [$this->routeIs('admin.*.request-changes') ? 'required' : 'nullable', 'string', 'max:2000'],
         ];
     }
 }

@@ -8,6 +8,7 @@ enum SuggestionStatus: string
     case Sent = 'sent';
     case UnderReview = 'under_review';
     case Pending = 'pending';
+    case ChangesRequested = 'changes_requested';
     case Approved = 'approved';
     case Published = 'published';
     case Rejected = 'rejected';

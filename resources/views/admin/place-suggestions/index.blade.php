@@ -1,5 +1,5 @@
 @php
-    $section = in_array($status, ['pending', 'approved', 'rejected'], true) ? $status : 'all';
+    $section = in_array($status, ['pending', 'changes_requested', 'approved', 'rejected'], true) ? $status : 'all';
     $pageTitle = __('admin.moderation.'.$section.'_places');
 @endphp
 @extends('layouts.admin')

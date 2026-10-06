@@ -50,7 +50,7 @@
                             <tr>
                                 <td>
                                     {{ Str::limit($post->title, 50) }}
-                                    @if ($post->submission_status?->value === 'rejected')
+                                    @if (in_array($post->submission_status?->value, ['rejected', 'changes_requested'], true))
                                         <small class="admin-inline-muted">{{ __('admin.moderation.review_note') }}: {{ $post->admin_note ?: __('admin.moderation.no_note') }}</small>
                                     @endif
                                 </td>
@@ -74,6 +74,13 @@
                                                 <input id="reject-note-{{ $post->id }}" type="text" name="admin_note" maxlength="2000"
                                                     placeholder="{{ __('admin.moderation.review_note') }}" class="form-control admin-review-note">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">{{ __('admin.suggestions.reject') }}</button>
+                                            </form>
+                                            <form action="{{ route('admin.posts.request-changes', $post) }}" method="POST" class="admin-action-form">
+                                                @csrf
+                                                <label for="changes-note-{{ $post->id }}" class="sr-only">{{ __('admin.suggestions.changes_note') }}</label>
+                                                <input id="changes-note-{{ $post->id }}" type="text" name="admin_note" maxlength="2000" required
+                                                    placeholder="{{ __('admin.suggestions.changes_note') }}" class="form-control admin-review-note">
+                                                <button type="submit" class="btn btn-sm btn-outline-primary">{{ __('admin.suggestions.request_changes') }}</button>
                                             </form>
                                         @endif
                                         <a href="{{ route('admin.posts.edit', $post) }}"

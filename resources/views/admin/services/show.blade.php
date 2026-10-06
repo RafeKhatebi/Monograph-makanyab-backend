@@ -64,8 +64,12 @@
                         <div>
                             <h3 class="text-sm font-medium text-gray-500 mb-1">Location</h3>
                             <p class="text-gray-900">
-                                {{ $service->district }}, {{ $service->city }}, {{ $service->province }},
-                                {{ $service->country }}
+                                {{ collect([
+                                    \App\Support\LocalizedAfghanistanLocation::district($service->district, $service->province),
+                                    \App\Support\LocalizedAfghanistanLocation::district($service->city, $service->province),
+                                    \App\Support\LocalizedAfghanistanLocation::province($service->province),
+                                    $service->country,
+                                ])->filter()->unique()->join(', ') }}
                             </p>
                         </div>
                     </div>

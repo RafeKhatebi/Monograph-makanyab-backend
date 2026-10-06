@@ -82,6 +82,16 @@ class SuggestionAdminService
         return $suggestion;
     }
 
+    public function requestChanges(Model $suggestion, string $adminNote): Model
+    {
+        $suggestion->update([
+            'suggestion_status' => SuggestionStatus::ChangesRequested,
+            'admin_note' => $adminNote,
+        ]);
+
+        return $suggestion;
+    }
+
     private function buildTargetPayload(Model $suggestion, string $targetClass): array
     {
         $fields = $this->getFieldsForTarget($targetClass);

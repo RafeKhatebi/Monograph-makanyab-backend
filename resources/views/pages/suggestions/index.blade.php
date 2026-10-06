@@ -27,6 +27,12 @@
         ? asset('storage/'.$editingSubmission->image)
         : null;
     $afghanistanLocations = json_decode(file_get_contents(resource_path('data/afghanistan-locations.json')), true)['provinces'];
+    $priceOptions = [
+        'low' => __('common.price.low'),
+        'medium' => __('common.price.medium'),
+        'high' => __('common.price.high'),
+        'luxury' => __('common.price.luxury'),
+    ];
 @endphp
 
 @section('title', $isEditing ? __('suggestions.edit_title') : __('suggestions.hub.title'))
@@ -104,6 +110,9 @@
                         <span>{{ __('suggestions.editing_label') }}</span>
                         <strong>{{ $editingSubmission->name ?? $editingSubmission->title }}</strong>
                         <p>{{ __('suggestions.editing_state_help') }}</p>
+                        @if ($editingSubmission->admin_note && in_array($statusValue instanceof SuggestionStatus ? $statusValue->value : $statusValue, ['changes_requested', 'rejected'], true))
+                            <p><strong>{{ __('suggestions.admin_feedback') }}:</strong> {{ $editingSubmission->admin_note }}</p>
+                        @endif
                     </div>
                     <span class="profile-status-pill">{{ $statusLabel }}</span>
                 </div>
@@ -163,6 +172,15 @@
                                 <x-textarea id="description" name="description" rows="4"
                                     :value="$fieldValue('description')" placeholder="{{ __('suggestions.description_placeholder') }}" dir="auto" required />
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                            </div>
+
+                            <div class="submission-fields">
+                                <label for="price_level" class="mk-ui-label">
+                                    {{ __('suggestions.price_level') }} <span class="mk-ui-required" aria-hidden="true">*</span>
+                                </label>
+                                <x-select-input id="price_level" name="price_level" :options="$priceOptions"
+                                    :selected="$fieldValue('price_level')" :placeholder="__('suggestions.select_price')" required />
+                                <x-input-error :messages="$errors->get('price_level')" class="mt-2" />
                             </div>
                         </section>
 
@@ -225,7 +243,6 @@
 
                             <div class="submission-fields submission-fields--two">
                                 <x-form-field for="neighborhood" :label="__('suggestions.area_neighborhood')" :value="$fieldValue('neighborhood')" />
-                                <x-form-field for="address" :label="__('suggestions.address')" :value="$fieldValue('address')" required />
                             </div>
 
                             <div class="submission-map-grid">

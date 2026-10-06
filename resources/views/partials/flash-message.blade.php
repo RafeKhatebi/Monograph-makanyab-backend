@@ -1,5 +1,5 @@
 @if (session('success') && ! request()->routeIs('add.create', 'add.edit'))
-    <div class="mk-alert mk-alert--success flash-message">
+    <div class="mk-alert mk-alert--success flash-message {{ in_array(session('success'), [__('messages.review_submitted'), __('messages.review_updated')], true) ? 'flash-message--centered' : '' }}" role="status">
         {{ session('success') }}
     </div>
 @endif

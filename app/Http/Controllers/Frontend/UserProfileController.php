@@ -116,6 +116,8 @@ class UserProfileController extends Controller
                 'title' => $suggestion->name,
                 'category' => $suggestion->category?->name,
                 'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
+                'status_value' => $suggestion->suggestion_status?->value ?? 'draft',
+                'admin_note' => $suggestion->admin_note,
                 'date' => $suggestion->created_at,
                 'edit_url' => route('add.edit', ['type' => 'place', 'submission' => $suggestion->getKey()]),
                 'preview_url' => route('add.preview', ['type' => 'place', 'submission' => $suggestion->getKey()]),
@@ -135,6 +137,8 @@ class UserProfileController extends Controller
                 'title' => $suggestion->name,
                 'category' => $suggestion->category?->name,
                 'status' => $suggestion->suggestion_status?->label() ?? __('suggestions.status.draft'),
+                'status_value' => $suggestion->suggestion_status?->value ?? 'draft',
+                'admin_note' => $suggestion->admin_note,
                 'date' => $suggestion->created_at,
                 'edit_url' => route('add.edit', ['type' => 'service', 'submission' => $suggestion->getKey()]),
                 'preview_url' => route('add.preview', ['type' => 'service', 'submission' => $suggestion->getKey()]),
@@ -160,6 +164,8 @@ class UserProfileController extends Controller
                     'status' => $status instanceof SuggestionStatus
                         ? $status->label()
                         : __('suggestions.status.'.$status),
+                    'status_value' => $status instanceof SuggestionStatus ? $status->value : (string) $status,
+                    'admin_note' => $post->admin_note,
                     'date' => $post->created_at,
                     'edit_url' => route('add.edit', ['type' => 'post', 'submission' => $post->getKey()]),
                     'preview_url' => route('add.preview', ['type' => 'post', 'submission' => $post->getKey()]),

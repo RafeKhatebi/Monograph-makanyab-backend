@@ -55,8 +55,8 @@
                     </div>
 
                     <div>
-                        <label for="address" class="form-label">Address *</label>
-                        <input type="text" id="address" name="address" value="{{ old('address', $place->address) }}" required
+                        <label for="address" class="form-label">{{ __('suggestions.address') }}</label>
+                        <input type="text" id="address" name="address" value="{{ old('address', $place->address) }}"
                             class="form-control @error('address') is-invalid @enderror">
                         @error('address')
                             <div class="invalid-feedback">{{ $message }}</div>

@@ -10,12 +10,15 @@
             ->sortBy('sort_order')
             ->filter(fn ($media) => Storage::disk($media->disk ?: 'public')->exists($media->file_path));
         $placeCover = $placeImages->firstWhere('is_cover', true) ?? $placeImages->first();
+        $displayProvince = \App\Support\LocalizedAfghanistanLocation::province($place->province);
+        $displayDistrict = \App\Support\LocalizedAfghanistanLocation::district($place->district, $place->province);
+        $displayCity = \App\Support\LocalizedAfghanistanLocation::district($place->city, $place->province);
         $addressParts = collect([
             $place->address ?? null,
-            $place->district ?? null,
-            $place->city ?? null,
-            $place->province ?? null,
-        ])->filter();
+            $displayDistrict,
+            $displayCity,
+            $displayProvince,
+        ])->filter()->unique()->values();
     @endphp
 
     <header class="detail-hero detail-hero--place">
@@ -41,7 +44,7 @@
                 <h1 class="detail-hero__title" dir="auto">{{ $place->name }}</h1>
 
                 <p class="detail-hero__text" dir="auto">
-                    {{ $place->tagline ?: $place->city }}
+                    {{ $place->tagline ?: $displayCity }}
                 </p>
 
                 <div class="detail-hero__meta">
@@ -86,7 +89,7 @@
                         <dl class="detail-facts">
                             <div>
                                 <dt>{{ __('places.city_label') }}</dt>
-                                <dd>{{ $place->city ?: __('common.none') }}</dd>
+                                <dd>{{ $displayCity ?: __('common.none') }}</dd>
                             </div>
                             <div>
                                 <dt>{{ __('places.category_label') }}</dt>
@@ -96,13 +99,15 @@
                                 <dt>{{ __('places.status_label') }}</dt>
                                 <dd>{{ __('common.status.' . $place->status) }}</dd>
                             </div>
-                            <div>
-                                <dt>{{ __('places.price_label') }}</dt>
-                                <dd>{{ __('common.price.' . $place->price_level) }}</dd>
-                            </div>
+                            @if ($place->price_level)
+                                <div>
+                                    <dt>{{ __('places.price_label') }}</dt>
+                                    <dd>{{ __('common.price.' . $place->price_level) }}</dd>
+                                </div>
+                            @endif
                             @if ($addressParts->isNotEmpty())
                                 <div>
-                                    <dt>{{ __('places.address') }}</dt>
+                                    <dt>{{ __('suggestions.sections.location') }}</dt>
                                     <dd>{{ $addressParts->join(', ') }}</dd>
                                 </div>
                             @endif
@@ -147,8 +152,17 @@
                         @forelse($place->reviews as $review)
                             @include('components.review-card', ['review' => $review])
                         @empty
-                            <p class="detail-copy detail-copy--muted">{{ __('places.no_reviews') }}</p>
+                            @unless ($ownReview && ! $ownReview->is_approved)
+                                <p class="detail-copy detail-copy--muted">{{ __('places.no_reviews') }}</p>
+                            @endunless
                         @endforelse
+
+                        @if ($ownReview && ! $ownReview->is_approved)
+                            <div class="detail-own-review">
+                                <span class="profile-status-pill">{{ __('suggestions.review_status.'.$ownReview->moderation_status) }}</span>
+                                @include('components.review-card', ['review' => $ownReview])
+                            </div>
+                        @endif
 
                         @auth
                             @if (! $hasReviewed)
@@ -165,7 +179,7 @@
                                         placeholder="{{ __('places.comment_placeholder') }}"></textarea>
                                     <button type="submit" class="mk-button mk-button--primary mk-button--md">{{ __('places.submit_review') }}</button>
                                 </form>
-                            @else
+                            @elseif ($ownReview?->is_approved)
                                 <p class="detail-copy detail-copy--muted">{{ __('places.already_reviewed') }}</p>
                             @endif
                         @else

@@ -81,6 +81,7 @@ return [
             'place_approved' => 'Suggestion approved and place added to the catalogue.',
             'service_approved' => 'Suggestion approved and service added to the catalogue.',
             'rejected' => 'Suggestion rejected successfully.',
+            'changes_requested' => 'Changes requested. The contributor can update and resubmit this item.',
         ],
     ],
     'api' => [

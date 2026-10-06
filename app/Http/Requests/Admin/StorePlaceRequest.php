@@ -26,7 +26,7 @@ class StorePlaceRequest extends FormRequest
                 'required',
                 Rule::exists('place_categories', 'id')->where('is_active', true),
             ],
-            'address' => ['required', 'string', 'max:500'],
+            'address' => ['nullable', 'string', 'max:500'],
             'phone_1' => ['required', 'string', 'max:20'],
             'country' => ['required', 'string', 'max:100'],
             'province' => ['required', 'string', 'max:100'],
