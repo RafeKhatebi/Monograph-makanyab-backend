@@ -7,6 +7,7 @@ return [
     'confirmed' => 'تأیید :attribute مطابقت ندارد.',
     'current_password' => 'رمز عبور نادرست است.',
     'image' => ':attribute باید یک تصویر باشد.',
+    'uploaded' => ':attribute بارگذاری نشد. حجم فایل را بررسی کرده و دوباره تلاش کنید.',
     'max' => ['string' => 'طول :attribute نمی‌تواند بیشتر از :max نویسه باشد.', 'file' => 'حجم :attribute نمی‌تواند بیشتر از :max کیلوبایت باشد.'],
     'attributes' => ['name' => 'نام', 'username' => 'نام کاربری', 'email' => 'ایمیل', 'password' => 'رمز عبور', 'current_password' => 'رمز عبور فعلی', 'profile_picture' => 'تصویر پروفایل', 'description' => 'توضیحات', 'images' => 'تصاویر'],
 ];

@@ -7,6 +7,7 @@ return [
     'confirmed' => 'The :attribute confirmation does not match.',
     'current_password' => 'The password is incorrect.',
     'image' => 'The :attribute must be an image.',
+    'uploaded' => 'The :attribute could not be uploaded. Check the file size and try again.',
     'max' => [
         'string' => 'The :attribute may not be greater than :max characters.',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
