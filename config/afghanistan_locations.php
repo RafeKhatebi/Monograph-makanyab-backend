@@ -1,6 +1,6 @@
 <?php
 
-return [
+$legacyLocations = [
     'Badakhshan' => ['Faizabad', 'Argo', 'Baharak', 'Darayim', 'Jurm', 'Kishim', 'Raghistan', 'Shuhada', 'Tagab', 'Wakhan', 'Yawan', 'Zebak', 'Kuran wa Munjan', 'Maimay', 'Nusay', 'Shekay', 'Wurduj', 'Yamgan'],
     'Badghis' => ['Qala-e-Naw', 'Ab Kamari', 'Bala Murghab', 'Ghormach', 'Jawand', 'Muqur', 'Qadis'],
     'Baghlan' => ['Pul-e-Khumri', 'Baghlan-e-Jadid', 'Dahana-i-Ghori', 'Doshi', 'Khinjan', 'Nahrin', 'Puli Hisar', 'Andarab', 'Khost wa Fereng', 'Burka'],
@@ -36,3 +36,13 @@ return [
     'Wardak' => ['Maidan Shar', 'Chak', 'Daymirdad', 'Jaghatu', 'Jalrez', 'Nirkh', 'Saydabad'],
     'Zabul' => ['Qalat', 'Arghandab', 'Atghar', 'Day Chopan', 'Mizan', 'Shah Joy', 'Shinkay'],
 ];
+
+$reference = json_decode(file_get_contents(resource_path('data/afghanistan-locations.json')), true);
+
+foreach ($reference['provinces'] as $province) {
+    $name = $province['value'];
+    $districts = array_column($province['districts'], 'value');
+    $legacyLocations[$name] = array_values(array_unique(array_merge($districts, $legacyLocations[$name] ?? [])));
+}
+
+return $legacyLocations;

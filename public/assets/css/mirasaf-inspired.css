@@ -1181,6 +1181,14 @@ select:focus {
     color: #64748b;
 }
 
+.submission-location-source {
+    margin-bottom: 12px;
+}
+
+.submission-location-source a {
+    color: var(--mk-modern-primary-strong);
+}
+
 .submission-card label,
 .submission-card .mk-label,
 .submission-card .mk-ui-label {

@@ -26,6 +26,7 @@
     $postImage = $isEditing && $activeType === 'post' && $editingSubmission->image
         ? asset('storage/'.$editingSubmission->image)
         : null;
+    $afghanistanLocations = json_decode(file_get_contents(resource_path('data/afghanistan-locations.json')), true)['provinces'];
 @endphp
 
 @section('title', $isEditing ? __('suggestions.edit_title') : __('suggestions.hub.title'))
@@ -163,6 +164,10 @@
                                     <p>{{ __('suggestions.location_help') }}</p>
                                 </div>
                             </div>
+                            <p class="suggestion-help submission-location-source">
+                                {{ __('suggestions.location_data_source') }}
+                                <a href="https://github.com/open-admin-data/afghanistan-administrative-divisions" target="_blank" rel="noopener noreferrer">Open Admin Data</a>
+                            </p>
 
                             <div class="submission-fields submission-fields--two">
                                 <div>
@@ -181,6 +186,8 @@
                                 <div>
                                     <x-input-label for="district-select" :value="__('suggestions.district_city')" />
                                     <select id="district-select" name="district" data-selected="{{ $fieldValue('district') }}"
+                                        data-placeholder="{{ __('suggestions.select_district') }}"
+                                        data-select-province-first="{{ __('suggestions.select_province_first') }}"
                                         class="form-control @error('district') is-invalid @enderror" required disabled>
                                         <option value="">{{ __('suggestions.select_province_first') }}</option>
                                     </select>
@@ -316,6 +323,7 @@
 @endsection
 
 @push('scripts')
+    <script>window.SuggestionLocations = @json($afghanistanLocations);</script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="{{ asset('assets/js/media-upload.js') }}"></script>
     <script src="{{ asset('assets/js/suggestion-map.js') }}?v={{ filemtime(public_path('assets/js/suggestion-map.js')) }}"></script>

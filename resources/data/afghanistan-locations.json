@@ -1,0 +1,3689 @@
+{
+  "source": "Open Admin Data Afghanistan Administrative Divisions, CC-BY-4.0, https://github.com/open-admin-data/afghanistan-administrative-divisions",
+  "provinces": [
+    {
+      "value": "Badakhshan",
+      "labels": {
+        "en": "Badakhshan",
+        "fa": "بدخشان",
+        "ps": "بدخشان"
+      },
+      "center": [
+        37.038,
+        71.456
+      ],
+      "districts": [
+        {
+          "value": "Arghanj Khwah",
+          "labels": {
+            "en": "Arghanj Khwah",
+            "fa": "ارغنچخواه",
+            "ps": "ارغنچخواه"
+          }
+        },
+        {
+          "value": "Argo",
+          "labels": {
+            "en": "Argo",
+            "fa": "ارگو",
+            "ps": "ارگو"
+          }
+        },
+        {
+          "value": "Baharak",
+          "labels": {
+            "en": "Baharak",
+            "fa": "بهارک",
+            "ps": "بهارک"
+          }
+        },
+        {
+          "value": "Darayem",
+          "labels": {
+            "en": "Darayem",
+            "fa": "درایم",
+            "ps": "درایم"
+          }
+        },
+        {
+          "value": "Darwaz-e-Balla",
+          "labels": {
+            "en": "Darwaz-e-Balla",
+            "fa": "دروازبالا ( نیسی)",
+            "ps": "دروازبالا ( نیسی)"
+          }
+        },
+        {
+          "value": "Darwaz-e-Payin",
+          "labels": {
+            "en": "Darwaz-e-Payin",
+            "fa": "درواز پائین (ما می )",
+            "ps": "درواز پائین (ما می )"
+          }
+        },
+        {
+          "value": "Eshkashem",
+          "labels": {
+            "en": "Eshkashem",
+            "fa": "اشکاشم",
+            "ps": "اشکاشم"
+          }
+        },
+        {
+          "value": "Fayzabad",
+          "labels": {
+            "en": "Fayzabad",
+            "fa": "فیض آباد",
+            "ps": "فیض آباد"
+          }
+        },
+        {
+          "value": "Jorm",
+          "labels": {
+            "en": "Jorm",
+            "fa": "جرم",
+            "ps": "جرم"
+          }
+        },
+        {
+          "value": "Keshem",
+          "labels": {
+            "en": "Keshem",
+            "fa": "کشم",
+            "ps": "کشم"
+          }
+        },
+        {
+          "value": "Khash",
+          "labels": {
+            "en": "Khash",
+            "fa": "خاش",
+            "ps": "خاش"
+          }
+        },
+        {
+          "value": "Khwahan",
+          "labels": {
+            "en": "Khwahan",
+            "fa": "خواهان",
+            "ps": "خواهان"
+          }
+        },
+        {
+          "value": "Kofab",
+          "labels": {
+            "en": "Kofab",
+            "fa": "کوف آب",
+            "ps": "کوف آب"
+          }
+        },
+        {
+          "value": "Kohistan",
+          "labels": {
+            "en": "Kohistan",
+            "fa": "کوهستان",
+            "ps": "کوهستان"
+          }
+        },
+        {
+          "value": "Koran Wa Monjan",
+          "labels": {
+            "en": "Koran Wa Monjan",
+            "fa": "کران ومنجان",
+            "ps": "کران ومنجان"
+          }
+        },
+        {
+          "value": "Raghestan",
+          "labels": {
+            "en": "Raghestan",
+            "fa": "راغستان",
+            "ps": "راغستان"
+          }
+        },
+        {
+          "value": "Shahr-e-Buzorg",
+          "labels": {
+            "en": "Shahr-e-Buzorg",
+            "fa": "شهر بزرگ",
+            "ps": "شهر بزرگ"
+          }
+        },
+        {
+          "value": "Shaki",
+          "labels": {
+            "en": "Shaki",
+            "fa": "شکی",
+            "ps": "شکی"
+          }
+        },
+        {
+          "value": "Shighnan",
+          "labels": {
+            "en": "Shighnan",
+            "fa": "شغنان",
+            "ps": "شغنان"
+          }
+        },
+        {
+          "value": "Shuhada",
+          "labels": {
+            "en": "Shuhada",
+            "fa": "شهدا",
+            "ps": "شهدا"
+          }
+        },
+        {
+          "value": "Tagab",
+          "labels": {
+            "en": "Tagab",
+            "fa": "تگاب",
+            "ps": "تگاب"
+          }
+        },
+        {
+          "value": "Teshkan",
+          "labels": {
+            "en": "Teshkan",
+            "fa": "تشکان",
+            "ps": "تشکان"
+          }
+        },
+        {
+          "value": "Wakhan",
+          "labels": {
+            "en": "Wakhan",
+            "fa": "واخان",
+            "ps": "واخان"
+          }
+        },
+        {
+          "value": "Warduj",
+          "labels": {
+            "en": "Warduj",
+            "fa": "وردوج",
+            "ps": "وردوج"
+          }
+        },
+        {
+          "value": "Yaftal-e-Sufla",
+          "labels": {
+            "en": "Yaftal-e-Sufla",
+            "fa": "یفتل سفلی",
+            "ps": "یفتل سفلی"
+          }
+        },
+        {
+          "value": "Yamgan",
+          "labels": {
+            "en": "Yamgan",
+            "fa": "یمگان",
+            "ps": "یمگان"
+          }
+        },
+        {
+          "value": "Yawan",
+          "labels": {
+            "en": "Yawan",
+            "fa": "یاوان",
+            "ps": "یاوان"
+          }
+        },
+        {
+          "value": "Zebak",
+          "labels": {
+            "en": "Zebak",
+            "fa": "زیباک",
+            "ps": "زیباک"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Badghis",
+      "labels": {
+        "en": "Badghis",
+        "fa": "بادغیس",
+        "ps": "بادغیس"
+      },
+      "center": [
+        35.137,
+        63.734
+      ],
+      "districts": [
+        {
+          "value": "Ab Kamari",
+          "labels": {
+            "en": "Ab Kamari",
+            "fa": "آب کمری",
+            "ps": "آب کمری"
+          }
+        },
+        {
+          "value": "Bala Murghab",
+          "labels": {
+            "en": "Bala Murghab",
+            "fa": "بالا مرغاب",
+            "ps": "بالا مرغاب"
+          }
+        },
+        {
+          "value": "Ghormach",
+          "labels": {
+            "en": "Ghormach",
+            "fa": "غورماچ",
+            "ps": "غورماچ"
+          }
+        },
+        {
+          "value": "Jawand",
+          "labels": {
+            "en": "Jawand",
+            "fa": "جوند",
+            "ps": "جوند"
+          }
+        },
+        {
+          "value": "Muqur",
+          "labels": {
+            "en": "Muqur",
+            "fa": "مقر",
+            "ps": "مقر"
+          }
+        },
+        {
+          "value": "Qadis",
+          "labels": {
+            "en": "Qadis",
+            "fa": "قادیس",
+            "ps": "قادیس"
+          }
+        },
+        {
+          "value": "Qala-e-Naw",
+          "labels": {
+            "en": "Qala-e-Naw",
+            "fa": "قلعه نو",
+            "ps": "قلعه نو"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Baghlan",
+      "labels": {
+        "en": "Baghlan",
+        "fa": "بغلان",
+        "ps": "بغلان"
+      },
+      "center": [
+        35.804,
+        68.914
+      ],
+      "districts": [
+        {
+          "value": "Andarab",
+          "labels": {
+            "en": "Andarab",
+            "fa": "اندراب",
+            "ps": "اندراب"
+          }
+        },
+        {
+          "value": "Baghlan-e-Jadid",
+          "labels": {
+            "en": "Baghlan-e-Jadid",
+            "fa": "بغلان جدید",
+            "ps": "بغلان جدید"
+          }
+        },
+        {
+          "value": "Burka",
+          "labels": {
+            "en": "Burka",
+            "fa": "بورکه",
+            "ps": "بورکه"
+          }
+        },
+        {
+          "value": "Dahana-e-Ghori",
+          "labels": {
+            "en": "Dahana-e-Ghori",
+            "fa": "دهنۀ غوری",
+            "ps": "دهنۀ غوری"
+          }
+        },
+        {
+          "value": "Deh Salah",
+          "labels": {
+            "en": "Deh Salah",
+            "fa": "ده صلاح",
+            "ps": "ده صلاح"
+          }
+        },
+        {
+          "value": "Doshi",
+          "labels": {
+            "en": "Doshi",
+            "fa": "دوشی",
+            "ps": "دوشی"
+          }
+        },
+        {
+          "value": "Fereng Wa Gharu",
+          "labels": {
+            "en": "Fereng Wa Gharu",
+            "fa": "فرنگ وغارو",
+            "ps": "فرنگ وغارو"
+          }
+        },
+        {
+          "value": "Guzargah-e-Nur",
+          "labels": {
+            "en": "Guzargah-e-Nur",
+            "fa": "گذرگاه نور",
+            "ps": "گذرگاه نور"
+          }
+        },
+        {
+          "value": "Khinjan",
+          "labels": {
+            "en": "Khinjan",
+            "fa": "خنجان",
+            "ps": "خنجان"
+          }
+        },
+        {
+          "value": "Khost Wa Fereng",
+          "labels": {
+            "en": "Khost Wa Fereng",
+            "fa": "خوست و فرنگ",
+            "ps": "خوست و فرنگ"
+          }
+        },
+        {
+          "value": "Khwaja Hejran",
+          "labels": {
+            "en": "Khwaja Hejran",
+            "fa": "خواجه هجران",
+            "ps": "خواجه هجران"
+          }
+        },
+        {
+          "value": "Nahrin",
+          "labels": {
+            "en": "Nahrin",
+            "fa": "نهرین",
+            "ps": "نهرین"
+          }
+        },
+        {
+          "value": "Pul-e-Hisar",
+          "labels": {
+            "en": "Pul-e-Hisar",
+            "fa": "پل حصار",
+            "ps": "پل حصار"
+          }
+        },
+        {
+          "value": "Pul-e-Khumri",
+          "labels": {
+            "en": "Pul-e-Khumri",
+            "fa": "پلخمری",
+            "ps": "پلخمری"
+          }
+        },
+        {
+          "value": "Tala Wa Barfak",
+          "labels": {
+            "en": "Tala Wa Barfak",
+            "fa": "تاله وبرفک",
+            "ps": "تاله وبرفک"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Balkh",
+      "labels": {
+        "en": "Balkh",
+        "fa": "بلخ",
+        "ps": "بلخ"
+      },
+      "center": [
+        36.67,
+        67.078
+      ],
+      "districts": [
+        {
+          "value": "Balkh",
+          "labels": {
+            "en": "Balkh",
+            "fa": "بلخ",
+            "ps": "بلخ"
+          }
+        },
+        {
+          "value": "Char Bolak",
+          "labels": {
+            "en": "Char Bolak",
+            "fa": "چار بولک",
+            "ps": "چار بولک"
+          }
+        },
+        {
+          "value": "Charkent",
+          "labels": {
+            "en": "Charkent",
+            "fa": "چار کنت",
+            "ps": "چار کنت"
+          }
+        },
+        {
+          "value": "Chemtal",
+          "labels": {
+            "en": "Chemtal",
+            "fa": "چمتال",
+            "ps": "چمتال"
+          }
+        },
+        {
+          "value": "Dawlat Abad",
+          "labels": {
+            "en": "Dawlat Abad",
+            "fa": "دولت آباد",
+            "ps": "دولت آباد"
+          }
+        },
+        {
+          "value": "Dehdadi",
+          "labels": {
+            "en": "Dehdadi",
+            "fa": "دهدادی",
+            "ps": "دهدادی"
+          }
+        },
+        {
+          "value": "Kaldar",
+          "labels": {
+            "en": "Kaldar",
+            "fa": "کلدار",
+            "ps": "کلدار"
+          }
+        },
+        {
+          "value": "Keshendeh",
+          "labels": {
+            "en": "Keshendeh",
+            "fa": "کشنده",
+            "ps": "کشنده"
+          }
+        },
+        {
+          "value": "Marmul",
+          "labels": {
+            "en": "Marmul",
+            "fa": "مارمُل",
+            "ps": "مارمُل"
+          }
+        },
+        {
+          "value": "Mazar-e-Sharif",
+          "labels": {
+            "en": "Mazar-e-Sharif",
+            "fa": "مزار شریف",
+            "ps": "مزار شریف"
+          }
+        },
+        {
+          "value": "Nahr-e-Shahi",
+          "labels": {
+            "en": "Nahr-e-Shahi",
+            "fa": "نهر شاهی",
+            "ps": "نهر شاهی"
+          }
+        },
+        {
+          "value": "Sharak-e-Hayratan",
+          "labels": {
+            "en": "Sharak-e-Hayratan",
+            "fa": "شهرک حیرتان",
+            "ps": "شهرک حیرتان"
+          }
+        },
+        {
+          "value": "Sholgareh",
+          "labels": {
+            "en": "Sholgareh",
+            "fa": "شولگره",
+            "ps": "شولگره"
+          }
+        },
+        {
+          "value": "Shortepa",
+          "labels": {
+            "en": "Shortepa",
+            "fa": "شور تیپه",
+            "ps": "شور تیپه"
+          }
+        },
+        {
+          "value": "Zari",
+          "labels": {
+            "en": "Zari",
+            "fa": "زاری",
+            "ps": "زاری"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Bamyan",
+      "labels": {
+        "en": "Bamyan",
+        "fa": "بامیان",
+        "ps": "بامیان"
+      },
+      "center": [
+        34.804,
+        67.234
+      ],
+      "districts": [
+        {
+          "value": "Bamyan",
+          "labels": {
+            "en": "Bamyan",
+            "fa": "بامیان",
+            "ps": "بامیان"
+          }
+        },
+        {
+          "value": "Kahmard",
+          "labels": {
+            "en": "Kahmard",
+            "fa": "کهمرد",
+            "ps": "کهمرد"
+          }
+        },
+        {
+          "value": "Panjab",
+          "labels": {
+            "en": "Panjab",
+            "fa": "پنجاب",
+            "ps": "پنجاب"
+          }
+        },
+        {
+          "value": "Sayghan",
+          "labels": {
+            "en": "Sayghan",
+            "fa": "سیغان",
+            "ps": "سیغان"
+          }
+        },
+        {
+          "value": "Shibar",
+          "labels": {
+            "en": "Shibar",
+            "fa": "شیبر",
+            "ps": "شیبر"
+          }
+        },
+        {
+          "value": "Waras",
+          "labels": {
+            "en": "Waras",
+            "fa": "ورث",
+            "ps": "ورث"
+          }
+        },
+        {
+          "value": "Yakawlang",
+          "labels": {
+            "en": "Yakawlang",
+            "fa": "یکاولنگ",
+            "ps": "یکاولنگ"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Daykundi",
+      "labels": {
+        "en": "Daykundi",
+        "fa": "دایکندی",
+        "ps": "دایکندی"
+      },
+      "center": [
+        33.706,
+        66.22
+      ],
+      "districts": [
+        {
+          "value": "Ashtarlay",
+          "labels": {
+            "en": "Ashtarlay",
+            "fa": "اشترلی",
+            "ps": "اشترلی"
+          }
+        },
+        {
+          "value": "Kajran",
+          "labels": {
+            "en": "Kajran",
+            "fa": "کجران",
+            "ps": "کجران"
+          }
+        },
+        {
+          "value": "Khadir",
+          "labels": {
+            "en": "Khadir",
+            "fa": "خدیر",
+            "ps": "خدیر"
+          }
+        },
+        {
+          "value": "Kiti",
+          "labels": {
+            "en": "Kiti",
+            "fa": "کیتی",
+            "ps": "کیتی"
+          }
+        },
+        {
+          "value": "Miramor",
+          "labels": {
+            "en": "Miramor",
+            "fa": "میرامور",
+            "ps": "میرامور"
+          }
+        },
+        {
+          "value": "Nili",
+          "labels": {
+            "en": "Nili",
+            "fa": "نیلی",
+            "ps": "نیلی"
+          }
+        },
+        {
+          "value": "Patoo",
+          "labels": {
+            "en": "Patoo",
+            "fa": "پاتو",
+            "ps": "پاتو"
+          }
+        },
+        {
+          "value": "Sang-e-Takht",
+          "labels": {
+            "en": "Sang-e-Takht",
+            "fa": "سنگ تخت",
+            "ps": "سنگ تخت"
+          }
+        },
+        {
+          "value": "Shahrestan",
+          "labels": {
+            "en": "Shahrestan",
+            "fa": "شهرستان",
+            "ps": "شهرستان"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Farah",
+      "labels": {
+        "en": "Farah",
+        "fa": "فراه",
+        "ps": "فراه"
+      },
+      "center": [
+        32.608,
+        62.302
+      ],
+      "districts": [
+        {
+          "value": "Anar Dara",
+          "labels": {
+            "en": "Anar Dara",
+            "fa": "انار دره",
+            "ps": "انار دره"
+          }
+        },
+        {
+          "value": "Bakwa",
+          "labels": {
+            "en": "Bakwa",
+            "fa": "بکواه",
+            "ps": "بکواه"
+          }
+        },
+        {
+          "value": "Bala Buluk",
+          "labels": {
+            "en": "Bala Buluk",
+            "fa": "بالا بلوک",
+            "ps": "بالا بلوک"
+          }
+        },
+        {
+          "value": "Farah",
+          "labels": {
+            "en": "Farah",
+            "fa": "فراه",
+            "ps": "فراه"
+          }
+        },
+        {
+          "value": "Gulistan",
+          "labels": {
+            "en": "Gulistan",
+            "fa": "گلستان",
+            "ps": "گلستان"
+          }
+        },
+        {
+          "value": "Khak-e-Safed",
+          "labels": {
+            "en": "Khak-e-Safed",
+            "fa": "خاک سفید",
+            "ps": "خاک سفید"
+          }
+        },
+        {
+          "value": "Lash-e-Juwayn",
+          "labels": {
+            "en": "Lash-e-Juwayn",
+            "fa": "لاش جوین",
+            "ps": "لاش جوین"
+          }
+        },
+        {
+          "value": "Pur Chaman",
+          "labels": {
+            "en": "Pur Chaman",
+            "fa": "پُرچمن",
+            "ps": "پُرچمن"
+          }
+        },
+        {
+          "value": "Pushtrod",
+          "labels": {
+            "en": "Pushtrod",
+            "fa": "پشترود",
+            "ps": "پشترود"
+          }
+        },
+        {
+          "value": "Qala-e-Kah",
+          "labels": {
+            "en": "Qala-e-Kah",
+            "fa": "قلعه کاه",
+            "ps": "قلعه کاه"
+          }
+        },
+        {
+          "value": "Shibkoh",
+          "labels": {
+            "en": "Shibkoh",
+            "fa": "شیب کوه",
+            "ps": "شیب کوه"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Faryab",
+      "labels": {
+        "en": "Faryab",
+        "fa": "فاریاب",
+        "ps": "فاریاب"
+      },
+      "center": [
+        36.06,
+        64.869
+      ],
+      "districts": [
+        {
+          "value": "Almar",
+          "labels": {
+            "en": "Almar",
+            "fa": "المار",
+            "ps": "المار"
+          }
+        },
+        {
+          "value": "Andkhoy",
+          "labels": {
+            "en": "Andkhoy",
+            "fa": "اندخوی",
+            "ps": "اندخوی"
+          }
+        },
+        {
+          "value": "Bilcheragh",
+          "labels": {
+            "en": "Bilcheragh",
+            "fa": "بلچراغ",
+            "ps": "بلچراغ"
+          }
+        },
+        {
+          "value": "Dawlat Abad",
+          "labels": {
+            "en": "Dawlat Abad",
+            "fa": "دولت آباد",
+            "ps": "دولت آباد"
+          }
+        },
+        {
+          "value": "Garzewan",
+          "labels": {
+            "en": "Garzewan",
+            "fa": "گرزیوان",
+            "ps": "گرزیوان"
+          }
+        },
+        {
+          "value": "Khan-e-Char Bagh",
+          "labels": {
+            "en": "Khan-e-Char Bagh",
+            "fa": "خان چارباغ",
+            "ps": "خان چارباغ"
+          }
+        },
+        {
+          "value": "Khwaja Sabz Posh",
+          "labels": {
+            "en": "Khwaja Sabz Posh",
+            "fa": "خواجه سبزپوش",
+            "ps": "خواجه سبزپوش"
+          }
+        },
+        {
+          "value": "Kohistan",
+          "labels": {
+            "en": "Kohistan",
+            "fa": "کوهستان",
+            "ps": "کوهستان"
+          }
+        },
+        {
+          "value": "Maymana",
+          "labels": {
+            "en": "Maymana",
+            "fa": "میمنه",
+            "ps": "میمنه"
+          }
+        },
+        {
+          "value": "Pashtun Kot",
+          "labels": {
+            "en": "Pashtun Kot",
+            "fa": "پشتون کوټ",
+            "ps": "پشتون کوټ"
+          }
+        },
+        {
+          "value": "Qaram Qul",
+          "labels": {
+            "en": "Qaram Qul",
+            "fa": "قرم قل",
+            "ps": "قرم قل"
+          }
+        },
+        {
+          "value": "Qaysar",
+          "labels": {
+            "en": "Qaysar",
+            "fa": "قیصار",
+            "ps": "قیصار"
+          }
+        },
+        {
+          "value": "Qurghan",
+          "labels": {
+            "en": "Qurghan",
+            "fa": "قرغان",
+            "ps": "قرغان"
+          }
+        },
+        {
+          "value": "Shirin Tagab",
+          "labels": {
+            "en": "Shirin Tagab",
+            "fa": "شیرین تگاب",
+            "ps": "شیرین تگاب"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Ghazni",
+      "labels": {
+        "en": "Ghazni",
+        "fa": "غزنی",
+        "ps": "غزني"
+      },
+      "center": [
+        33.316,
+        67.811
+      ],
+      "districts": [
+        {
+          "value": "Ab Band",
+          "labels": {
+            "en": "Ab Band",
+            "fa": "آب بند",
+            "ps": "آب بند"
+          }
+        },
+        {
+          "value": "Ajristan",
+          "labels": {
+            "en": "Ajristan",
+            "fa": "اجرستان",
+            "ps": "اجرستان"
+          }
+        },
+        {
+          "value": "Andar",
+          "labels": {
+            "en": "Andar",
+            "fa": "اندړ",
+            "ps": "اندړ"
+          }
+        },
+        {
+          "value": "Deh Yak",
+          "labels": {
+            "en": "Deh Yak",
+            "fa": "ده یک",
+            "ps": "ده یک"
+          }
+        },
+        {
+          "value": "Gelan",
+          "labels": {
+            "en": "Gelan",
+            "fa": "گیلان",
+            "ps": "گیلان"
+          }
+        },
+        {
+          "value": "Ghazni",
+          "labels": {
+            "en": "Ghazni",
+            "fa": "غزنی",
+            "ps": "غزنی"
+          }
+        },
+        {
+          "value": "Giro",
+          "labels": {
+            "en": "Giro",
+            "fa": "گیرو",
+            "ps": "گیرو"
+          }
+        },
+        {
+          "value": "Jaghatu",
+          "labels": {
+            "en": "Jaghatu",
+            "fa": "جغتو",
+            "ps": "جغتو"
+          }
+        },
+        {
+          "value": "Jaghuri",
+          "labels": {
+            "en": "Jaghuri",
+            "fa": "جاغوری",
+            "ps": "جاغوری"
+          }
+        },
+        {
+          "value": "Khwaja Umari",
+          "labels": {
+            "en": "Khwaja Umari",
+            "fa": "خواجه عمری",
+            "ps": "خواجه عمری"
+          }
+        },
+        {
+          "value": "Malistan",
+          "labels": {
+            "en": "Malistan",
+            "fa": "مالستان",
+            "ps": "مالستان"
+          }
+        },
+        {
+          "value": "Muqur",
+          "labels": {
+            "en": "Muqur",
+            "fa": "مقر",
+            "ps": "مقر"
+          }
+        },
+        {
+          "value": "Nawa",
+          "labels": {
+            "en": "Nawa",
+            "fa": "ناوه",
+            "ps": "ناوه"
+          }
+        },
+        {
+          "value": "Nawur",
+          "labels": {
+            "en": "Nawur",
+            "fa": "ناور",
+            "ps": "ناور"
+          }
+        },
+        {
+          "value": "Qara Bagh",
+          "labels": {
+            "en": "Qara Bagh",
+            "fa": "قره باغ",
+            "ps": "قره باغ"
+          }
+        },
+        {
+          "value": "Rashidan",
+          "labels": {
+            "en": "Rashidan",
+            "fa": "رشیدان",
+            "ps": "رشیدان"
+          }
+        },
+        {
+          "value": "Waghaz",
+          "labels": {
+            "en": "Waghaz",
+            "fa": "واغظ",
+            "ps": "واغظ"
+          }
+        },
+        {
+          "value": "Wal-e-Muhammad-e-Shahid",
+          "labels": {
+            "en": "Wal-e-Muhammad-e-Shahid",
+            "fa": "ولی محمد شهید",
+            "ps": "ولی محمد شهید"
+          }
+        },
+        {
+          "value": "Zanakhan",
+          "labels": {
+            "en": "Zanakhan",
+            "fa": "زنه خان",
+            "ps": "زنه خان"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Ghor",
+      "labels": {
+        "en": "Ghor",
+        "fa": "غور",
+        "ps": "غور"
+      },
+      "center": [
+        34.179,
+        64.929
+      ],
+      "districts": [
+        {
+          "value": "Charsadra",
+          "labels": {
+            "en": "Charsadra",
+            "fa": "چار صد ره",
+            "ps": "چار صد ره"
+          }
+        },
+        {
+          "value": "Dawlatyar",
+          "labels": {
+            "en": "Dawlatyar",
+            "fa": "دولت یار",
+            "ps": "دولت یار"
+          }
+        },
+        {
+          "value": "DoLayna",
+          "labels": {
+            "en": "DoLayna",
+            "fa": "دو لینه",
+            "ps": "دو لینه"
+          }
+        },
+        {
+          "value": "Feroz Koh",
+          "labels": {
+            "en": "Feroz Koh",
+            "fa": "فیروزکوه",
+            "ps": "فیروزکوه"
+          }
+        },
+        {
+          "value": "Lal Wa Sarjangal",
+          "labels": {
+            "en": "Lal Wa Sarjangal",
+            "fa": "لعل و سرجنگل",
+            "ps": "لعل و سرجنگل"
+          }
+        },
+        {
+          "value": "Pasaband",
+          "labels": {
+            "en": "Pasaband",
+            "fa": "پسابند",
+            "ps": "پسابند"
+          }
+        },
+        {
+          "value": "Saghar",
+          "labels": {
+            "en": "Saghar",
+            "fa": "ساغر",
+            "ps": "ساغر"
+          }
+        },
+        {
+          "value": "Shahrak",
+          "labels": {
+            "en": "Shahrak",
+            "fa": "شهرک",
+            "ps": "شهرک"
+          }
+        },
+        {
+          "value": "Taywarah",
+          "labels": {
+            "en": "Taywarah",
+            "fa": "تیوره",
+            "ps": "تیوره"
+          }
+        },
+        {
+          "value": "Tolak",
+          "labels": {
+            "en": "Tolak",
+            "fa": "تولک",
+            "ps": "تولک"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Helmand",
+      "labels": {
+        "en": "Helmand",
+        "fa": "هلمند",
+        "ps": "هلمند"
+      },
+      "center": [
+        31.154,
+        64.047
+      ],
+      "districts": [
+        {
+          "value": "Baghran",
+          "labels": {
+            "en": "Baghran",
+            "fa": "باغران",
+            "ps": "باغران"
+          }
+        },
+        {
+          "value": "Deh-e-Shu",
+          "labels": {
+            "en": "Deh-e-Shu",
+            "fa": "دیشو",
+            "ps": "دیشو"
+          }
+        },
+        {
+          "value": "Garmser",
+          "labels": {
+            "en": "Garmser",
+            "fa": "گرم سیر",
+            "ps": "گرم سیر"
+          }
+        },
+        {
+          "value": "Kajaki",
+          "labels": {
+            "en": "Kajaki",
+            "fa": "کجکی",
+            "ps": "کجکی"
+          }
+        },
+        {
+          "value": "Lashkargah",
+          "labels": {
+            "en": "Lashkargah",
+            "fa": "لشکرگاه",
+            "ps": "لشکرگاه"
+          }
+        },
+        {
+          "value": "Musa Qala",
+          "labels": {
+            "en": "Musa Qala",
+            "fa": "موسی قلعه",
+            "ps": "موسی قلعه"
+          }
+        },
+        {
+          "value": "Nad-e-Ali",
+          "labels": {
+            "en": "Nad-e-Ali",
+            "fa": "نادعلی",
+            "ps": "نادعلی"
+          }
+        },
+        {
+          "value": "Nahr-e-Saraj",
+          "labels": {
+            "en": "Nahr-e-Saraj",
+            "fa": "نهر سراج",
+            "ps": "نهر سراج"
+          }
+        },
+        {
+          "value": "Nawa-e-Barakzaiy",
+          "labels": {
+            "en": "Nawa-e-Barakzaiy",
+            "fa": "ناوه بارکزائی",
+            "ps": "ناوه بارکزائی"
+          }
+        },
+        {
+          "value": "Nawzad",
+          "labels": {
+            "en": "Nawzad",
+            "fa": "نوزاد",
+            "ps": "نوزاد"
+          }
+        },
+        {
+          "value": "Reg-i-Khan Nishin",
+          "labels": {
+            "en": "Reg-i-Khan Nishin",
+            "fa": "ریگ خان نشین",
+            "ps": "ریگ خان نشین"
+          }
+        },
+        {
+          "value": "Sangin",
+          "labels": {
+            "en": "Sangin",
+            "fa": "سنگین",
+            "ps": "سنگین"
+          }
+        },
+        {
+          "value": "Washer",
+          "labels": {
+            "en": "Washer",
+            "fa": "واشیر",
+            "ps": "واشیر"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Herat",
+      "labels": {
+        "en": "Herat",
+        "fa": "هرات",
+        "ps": "هرات"
+      },
+      "center": [
+        34.197,
+        62.131
+      ],
+      "districts": [
+        {
+          "value": "Adraskan",
+          "labels": {
+            "en": "Adraskan",
+            "fa": "ادرسکن",
+            "ps": "ادرسکن"
+          }
+        },
+        {
+          "value": "Chisht-e-Sharif",
+          "labels": {
+            "en": "Chisht-e-Sharif",
+            "fa": "چشت شریف",
+            "ps": "چشت شریف"
+          }
+        },
+        {
+          "value": "Farsi",
+          "labels": {
+            "en": "Farsi",
+            "fa": "فرسی",
+            "ps": "فرسی"
+          }
+        },
+        {
+          "value": "Ghoryan",
+          "labels": {
+            "en": "Ghoryan",
+            "fa": "غوریان",
+            "ps": "غوریان"
+          }
+        },
+        {
+          "value": "Gulran",
+          "labels": {
+            "en": "Gulran",
+            "fa": "گلران",
+            "ps": "گلران"
+          }
+        },
+        {
+          "value": "Guzara",
+          "labels": {
+            "en": "Guzara",
+            "fa": "گذره",
+            "ps": "گذره"
+          }
+        },
+        {
+          "value": "Hirat",
+          "labels": {
+            "en": "Hirat",
+            "fa": "هرات",
+            "ps": "هرات"
+          }
+        },
+        {
+          "value": "Injil",
+          "labels": {
+            "en": "Injil",
+            "fa": "انجیل",
+            "ps": "انجیل"
+          }
+        },
+        {
+          "value": "Karukh",
+          "labels": {
+            "en": "Karukh",
+            "fa": "کرُخ",
+            "ps": "کرُخ"
+          }
+        },
+        {
+          "value": "Kohsan",
+          "labels": {
+            "en": "Kohsan",
+            "fa": "کوهسان",
+            "ps": "کوهسان"
+          }
+        },
+        {
+          "value": "Kushk",
+          "labels": {
+            "en": "Kushk",
+            "fa": "کُشک",
+            "ps": "کُشک"
+          }
+        },
+        {
+          "value": "Kushk-e-Kuhna",
+          "labels": {
+            "en": "Kushk-e-Kuhna",
+            "fa": "کُشک کهنه",
+            "ps": "کُشک کهنه"
+          }
+        },
+        {
+          "value": "Obe",
+          "labels": {
+            "en": "Obe",
+            "fa": "اوبی",
+            "ps": "اوبی"
+          }
+        },
+        {
+          "value": "Pashtun Zarghun",
+          "labels": {
+            "en": "Pashtun Zarghun",
+            "fa": "پشتون زرغون",
+            "ps": "پشتون زرغون"
+          }
+        },
+        {
+          "value": "Shindand",
+          "labels": {
+            "en": "Shindand",
+            "fa": "شیندند",
+            "ps": "شیندند"
+          }
+        },
+        {
+          "value": "Zindajan",
+          "labels": {
+            "en": "Zindajan",
+            "fa": "زنده جان",
+            "ps": "زنده جان"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Jowzjan",
+      "labels": {
+        "en": "Jowzjan",
+        "fa": "جوزجان",
+        "ps": "جوزجان"
+      },
+      "center": [
+        36.829,
+        65.854
+      ],
+      "districts": [
+        {
+          "value": "Aqcha",
+          "labels": {
+            "en": "Aqcha",
+            "fa": "آقچه",
+            "ps": "آقچه"
+          }
+        },
+        {
+          "value": "Darzab",
+          "labels": {
+            "en": "Darzab",
+            "fa": "درز آب",
+            "ps": "درز آب"
+          }
+        },
+        {
+          "value": "Fayzabad",
+          "labels": {
+            "en": "Fayzabad",
+            "fa": "فیض آباد",
+            "ps": "فیض آباد"
+          }
+        },
+        {
+          "value": "Khamyab",
+          "labels": {
+            "en": "Khamyab",
+            "fa": "خمیاب",
+            "ps": "خمیاب"
+          }
+        },
+        {
+          "value": "Khanaqa",
+          "labels": {
+            "en": "Khanaqa",
+            "fa": "خانقا",
+            "ps": "خانقا"
+          }
+        },
+        {
+          "value": "Khwaja Dukoh",
+          "labels": {
+            "en": "Khwaja Dukoh",
+            "fa": "خواجه دوکوه",
+            "ps": "خواجه دوکوه"
+          }
+        },
+        {
+          "value": "Mardyan",
+          "labels": {
+            "en": "Mardyan",
+            "fa": "مردیان",
+            "ps": "مردیان"
+          }
+        },
+        {
+          "value": "Mingajik",
+          "labels": {
+            "en": "Mingajik",
+            "fa": "منگجک",
+            "ps": "منگجک"
+          }
+        },
+        {
+          "value": "Qarqin",
+          "labels": {
+            "en": "Qarqin",
+            "fa": "قرقین",
+            "ps": "قرقین"
+          }
+        },
+        {
+          "value": "Qush Tepa",
+          "labels": {
+            "en": "Qush Tepa",
+            "fa": "قوش تیپه",
+            "ps": "قوش تیپه"
+          }
+        },
+        {
+          "value": "Shiberghan",
+          "labels": {
+            "en": "Shiberghan",
+            "fa": "شبرغان",
+            "ps": "شبرغان"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Kabul",
+      "labels": {
+        "en": "Kabul",
+        "fa": "کابل",
+        "ps": "کابل"
+      },
+      "center": [
+        34.555,
+        69.335
+      ],
+      "districts": [
+        {
+          "value": "Bagrami",
+          "labels": {
+            "en": "Bagrami",
+            "fa": "بگرامی",
+            "ps": "بگرامی"
+          }
+        },
+        {
+          "value": "Chahar Asyab",
+          "labels": {
+            "en": "Chahar Asyab",
+            "fa": "چهار آسیاب",
+            "ps": "چهار آسیاب"
+          }
+        },
+        {
+          "value": "Deh Sabz",
+          "labels": {
+            "en": "Deh Sabz",
+            "fa": "ده سبز",
+            "ps": "ده سبز"
+          }
+        },
+        {
+          "value": "Estalef",
+          "labels": {
+            "en": "Estalef",
+            "fa": "استالف",
+            "ps": "استالف"
+          }
+        },
+        {
+          "value": "Farza",
+          "labels": {
+            "en": "Farza",
+            "fa": "فرزه",
+            "ps": "فرزه"
+          }
+        },
+        {
+          "value": "Guldara",
+          "labels": {
+            "en": "Guldara",
+            "fa": "گلدره",
+            "ps": "گلدره"
+          }
+        },
+        {
+          "value": "Kabul",
+          "labels": {
+            "en": "Kabul",
+            "fa": "کابل",
+            "ps": "کابل"
+          }
+        },
+        {
+          "value": "Kalakan",
+          "labels": {
+            "en": "Kalakan",
+            "fa": "کلکان",
+            "ps": "کلکان"
+          }
+        },
+        {
+          "value": "Khak-e-Jabbar",
+          "labels": {
+            "en": "Khak-e-Jabbar",
+            "fa": "خاک جبار",
+            "ps": "خاک جبار"
+          }
+        },
+        {
+          "value": "Mir Bacha Kot",
+          "labels": {
+            "en": "Mir Bacha Kot",
+            "fa": "میر بچه کوت",
+            "ps": "میر بچه کوت"
+          }
+        },
+        {
+          "value": "Musahi",
+          "labels": {
+            "en": "Musahi",
+            "fa": "موسهی",
+            "ps": "موسهی"
+          }
+        },
+        {
+          "value": "Paghman",
+          "labels": {
+            "en": "Paghman",
+            "fa": "پغمان",
+            "ps": "پغمان"
+          }
+        },
+        {
+          "value": "Qara Bagh",
+          "labels": {
+            "en": "Qara Bagh",
+            "fa": "قره باغ",
+            "ps": "قره باغ"
+          }
+        },
+        {
+          "value": "Shakar Dara",
+          "labels": {
+            "en": "Shakar Dara",
+            "fa": "شکردره",
+            "ps": "شکردره"
+          }
+        },
+        {
+          "value": "Surobi",
+          "labels": {
+            "en": "Surobi",
+            "fa": "سروبی",
+            "ps": "سروبی"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Kandahar",
+      "labels": {
+        "en": "Kandahar",
+        "fa": "قندهار",
+        "ps": "کندهار"
+      },
+      "center": [
+        31.045,
+        65.71
+      ],
+      "districts": [
+        {
+          "value": "Arghandab",
+          "labels": {
+            "en": "Arghandab",
+            "fa": "ارغنداب",
+            "ps": "ارغنداب"
+          }
+        },
+        {
+          "value": "Arghestan",
+          "labels": {
+            "en": "Arghestan",
+            "fa": "ارغستان",
+            "ps": "ارغستان"
+          }
+        },
+        {
+          "value": "Daman",
+          "labels": {
+            "en": "Daman",
+            "fa": "دامان",
+            "ps": "دامان"
+          }
+        },
+        {
+          "value": "Ghorak",
+          "labels": {
+            "en": "Ghorak",
+            "fa": "غورک",
+            "ps": "غورک"
+          }
+        },
+        {
+          "value": "Kandahar",
+          "labels": {
+            "en": "Kandahar",
+            "fa": "کندهار",
+            "ps": "کندهار"
+          }
+        },
+        {
+          "value": "Khakrez",
+          "labels": {
+            "en": "Khakrez",
+            "fa": "خاکریز",
+            "ps": "خاکریز"
+          }
+        },
+        {
+          "value": "Maruf",
+          "labels": {
+            "en": "Maruf",
+            "fa": "معروف",
+            "ps": "معروف"
+          }
+        },
+        {
+          "value": "Maywand",
+          "labels": {
+            "en": "Maywand",
+            "fa": "میوند",
+            "ps": "میوند"
+          }
+        },
+        {
+          "value": "Miyanshin",
+          "labels": {
+            "en": "Miyanshin",
+            "fa": "میانشین",
+            "ps": "میانشین"
+          }
+        },
+        {
+          "value": "Nesh",
+          "labels": {
+            "en": "Nesh",
+            "fa": "نیش",
+            "ps": "نیش"
+          }
+        },
+        {
+          "value": "Panjwayi",
+          "labels": {
+            "en": "Panjwayi",
+            "fa": "پنجوائی",
+            "ps": "پنجوائی"
+          }
+        },
+        {
+          "value": "Reg",
+          "labels": {
+            "en": "Reg",
+            "fa": "ریگ ( شگه )",
+            "ps": "ریگ ( شگه )"
+          }
+        },
+        {
+          "value": "Shah Wali Kot",
+          "labels": {
+            "en": "Shah Wali Kot",
+            "fa": "شاه ولی کوت",
+            "ps": "شاه ولی کوت"
+          }
+        },
+        {
+          "value": "Shorabak",
+          "labels": {
+            "en": "Shorabak",
+            "fa": "شور آبک",
+            "ps": "شور آبک"
+          }
+        },
+        {
+          "value": "Spin Boldak",
+          "labels": {
+            "en": "Spin Boldak",
+            "fa": "سپین بولدک",
+            "ps": "سپین بولدک"
+          }
+        },
+        {
+          "value": "Zheray",
+          "labels": {
+            "en": "Zheray",
+            "fa": "ژړۍ",
+            "ps": "ژړۍ"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Kapisa",
+      "labels": {
+        "en": "Kapisa",
+        "fa": "کاپیسا",
+        "ps": "کاپیسا"
+      },
+      "center": [
+        34.963,
+        69.623
+      ],
+      "districts": [
+        {
+          "value": "Alasay",
+          "labels": {
+            "en": "Alasay",
+            "fa": "اله سای",
+            "ps": "اله سای"
+          }
+        },
+        {
+          "value": "Hisa-e-Awal-e-Kohistan",
+          "labels": {
+            "en": "Hisa-e-Awal-e-Kohistan",
+            "fa": "حصه اول کوهستان",
+            "ps": "حصه اول کوهستان"
+          }
+        },
+        {
+          "value": "Hisa-e-Duwum-e-Kohistan",
+          "labels": {
+            "en": "Hisa-e-Duwum-e-Kohistan",
+            "fa": "حصه دوم کوهستان",
+            "ps": "حصه دوم کوهستان"
+          }
+        },
+        {
+          "value": "Koh Band",
+          "labels": {
+            "en": "Koh Band",
+            "fa": "کوه بند",
+            "ps": "کوه بند"
+          }
+        },
+        {
+          "value": "Mahmood-e-Raqi",
+          "labels": {
+            "en": "Mahmood-e-Raqi",
+            "fa": "محمود راقی",
+            "ps": "محمود راقی"
+          }
+        },
+        {
+          "value": "Nijrab",
+          "labels": {
+            "en": "Nijrab",
+            "fa": "نجراب",
+            "ps": "نجراب"
+          }
+        },
+        {
+          "value": "Tagab",
+          "labels": {
+            "en": "Tagab",
+            "fa": "تگاب",
+            "ps": "تگاب"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Khost",
+      "labels": {
+        "en": "Khost",
+        "fa": "خوست",
+        "ps": "خوست"
+      },
+      "center": [
+        33.377,
+        69.834
+      ],
+      "districts": [
+        {
+          "value": "Bak",
+          "labels": {
+            "en": "Bak",
+            "fa": "باک",
+            "ps": "باک"
+          }
+        },
+        {
+          "value": "Gurbuz",
+          "labels": {
+            "en": "Gurbuz",
+            "fa": "گربز",
+            "ps": "گربز"
+          }
+        },
+        {
+          "value": "Jaji Maydan",
+          "labels": {
+            "en": "Jaji Maydan",
+            "fa": "جاجی میدان",
+            "ps": "جاجی میدان"
+          }
+        },
+        {
+          "value": "Mandozayi",
+          "labels": {
+            "en": "Mandozayi",
+            "fa": "مندوزائی",
+            "ps": "مندوزائی"
+          }
+        },
+        {
+          "value": "Matun",
+          "labels": {
+            "en": "Matun",
+            "fa": "خوست (متون)",
+            "ps": "خوست (متون)"
+          }
+        },
+        {
+          "value": "Musa Khel",
+          "labels": {
+            "en": "Musa Khel",
+            "fa": "موسی خیل",
+            "ps": "موسی خیل"
+          }
+        },
+        {
+          "value": "Nadir Shah Kot",
+          "labels": {
+            "en": "Nadir Shah Kot",
+            "fa": "نادرشاه کوت",
+            "ps": "نادرشاه کوت"
+          }
+        },
+        {
+          "value": "Qalandar",
+          "labels": {
+            "en": "Qalandar",
+            "fa": "قلندر",
+            "ps": "قلندر"
+          }
+        },
+        {
+          "value": "Sabari",
+          "labels": {
+            "en": "Sabari",
+            "fa": "صبری",
+            "ps": "صبری"
+          }
+        },
+        {
+          "value": "Shamal",
+          "labels": {
+            "en": "Shamal",
+            "fa": "شمل",
+            "ps": "شمل"
+          }
+        },
+        {
+          "value": "Spera",
+          "labels": {
+            "en": "Spera",
+            "fa": "سپیره",
+            "ps": "سپیره"
+          }
+        },
+        {
+          "value": "Tani",
+          "labels": {
+            "en": "Tani",
+            "fa": "تنی",
+            "ps": "تنی"
+          }
+        },
+        {
+          "value": "Terezayi",
+          "labels": {
+            "en": "Terezayi",
+            "fa": "تری زائی",
+            "ps": "تری زائی"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Kunar",
+      "labels": {
+        "en": "Kunar",
+        "fa": "کنر",
+        "ps": "کونړ"
+      },
+      "center": [
+        34.966,
+        71.094
+      ],
+      "districts": [
+        {
+          "value": "Asad Abad",
+          "labels": {
+            "en": "Asad Abad",
+            "fa": "اسد آباد",
+            "ps": "اسد آباد"
+          }
+        },
+        {
+          "value": "Bar Kunar",
+          "labels": {
+            "en": "Bar Kunar",
+            "fa": "برکنر",
+            "ps": "برکنر"
+          }
+        },
+        {
+          "value": "Chapa Dara",
+          "labels": {
+            "en": "Chapa Dara",
+            "fa": "چپه دره",
+            "ps": "چپه دره"
+          }
+        },
+        {
+          "value": "Chawkay",
+          "labels": {
+            "en": "Chawkay",
+            "fa": "چوکی",
+            "ps": "چوکی"
+          }
+        },
+        {
+          "value": "Dangam",
+          "labels": {
+            "en": "Dangam",
+            "fa": "دانگام",
+            "ps": "دانگام"
+          }
+        },
+        {
+          "value": "Dara-e-Pech",
+          "labels": {
+            "en": "Dara-e-Pech",
+            "fa": "دره پیچ",
+            "ps": "دره پیچ"
+          }
+        },
+        {
+          "value": "Ghazi Abad",
+          "labels": {
+            "en": "Ghazi Abad",
+            "fa": "غازی آباد",
+            "ps": "غازی آباد"
+          }
+        },
+        {
+          "value": "Khas Kunar",
+          "labels": {
+            "en": "Khas Kunar",
+            "fa": "خاص کنر",
+            "ps": "خاص کنر"
+          }
+        },
+        {
+          "value": "Marawara",
+          "labels": {
+            "en": "Marawara",
+            "fa": "مروره",
+            "ps": "مروره"
+          }
+        },
+        {
+          "value": "Narang",
+          "labels": {
+            "en": "Narang",
+            "fa": "نرنگ",
+            "ps": "نرنگ"
+          }
+        },
+        {
+          "value": "Nari",
+          "labels": {
+            "en": "Nari",
+            "fa": "ناړی",
+            "ps": "ناړی"
+          }
+        },
+        {
+          "value": "Nurgal",
+          "labels": {
+            "en": "Nurgal",
+            "fa": "نورگل",
+            "ps": "نورگل"
+          }
+        },
+        {
+          "value": "Sar Kani",
+          "labels": {
+            "en": "Sar Kani",
+            "fa": "سرکانی",
+            "ps": "سرکانی"
+          }
+        },
+        {
+          "value": "Shigal",
+          "labels": {
+            "en": "Shigal",
+            "fa": "شیگل وشلتن",
+            "ps": "شیگل وشلتن"
+          }
+        },
+        {
+          "value": "Watapur",
+          "labels": {
+            "en": "Watapur",
+            "fa": "وته پور",
+            "ps": "وته پور"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Kunduz",
+      "labels": {
+        "en": "Kunduz",
+        "fa": "کندز",
+        "ps": "کندز"
+      },
+      "center": [
+        36.843,
+        68.746
+      ],
+      "districts": [
+        {
+          "value": "Ali Abad",
+          "labels": {
+            "en": "Ali Abad",
+            "fa": "علی آباد",
+            "ps": "علی آباد"
+          }
+        },
+        {
+          "value": "Chahar Darah",
+          "labels": {
+            "en": "Chahar Darah",
+            "fa": "چهار دره",
+            "ps": "چهار دره"
+          }
+        },
+        {
+          "value": "Dasht-e-Archi",
+          "labels": {
+            "en": "Dasht-e-Archi",
+            "fa": "دشت ارچی",
+            "ps": "دشت ارچی"
+          }
+        },
+        {
+          "value": "Imam Sahib",
+          "labels": {
+            "en": "Imam Sahib",
+            "fa": "امام صاحب",
+            "ps": "امام صاحب"
+          }
+        },
+        {
+          "value": "Khan Abad",
+          "labels": {
+            "en": "Khan Abad",
+            "fa": "خان آباد",
+            "ps": "خان آباد"
+          }
+        },
+        {
+          "value": "Kunduz",
+          "labels": {
+            "en": "Kunduz",
+            "fa": "کندز",
+            "ps": "کندز"
+          }
+        },
+        {
+          "value": "Qala-e-Zal",
+          "labels": {
+            "en": "Qala-e-Zal",
+            "fa": "قلعه ذال",
+            "ps": "قلعه ذال"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Laghman",
+      "labels": {
+        "en": "Laghman",
+        "fa": "لغمان",
+        "ps": "لغمان"
+      },
+      "center": [
+        34.764,
+        70.16
+      ],
+      "districts": [
+        {
+          "value": "Alingar",
+          "labels": {
+            "en": "Alingar",
+            "fa": "علینگار",
+            "ps": "علینگار"
+          }
+        },
+        {
+          "value": "Alishang",
+          "labels": {
+            "en": "Alishang",
+            "fa": "علیشنگ",
+            "ps": "علیشنگ"
+          }
+        },
+        {
+          "value": "Dawlatshah",
+          "labels": {
+            "en": "Dawlatshah",
+            "fa": "دولت شاه",
+            "ps": "دولت شاه"
+          }
+        },
+        {
+          "value": "Mehtarlam",
+          "labels": {
+            "en": "Mehtarlam",
+            "fa": "مهتر لام",
+            "ps": "مهتر لام"
+          }
+        },
+        {
+          "value": "Qarghayi",
+          "labels": {
+            "en": "Qarghayi",
+            "fa": "قرغه ئی",
+            "ps": "قرغه ئی"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Logar",
+      "labels": {
+        "en": "Logar",
+        "fa": "لوگر",
+        "ps": "لوګر"
+      },
+      "center": [
+        34.013,
+        69.168
+      ],
+      "districts": [
+        {
+          "value": "Azra",
+          "labels": {
+            "en": "Azra",
+            "fa": "ازره",
+            "ps": "ازره"
+          }
+        },
+        {
+          "value": "Baraki Barak",
+          "labels": {
+            "en": "Baraki Barak",
+            "fa": "برکی برک",
+            "ps": "برکی برک"
+          }
+        },
+        {
+          "value": "Charkh",
+          "labels": {
+            "en": "Charkh",
+            "fa": "چرخ",
+            "ps": "چرخ"
+          }
+        },
+        {
+          "value": "Kharwar",
+          "labels": {
+            "en": "Kharwar",
+            "fa": "خروار",
+            "ps": "خروار"
+          }
+        },
+        {
+          "value": "Khoshi",
+          "labels": {
+            "en": "Khoshi",
+            "fa": "خوشی",
+            "ps": "خوشی"
+          }
+        },
+        {
+          "value": "Mohammad Agha",
+          "labels": {
+            "en": "Mohammad Agha",
+            "fa": "محمدآغه",
+            "ps": "محمدآغه"
+          }
+        },
+        {
+          "value": "Pul-e-Alam",
+          "labels": {
+            "en": "Pul-e-Alam",
+            "fa": "پل علم",
+            "ps": "پل علم"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Nangarhar",
+      "labels": {
+        "en": "Nangarhar",
+        "fa": "ننگرهار",
+        "ps": "ننګرهار"
+      },
+      "center": [
+        34.274,
+        70.476
+      ],
+      "districts": [
+        {
+          "value": "Achin",
+          "labels": {
+            "en": "Achin",
+            "fa": "اچین",
+            "ps": "اچین"
+          }
+        },
+        {
+          "value": "Bati Kot",
+          "labels": {
+            "en": "Bati Kot",
+            "fa": "بتی کوټ",
+            "ps": "بتی کوټ"
+          }
+        },
+        {
+          "value": "Behsud",
+          "labels": {
+            "en": "Behsud",
+            "fa": "بهسود",
+            "ps": "بهسود"
+          }
+        },
+        {
+          "value": "Chaparhar",
+          "labels": {
+            "en": "Chaparhar",
+            "fa": "چپر هار",
+            "ps": "چپر هار"
+          }
+        },
+        {
+          "value": "Dara-e-Nur",
+          "labels": {
+            "en": "Dara-e-Nur",
+            "fa": "دره نور",
+            "ps": "دره نور"
+          }
+        },
+        {
+          "value": "Deh Bala",
+          "labels": {
+            "en": "Deh Bala",
+            "fa": "ده بالا",
+            "ps": "ده بالا"
+          }
+        },
+        {
+          "value": "Dur Baba",
+          "labels": {
+            "en": "Dur Baba",
+            "fa": "دُر بابا",
+            "ps": "دُر بابا"
+          }
+        },
+        {
+          "value": "Goshta",
+          "labels": {
+            "en": "Goshta",
+            "fa": "گوشته",
+            "ps": "گوشته"
+          }
+        },
+        {
+          "value": "Hesarak",
+          "labels": {
+            "en": "Hesarak",
+            "fa": "حصارک",
+            "ps": "حصارک"
+          }
+        },
+        {
+          "value": "Jalalabad",
+          "labels": {
+            "en": "Jalalabad",
+            "fa": "جلال آباد",
+            "ps": "جلال آباد"
+          }
+        },
+        {
+          "value": "Kama",
+          "labels": {
+            "en": "Kama",
+            "fa": "کامه",
+            "ps": "کامه"
+          }
+        },
+        {
+          "value": "Khogyani",
+          "labels": {
+            "en": "Khogyani",
+            "fa": "خوگیانی",
+            "ps": "خوگیانی"
+          }
+        },
+        {
+          "value": "Kot",
+          "labels": {
+            "en": "Kot",
+            "fa": "کوټ",
+            "ps": "کوټ"
+          }
+        },
+        {
+          "value": "Kuz Kunar",
+          "labels": {
+            "en": "Kuz Kunar",
+            "fa": "کوز کنر",
+            "ps": "کوز کنر"
+          }
+        },
+        {
+          "value": "Lalpur",
+          "labels": {
+            "en": "Lalpur",
+            "fa": "لعل پور",
+            "ps": "لعل پور"
+          }
+        },
+        {
+          "value": "Muhmand Dara",
+          "labels": {
+            "en": "Muhmand Dara",
+            "fa": "مهمند دره",
+            "ps": "مهمند دره"
+          }
+        },
+        {
+          "value": "Nazyan",
+          "labels": {
+            "en": "Nazyan",
+            "fa": "نازیان",
+            "ps": "نازیان"
+          }
+        },
+        {
+          "value": "Pachir Wa Agam",
+          "labels": {
+            "en": "Pachir Wa Agam",
+            "fa": "پچیراگام",
+            "ps": "پچیراگام"
+          }
+        },
+        {
+          "value": "Rodat",
+          "labels": {
+            "en": "Rodat",
+            "fa": "رودات",
+            "ps": "رودات"
+          }
+        },
+        {
+          "value": "Sherzad",
+          "labels": {
+            "en": "Sherzad",
+            "fa": "شیرزاد",
+            "ps": "شیرزاد"
+          }
+        },
+        {
+          "value": "Shinwar",
+          "labels": {
+            "en": "Shinwar",
+            "fa": "شینوار",
+            "ps": "شینوار"
+          }
+        },
+        {
+          "value": "Surkh Rod",
+          "labels": {
+            "en": "Surkh Rod",
+            "fa": "سرخ رود",
+            "ps": "سرخ رود"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Nimroz",
+      "labels": {
+        "en": "Nimroz",
+        "fa": "نیمروز",
+        "ps": "نیمروز"
+      },
+      "center": [
+        30.802,
+        62.319
+      ],
+      "districts": [
+        {
+          "value": "Chakhansur",
+          "labels": {
+            "en": "Chakhansur",
+            "fa": "چخانسور",
+            "ps": "چخانسور"
+          }
+        },
+        {
+          "value": "Char Burjak",
+          "labels": {
+            "en": "Char Burjak",
+            "fa": "چاربرجک",
+            "ps": "چاربرجک"
+          }
+        },
+        {
+          "value": "Kang",
+          "labels": {
+            "en": "Kang",
+            "fa": "کنگ",
+            "ps": "کنگ"
+          }
+        },
+        {
+          "value": "Khashrod",
+          "labels": {
+            "en": "Khashrod",
+            "fa": "خاش رود",
+            "ps": "خاش رود"
+          }
+        },
+        {
+          "value": "Zaranj",
+          "labels": {
+            "en": "Zaranj",
+            "fa": "زرنج",
+            "ps": "زرنج"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Nuristan",
+      "labels": {
+        "en": "Nuristan",
+        "fa": "نورستان",
+        "ps": "نورستان"
+      },
+      "center": [
+        35.417,
+        70.788
+      ],
+      "districts": [
+        {
+          "value": "Barg-e-Matal",
+          "labels": {
+            "en": "Barg-e-Matal",
+            "fa": "برگ متال",
+            "ps": "برگ متال"
+          }
+        },
+        {
+          "value": "Duab",
+          "labels": {
+            "en": "Duab",
+            "fa": "دو آب",
+            "ps": "دو آب"
+          }
+        },
+        {
+          "value": "Kamdesh",
+          "labels": {
+            "en": "Kamdesh",
+            "fa": "کامدیش",
+            "ps": "کامدیش"
+          }
+        },
+        {
+          "value": "Mandol",
+          "labels": {
+            "en": "Mandol",
+            "fa": "مندول",
+            "ps": "مندول"
+          }
+        },
+        {
+          "value": "Nurgaram",
+          "labels": {
+            "en": "Nurgaram",
+            "fa": "نورگرام",
+            "ps": "نورگرام"
+          }
+        },
+        {
+          "value": "Parun",
+          "labels": {
+            "en": "Parun",
+            "fa": "پرونس",
+            "ps": "پرونس"
+          }
+        },
+        {
+          "value": "Wama",
+          "labels": {
+            "en": "Wama",
+            "fa": "واما",
+            "ps": "واما"
+          }
+        },
+        {
+          "value": "Waygal",
+          "labels": {
+            "en": "Waygal",
+            "fa": "وایگل",
+            "ps": "وایگل"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Paktia",
+      "labels": {
+        "en": "Paktia",
+        "fa": "پکتیا",
+        "ps": "پکتیا"
+      },
+      "center": [
+        33.632,
+        69.388
+      ],
+      "districts": [
+        {
+          "value": "Ahmadaba",
+          "labels": {
+            "en": "Ahmadaba",
+            "fa": "احمد آبا",
+            "ps": "احمد آبا"
+          }
+        },
+        {
+          "value": "Chamkani",
+          "labels": {
+            "en": "Chamkani",
+            "fa": "څمکنی",
+            "ps": "څمکنی"
+          }
+        },
+        {
+          "value": "Dand Wa Patan",
+          "labels": {
+            "en": "Dand Wa Patan",
+            "fa": "دند وپټان",
+            "ps": "دند وپټان"
+          }
+        },
+        {
+          "value": "Gardez",
+          "labels": {
+            "en": "Gardez",
+            "fa": "گردیز",
+            "ps": "گردیز"
+          }
+        },
+        {
+          "value": "Jaji",
+          "labels": {
+            "en": "Jaji",
+            "fa": "علی خیل",
+            "ps": "علی خیل"
+          }
+        },
+        {
+          "value": "Jani Khel",
+          "labels": {
+            "en": "Jani Khel",
+            "fa": "جانی خیل",
+            "ps": "جانی خیل"
+          }
+        },
+        {
+          "value": "Lija Ahmad Khel",
+          "labels": {
+            "en": "Lija Ahmad Khel",
+            "fa": "لجه احمد خیل",
+            "ps": "لجه احمد خیل"
+          }
+        },
+        {
+          "value": "Sayed Karam",
+          "labels": {
+            "en": "Sayed Karam",
+            "fa": "سیدکرم",
+            "ps": "سیدکرم"
+          }
+        },
+        {
+          "value": "Shawak",
+          "labels": {
+            "en": "Shawak",
+            "fa": "شواک",
+            "ps": "شواک"
+          }
+        },
+        {
+          "value": "Zadran",
+          "labels": {
+            "en": "Zadran",
+            "fa": "حّدران",
+            "ps": "حّدران"
+          }
+        },
+        {
+          "value": "Zurmat",
+          "labels": {
+            "en": "Zurmat",
+            "fa": "زُرمت",
+            "ps": "زُرمت"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Paktika",
+      "labels": {
+        "en": "Paktika",
+        "fa": "پکتیکا",
+        "ps": "پکتیکا"
+      },
+      "center": [
+        32.477,
+        68.744
+      ],
+      "districts": [
+        {
+          "value": "Barmal",
+          "labels": {
+            "en": "Barmal",
+            "fa": "برمل",
+            "ps": "برمل"
+          }
+        },
+        {
+          "value": "Dila",
+          "labels": {
+            "en": "Dila",
+            "fa": "دیله",
+            "ps": "دیله"
+          }
+        },
+        {
+          "value": "Giyan",
+          "labels": {
+            "en": "Giyan",
+            "fa": "گیان",
+            "ps": "گیان"
+          }
+        },
+        {
+          "value": "Gomal",
+          "labels": {
+            "en": "Gomal",
+            "fa": "گومل",
+            "ps": "گومل"
+          }
+        },
+        {
+          "value": "Jani Khel",
+          "labels": {
+            "en": "Jani Khel",
+            "fa": "جانی خیل",
+            "ps": "جانی خیل"
+          }
+        },
+        {
+          "value": "Mata Khan",
+          "labels": {
+            "en": "Mata Khan",
+            "fa": "متاخان",
+            "ps": "متاخان"
+          }
+        },
+        {
+          "value": "Nika",
+          "labels": {
+            "en": "Nika",
+            "fa": "نیکه",
+            "ps": "نیکه"
+          }
+        },
+        {
+          "value": "Omna",
+          "labels": {
+            "en": "Omna",
+            "fa": "اومنه",
+            "ps": "اومنه"
+          }
+        },
+        {
+          "value": "Sar Rawzah",
+          "labels": {
+            "en": "Sar Rawzah",
+            "fa": "سرروضه (سرحوضه)",
+            "ps": "سرروضه (سرحوضه)"
+          }
+        },
+        {
+          "value": "Sharan",
+          "labels": {
+            "en": "Sharan",
+            "fa": "شرن",
+            "ps": "شرن"
+          }
+        },
+        {
+          "value": "Surobi",
+          "labels": {
+            "en": "Surobi",
+            "fa": "سروبی",
+            "ps": "سروبی"
+          }
+        },
+        {
+          "value": "Turwo",
+          "labels": {
+            "en": "Turwo",
+            "fa": "تروو",
+            "ps": "تروو"
+          }
+        },
+        {
+          "value": "Urgun",
+          "labels": {
+            "en": "Urgun",
+            "fa": "ارگون",
+            "ps": "ارگون"
+          }
+        },
+        {
+          "value": "Wazakhah",
+          "labels": {
+            "en": "Wazakhah",
+            "fa": "وازه خواه",
+            "ps": "وازه خواه"
+          }
+        },
+        {
+          "value": "Wormamay",
+          "labels": {
+            "en": "Wormamay",
+            "fa": "وړ ممی",
+            "ps": "وړ ممی"
+          }
+        },
+        {
+          "value": "Yahya Khel",
+          "labels": {
+            "en": "Yahya Khel",
+            "fa": "یحی خیل",
+            "ps": "یحی خیل"
+          }
+        },
+        {
+          "value": "Yosuf Khel",
+          "labels": {
+            "en": "Yosuf Khel",
+            "fa": "یوسف خیل",
+            "ps": "یوسف خیل"
+          }
+        },
+        {
+          "value": "Zarghun Shahr",
+          "labels": {
+            "en": "Zarghun Shahr",
+            "fa": "زرغون شهر",
+            "ps": "زرغون شهر"
+          }
+        },
+        {
+          "value": "Ziruk",
+          "labels": {
+            "en": "Ziruk",
+            "fa": "زیړوک",
+            "ps": "زیړوک"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Panjshir",
+      "labels": {
+        "en": "Panjshir",
+        "fa": "پنجشیر",
+        "ps": "پنجشېر"
+      },
+      "center": [
+        35.446,
+        69.795
+      ],
+      "districts": [
+        {
+          "value": "Anawa",
+          "labels": {
+            "en": "Anawa",
+            "fa": "عنابه",
+            "ps": "عنابه"
+          }
+        },
+        {
+          "value": "Bazarak",
+          "labels": {
+            "en": "Bazarak",
+            "fa": "بازارک",
+            "ps": "بازارک"
+          }
+        },
+        {
+          "value": "Dara",
+          "labels": {
+            "en": "Dara",
+            "fa": "دره",
+            "ps": "دره"
+          }
+        },
+        {
+          "value": "Khenj",
+          "labels": {
+            "en": "Khenj",
+            "fa": "خنج (حصه اول)",
+            "ps": "خنج (حصه اول)"
+          }
+        },
+        {
+          "value": "Paryan",
+          "labels": {
+            "en": "Paryan",
+            "fa": "پریان",
+            "ps": "پریان"
+          }
+        },
+        {
+          "value": "Rukha",
+          "labels": {
+            "en": "Rukha",
+            "fa": "رُخه",
+            "ps": "رُخه"
+          }
+        },
+        {
+          "value": "Shutul",
+          "labels": {
+            "en": "Shutul",
+            "fa": "شُتل",
+            "ps": "شُتل"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Parwan",
+      "labels": {
+        "en": "Parwan",
+        "fa": "پروان",
+        "ps": "پروان"
+      },
+      "center": [
+        34.958,
+        68.886
+      ],
+      "districts": [
+        {
+          "value": "Bagram",
+          "labels": {
+            "en": "Bagram",
+            "fa": "بگرام",
+            "ps": "بگرام"
+          }
+        },
+        {
+          "value": "Charikar",
+          "labels": {
+            "en": "Charikar",
+            "fa": "چاریکار",
+            "ps": "چاریکار"
+          }
+        },
+        {
+          "value": "Ghorband",
+          "labels": {
+            "en": "Ghorband",
+            "fa": "غوربند",
+            "ps": "غوربند"
+          }
+        },
+        {
+          "value": "Jabal Saraj",
+          "labels": {
+            "en": "Jabal Saraj",
+            "fa": "جبل السراج",
+            "ps": "جبل السراج"
+          }
+        },
+        {
+          "value": "Koh-e-Safi",
+          "labels": {
+            "en": "Koh-e-Safi",
+            "fa": "کوه صافی",
+            "ps": "کوه صافی"
+          }
+        },
+        {
+          "value": "Salang",
+          "labels": {
+            "en": "Salang",
+            "fa": "سالنگ",
+            "ps": "سالنگ"
+          }
+        },
+        {
+          "value": "Sayed Khel",
+          "labels": {
+            "en": "Sayed Khel",
+            "fa": "سیدخیل",
+            "ps": "سیدخیل"
+          }
+        },
+        {
+          "value": "Shekh Ali",
+          "labels": {
+            "en": "Shekh Ali",
+            "fa": "شیخ علی",
+            "ps": "شیخ علی"
+          }
+        },
+        {
+          "value": "Shinwari",
+          "labels": {
+            "en": "Shinwari",
+            "fa": "شینواری",
+            "ps": "شینواری"
+          }
+        },
+        {
+          "value": "Surkh-e-Parsa",
+          "labels": {
+            "en": "Surkh-e-Parsa",
+            "fa": "سرخ پارسا",
+            "ps": "سرخ پارسا"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Samangan",
+      "labels": {
+        "en": "Samangan",
+        "fa": "سمنگان",
+        "ps": "سمنګان"
+      },
+      "center": [
+        35.972,
+        67.702
+      ],
+      "districts": [
+        {
+          "value": "Aybak",
+          "labels": {
+            "en": "Aybak",
+            "fa": "ایبک",
+            "ps": "ایبک"
+          }
+        },
+        {
+          "value": "Dara-e-Suf-e-Bala",
+          "labels": {
+            "en": "Dara-e-Suf-e-Bala",
+            "fa": "درۀ صوف بالا",
+            "ps": "درۀ صوف بالا"
+          }
+        },
+        {
+          "value": "Dara-e-Suf-e-Payin",
+          "labels": {
+            "en": "Dara-e-Suf-e-Payin",
+            "fa": "درۀ صوف پائین",
+            "ps": "درۀ صوف پائین"
+          }
+        },
+        {
+          "value": "Feroz Nakhchir",
+          "labels": {
+            "en": "Feroz Nakhchir",
+            "fa": "فیروز نخچیر",
+            "ps": "فیروز نخچیر"
+          }
+        },
+        {
+          "value": "Hazrat-e-Sultan",
+          "labels": {
+            "en": "Hazrat-e-Sultan",
+            "fa": "حضرت سلطان",
+            "ps": "حضرت سلطان"
+          }
+        },
+        {
+          "value": "Khulm",
+          "labels": {
+            "en": "Khulm",
+            "fa": "خلم",
+            "ps": "خلم"
+          }
+        },
+        {
+          "value": "Khuram Wa Sarbagh",
+          "labels": {
+            "en": "Khuram Wa Sarbagh",
+            "fa": "خرم وسارباغ",
+            "ps": "خرم وسارباغ"
+          }
+        },
+        {
+          "value": "Ruy-e-Duab",
+          "labels": {
+            "en": "Ruy-e-Duab",
+            "fa": "روی دو آب",
+            "ps": "روی دو آب"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Sar-e Pol",
+      "labels": {
+        "en": "Sar-e Pol",
+        "fa": "سرپل",
+        "ps": "سرپل"
+      },
+      "center": [
+        35.714,
+        66.139
+      ],
+      "districts": [
+        {
+          "value": "Balkhab",
+          "labels": {
+            "en": "Balkhab",
+            "fa": "بلخاب",
+            "ps": "بلخاب"
+          }
+        },
+        {
+          "value": "Gosfandi",
+          "labels": {
+            "en": "Gosfandi",
+            "fa": "گوسفندی",
+            "ps": "گوسفندی"
+          }
+        },
+        {
+          "value": "Kohestanat",
+          "labels": {
+            "en": "Kohestanat",
+            "fa": "کوهستانات",
+            "ps": "کوهستانات"
+          }
+        },
+        {
+          "value": "Sancharak",
+          "labels": {
+            "en": "Sancharak",
+            "fa": "سانچارك",
+            "ps": "سانچارك"
+          }
+        },
+        {
+          "value": "Sar-e-Pul",
+          "labels": {
+            "en": "Sar-e-Pul",
+            "fa": "سرپل",
+            "ps": "سرپل"
+          }
+        },
+        {
+          "value": "Sayad",
+          "labels": {
+            "en": "Sayad",
+            "fa": "صیاد",
+            "ps": "صیاد"
+          }
+        },
+        {
+          "value": "Sozmaqala",
+          "labels": {
+            "en": "Sozmaqala",
+            "fa": "سوزمه قلعه",
+            "ps": "سوزمه قلعه"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Takhar",
+      "labels": {
+        "en": "Takhar",
+        "fa": "تخار",
+        "ps": "تخار"
+      },
+      "center": [
+        36.702,
+        69.779
+      ],
+      "districts": [
+        {
+          "value": "Baharak",
+          "labels": {
+            "en": "Baharak",
+            "fa": "بهارک",
+            "ps": "بهارک"
+          }
+        },
+        {
+          "value": "Bangi",
+          "labels": {
+            "en": "Bangi",
+            "fa": "بنگی",
+            "ps": "بنگی"
+          }
+        },
+        {
+          "value": "Chahab",
+          "labels": {
+            "en": "Chahab",
+            "fa": "چاه آب",
+            "ps": "چاه آب"
+          }
+        },
+        {
+          "value": "Chal",
+          "labels": {
+            "en": "Chal",
+            "fa": "چال",
+            "ps": "چال"
+          }
+        },
+        {
+          "value": "Darqad",
+          "labels": {
+            "en": "Darqad",
+            "fa": "درقد",
+            "ps": "درقد"
+          }
+        },
+        {
+          "value": "Dasht-e-Qala",
+          "labels": {
+            "en": "Dasht-e-Qala",
+            "fa": "دشت قلعه",
+            "ps": "دشت قلعه"
+          }
+        },
+        {
+          "value": "Eshkmesh",
+          "labels": {
+            "en": "Eshkmesh",
+            "fa": "اشکمش",
+            "ps": "اشکمش"
+          }
+        },
+        {
+          "value": "Farkhar",
+          "labels": {
+            "en": "Farkhar",
+            "fa": "فرخار",
+            "ps": "فرخار"
+          }
+        },
+        {
+          "value": "Hazar Sumuch",
+          "labels": {
+            "en": "Hazar Sumuch",
+            "fa": "هزار سموچ",
+            "ps": "هزار سموچ"
+          }
+        },
+        {
+          "value": "Kalafgan",
+          "labels": {
+            "en": "Kalafgan",
+            "fa": "کلفگان",
+            "ps": "کلفگان"
+          }
+        },
+        {
+          "value": "Khwaja Bahawuddin",
+          "labels": {
+            "en": "Khwaja Bahawuddin",
+            "fa": "خواجه بهاوالدین",
+            "ps": "خواجه بهاوالدین"
+          }
+        },
+        {
+          "value": "Khwaja Ghar",
+          "labels": {
+            "en": "Khwaja Ghar",
+            "fa": "خواجه غار",
+            "ps": "خواجه غار"
+          }
+        },
+        {
+          "value": "Namak Ab",
+          "labels": {
+            "en": "Namak Ab",
+            "fa": "نمک آب",
+            "ps": "نمک آب"
+          }
+        },
+        {
+          "value": "Rostaq",
+          "labels": {
+            "en": "Rostaq",
+            "fa": "رُستاق",
+            "ps": "رُستاق"
+          }
+        },
+        {
+          "value": "Taloqan",
+          "labels": {
+            "en": "Taloqan",
+            "fa": "تالقان",
+            "ps": "تالقان"
+          }
+        },
+        {
+          "value": "Warsaj",
+          "labels": {
+            "en": "Warsaj",
+            "fa": "ورسج",
+            "ps": "ورسج"
+          }
+        },
+        {
+          "value": "Yangi Qala",
+          "labels": {
+            "en": "Yangi Qala",
+            "fa": "ینگی قلعه",
+            "ps": "ینگی قلعه"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Urozgan",
+      "labels": {
+        "en": "Urozgan",
+        "fa": "اورزگان",
+        "ps": "ارزګان"
+      },
+      "center": [
+        32.854,
+        66.059
+      ],
+      "districts": [
+        {
+          "value": "Chinarto",
+          "labels": {
+            "en": "Chinarto",
+            "fa": "چنارتو",
+            "ps": "چنارتو"
+          }
+        },
+        {
+          "value": "Chora",
+          "labels": {
+            "en": "Chora",
+            "fa": "چوره",
+            "ps": "چوره"
+          }
+        },
+        {
+          "value": "Dehrawud",
+          "labels": {
+            "en": "Dehrawud",
+            "fa": "دهراود",
+            "ps": "دهراود"
+          }
+        },
+        {
+          "value": "Gizab",
+          "labels": {
+            "en": "Gizab",
+            "fa": "گیزاب",
+            "ps": "گیزاب"
+          }
+        },
+        {
+          "value": "Khas Uruzgan",
+          "labels": {
+            "en": "Khas Uruzgan",
+            "fa": "خاص ارزگان",
+            "ps": "خاص ارزگان"
+          }
+        },
+        {
+          "value": "Shahid-e-Hassas",
+          "labels": {
+            "en": "Shahid-e-Hassas",
+            "fa": "شهید حساس",
+            "ps": "شهید حساس"
+          }
+        },
+        {
+          "value": "Tirinkot",
+          "labels": {
+            "en": "Tirinkot",
+            "fa": "تیرینکوت",
+            "ps": "تیرینکوت"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Wardak",
+      "labels": {
+        "en": "Wardak",
+        "fa": "میدان وردک",
+        "ps": "میدان وردګ"
+      },
+      "center": [
+        34.303,
+        68.218
+      ],
+      "districts": [
+        {
+          "value": "Chak-e-Wardak",
+          "labels": {
+            "en": "Chak-e-Wardak",
+            "fa": "چک",
+            "ps": "چک"
+          }
+        },
+        {
+          "value": "Daymirdad",
+          "labels": {
+            "en": "Daymirdad",
+            "fa": "دایمیرداد",
+            "ps": "دایمیرداد"
+          }
+        },
+        {
+          "value": "Hesa-e-Awal-e-Behsud",
+          "labels": {
+            "en": "Hesa-e-Awal-e-Behsud",
+            "fa": "حصه اول بهسود",
+            "ps": "حصه اول بهسود"
+          }
+        },
+        {
+          "value": "Jaghatu",
+          "labels": {
+            "en": "Jaghatu",
+            "fa": "جغتو",
+            "ps": "جغتو"
+          }
+        },
+        {
+          "value": "Jalrez",
+          "labels": {
+            "en": "Jalrez",
+            "fa": "جلریز",
+            "ps": "جلریز"
+          }
+        },
+        {
+          "value": "Markaz-e-Behsud",
+          "labels": {
+            "en": "Markaz-e-Behsud",
+            "fa": "مدکز بهسود",
+            "ps": "مدکز بهسود"
+          }
+        },
+        {
+          "value": "Maydan Shahr",
+          "labels": {
+            "en": "Maydan Shahr",
+            "fa": "میدان شهر",
+            "ps": "میدان شهر"
+          }
+        },
+        {
+          "value": "Nerkh",
+          "labels": {
+            "en": "Nerkh",
+            "fa": "نرخ",
+            "ps": "نرخ"
+          }
+        },
+        {
+          "value": "Saydabad",
+          "labels": {
+            "en": "Saydabad",
+            "fa": "سید آباد",
+            "ps": "سید آباد"
+          }
+        }
+      ]
+    },
+    {
+      "value": "Zabul",
+      "labels": {
+        "en": "Zabul",
+        "fa": "زابل",
+        "ps": "زابل"
+      },
+      "center": [
+        32.2,
+        67.148
+      ],
+      "districts": [
+        {
+          "value": "Arghandab",
+          "labels": {
+            "en": "Arghandab",
+            "fa": "ارغنداب",
+            "ps": "ارغنداب"
+          }
+        },
+        {
+          "value": "Atghar",
+          "labels": {
+            "en": "Atghar",
+            "fa": "اتغر",
+            "ps": "اتغر"
+          }
+        },
+        {
+          "value": "Daychopan",
+          "labels": {
+            "en": "Daychopan",
+            "fa": "دای چوپان",
+            "ps": "دای چوپان"
+          }
+        },
+        {
+          "value": "Kakar",
+          "labels": {
+            "en": "Kakar",
+            "fa": "کاکړ",
+            "ps": "کاکړ"
+          }
+        },
+        {
+          "value": "Mizan",
+          "labels": {
+            "en": "Mizan",
+            "fa": "میزان",
+            "ps": "میزان"
+          }
+        },
+        {
+          "value": "Nawbahar",
+          "labels": {
+            "en": "Nawbahar",
+            "fa": "نوبهار",
+            "ps": "نوبهار"
+          }
+        },
+        {
+          "value": "Qalat",
+          "labels": {
+            "en": "Qalat",
+            "fa": "قلات",
+            "ps": "قلات"
+          }
+        },
+        {
+          "value": "Shah Joi",
+          "labels": {
+            "en": "Shah Joi",
+            "fa": "شاه جوی",
+            "ps": "شاه جوی"
+          }
+        },
+        {
+          "value": "Shamul Zayi",
+          "labels": {
+            "en": "Shamul Zayi",
+            "fa": "شملزائی",
+            "ps": "شملزائی"
+          }
+        },
+        {
+          "value": "Shinkay",
+          "labels": {
+            "en": "Shinkay",
+            "fa": "شینکی",
+            "ps": "شینکی"
+          }
+        },
+        {
+          "value": "Tarnak Wa Jaldak",
+          "labels": {
+            "en": "Tarnak Wa Jaldak",
+            "fa": "ترنک و جلدک",
+            "ps": "ترنک و جلدک"
+          }
+        }
+      ]
+    }
+  ]
+}
