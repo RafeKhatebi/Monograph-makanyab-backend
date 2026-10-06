@@ -35,21 +35,9 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.icon_class') }}</h3>
-                        <p class="text-gray-900">{{ $category->icon_name ?: __('admin.crud.not_set') }}</p>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.color') }}</h3>
-                        <p class="text-gray-900">{{ $category->color_code }}</p>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.sort_order') }}</h3>
-                        <p class="text-gray-900">{{ $category->sort_order }}</p>
-                    </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.sort_order') }}</h3>
+                    <p class="text-gray-900">{{ $category->sort_order }}</p>
                 </div>
 
                 <div>

@@ -410,6 +410,55 @@
     gap: var(--space-4);
 }
 
+.admin-password-field {
+    position: relative;
+}
+
+.admin-password-field .form-control {
+    padding-inline-end: 3rem;
+}
+
+.admin-password-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--color-gray-600);
+    cursor: pointer;
+    display: inline-flex;
+    height: 2.25rem;
+    justify-content: center;
+    position: absolute;
+    right: .375rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.25rem;
+}
+
+[dir="rtl"] .admin-password-toggle {
+    left: .375rem;
+    right: auto;
+}
+
+.admin-password-toggle:hover,
+.admin-password-toggle:focus-visible {
+    color: var(--color-primary);
+}
+
+.admin-password-toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.admin-password-toggle .fa-eye-slash,
+.admin-password-toggle[aria-pressed="true"] .fa-eye {
+    display: none;
+}
+
+.admin-password-toggle[aria-pressed="true"] .fa-eye-slash {
+    display: inline-block;
+}
+
 .admin-category-form .form-label {
     color: var(--color-gray-800);
     font-size: var(--font-size-sm);

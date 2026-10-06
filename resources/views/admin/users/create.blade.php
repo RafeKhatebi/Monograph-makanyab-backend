@@ -49,10 +49,19 @@
 
                     <div>
                         <label for="password" class="form-label">{{ __('admin.users.password') }} <span aria-hidden="true">*</span></label>
-                        <input type="password" id="password" name="password" required
-                            class="form-control @error('password') is-invalid @enderror"
-                            aria-required="true"
-                            autocomplete="new-password">
+                        <div class="admin-password-field">
+                            <input type="password" id="password" name="password" required
+                                class="form-control @error('password') is-invalid @enderror"
+                                aria-required="true" autocomplete="new-password">
+                            <button type="button" class="admin-password-toggle" data-admin-password-toggle
+                                aria-controls="password" aria-pressed="false"
+                                aria-label="{{ __('auth.layout.show_password') }}"
+                                data-show-label="{{ __('auth.layout.show_password') }}"
+                                data-hide-label="{{ __('auth.layout.hide_password') }}">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                            </button>
+                        </div>
                         @error('password')
                             <div class="invalid-feedback" role="alert">{{ $message }}</div>
                         @enderror
@@ -60,9 +69,18 @@
 
                     <div>
                         <label for="password_confirmation" class="form-label">{{ __('admin.users.password_confirmation') }} <span aria-hidden="true">*</span></label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" required
-                            class="form-control"
-                            autocomplete="new-password">
+                        <div class="admin-password-field">
+                            <input type="password" id="password_confirmation" name="password_confirmation" required
+                                class="form-control" autocomplete="new-password">
+                            <button type="button" class="admin-password-toggle" data-admin-password-toggle
+                                aria-controls="password_confirmation" aria-pressed="false"
+                                aria-label="{{ __('auth.layout.show_password') }}"
+                                data-show-label="{{ __('auth.layout.show_password') }}"
+                                data-hide-label="{{ __('auth.layout.hide_password') }}">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div>

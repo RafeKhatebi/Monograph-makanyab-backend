@@ -137,6 +137,23 @@
 
     setupDeleteDialog();
 
+    document.addEventListener('click', function (event) {
+        const toggle = event.target.closest('[data-admin-password-toggle]');
+        if (!toggle) {
+            return;
+        }
+
+        const input = document.getElementById(toggle.getAttribute('aria-controls'));
+        if (!input) {
+            return;
+        }
+
+        const visible = input.type === 'password';
+        input.type = visible ? 'text' : 'password';
+        toggle.setAttribute('aria-pressed', String(visible));
+        toggle.setAttribute('aria-label', visible ? toggle.dataset.hideLabel : toggle.dataset.showLabel);
+    });
+
     window.toggleSidebar = function () {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');

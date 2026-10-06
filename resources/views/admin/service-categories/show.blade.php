@@ -42,25 +42,9 @@
                     </div>
                 @endif
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.icon_name') }}</h3>
-                        <p class="text-gray-900">{{ $serviceCategory->icon_name ?: __('admin.crud.not_set') }}</p>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.color') }}</h3>
-                        <div class="flex items-center gap-2">
-                            <span class="w-5 h-5 rounded border border-gray-200 inline-block"
-                                style="background-color: {{ $serviceCategory->color_code ?: '#ffffff' }};"></span>
-                            <span class="text-gray-900">{{ $serviceCategory->color_code ?: __('admin.crud.not_set') }}</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.sort_order') }}</h3>
-                        <p class="text-gray-900">{{ $serviceCategory->sort_order ?? 0 }}</p>
-                    </div>
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 mb-1">{{ __('admin.crud.sort_order') }}</h3>
+                    <p class="text-gray-900">{{ $serviceCategory->sort_order ?? 0 }}</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
