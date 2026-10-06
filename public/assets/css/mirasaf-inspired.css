@@ -1486,8 +1486,11 @@ select:focus {
     margin: 0 0 20px;
 }
 
-.submission-preview-page__details {
+.submission-preview-page__details:not(:target) {
     display: none;
+}
+
+.submission-preview-page__details {
     margin: 40px 0 22px;
     scroll-margin-top: 100px;
     text-align: start;
