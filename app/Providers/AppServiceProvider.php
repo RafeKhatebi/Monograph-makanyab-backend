@@ -9,7 +9,6 @@ use App\Policies\PlaceCategoryPolicy;
 use App\Policies\PlacePolicy;
 use App\Policies\ServicePolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
@@ -25,17 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-
-        VerifyEmail::toMailUsing(function ($notifiable, string $url) {
-            return (new MailMessage)
-                ->subject(__('auth.mail.verification_subject'))
-                ->greeting(__('auth.mail.greeting', ['name' => $notifiable->name ?: __('common.user')]))
-                ->line(__('auth.ui.verify_email_intro'))
-                ->action(__('auth.mail.verification_action'), $url)
-                ->line(__('auth.verification_otp_expires', ['minutes' => config('auth.verification.expire', 60)]))
-                ->line(__('auth.verification_otp_ignore'))
-                ->salutation(config('app.name'));
-        });
 
         ResetPassword::toMailUsing(function ($notifiable, string $token) {
             $broker = config('auth.defaults.passwords');

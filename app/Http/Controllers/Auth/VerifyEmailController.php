@@ -10,28 +10,6 @@ use Illuminate\Http\Request;
 
 class VerifyEmailController extends Controller
 {
-    public function __invoke(Request $request): RedirectResponse
-    {
-        if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey()) ||
-            ! hash_equals((string) $request->route('hash'), sha1($request->user()->getEmailForVerification()))) {
-            return redirect()->route('verification.notice')->withErrors([
-                'email' => __('auth.verification_invalid'),
-            ]);
-        }
-
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('home', absolute: false))
-                ->with('status', __('auth.email_verified'));
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-        return redirect()->intended(route('home', absolute: false))
-            ->with('status', __('auth.email_verified'));
-    }
-
     public function verifyOtp(Request $request): RedirectResponse
     {
         $request->validate([
@@ -57,4 +35,3 @@ class VerifyEmailController extends Controller
             ->with('status', __('auth.verification_otp_verified'));
     }
 }
-

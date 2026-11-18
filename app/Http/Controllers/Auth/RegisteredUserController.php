@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -45,9 +46,12 @@ class RegisteredUserController extends Controller
             'password_set_at' => now(),
         ]);
 
+        $verificationSent = true;
+
         try {
             event(new Registered($user));
         } catch (\Throwable $e) {
+            $verificationSent = false;
             Log::error('Failed to dispatch Registered event for user: '.$e->getMessage(), [
                 'user_id' => $user->id,
                 'email' => $user->email,
@@ -56,7 +60,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('verification.notice')
-            ->with('status', __('auth.verification_sent'));
+        $redirect = redirect()->route('verification.notice');
+
+        return $verificationSent
+            ? $redirect->with('status', __('auth.verification_sent'))
+            : $redirect->withErrors(['email' => __('auth.verification_send_failed')]);
     }
 }

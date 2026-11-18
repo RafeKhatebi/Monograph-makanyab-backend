@@ -56,6 +56,24 @@ class SocialAuthController extends Controller
             Auth::login($user, remember: true);
             $request->session()->regenerate();
 
+            if (! $user->hasVerifiedEmail()) {
+                try {
+                    $user->sendEmailVerificationNotification();
+                } catch (Throwable $exception) {
+                    Log::error('Failed to send social sign-up verification email.', [
+                        'provider' => $provider,
+                        'user_id' => $user->id,
+                    ]);
+
+                    return redirect()->route('verification.notice')->withErrors([
+                        'email' => __('auth.verification_send_failed'),
+                    ]);
+                }
+
+                return redirect()->route('verification.notice')
+                    ->with('status', __('auth.verification_sent'));
+            }
+
             return redirect()
                 ->intended($user->isAdmin() ? route('admin.dashboard') : route('home', absolute: false))
                 ->with('status', __('auth.login_success'));

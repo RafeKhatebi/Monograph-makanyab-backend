@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\SendEmailVerificationOtpNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -137,7 +138,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification(): void
     {
-        $this->notify(new \App\Notifications\SendEmailVerificationOtpNotification);
+        [, $otpCode] = EmailVerificationOtp::issueForUser($this);
+
+        $this->notify(new SendEmailVerificationOtpNotification($otpCode));
     }
 
     // Role helper methods

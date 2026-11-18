@@ -24,7 +24,7 @@ class AuthMailPreviewController extends Controller
 
         return view('auth.preview.show', [
             'title' => 'Email Verification Preview',
-            'preview' => $this->previewData((new SendEmailVerificationOtpNotification)->toMail($user)),
+            'preview' => $this->previewData((new SendEmailVerificationOtpNotification('123456'))->toMail($user)),
         ]);
     }
 

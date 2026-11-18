@@ -1,11 +1,9 @@
 <?php
 
+use App\Models\EmailVerificationOtp;
 use App\Models\User;
 use App\Notifications\SendEmailVerificationOtpNotification;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\URL;
 
 test('email verification screen can be rendered', function () {
     $user = User::factory()->unverified()->create();
@@ -31,58 +29,12 @@ test('verification email can be resent', function () {
     Notification::assertSentTo($user, SendEmailVerificationOtpNotification::class);
 });
 
-test('email can be verified', function () {
+test('verification email resend is limited to once per minute', function () {
+    Notification::fake();
     $user = User::factory()->unverified()->create();
 
-    Event::fake();
-
-    $verificationUrl = URL::temporarySignedRoute(
-        'verification.verify',
-        now()->addMinutes(60),
-        ['id' => $user->id, 'hash' => sha1($user->email)]
-    );
-
-    $response = $this->actingAs($user)->get($verificationUrl);
-
-    Event::assertDispatched(Verified::class);
-    expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
-    $response
-        ->assertRedirect(route('home'))
-        ->assertSessionHas('status', __('auth.email_verified'));
-});
-
-test('email is not verified with invalid hash', function () {
-    $user = User::factory()->unverified()->create();
-
-    $verificationUrl = URL::temporarySignedRoute(
-        'verification.verify',
-        now()->addMinutes(60),
-        ['id' => $user->id, 'hash' => sha1('wrong-email')]
-    );
-
-    $response = $this->actingAs($user)->get($verificationUrl);
-
-    expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
-    $response
-        ->assertRedirect(route('verification.notice'))
-        ->assertSessionHasErrors(['email' => __('auth.verification_invalid')]);
-});
-
-test('email is not verified with expired link', function () {
-    $user = User::factory()->unverified()->create();
-
-    $verificationUrl = URL::temporarySignedRoute(
-        'verification.verify',
-        now()->subMinute(),
-        ['id' => $user->id, 'hash' => sha1($user->email)]
-    );
-
-    $response = $this->actingAs($user)->get($verificationUrl);
-
-    expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
-    $response
-        ->assertRedirect(route('verification.notice'))
-        ->assertSessionHasErrors(['email' => __('auth.verification_invalid')]);
+    $this->actingAs($user)->post(route('verification.send'))->assertRedirect();
+    $this->actingAs($user)->post(route('verification.send'))->assertStatus(429);
 });
 
 test('unverified users cannot access protected pages', function () {
@@ -91,4 +43,34 @@ test('unverified users cannot access protected pages', function () {
     $response = $this->actingAs($user)->get('/profile');
 
     $response->assertRedirect(route('verification.notice'));
+});
+
+test('an OTP is hashed, can be used once, and verifies the user', function () {
+    $user = User::factory()->unverified()->create();
+    [, $code] = EmailVerificationOtp::issueForUser($user);
+
+    $this->assertDatabaseMissing('email_verification_otps', ['otp_code' => $code]);
+
+    $this->actingAs($user)
+        ->post(route('verification.otp.verify'), ['otp_code' => $code])
+        ->assertRedirect(route('home'));
+
+    expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
+
+    $user->forceFill(['email_verified_at' => null])->save();
+    $this->actingAs($user)
+        ->post(route('verification.otp.verify'), ['otp_code' => $code])
+        ->assertSessionHasErrors('otp_code');
+});
+
+test('expired OTPs are rejected', function () {
+    $user = User::factory()->unverified()->create();
+    [$otp, $code] = EmailVerificationOtp::issueForUser($user);
+    $otp->update(['expires_at' => now()->subSecond()]);
+
+    $this->actingAs($user)
+        ->post(route('verification.otp.verify'), ['otp_code' => $code])
+        ->assertSessionHasErrors('otp_code');
+
+    expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
 });

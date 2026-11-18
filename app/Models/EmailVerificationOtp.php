@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class EmailVerificationOtp extends Model
 {
@@ -42,26 +42,36 @@ class EmailVerificationOtp extends Model
         return $this->verified_at !== null;
     }
 
-    public static function generateForUser(User $user): self
+    /**
+     * Issue an OTP and return its plain-text value exactly once for delivery.
+     * Only a password hash is persisted, so a database read cannot be used to
+     * verify an email address.
+     *
+     * @return array{0: self, 1: string}
+     */
+    public static function issueForUser(User $user): array
     {
+        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // A new code invalidates every outstanding code for this user.
+        $user->otps()->whereNull('verified_at')->update(['verified_at' => now()]);
+
         $otp = static::create([
             'user_id' => $user->id,
-            'otp_code' => str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT),
+            'otp_code' => Hash::make($code),
             'expires_at' => now()->addMinutes(10),
         ]);
 
-        $user->otps()->whereNull('verified_at')->update(['verified_at' => now()]);
-
-        return $otp;
+        return [$otp, $code];
     }
 
     public static function findValidForUser(User $user, string $otpCode): ?self
     {
         return static::where('user_id', $user->id)
             ->whereNull('verified_at')
-            ->where('otp_code', $otpCode)
             ->where('expires_at', '>', now())
             ->latest()
-            ->first();
+            ->get()
+            ->first(fn (self $otp): bool => Hash::check($otpCode, $otp->otp_code));
     }
 }

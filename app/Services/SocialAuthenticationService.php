@@ -43,13 +43,18 @@ class SocialAuthenticationService
                 'name' => $socialUser->getName() ?: $socialUser->getNickname() ?: Str::before($email, '@'),
                 'username' => $this->uniqueUsername($socialUser->getNickname() ?: Str::before($email, '@')),
                 'email' => $email,
-                'email_verified_at' => $this->providerVerifiedEmail($provider, $socialUser) ? now() : null,
                 'password' => Str::password(48),
                 'password_set_at' => null,
                 'profile_picture' => $socialUser->getAvatar(),
                 'role' => 'user',
                 'is_active' => true,
             ]);
+
+            // Do not make this mass assignable: only a trusted Google claim can
+            // establish verification for a social sign-up.
+            if ($this->providerVerifiedEmail($provider, $socialUser)) {
+                $user->forceFill(['email_verified_at' => now()])->save();
+            }
 
             $this->createAccount($user, $provider, $socialUser);
 
@@ -117,7 +122,7 @@ class SocialAuthenticationService
 
     private function providerVerifiedEmail(string $provider, SocialiteUser $socialUser): bool
     {
-        $raw = method_exists($socialUser, 'getRaw') ? $socialUser->getRaw() : [];
+        $raw = is_callable([$socialUser, 'getRaw']) ? $socialUser->getRaw() : [];
 
         return $provider === 'google'
             && array_key_exists('email_verified', $raw)

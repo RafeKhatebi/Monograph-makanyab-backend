@@ -2,8 +2,10 @@
 
 use App\Models\SocialAccount;
 use App\Models\User;
+use App\Notifications\SendEmailVerificationOtpNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Socialite\Contracts\Provider;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
@@ -114,11 +116,31 @@ test('google callback creates a user and social account', function () {
         'name' => 'Google Person',
         'is_active' => true,
     ]);
+    expect(User::where('email', 'new-google@example.com')->firstOrFail()->hasVerifiedEmail())->toBeTrue();
     $this->assertDatabaseHas('social_accounts', [
         'provider' => 'google',
         'provider_user_id' => 'google-123',
         'provider_email' => 'new-google@example.com',
     ]);
+});
+
+test('an unverified Google email receives an OTP and is sent to verification', function () {
+    Notification::fake();
+    configureSocialProvider('google');
+    mockSocialiteCallback('google', socialiteUser(
+        id: 'google-unverified',
+        email: 'unverified-google@example.com',
+        raw: ['email_verified' => false],
+    ));
+
+    $this->get(route('social.callback', 'google'))
+        ->assertRedirect(route('verification.notice'))
+        ->assertSessionHas('status', __('auth.verification_sent'));
+
+    $user = User::where('email', 'unverified-google@example.com')->firstOrFail();
+    expect($user->hasVerifiedEmail())->toBeFalse();
+    Notification::assertSentTo($user, SendEmailVerificationOtpNotification::class);
+    expect($user->otps()->count())->toBe(1);
 });
 
 test('social callback signs in an already linked account', function () {
