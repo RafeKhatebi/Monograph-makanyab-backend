@@ -549,6 +549,12 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.admin-places-table th,
+.admin-categories-table th,
+.admin-categories-table td {
+    text-align: center !important;
+}
+
 .admin-table-cell-heading {
     color: var(--color-gray-900);
     font-weight: var(--font-weight-medium);

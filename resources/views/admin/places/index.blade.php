@@ -62,12 +62,11 @@
             </form>
 
             <div class="admin-table-wrap">
-                <table class="table" aria-label="{{ __('admin.crud.all', ['item' => __('admin.dashboard.places')]) }}">
+                <table class="table admin-places-table" aria-label="{{ __('admin.crud.all', ['item' => __('admin.dashboard.places')]) }}">
                     <thead>
                         <tr>
                             <th scope="col">{{ __('admin.dashboard.name') }}</th>
                             <th scope="col">{{ __('admin.dashboard.category') }}</th>
-                            <th scope="col">{{ __('admin.crud.address') }}</th>
                             <th scope="col">{{ __('admin.dashboard.reviews') }}</th>
                             <th scope="col">{{ __('admin.dashboard.rating') }}</th>
                             <th scope="col">{{ __('admin.dashboard.status') }}</th>
@@ -89,7 +88,6 @@
                                     @endif
                                 </td>
                                 <td>{{ $place->category->name ?? '-' }}</td>
-                                <td class="admin-table-muted">{{ Str::limit($place->address, 30) }}</td>
                                 <td>{{ $place->reviews_count }}</td>
                                 <td>
                                     <span class="admin-rating">
@@ -140,7 +138,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="admin-empty">
+                                <td colspan="6" class="admin-empty">
                                     <i class="fa fa-map-marker-alt admin-empty-icon" aria-hidden="true"></i>
                                     {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.places')]) }}
                                 </td>
