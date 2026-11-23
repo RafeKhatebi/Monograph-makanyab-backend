@@ -27,7 +27,7 @@
                 <dd>{{ $message->user ? $message->user->name.' ('.$message->user->email.')' : __('admin.contact_messages.guest') }}</dd>
 
                 <dt>{{ __('admin.contact_messages.received') }}</dt>
-                <dd>{{ $message->created_at->format('M d, Y H:i') }}</dd>
+                <dd>{{ \App\Support\LocalizedDate::dateTime($message->created_at) }}</dd>
 
                 <dt>{{ __('admin.contact_messages.status') }}</dt>
                 <dd>

@@ -56,11 +56,27 @@ test('an OTP is hashed, can be used once, and verifies the user', function () {
         ->assertRedirect(route('home'));
 
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
+    $this->actingAs($user)->get('/profile')->assertOk();
 
     $user->forceFill(['email_verified_at' => null])->save();
     $this->actingAs($user)
         ->post(route('verification.otp.verify'), ['otp_code' => $code])
         ->assertSessionHasErrors('otp_code');
+});
+
+test('invalid OTP attempts are rejected and rate limited', function () {
+    $user = User::factory()->unverified()->create();
+    EmailVerificationOtp::issueForUser($user);
+
+    foreach (range(1, 6) as $_) {
+        $this->actingAs($user)
+            ->post(route('verification.otp.verify'), ['otp_code' => '000000'])
+            ->assertSessionHasErrors('otp_code');
+    }
+
+    $this->actingAs($user)
+        ->post(route('verification.otp.verify'), ['otp_code' => '000000'])
+        ->assertTooManyRequests();
 });
 
 test('expired OTPs are rejected', function () {

@@ -59,7 +59,7 @@
                                         <span class="badge badge-warning">{{ __('admin.contact_messages.unread') }}</span>
                                     @endif
                                 </td>
-                                <td>{{ $message->created_at->format('M d, Y H:i') }}</td>
+                                <td>{{ \App\Support\LocalizedDate::date($message->created_at) }}</td>
                                 <td>
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.contact-messages.show', $message) }}"
