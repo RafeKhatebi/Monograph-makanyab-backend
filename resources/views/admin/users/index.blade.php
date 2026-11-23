@@ -73,19 +73,22 @@
                                 <td>
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.users.show', $user) }}"
-                                            class="btn btn-sm btn-outline-primary"
-                                            aria-label="{{ __('admin.users.view_name', ['name' => $user->name]) }}">{{ __('admin.users.view') }}</a>
+                                            class="btn btn-sm btn-outline-primary admin-icon-button"
+                                            title="{{ __('admin.users.view') }}"
+                                            aria-label="{{ __('admin.users.view_name', ['name' => $user->name]) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         <a href="{{ route('admin.users.edit', $user) }}"
-                                            class="btn btn-sm btn-outline-success"
-                                            aria-label="{{ __('admin.users.edit_name', ['name' => $user->name]) }}">{{ __('admin.users.edit_action') }}</a>
+                                            class="btn btn-sm btn-outline-success admin-icon-button"
+                                            title="{{ __('admin.users.edit_action') }}"
+                                            aria-label="{{ __('admin.users.edit_name', ['name' => $user->name]) }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                         @if ($user->id !== auth()->id())
                                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
                                                 data-confirm-delete="{{ $user->name }}"
                                                 class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    aria-label="{{ __('admin.users.delete_name', ['name' => $user->name]) }}">{{ __('admin.users.delete') }}</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger admin-icon-button"
+                                                    title="{{ __('admin.users.delete') }}"
+                                                    aria-label="{{ __('admin.users.delete_name', ['name' => $user->name]) }}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </form>
                                         @endif
                                     </div>

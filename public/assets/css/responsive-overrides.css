@@ -193,6 +193,15 @@ button {
         min-height: 42px;
     }
 
+    .admin-actions .admin-icon-button {
+        flex: 0 0 32px;
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+        min-height: 32px;
+        padding: 0;
+    }
+
     .profile-header {
         align-items: flex-start;
         flex-direction: column;

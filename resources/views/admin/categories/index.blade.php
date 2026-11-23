@@ -40,18 +40,21 @@
                                 <td>
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.categories.show', $category) }}"
-                                            class="btn btn-sm btn-outline-primary"
-                                            aria-label="{{ __('admin.crud.view') }} {{ $category->name }}">{{ __('admin.crud.view') }}</a>
+                                            class="btn btn-sm btn-outline-primary admin-icon-button"
+                                            title="{{ __('admin.crud.view') }}"
+                                            aria-label="{{ __('admin.crud.view') }} {{ $category->name }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         <a href="{{ route('admin.categories.edit', $category) }}"
-                                            class="btn btn-sm btn-outline-success"
-                                            aria-label="{{ __('admin.crud.edit') }} {{ $category->name }}">{{ __('admin.crud.edit') }}</a>
+                                            class="btn btn-sm btn-outline-success admin-icon-button"
+                                            title="{{ __('admin.crud.edit') }}"
+                                            aria-label="{{ __('admin.crud.edit') }} {{ $category->name }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                         <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
                                             data-confirm-delete="{{ $category->name }}"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="{{ __('admin.crud.delete') }} {{ $category->name }}">{{ __('admin.crud.delete') }}</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger admin-icon-button"
+                                                title="{{ __('admin.crud.delete') }}"
+                                                aria-label="{{ __('admin.crud.delete') }} {{ $category->name }}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
                                 </td>

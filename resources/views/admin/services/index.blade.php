@@ -97,23 +97,27 @@
                                             <form action="{{ route('admin.services.restore', $service->slug) }}" method="POST"
                                                 class="admin-action-form">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-success"
-                                                    aria-label="{{ __('admin.crud.restore') }} {{ $service->name }}">{{ __('admin.crud.restore') }}</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-success admin-icon-button"
+                                                    title="{{ __('admin.crud.restore') }}"
+                                                    aria-label="{{ __('admin.crud.restore') }} {{ $service->name }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
                                             </form>
                                         @else
                                             <a href="{{ route('admin.services.show', $service) }}"
-                                                class="btn btn-sm btn-outline-primary"
-                                                aria-label="{{ __('admin.crud.view') }} {{ $service->name }}">{{ __('admin.crud.view') }}</a>
+                                                class="btn btn-sm btn-outline-primary admin-icon-button"
+                                                title="{{ __('admin.crud.view') }}"
+                                                aria-label="{{ __('admin.crud.view') }} {{ $service->name }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                             <a href="{{ route('admin.services.edit', $service) }}"
-                                                class="btn btn-sm btn-outline-success"
-                                                aria-label="{{ __('admin.crud.edit') }} {{ $service->name }}">{{ __('admin.crud.edit') }}</a>
+                                                class="btn btn-sm btn-outline-success admin-icon-button"
+                                                title="{{ __('admin.crud.edit') }}"
+                                                aria-label="{{ __('admin.crud.edit') }} {{ $service->name }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                             <form action="{{ route('admin.services.destroy', $service) }}" method="POST"
                                                 data-confirm-delete="{{ $service->name }}"
                                                 class="admin-action-form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    aria-label="{{ __('admin.crud.delete') }} {{ $service->name }}">{{ __('admin.crud.delete') }}</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger admin-icon-button"
+                                                    title="{{ __('admin.crud.delete') }}"
+                                                    aria-label="{{ __('admin.crud.delete') }} {{ $service->name }}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </form>
                                         @endif
                                     </div>

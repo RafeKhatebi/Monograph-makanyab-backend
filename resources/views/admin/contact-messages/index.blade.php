@@ -63,17 +63,22 @@
                                 <td>
                                     <div class="admin-actions">
                                         <a href="{{ route('admin.contact-messages.show', $message) }}"
-                                            class="btn btn-sm btn-outline-primary"
-                                            aria-label="{{ __('admin.contact_messages.view_from', ['name' => Str::limit($message->name, 30)]) }}">{{ __('admin.crud.view') }}</a>
+                                            class="btn btn-sm btn-outline-primary admin-icon-button"
+                                            title="{{ __('admin.crud.view') }}"
+                                            aria-label="{{ __('admin.contact_messages.view_from', ['name' => Str::limit($message->name, 30)]) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         @if ($message->archived_at)
                                             <form action="{{ route('admin.contact-messages.restore', $message) }}" method="POST" class="admin-action-form">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-success">{{ __('admin.crud.restore') }}</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-success admin-icon-button"
+                                                    title="{{ __('admin.crud.restore') }}"
+                                                    aria-label="{{ __('admin.crud.restore') }}"><i class="fa fa-undo" aria-hidden="true"></i></button>
                                             </form>
                                         @else
                                             <form action="{{ route('admin.contact-messages.archive', $message) }}" method="POST" class="admin-action-form">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-secondary">{{ __('common.actions.archive') }}</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary admin-icon-button"
+                                                    title="{{ __('common.actions.archive') }}"
+                                                    aria-label="{{ __('common.actions.archive') }}"><i class="fa fa-archive" aria-hidden="true"></i></button>
                                             </form>
                                         @endif
                                     </div>

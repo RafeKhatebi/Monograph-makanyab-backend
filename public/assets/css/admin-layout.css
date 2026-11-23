@@ -505,6 +505,16 @@
     margin: 0;
 }
 
+.admin-icon-button {
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    padding: 0;
+}
+
 .admin-actions--end {
     justify-content: flex-end;
 }

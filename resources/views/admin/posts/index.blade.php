@@ -84,15 +84,17 @@
                                             </form>
                                         @endif
                                         <a href="{{ route('admin.posts.edit', $post) }}"
-                                            class="btn btn-sm btn-outline-success"
-                                            aria-label="{{ __('admin.crud.edit') }} {{ Str::limit($post->title, 30) }}">{{ __('admin.crud.edit') }}</a>
+                                            class="btn btn-sm btn-outline-success admin-icon-button"
+                                            title="{{ __('admin.crud.edit') }}"
+                                            aria-label="{{ __('admin.crud.edit') }} {{ Str::limit($post->title, 30) }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                         <form action="{{ route('admin.posts.destroy', $post) }}" method="POST"
                                             data-confirm-delete="{{ $post->title }}"
                                             class="admin-action-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                aria-label="{{ __('admin.crud.delete') }} {{ Str::limit($post->title, 30) }}">{{ __('admin.crud.delete') }}</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger admin-icon-button"
+                                                title="{{ __('admin.crud.delete') }}"
+                                                aria-label="{{ __('admin.crud.delete') }} {{ Str::limit($post->title, 30) }}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
                                 </td>
