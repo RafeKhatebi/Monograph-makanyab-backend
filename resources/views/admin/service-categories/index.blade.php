@@ -14,12 +14,11 @@
 
         <div class="card-body">
             <div class="admin-table-wrap">
-                <table class="table" aria-label="{{ __('admin.dashboard.service_categories') }} {{ __('admin.crud.list') }}">
+                <table class="table admin-service-categories-table" aria-label="{{ __('admin.dashboard.service_categories') }} {{ __('admin.crud.list') }}">
                     <thead>
                         <tr>
                             <th scope="col">{{ __('admin.dashboard.name') }}</th>
                             <th scope="col">{{ __('admin.crud.slug') }}</th>
-                            <th scope="col">{{ __('admin.crud.parent_category') }}</th>
                             <th scope="col">{{ __('admin.crud.children') }}</th>
                             <th scope="col">{{ __('admin.dashboard.services') }}</th>
                             <th scope="col">{{ __('admin.dashboard.status') }}</th>
@@ -31,7 +30,6 @@
                             <tr>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->slug }}</td>
-                                <td>{{ $category->parent->name ?? __('admin.crud.none_top_level') }}</td>
                                 <td>{{ $category->children_count }}</td>
                                 <td>{{ $category->services_count }}</td>
                                 <td>
@@ -60,7 +58,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="admin-empty">
+                                <td colspan="6" class="admin-empty">
                                     {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.service_categories')]) }}
                                 </td>
                             </tr>

@@ -551,7 +551,11 @@
 
 .admin-places-table th,
 .admin-categories-table th,
-.admin-categories-table td {
+.admin-categories-table td,
+.admin-services-table th,
+.admin-services-table td,
+.admin-service-categories-table th,
+.admin-service-categories-table td {
     text-align: center !important;
 }
 

@@ -62,12 +62,11 @@
             </form>
 
             <div class="admin-table-wrap">
-                <table class="table" aria-label="{{ __('admin.crud.all', ['item' => __('admin.dashboard.services')]) }}">
+                <table class="table admin-services-table" aria-label="{{ __('admin.crud.all', ['item' => __('admin.dashboard.services')]) }}">
                     <thead>
                         <tr>
                             <th scope="col">{{ __('admin.dashboard.name') }}</th>
                             <th scope="col">{{ __('admin.dashboard.category') }}</th>
-                            <th scope="col">{{ __('admin.crud.address') }}</th>
                             <th scope="col">{{ __('admin.dashboard.owner') }}</th>
                             <th scope="col">{{ __('admin.dashboard.status') }}</th>
                             <th scope="col">{{ __('admin.crud.actions') }}</th>
@@ -86,7 +85,6 @@
                                     @endif
                                 </td>
                                 <td>{{ $service->category->name ?? '-' }}</td>
-                                <td>{{ Str::limit($service->address, 35) }}</td>
                                 <td>{{ $service->user->name ?? '-' }}</td>
                                 <td>
                                     <span class="badge {{ $service->is_active ? 'badge-success' : 'badge-secondary' }}">
@@ -123,7 +121,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="admin-empty">
+                                <td colspan="5" class="admin-empty">
                                     {{ __('admin.crud.no_found', ['item' => __('admin.dashboard.services')]) }}
                                 </td>
                             </tr>
